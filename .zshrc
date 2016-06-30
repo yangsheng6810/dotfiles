@@ -124,3 +124,4 @@ export WINEARCH=win32
 alias addon-sdk="cd /opt/addon-sdk && source bin/activate; cd -"
 alias tllocalmgr="tllocalmgr --mirror='http://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet'"
 alias 'git_latexdiff'="git latexdiff --bibtex --ignore-latex-errors --latexdiff-flatten"
+alias ee="emacsclient -c"
