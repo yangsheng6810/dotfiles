@@ -1,0 +1,9 @@
+*~
+*.pyc
+*.o
+*.a
+*.swp
+*.log
+*.aux
+_region_*
+\#*\#
