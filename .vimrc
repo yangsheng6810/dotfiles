@@ -167,6 +167,19 @@ map! fd <Esc> " map ii to Esc
 
 " provide hjkl movements in Insert mode via the <Alt> modifier key
 inoremap <A-h> <C-o>h
-inoremap <A-j> <C-o>j
-inoremap <A-k> <C-o>k
+inoremap <A-j> <C-o>gj
+inoremap <A-k> <C-o>gk
 inoremap <A-l> <C-o>l
+
+nnoremap <A-h> h
+nnoremap <A-j> gj
+nnoremap <A-k> gk
+nnoremap <A-l> l
+
+inoremap <A-H> <C-o>g0
+inoremap <A-L> <C-o>g$
+nnoremap <A-H> g0
+nnoremap <A-L> g$
+
+set backupdir=~/.vim/backup
+set directory=~/.vim/backup
