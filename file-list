@@ -1,0 +1,15 @@
+.Xdefaults
+.Xresources
+.bash_profile
+.bashrc
+.font.conf
+.gitconfig
+.gitignore_global
+.oh-my-zsh/custom
+.spacemacs
+.tmux.conf
+.vimrc
+.xinitrc
+.xprofile
+.zprofile
+.zshrc
