@@ -1,6 +1,7 @@
 [user]
 	name = Yang Sheng
 	email = yangsheng6810@gmail.com
+	signingkey = 256ECEAAB5B918F3
 [credential]
 	helper = cache
 [core]
