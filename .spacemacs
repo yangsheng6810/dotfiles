@@ -286,8 +286,9 @@ you should place your code here."
           ad-do-it)
       ad-do-it))
   ;; to search across line breaks
-  (setq isearch-regexp-lax-whitespace t)
-  (setq search-whitespace-regexp "[ \t\r\n]+")
+  ;; (setq isearch-lax-whitespace t)
+  ;; (setq isearch-regexp-lax-whitespace t)
+  ;; (setq search-whitespace-regexp "[ \t\r\n]+")
 
   ;; turn off linum-mode for performance
   (global-linum-mode -1)
@@ -298,25 +299,43 @@ you should place your code here."
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
   (setq ispell-dictionary "american")
   ;; Ergonomic keybinding M-<hjkl>
-  ;; Insert-mode, hjkl
-  (define-key evil-insert-state-map (kbd "M-h") 'evil-backward-char)
-  (define-key evil-insert-state-map (kbd "M-l") 'evil-forward-char)
-  (define-key evil-insert-state-map (kbd "M-k") 'evil-previous-visual-line)
-  (define-key evil-insert-state-map (kbd "M-j") 'evil-next-visual-line)
+  (mapc (lambda (keymap)
+          ;; Normal-mode, hjkl
+          (define-key keymap (kbd "M-h") 'evil-backward-char)
+          (define-key keymap (kbd "M-l") 'evil-forward-char)
+          (define-key keymap (kbd "M-k") 'evil-previous-visual-line)
+          (define-key keymap (kbd "M-j") 'evil-next-visual-line)
 
-  ;; Move to beginning/ending of line
-  (define-key evil-insert-state-map (kbd "M-H") 'move-beginning-of-line)
-  (define-key evil-insert-state-map (kbd "M-L") 'move-end-of-line)
+          ;; Move to beginning/ending of line
+          (define-key keymap (kbd "M-H") 'move-beginning-of-line)
+          (define-key keymap (kbd "M-L") 'move-end-of-line))
+        `(,evil-insert-state-map
+          ,evil-normal-state-map
+          ))
+  ;; fix some keybinding problems
+  ;; fix for js2-moe
+  (with-eval-after-load "js2-mode-map"
+    (define-key js2-mode-map (kbd "M-j") nil))
+  ;; fix for org-mode
+  (mapc (lambda (state)
+          (evil-define-key state evil-org-mode-map
+            (kbd "M-l") nil
+            (kbd "M-h") nil
+            (kbd "M-k") nil
+            (kbd "M-j") nil
+            (kbd "M-L") nil
+            (kbd "M-H") nil
 
-  ;; Normal-mode, hjkl
-  (define-key evil-normal-state-map (kbd "M-h") 'evil-backward-char)
-  (define-key evil-normal-state-map (kbd "M-l") 'evil-forward-char)
-  (define-key evil-normal-state-map (kbd "M-k") 'evil-previous-visual-line)
-  (define-key evil-normal-state-map (kbd "M-j") 'evil-next-visual-line)
+            ;;;; actually unset all the following
+            ;; (kbd "M-l") 'org-metaright
+            ;; (kbd "M-h") 'org-metaleft
+            ;; (kbd "M-k") 'org-metaup
+            ;; (kbd "M-j") 'org-metadown
+            ;; (kbd "M-L") 'org-shiftmetaright
+            ;; (kbd "M-H") 'org-shiftmetaleft
+            ))
+        '(normal insert))
 
-  ;; Move to beginning/ending of line
-  (define-key evil-normal-state-map (kbd "M-H") 'move-beginning-of-line)
-  (define-key evil-normal-state-map (kbd "M-L") 'move-end-of-line)
   ;; LaTeX hook
   (add-hook 'LaTeX-mode-hook
             (lambda ()
