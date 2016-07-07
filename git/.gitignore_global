@@ -8,3 +8,5 @@
 _region_*
 \#*\#
 .svn
+*.bak
+.DS_Store
