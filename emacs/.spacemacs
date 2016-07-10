@@ -286,9 +286,9 @@ you should place your code here."
           ad-do-it)
       ad-do-it))
   ;; to search across line breaks
-  ;; (setq isearch-lax-whitespace t)
-  ;; (setq isearch-regexp-lax-whitespace t)
-  ;; (setq search-whitespace-regexp "[ \t\r\n]+")
+  (setq isearch-lax-whitespace t)
+  (setq isearch-regexp-lax-whitespace t)
+  (setq search-whitespace-regexp "[ \t\r\n]+")
 
   ;; turn off linum-mode for performance
   (global-linum-mode -1)
