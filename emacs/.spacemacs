@@ -317,25 +317,28 @@ you should place your code here."
   (with-eval-after-load "js2-mode-map"
     (define-key js2-mode-map (kbd "M-j") nil))
   ;; fix for org-mode
-  (mapc (lambda (state)
-          (evil-define-key state evil-org-mode-map
-            (kbd "M-l") nil
-            (kbd "M-h") nil
-            (kbd "M-k") nil
-            (kbd "M-j") nil
-            (kbd "M-L") nil
-            (kbd "M-H") nil
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (mapc (lambda (state)
+                      (evil-define-key state evil-org-mode-map
+                        (kbd "M-l") nil
+                        (kbd "M-h") nil
+                        (kbd "M-k") nil
+                        (kbd "M-j") nil
+                        (kbd "M-L") nil
+                        (kbd "M-H") nil
+                        ;;;; actually unset all the following
+                        ;; (kbd "M-l") 'org-metaright
+                        ;; (kbd "M-h") 'org-metaleft
+                        ;; (kbd "M-k") 'org-metaup
+                        ;; (kbd "M-j") 'org-metadown
+                        ;; (kbd "M-L") 'org-shiftmetaright
+                        ;; (kbd "M-H") 'org-shiftmetaleft
+                        ))
+                    '(normal insert))))
 
-            ;;;; actually unset all the following
-            ;; (kbd "M-l") 'org-metaright
-            ;; (kbd "M-h") 'org-metaleft
-            ;; (kbd "M-k") 'org-metaup
-            ;; (kbd "M-j") 'org-metadown
-            ;; (kbd "M-L") 'org-shiftmetaright
-            ;; (kbd "M-H") 'org-shiftmetaleft
-            ))
-        '(normal insert))
-
+  ;; add visual line wrap for org-mode
+  (setq org-startup-truncated nil)
   ;; LaTeX hook
   (add-hook 'LaTeX-mode-hook
             (lambda ()
