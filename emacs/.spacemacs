@@ -316,6 +316,7 @@ you should place your code here."
   ;; fix for js2-moe
   (with-eval-after-load "js2-mode-map"
     (define-key js2-mode-map (kbd "M-j") nil))
+  (setq org-M-RET-may-split-line ((default . nil)))
   ;; fix for org-mode
   (add-hook 'evil-org-mode-hook
             (lambda ()
