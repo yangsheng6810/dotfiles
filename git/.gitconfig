@@ -6,7 +6,7 @@
 	helper = cache
 [core]
 	autocrlf = input
-	excludesfile = /home/yangsheng/.gitignore_global
+	excludesfile = ~/.gitignore_global
     quotepath = false
     editor = emacsclient -c
 [push]
