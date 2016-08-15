@@ -316,7 +316,12 @@ you should place your code here."
   ;; fix for js2-moe
   (with-eval-after-load "js2-mode-map"
     (define-key js2-mode-map (kbd "M-j") nil))
-  (setq org-M-RET-may-split-line ((default . nil)))
+  (with-eval-after-load "org-mode"
+    (lambda ()
+      (setq org-M-RET-may-split-line ((default . nil)))
+      ;; add visual line wrap for org-mode
+      (setq org-startup-truncated nil))
+    )
   ;; fix for org-mode
   (add-hook 'evil-org-mode-hook
             (lambda ()
@@ -336,10 +341,8 @@ you should place your code here."
                         ;; (kbd "M-L") 'org-shiftmetaright
                         ;; (kbd "M-H") 'org-shiftmetaleft
                         ))
-                    '(normal insert))))
+                    '(normal-state insert-state))))
 
-  ;; add visual line wrap for org-mode
-  (setq org-startup-truncated nil)
   ;; LaTeX hook
   (add-hook 'LaTeX-mode-hook
             (lambda ()
