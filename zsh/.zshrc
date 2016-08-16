@@ -42,10 +42,8 @@ source $ZSH/oh-my-zsh.sh
 # export PATH="$PATH:/opt/android-sdk/tools:/opt/android-sdk/platform-tools:$HOME/bin"
 export PATH="$PATH:$HOME/bin"
 
-alias fbterm="export DISPLAY=:0;LANG=zh_CN.UTF-8 fbterm -i fcitx-fbterm"
 export GREP_COLOR="1;33"
 export LESS="-R"
-export EDITOR="vim"
 eval $(dircolors -b)
 man() {
 	env \
@@ -93,6 +91,7 @@ if [ "x$DISPLAY" = "x:0" ]; then
 	xhost + >/dev/null
 fi
 export XDG_CONFIG_HOME="$HOME/.config/"
+export EDITOR="vim"
 export ALTERNATE_EDITOR=""
 # xgamma -rgamma 0.83 -ggamma 0.83 -bgamma 0.83 2> /dev/null
 # export PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
@@ -123,7 +122,9 @@ bindkey '^[n' history-substring-search-down
 alias grep="grep --color=auto"
 unset GREP_OPTIONS
 export WINEARCH=win32
-alias addon-sdk="cd /opt/addon-sdk && source bin/activate; cd -"
-alias tllocalmgr="tllocalmgr --mirror='http://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet'"
+
+MACHINE_SPECIFIC="$HOME/.machine_specific/config.sh"
+[[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
+
 alias 'git_latexdiff'="git latexdiff --bibtex --ignore-latex-errors --latexdiff-flatten"
 alias ee="emacsclient -c"
