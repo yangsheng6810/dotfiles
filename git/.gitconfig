@@ -8,7 +8,7 @@
 	autocrlf = input
 	excludesfile = ~/.gitignore_global
     quotepath = false
-    editor = emacsclient -c
+    editor = emacsclient -c -a ""
 [push]
 	default = simple
 [alias]
