@@ -6,6 +6,7 @@ ZSH=$HOME/.oh-my-zsh
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 ZSH_THEME="yang"
+# ZSH_THEME="agnoster"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -85,8 +86,6 @@ alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 ## this one saved by butt so many times ##
 alias wget='wget -c'
-export PYMACS_PYTHON=python2
-export PYTHONSTARTUP="$(python -m jedi repl)"
 if [ "x$DISPLAY" = "x:0" ]; then
 	xhost + >/dev/null
 fi
@@ -100,7 +99,6 @@ export ALTERNATE_EDITOR=""
 
 autoload bashcompinit
 bashcompinit
-source /usr/share/bash-completion/completions/tlp
 export SUDO_EDITOR=vim
 
 # to fix emacs tramp hang
@@ -127,4 +125,4 @@ MACHINE_SPECIFIC="$HOME/.machine_specific/config.sh"
 [[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
 
 alias 'git_latexdiff'="git latexdiff --bibtex --ignore-latex-errors --latexdiff-flatten"
-alias ee="emacsclient -c"
+alias ee="emacsclient -c -a '' "

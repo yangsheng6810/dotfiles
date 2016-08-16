@@ -1,9 +1,5 @@
 #PROMPT='%{$fg[yellow]%}λ %m %{$fg[green]%}%c %{$fg[yellow]%}→ $(git_prompt_info)%{$reset_color%}'
-BAT_CHARGE="$HOME/bin/battery.py"
 
-function battery_charge {
-	echo `$BAT_CHARGE` 2>/dev/null
-}
 # Machine name.
 function box_name {
     [ -f ~/.box-name ] && cat ~/.box-name || hostname
@@ -32,4 +28,3 @@ ${git_info} \
 %{$fg[white]%}[%*]
 %{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
 
-RPROMPT='$(battery_charge)'
