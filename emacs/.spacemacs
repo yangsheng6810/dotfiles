@@ -124,7 +124,7 @@ values."
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 14 
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.6)
@@ -248,7 +248,11 @@ values."
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
-   ))
+   )
+  (setq mine-machine-specific-config "~/.machine_specific/config.el")
+  (if (file-exists-p mine-machine-specific-config)
+      (load-file mine-machine-specific-config))
+  )
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
@@ -267,7 +271,6 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (setq paradox-github-token "c0835ff7e226f44ff2870cecf58807ef4f0f3829")
   (spacemacs/toggle-truncate-lines-on)
   (global-git-commit-mode t)
   ; (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
