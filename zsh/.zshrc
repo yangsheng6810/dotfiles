@@ -32,13 +32,15 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git history-substring-search)
+plugins=(git gitignore git-fast tmux history-substring-search)
 
 fpath=($ZSH/custom_completion $fpath)
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH="$PATH:/opt/android-sdk/tools:/opt/android-sdk/platform-tools:$HOME/bin"
+# for android-sdk
+# export PATH="$PATH:/opt/android-sdk/tools:/opt/android-sdk/platform-tools:$HOME/bin"
+export PATH="$PATH:$HOME/bin"
 
 alias fbterm="export DISPLAY=:0;LANG=zh_CN.UTF-8 fbterm -i fcitx-fbterm"
 export GREP_COLOR="1;33"
