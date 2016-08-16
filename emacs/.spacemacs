@@ -269,6 +269,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq paradox-github-token "c0835ff7e226f44ff2870cecf58807ef4f0f3829")
   (spacemacs/toggle-truncate-lines-on)
+  (global-git-commit-mode t)
   ; (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
   (setq undo-tree-auto-save-history t)
   (defadvice preceding-sexp (around evil)
