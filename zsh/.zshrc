@@ -125,4 +125,4 @@ MACHINE_SPECIFIC="$HOME/.machine_specific/config.sh"
 [[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
 
 alias 'git_latexdiff'="git latexdiff --bibtex --ignore-latex-errors --latexdiff-flatten"
-alias ee="emacsclient -c -a '' "
+alias ee="emacsclient -c "
