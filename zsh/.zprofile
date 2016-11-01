@@ -3,3 +3,4 @@ if [ $DISPLAY ];then
     source "$HOME/.xprofile"
 fi
 export VDPAU_NVIDIA_NO_OVERLAY=1
+

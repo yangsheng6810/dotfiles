@@ -41,7 +41,6 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 # for android-sdk
 # export PATH="$PATH:/opt/android-sdk/tools:/opt/android-sdk/platform-tools:$HOME/bin"
-export PATH="$PATH:$HOME/bin"
 
 export GREP_COLOR="1;33"
 export LESS="-R"

@@ -298,10 +298,11 @@ you should place your code here."
   (global-linum-mode -1)
   ;; turn off highlight current line mode
   (global-hl-line-mode -1)
-  ;; scale the result from latex-preview
-  (set-default 'preview-scale-function 1.2)
+  ;; scale the result from latex-preview, should be 2 in hidpi,
+  ;; 1.2 in normal dpi
+  ;; (set-default 'preview-scale-function 1.2)
+  ;; (set-default 'preview-scale-function 2)
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-  (setq ispell-dictionary "american")
   ;; Ergonomic keybinding M-<hjkl>
   (mapc (lambda (keymap)
           ;; Normal-mode, hjkl
@@ -356,9 +357,9 @@ you should place your code here."
               (setq TeX-auto-save t)
               (LaTeX-math-mode)
               (imenu-add-menubar-index)
-              (setq LaTeX-command-style
-                    (quote (("\\`fontspec\\'" "xelatex ")
-                            ("" "%(PDF)%(latex) %S%(PDFout)"))))
+              ;; (setq LaTeX-command-style
+              ;;       (quote (("\\`fontspec\\'" "xelatex ")
+              ;;               ("" "%(PDF)%(latex) %S%(PDFout)"))))
               ;; (custom-set-variables
               ;;     '(preview-fast-dvips-command "pdftops -origpagesizes %s.pdf %m/preview.ps"))
               (setq TeX-save-query nil)
@@ -388,7 +389,6 @@ you should place your code here."
               (rainbow-delimiters-mode-enable)
               ;; (turn-off-auto-fill)
               ))
-
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
