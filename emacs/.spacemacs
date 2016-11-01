@@ -278,27 +278,31 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (spacemacs/toggle-truncate-lines-on)
+  ;; (spacemacs/toggle-truncate-lines-on)
   (global-git-commit-mode t)
-  ; (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
+  ;; (add-hook 'text-mode-hook 'spacemacs/toggle-visual-line-navigation-on)
   (setq undo-tree-auto-save-history t)
-  (defadvice preceding-sexp (around evil)
-    "In normal-state, last sexp ends at point."
-    (if (evil-normal-state-p)
-        (save-excursion
-          (unless (or (eobp) (eolp)) (forward-char))
-          ad-do-it)
-      ad-do-it))
-  (defadvice pp-last-sexp (around evil)
-    "In normal-state, last sexp ends at point."
-    (if (evil-normal-state-p)
-        (save-excursion
-          (unless (or (eobp) (eolp)) (forward-char))
-          ad-do-it)
-      ad-do-it))
+  ;; to allow cursor move beyond eol, and do not move back.
+  (setq evil-move-beyond-eol t
+        evil-move-cursor-back nil)
+  ;; (defadvice preceding-sexp (around evil)
+  ;;   "In normal-state, last sexp ends at point."
+  ;;   (if (evil-normal-state-p)
+  ;;       (save-excursion
+  ;;         (unless (or (eobp) (eolp)) (forward-char))
+  ;;         ad-do-it)
+  ;;     ad-do-it))
+  ;; (defadvice pp-last-sexp (around evil)
+  ;;   "In normal-state, last sexp ends at point."
+  ;;   (if (evil-normal-state-p)
+  ;;       (save-excursion
+  ;;         (unless (or (eobp) (eolp)) (forward-char))
+  ;;         ad-do-it)
+  ;;     ad-do-it))
   ;; to search across line breaks
   (setq isearch-lax-whitespace t)
   (setq isearch-regexp-lax-whitespace t)
+  ;; (setq search-whitespace-regexp "\\s-+")
   (setq search-whitespace-regexp "[ \t\r\n]+")
 
   ;; turn off linum-mode for performance
@@ -320,40 +324,55 @@ you should place your code here."
 
           ;; Move to beginning/ending of line
           (define-key keymap (kbd "M-H") 'move-beginning-of-line)
-          (define-key keymap (kbd "M-L") 'move-end-of-line))
+          (define-key keymap (kbd "M-L") 'move-end-of-line)
+          ;; Scroll up/down
+          (define-key keymap (kbd "M-J") 'evil-scroll-down)
+          (define-key keymap (kbd "M-K") 'evil-scroll-up)
+          ;; delete-char
+          (define-key keymap (kbd "C-d") 'delete-char)
+          )
         `(,evil-insert-state-map
-          ,evil-normal-state-map
-          ))
+          ,evil-normal-state-map))
   ;; fix some keybinding problems
   ;; fix for js2-moe
   (with-eval-after-load "js2-mode-map"
     (define-key js2-mode-map (kbd "M-j") nil))
-  (with-eval-after-load "org-mode"
-    (lambda ()
-      (setq org-M-RET-may-split-line ((default . nil)))
+
+  (setq org-startup-truncated nil)
+  (with-eval-after-load 'org
+    (message "after loading org-mode")
+    ;; add visual line wrap for org-mode
+    (setq org-startup-truncated nil)
+    (add-hook 'evil-org-mode-hook
+              (lambda ()
+                (message "into org-mode-hook")
+                (mapc (lambda (state)
+                        (evil-define-key state evil-org-mode-map
+                          (kbd "M-h") nil
+                          (kbd "M-j") nil
+                          (kbd "M-k") nil
+                          (kbd "M-l") nil
+                          (kbd "M-H") nil
+                          (kbd "M-J") nil
+                          (kbd "M-K") nil
+                          (kbd "M-L") nil
+                          ;; actually unset all the following
+                          ;; (kbd "M-h") 'org-metaleft
+                          ;; (kbd "M-j") 'org-metadown
+                          ;; (kbd "M-k") 'org-metaup
+                          ;; (kbd "M-l") 'org-metaright
+                          ;; (kbd "M-H") 'org-shiftmetaleft
+                          ;; (kbd "M-J") 'org-shiftmetadown
+                          ;; (kbd "M-K") 'org-shiftmetaup
+                          ;; (kbd "M-L") 'org-shiftmetaright
+                          ))
+                      '(normal insert))
+                (message "after org-mode-hook")
+                ))
+      ;; need debug the folowing lines
+      ;; (setq org-M-RET-may-split-line ((default . nil)))
       ;; add visual line wrap for org-mode
-      (setq org-startup-truncated nil))
-    )
-  ;; fix for org-mode
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (mapc (lambda (state)
-                      (evil-define-key state evil-org-mode-map
-                        (kbd "M-l") nil
-                        (kbd "M-h") nil
-                        (kbd "M-k") nil
-                        (kbd "M-j") nil
-                        (kbd "M-L") nil
-                        (kbd "M-H") nil
-                        ;;;; actually unset all the following
-                        ;; (kbd "M-l") 'org-metaright
-                        ;; (kbd "M-h") 'org-metaleft
-                        ;; (kbd "M-k") 'org-metaup
-                        ;; (kbd "M-j") 'org-metadown
-                        ;; (kbd "M-L") 'org-shiftmetaright
-                        ;; (kbd "M-H") 'org-shiftmetaleft
-                        ))
-                    '(normal-state insert-state))))
+      )
 
   ;; (spacemacs//set-monospaced-font   "Source Code Pro" "Hiragino Sans GB" 14 17)
   (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 21 26)
