@@ -36,8 +36,8 @@ values."
             shell-default-height 30
             shell-default-position 'bottom)
      (latex :variables
-            latex-build-command "XeLaTeX"
-            latex-enable-auto-fill t
+            ;; latex-build-command "XeLaTeX"
+            latex-enable-auto-fill nil
             latex-enable-folding t)
      (python :variables:
              ;; enable YAPF formating
@@ -442,10 +442,17 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol t)
+ '(org-M-RET-may-split-line (quote ((default))))
+ '(package-selected-packages
+   (quote
+    (keyfreq pug-mode imenu-list engine-mode helm-gtags ggtags flycheck-pos-tip flycheck stickyfunc-enhance srefactor ibuffer-projectile auctex-latexmk yapfify uuidgen py-isort pdf-tools tablist org-projectile org-download livid-mode skewer-mode simple-httpd live-py-mode link-hint git-link flyspell-correct-helm flyspell-correct eyebrowse evil-visual-mark-mode evil-unimpaired evil-ediff eshell-z dumb-jump company-shell column-enforce-mode helm-flyspell auto-dictionary youdao-dictionary xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe use-package toc-org tagedit spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-yapf popwin pip-requirements persp-mode pcre2el paradox pangu-spacing page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file neotree multi-term move-text magit-gitflow macrostep lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger flx-ido fish-mode find-by-pinyin-dired fill-column-indicator fcitx fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help emmet-mode elisp-slime-nav disaster define-word cython-mode company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex company-anaconda coffee-mode cmake-mode clean-aindent-mode clang-format chinese-pyim buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
  '(paradox-automatically-star nil)
  '(preview-default-option-list
    (quote
-    ("displaymath" "floats" "graphics" "textmath" "sections" "showlabels" "sectio"))))
+    ("displaymath" "floats" "graphics" "textmath" "sections" "showlabels" "sectio")))
+ '(preview-scale-function 2)
+ '(word-wrap nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
