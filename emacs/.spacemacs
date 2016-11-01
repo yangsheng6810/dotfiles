@@ -127,7 +127,9 @@ values."
                                :size 14
                                :weight normal
                                :width normal
-                               :powerline-scale 1.6)
+                               :powerline-scale 1.6
+                               "Hiragino Sans GB"
+                               )
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The leader key accessible in `emacs state' and `insert state'
@@ -353,6 +355,8 @@ you should place your code here."
                         ))
                     '(normal-state insert-state))))
 
+  ;; (spacemacs//set-monospaced-font   "Source Code Pro" "Hiragino Sans GB" 14 17)
+  (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 21 26)
   ;; LaTeX hook
   (add-hook 'LaTeX-mode-hook
             (lambda ()
