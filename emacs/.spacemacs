@@ -44,7 +44,7 @@ values."
      (c-c++ :variables
            c-c++-default-mode-for-headers 'c++-mode)
      (chinese :variables
-              chinese-enable-fcitx t
+              ;; chinese-enable-fcitx t
               chinese-enable-youdao-dict t)
      html
      javascript
@@ -249,9 +249,6 @@ values."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
    )
-  (setq mine-machine-specific-config "~/.machine_specific/config.el")
-  (if (file-exists-p mine-machine-specific-config)
-      (load-file mine-machine-specific-config))
   )
 
 (defun dotspacemacs/user-init ()
@@ -262,6 +259,14 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setq-default git-magit-status-fullscreen t)
+  (setq mine-machine-specific-config
+        (concat "~/.machine_specific/"
+                system-name
+                "/config.el"))
+  (if (file-exists-p mine-machine-specific-config)
+      (load-file mine-machine-specific-config))
+  (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
+  (setq ispell-dictionary "american")
   )
 
 (defun dotspacemacs/user-config ()

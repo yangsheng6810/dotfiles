@@ -13,3 +13,6 @@ export ALTERNATE_EDITOR=emacs EDITOR=emacsclient VISUAL=emacsclient
 if [ $DISPLAY ];then
     source "$HOME/.xprofile"
 fi
+
+MACHINE_SPECIFIC="$HOME/.machine_specific/$HOST/profile.sh"
+[[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC

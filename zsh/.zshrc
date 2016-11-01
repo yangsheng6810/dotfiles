@@ -120,8 +120,6 @@ alias grep="grep --color=auto"
 unset GREP_OPTIONS
 export WINEARCH=win32
 
-MACHINE_SPECIFIC="$HOME/.machine_specific/config.sh"
-[[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
 
 alias 'git_latexdiff'="git latexdiff --bibtex --ignore-latex-errors --latexdiff-flatten"
 alias ee="emacsclient -c "
