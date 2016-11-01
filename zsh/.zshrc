@@ -123,3 +123,8 @@ export WINEARCH=win32
 
 alias 'git_latexdiff'="git latexdiff --bibtex --ignore-latex-errors --latexdiff-flatten"
 alias ee="emacsclient -c "
+alias npm='npm -g'
+alias npm8gb='npm --max-old-space-size=8192 --prefix ~/.node_modules'
+
+export PATH="$PATH:$HOME/bin"
+export npm_config_prefix=~/.node_modules

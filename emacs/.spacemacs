@@ -28,7 +28,6 @@ values."
       auto-completion-enable-snippets-in-popup t
       auto-completion-enable-help-tooltip t
       auto-completion-enable-sort-by-usage t)
-     ;; better-defaults
      emacs-lisp
      git
      ;; markdown
@@ -40,18 +39,28 @@ values."
             latex-build-command "XeLaTeX"
             latex-enable-auto-fill t
             latex-enable-folding t)
-     python
+     (python :variables:
+             ;; enable YAPF formating
+             python-enable-yapf-format-on-save t)
      (c-c++ :variables
            c-c++-default-mode-for-headers 'c++-mode)
      (chinese :variables
               ;; chinese-enable-fcitx t
               chinese-enable-youdao-dict t)
+     (ibuffer :variables
+              ibuffer-group-buffers-by 'projects)
      html
      javascript
      shell-scripts
-     ;; spell-checking
-     ;; syntax-checking
+     spell-checking
+     syntax-checking
      ;; version-control
+     pdf-tools
+     semantic
+     gtags
+     ;; show the current buffer’s index in a side bar
+     imenu-list
+     search-engine
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -235,7 +244,7 @@ values."
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil advises quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -305,6 +314,10 @@ you should place your code here."
   ;; (setq search-whitespace-regexp "\\s-+")
   (setq search-whitespace-regexp "[ \t\r\n]+")
 
+  (defengine dictcn
+    "http://dict.cn/%s"
+    :docstring "Search Dict.cn")
+  
   ;; turn off linum-mode for performance
   (global-linum-mode -1)
   ;; turn off highlight current line mode
@@ -373,6 +386,9 @@ you should place your code here."
       ;; (setq org-M-RET-may-split-line ((default . nil)))
       ;; add visual line wrap for org-mode
       )
+
+  ;; turn on golden-ratio mode
+  (spacemacs/toggle-golden-ratio-on)
 
   ;; (spacemacs//set-monospaced-font   "Source Code Pro" "Hiragino Sans GB" 14 17)
   (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 21 26)
