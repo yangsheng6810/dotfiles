@@ -13,3 +13,4 @@ _region_*
 GPATH
 GRTAGS
 GTAGS
+*.~undo-tree

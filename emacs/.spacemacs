@@ -338,6 +338,8 @@ you should place your code here."
           ;; Move to beginning/ending of line
           (define-key keymap (kbd "M-H") 'move-beginning-of-line)
           (define-key keymap (kbd "M-L") 'move-end-of-line)
+          (define-key keymap (kbd "C-a") 'move-beginning-of-line)
+          (define-key keymap (kbd "C-e") 'move-end-of-line)
           ;; Scroll up/down
           (define-key keymap (kbd "M-J") 'evil-scroll-down)
           (define-key keymap (kbd "M-K") 'evil-scroll-up)
@@ -388,10 +390,21 @@ you should place your code here."
       )
 
   ;; turn on golden-ratio mode
-  (spacemacs/toggle-golden-ratio-on)
+  ;; (spacemacs/toggle-golden-ratio-on)
+
+  ;; stop the behavior that evil consider all inputs done when in insert mode
+  ;; as one insertion.
+  (setq evil-want-fine-undo t)
+
+  ;; turn on highlight-current-line-globally
+  (spacemacs/toggle-highlight-current-line-globally-on)
+
+  ;; use 24hr format
+  (setq display-time-24hr-format t)
 
   ;; (spacemacs//set-monospaced-font   "Source Code Pro" "Hiragino Sans GB" 14 17)
   (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 21 26)
+
   ;; LaTeX hook
   (add-hook 'LaTeX-mode-hook
             (lambda ()
@@ -446,7 +459,7 @@ you should place your code here."
  '(org-M-RET-may-split-line (quote ((default))))
  '(package-selected-packages
    (quote
-    (keyfreq pug-mode imenu-list engine-mode helm-gtags ggtags flycheck-pos-tip flycheck stickyfunc-enhance srefactor ibuffer-projectile auctex-latexmk yapfify uuidgen py-isort pdf-tools tablist org-projectile org-download livid-mode skewer-mode simple-httpd live-py-mode link-hint git-link flyspell-correct-helm flyspell-correct eyebrowse evil-visual-mark-mode evil-unimpaired evil-ediff eshell-z dumb-jump company-shell column-enforce-mode helm-flyspell auto-dictionary youdao-dictionary xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe use-package toc-org tagedit spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-yapf popwin pip-requirements persp-mode pcre2el paradox pangu-spacing page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file neotree multi-term move-text magit-gitflow macrostep lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger flx-ido fish-mode find-by-pinyin-dired fill-column-indicator fcitx fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help emmet-mode elisp-slime-nav disaster define-word cython-mode company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex company-anaconda coffee-mode cmake-mode clean-aindent-mode clang-format chinese-pyim buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
+    (insert-shebang hide-comnt helm-purpose window-purpose keyfreq pug-mode imenu-list engine-mode helm-gtags ggtags flycheck-pos-tip flycheck stickyfunc-enhance srefactor ibuffer-projectile auctex-latexmk yapfify uuidgen py-isort pdf-tools tablist org-projectile org-download livid-mode skewer-mode simple-httpd live-py-mode link-hint git-link flyspell-correct-helm flyspell-correct eyebrowse evil-visual-mark-mode evil-unimpaired evil-ediff eshell-z dumb-jump company-shell column-enforce-mode helm-flyspell auto-dictionary youdao-dictionary xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe use-package toc-org tagedit spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-yapf popwin pip-requirements persp-mode pcre2el paradox pangu-spacing page-break-lines orgit org-repo-todo org-present org-pomodoro org-plus-contrib org-bullets open-junk-file neotree multi-term move-text magit-gitflow macrostep lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger flx-ido fish-mode find-by-pinyin-dired fill-column-indicator fcitx fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help emmet-mode elisp-slime-nav disaster define-word cython-mode company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex company-anaconda coffee-mode cmake-mode clean-aindent-mode clang-format chinese-pyim buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
  '(paradox-automatically-star nil)
  '(preview-default-option-list
    (quote
