@@ -402,8 +402,9 @@ you should place your code here."
   ;; use 24hr format
   (setq display-time-24hr-format t)
 
-  ;; (spacemacs//set-monospaced-font   "Source Code Pro" "Hiragino Sans GB" 14 17)
-  (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 21 26)
+  (if (display-graphic-p)
+      ;; (spacemacs//set-monospaced-font   "Source Code Pro" "Hiragino Sans GB" 14 17)
+      (spacemacs//set-monospaced-font "Source Code Pro" "Hiragino Sans GB" 21 26))
 
   ;; LaTeX hook
   (add-hook 'LaTeX-mode-hook
