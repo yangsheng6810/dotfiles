@@ -33,7 +33,7 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git gitignore git-fast tmux history-substring-search)
+plugins=(git gitignore git-fast tmux history-substring-search yang-virtualenv)
 
 fpath=($ZSH/custom_completion $fpath)
 source $ZSH/oh-my-zsh.sh
@@ -56,7 +56,7 @@ man() {
 		LESS_TERMCAP_us=$(printf "\e[1;32m") \
 			man "$@"
 }
-alias pacman='pacman --color=auto'
+# alias pacman='pacman --color=auto'
 TEXMFMAIN="/usr/share/texmf-dist/"
 # alias nvidia-settings='optirun nvidia-settings -c :8'
 alias fbv='fbv -f'

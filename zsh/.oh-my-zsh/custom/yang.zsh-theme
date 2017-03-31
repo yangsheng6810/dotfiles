@@ -15,6 +15,9 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}x"
 ZSH_THEME_GIT_PROMPT_CLEAN=" %{$fg[green]%}o"
 
+# virtualenv info
+local virtualenv_info='$(virtualenv_prompt_info)'
+
 # PROMPT='%{$fg[magenta]%}%n%{$reset_color%} @ %{$fg[yellow]%}%m%{$reset_color%}[%D %T] in %~
 # $# '
 PROMPT="
@@ -26,5 +29,6 @@ PROMPT="
 %{$terminfo[bold]$fg[yellow]%}${current_dir}%{$reset_color%}\
 ${git_info} \
 %{$fg[white]%}[%*]
+${virtualenv_info}\
 %{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
 
