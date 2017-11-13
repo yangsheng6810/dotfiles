@@ -81,6 +81,8 @@ values."
      ;; show the current buffer’s index in a side bar
      imenu-list
      search-engine
+     ;; the layer for R
+     ;; ess
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -95,7 +97,7 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(pangu-spacing)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -219,7 +221,7 @@ values."
    dotspacemacs-display-default-layout nil
    ;; If non-nil then the last auto saved layouts are resumed automatically upon
    ;; start. (default nil)
-   dotspacemacs-auto-resume-layouts t
+   dotspacemacs-auto-resume-layouts nil
    ;; Size (in MB) above which spacemacs will prompt to open the large file
    ;; literally to avoid performance issues. Opening a file literally means that
    ;; no major mode or minor modes are active. (default is 1)
@@ -433,8 +435,6 @@ you should place your code here."
 
   ;; turn off linum-mode for performance
   (global-linum-mode -1)
-  ;; turn off highlight current line mode
-  (global-hl-line-mode -1)
   ;; scale the result from latex-preview, should be 2 in hidpi,
   ;; 1.2 in normal dpi
   ;; (set-default 'preview-scale-function 1.2)
@@ -462,7 +462,7 @@ you should place your code here."
         `(,evil-insert-state-map
           ,evil-normal-state-map))
   ;; fix some keybinding problems
-  ;; fix for js2-moe
+  ;; fix for js2-mode
   (with-eval-after-load 'js2-mode-map
     (define-key js2-mode-map (kbd "M-j") nil))
 
@@ -597,6 +597,7 @@ you should place your code here."
   (add-function :after (symbol-function 'spacemacs/set-default-font) #'my-reload-fonts)
 
   (use-package flyspell-lazy
+    :ensure t
     :config (flyspell-lazy-mode 1))
 
   (setq-default search-invisible t)
