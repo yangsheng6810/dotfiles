@@ -92,7 +92,7 @@ values."
                                       (tbemail
                                        :location local)
                                       flyspell-lazy
-                                      chinese-fonts-setup
+                                      cnfonts
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -551,7 +551,7 @@ you should place your code here."
 
   (setq use-default-font-for-symbols nil)
 
-  (use-package chinese-fonts-setup)
+  (use-package cnfonts)
 
   (defun blaenk/set-char-widths (alist)
     (while (char-table-parent char-width-table)
@@ -575,15 +575,15 @@ you should place your code here."
   (defun my-after-frame-function ()
     (message "in my-after-frame-function")
     ;; 让 chinese-fonts-setup 随着 emacs 自动生效。
-    (chinese-fonts-setup-enable)
+    (cnfonts-enable)
     ;; 让 spacemacs mode-line 中的 Unicode 图标正确显示。
-    (cfs-set-spacemacs-fallback-fonts)
+    (cnfonts-set-spacemacs-fallback-fonts)
     ;; (when window-system (set-frame-size (selected-frame) 120 48))
     )
 
   (defun my-reload-fonts (plist)
     (message "in new my-after-frame-function")
-    (cfs-set-font-with-saved-step)
+    (cnfonts-set-font-with-saved-step)
     )
 
   (my-after-frame-function)
