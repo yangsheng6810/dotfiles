@@ -3,10 +3,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cfs--current-profile "profile1" t)
- '(cfs--profiles-steps (quote (("profile1" . 1))) t)
- '(cfs-directory "~/.emacs.d/private/chinese-fonts-setup/")
- '(cfs-personal-fontnames (quote (nil ("思源黑体 CN"))))
+ '(cnfonts--current-profile "profile1" t)
+ '(cnfonts--profiles-steps (quote (("profile1" . 1))) t)
+ '(cnfonts-directory "~/.emacs.d/private/chinese-fonts-setup/")
+ '(cnfonts-personal-fontnames (quote (nil ("思源黑体 CN"))))
  '(delete-by-moving-to-trash t)
  '(dired-omit-extensions
    (quote
