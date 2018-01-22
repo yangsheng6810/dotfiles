@@ -41,6 +41,10 @@
      ("s" "Exercise" entry
       (file+datetree+prompt "~/Documents/org/Exercise.org")
       ""))))
+ '(org-format-latex-options
+   (quote
+    (:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+                 ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(package-selected-packages
    (quote
     (pyim pyim-basedict password-generator org-brain impatient-mode flycheck-bashate evil-org evil-lion editorconfig cmake-ide levenshtein wgrep smex ivy-purpose ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper ivy orgit realgud test-simple loc-changes load-relative flyspell-lazy ox-reveal ag bookmark+ git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ with-editor dash git-gutter diff-hl insert-shebang hide-comnt helm-purpose window-purpose keyfreq pug-mode imenu-list engine-mode helm-gtags ggtags flycheck-pos-tip flycheck stickyfunc-enhance srefactor ibuffer-projectile auctex-latexmk yapfify uuidgen py-isort pdf-tools tablist org-projectile org-download livid-mode skewer-mode simple-httpd live-py-mode link-hint git-link flyspell-correct-helm flyspell-correct eyebrowse evil-visual-mark-mode evil-unimpaired evil-ediff eshell-z dumb-jump company-shell column-enforce-mode helm-flyspell auto-dictionary youdao-dictionary xterm-color ws-butler window-numbering which-key web-mode web-beautify volatile-highlights vimrc-mode vi-tilde-fringe use-package toc-org tagedit spacemacs-theme spaceline smooth-scrolling smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-yapf popwin pip-requirements persp-mode pcre2el paradox pangu-spacing page-break-lines org-repo-todo org-present org-pomodoro org-bullets open-junk-file neotree multi-term move-text magit-gitflow macrostep lorem-ipsum linum-relative leuven-theme less-css-mode json-mode js2-refactor js-doc jade-mode info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger flx-ido fish-mode find-by-pinyin-dired fill-column-indicator fcitx fancy-battery expand-region exec-path-from-shell evil-visualstar evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-args evil-anzu eval-sexp-fu eshell-prompt-extras esh-help emmet-mode elisp-slime-nav disaster define-word cython-mode company-web company-tern company-statistics company-quickhelp company-c-headers company-auctex company-anaconda coffee-mode cmake-mode clean-aindent-mode clang-format chinese-pyim buffer-move bracketed-paste auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell)))
@@ -48,6 +52,9 @@
  '(preview-default-option-list
    (quote
     ("displaymath" "floats" "graphics" "textmath" "sections" "showlabels" "sectio")))
+ '(preview-gs-options
+   (quote
+    ("-q" "-dDELAYSAFER" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4")))
  '(preview-scale-function 2)
  '(safe-local-variable-values
    (quote
