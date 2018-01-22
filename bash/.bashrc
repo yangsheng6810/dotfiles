@@ -49,3 +49,6 @@ alias nvidia-settings='optirun nvidia-settings -c :8'
 alias fbv='fbv -f'
 [ -n "$WINDOWID" ] && transset-df -i $WINDOWID >/dev/null
 alias gmplayer='gnome-mplayer'
+
+# list all completions if there are more than one
+set show-all-if-ambiguous on
