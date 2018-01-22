@@ -1,42 +1,145 @@
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
+# Antigen: https://github.com/zsh-users/antigen
+ANTIGEN="$HOME/.local/bin/antigen.zsh"
+# POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-ZSH_THEME="yang"
-# ZSH_THEME="agnoster"
+# Install antigen.zsh if not exist
+if [ ! -f "$ANTIGEN" ]; then
+	echo "Installing antigen ..."
+	[ ! -d "$HOME/.local" ] && mkdir -p "$HOME/.local" 2> /dev/null
+	[ ! -d "$HOME/.local/bin" ] && mkdir -p "$HOME/.local/bin" 2> /dev/null
+	[ ! -f "$HOME/.z" ] && touch "$HOME/.z"
+	URL="http://git.io/antigen"
+	TMPFILE="/tmp/antigen.zsh"
+	if [ -x "$(which curl)" ]; then
+		curl -L "$URL" -o "$TMPFILE" 
+	elif [ -x "$(which wget)" ]; then
+		wget "$URL" -O "$TMPFILE" 
+	else
+		echo "ERROR: please install curl or wget before installation !!"
+		exit
+	fi
+	if [ ! $? -eq 0 ]; then
+		echo ""
+		echo "ERROR: downloading antigen.zsh ($URL) failed !!"
+		exit
+	fi;
+	echo "move $TMPFILE to $ANTIGEN"
+	mv "$TMPFILE" "$ANTIGEN"
+fi
 
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Set to this to use case-sensitive completion
+# Initialize command prompt
+export PS1="%n@%m:%~%# "
+
 CASE_SENSITIVE="true"
 
-# Comment this out to disable bi-weekly auto-update checks
-DISABLE_AUTO_UPDATE="true"
+# Initialize antigen
+source "$ANTIGEN"
 
-# Uncomment to change how many often would you like to wait before auto-updates occur? (in days)
-# export UPDATE_ZSH_DAYS=13
+# Load local bash/zsh compatible settings
+[ -f "$HOME/.local/etc/init.sh" ] && source "$HOME/.local/etc/init.sh"
 
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
+# Initialize oh-my-zsh
+antigen use oh-my-zsh
 
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
 
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
+# default bundles
+# visit https://github.com/unixorn/awesome-zsh-plugins
+antigen bundle git
+antigen bundle github
+antigen bundle gitignore
+antigen bundle git-fast
+# antigen bundle heroku
+antigen bundle pip
+antigen bundle virtualenv
+# antigen bundle svn-fast-info
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git gitignore git-fast tmux history-substring-search yang-virtualenv)
+# suggest package to install
+antigen bundle command-not-find
 
-fpath=($ZSH/custom_completion $fpath)
-source $ZSH/oh-my-zsh.sh
+# Plugin highlights file content based on the filename extension.
+antigen bundle colorize
+
+
+antigen bundle python
+
+antigen bundle z
+
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions
+
+# implementation of fish history substring search
+antigen bundle history-substring-search
+
+# allow SSH tab completion for mosh hostnames
+antigen bundle mosh
+
+# alias for rsync
+antigen bundle rsync
+
+# antigen bundle tmux
+# 
+antigen bundle urltools
+
+antigen bundle gnu-utils
+antigen bundle archlinux
+antigen bundle systemd
+antigen bundle battery
+
+# thefuck
+antigen bundle thefuck
+
+antigen bundle colored-man-pages
+
+# uncomment the line below to enable theme
+# antigen theme fishy
+antigen bundle $HOME/.oh-my-zsh/custom/themes/ yang.zsh-theme --no-local-clone
+# antigen theme bhilburn/powerlevel9k powerlevel9k
+
+# check login shell
+if [[ -o login ]]; then
+	[ -f "$HOME/.local/etc/login.sh" ] && source "$HOME/.local/etc/login.sh"
+	[ -f "$HOME/.local/etc/login.zsh" ] && source "$HOME/.local/etc/login.zsh"
+fi
+
+# syntax color definition
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+
+typeset -A ZSH_HIGHLIGHT_STYLES
+
+# ZSH_HIGHLIGHT_STYLES[command]=fg=white,bold
+# ZSH_HIGHLIGHT_STYLES[alias]='fg=magenta,bold'
+
+# ZSH_HIGHLIGHT_STYLES[default]=none
+# ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=009
+# ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=009,standout
+# ZSH_HIGHLIGHT_STYLES[alias]=fg=cyan,bold
+# ZSH_HIGHLIGHT_STYLES[builtin]=fg=cyan,bold
+# ZSH_HIGHLIGHT_STYLES[function]=fg=cyan,bold
+# ZSH_HIGHLIGHT_STYLES[command]=fg=white,bold
+# ZSH_HIGHLIGHT_STYLES[precommand]=fg=white,underline
+# ZSH_HIGHLIGHT_STYLES[commandseparator]=none
+# ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=009
+# ZSH_HIGHLIGHT_STYLES[path]=fg=214,underline
+# ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
+# ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=white,underline
+# ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=none
+# ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=none
+# ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=none
+# ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=063
+# ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=063
+# ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=009
+# ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=009
+# ZSH_HIGHLIGHT_STYLES[assign]=none
+
+# load local config
+[ -f "$HOME/.local/etc/config.zsh" ] && source "$HOME/.local/etc/config.zsh" 
+[ -f "$HOME/.local/etc/local.zsh" ] && source "$HOME/.local/etc/local.zsh"
+
+# enable syntax highlighting
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+antigen apply
 
 # Customize to your needs...
 # for android-sdk
@@ -45,17 +148,6 @@ source $ZSH/oh-my-zsh.sh
 export GREP_COLOR="1;33"
 export LESS="-R"
 eval $(dircolors -b)
-man() {
-	env \
-		LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-		LESS_TERMCAP_md=$(printf "\e[1;31m") \
-		LESS_TERMCAP_me=$(printf "\e[0m") \
-		LESS_TERMCAP_se=$(printf "\e[0m") \
-		LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-		LESS_TERMCAP_ue=$(printf "\e[0m") \
-		LESS_TERMCAP_us=$(printf "\e[1;32m") \
-			man "$@"
-}
 # alias pacman='pacman --color=auto'
 TEXMFMAIN="/usr/share/texmf-dist/"
 # alias nvidia-settings='optirun nvidia-settings -c :8'
@@ -127,4 +219,22 @@ alias npm='npm -g'
 alias npm8gb='npm --max-old-space-size=8192 --prefix ~/.node_modules'
 
 export PATH="$PATH:$HOME/bin"
+export PATH="$HOME/.node_modules/bin/:$PATH"
 export npm_config_prefix=~/.node_modules
+alias firefox-nightly="firefox-nightly -p nightly -no-remote"
+
+function countdown(){
+   date1=$((`date +%s` + $1)); 
+   while [ "$date1" -ge `date +%s` ]; do 
+     echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+     sleep 0.1
+   done
+}
+function stopwatch(){
+  date1=`date +%s`; 
+   while true; do 
+    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"; 
+    sleep 0.1
+   done
+}
+alias suroot="sudo -E -s"
