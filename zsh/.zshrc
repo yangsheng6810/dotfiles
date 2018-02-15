@@ -74,6 +74,7 @@ antigen bundle history-substring-search
 
 # allow SSH tab completion for mosh hostnames
 antigen bundle mosh
+antigen bundle $HOME/.oh-my-zsh/custom/ completion.zsh --no-local-clone
 
 # alias for rsync
 antigen bundle rsync
