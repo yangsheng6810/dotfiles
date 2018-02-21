@@ -52,3 +52,9 @@ alias gmplayer='gnome-mplayer'
 
 # list all completions if there are more than one
 set show-all-if-ambiguous on
+if [ "$HOSTNAME" == "optimizer.cs.umd.edu" ] && [ "$SHELL" == "/bin/bash" ] ;then
+    export LC_ALL=""
+    export LANG="en_US.UTF-8"
+    export LC_COLLATE="C"
+    exec ~/gentoo/startprefix
+fi
