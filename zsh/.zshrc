@@ -39,9 +39,16 @@ source "$ANTIGEN"
 # Load local bash/zsh compatible settings
 [ -f "$HOME/.local/etc/init.sh" ] && source "$HOME/.local/etc/init.sh"
 
+
+if [ -z ${HOSTNAME+x} ]; then
+    HOSTNAME=`hostname`;
+fi
+if [ "${HOSTNAME}" = "carbon" ] || [ "${HOSTNAME}" = "myhost" ]; then
+    YANG_HAS_BATTERY=1;
+fi
+
 # Initialize oh-my-zsh
 antigen use oh-my-zsh
-
 
 # default bundles
 # visit https://github.com/unixorn/awesome-zsh-plugins

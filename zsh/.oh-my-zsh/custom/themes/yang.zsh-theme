@@ -31,6 +31,10 @@ ${git_info} \
 %{$fg[white]%}[%*]
 %{$fg_bold[$user_color]%}λ %{$reset_color%}"
 
-# local return_status="%{$fg_bold[red]%}%(?..[%?])%{$reset_color%}"
-RPROMPT='$(battery_level_gauge)%{$reset_color%}'
+if [ -n "${YANG_HAS_BATTERY+x}" ]; then
+    # local return_status="%{$fg_bold[red]%}%(?..[%?])%{$reset_color%}"
+    RPROMPT='$(battery_level_gauge)%{$reset_color%}';
+else
+    RPROMPT='%{$reset_color%}';
+fi
 
