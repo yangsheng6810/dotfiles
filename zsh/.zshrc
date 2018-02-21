@@ -240,3 +240,5 @@ function stopwatch(){
 }
 alias suroot="sudo -E -s"
 export GOPATH="$HOME/.go"
+export MAKEFLAGS="${MAKEFLAGS} -j8"
+export GRB_LICENSE_FILE="$XDG_CONFIG_HOME/gurobi.lic"
