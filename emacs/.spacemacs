@@ -104,7 +104,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(pangu-spacing)
+   dotspacemacs-excluded-packages '(pangu-spacing google-c-style)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -528,6 +528,10 @@ you should place your code here."
 
   ;; turn on atomic-chrome
   (atomic-chrome-start-server)
+
+  ;; set tab-width
+  (setq-default tab-width 8)
+  (setq-default c-basic-offset 4)
 
   ;; turn off linum-mode for performance
   (global-linum-mode -1)
