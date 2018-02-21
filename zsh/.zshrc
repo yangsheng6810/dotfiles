@@ -52,6 +52,7 @@ antigen bundle git-fast
 # antigen bundle heroku
 antigen bundle pip
 antigen bundle virtualenv
+antigen bundle golang
 # antigen bundle svn-fast-info
 
 # suggest package to install
@@ -73,6 +74,7 @@ antigen bundle history-substring-search
 
 # allow SSH tab completion for mosh hostnames
 antigen bundle mosh
+antigen bundle $HOME/.oh-my-zsh/custom/ completion.zsh --no-local-clone
 
 # alias for rsync
 antigen bundle rsync
@@ -229,9 +231,8 @@ alias ee="emacsclient -c "
 alias npm='npm -g'
 alias npm8gb='npm --max-old-space-size=8192 --prefix ~/.node_modules'
 
-export PATH="$PATH:$HOME/bin"
-export PATH="$HOME/.node_modules/bin/:$PATH"
-export npm_config_prefix=~/.node_modules
+PATH="$PATH:$HOME/bin:$HOME/.node_modules/bin:$HOME/.go/bin"
+export npm_config_prefix="$HOME/.node_modules"
 alias firefox-nightly="firefox-nightly -p nightly -no-remote"
 
 function countdown(){
@@ -249,3 +250,6 @@ function stopwatch(){
    done
 }
 alias suroot="sudo -E -s"
+export GOPATH="$HOME/.go"
+export MAKEFLAGS="${MAKEFLAGS} -j8"
+export GRB_LICENSE_FILE="$XDG_CONFIG_HOME/gurobi.lic"
