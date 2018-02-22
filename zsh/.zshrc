@@ -61,6 +61,7 @@ antigen bundle pip
 antigen bundle virtualenv
 antigen bundle golang
 # antigen bundle svn-fast-info
+antigen bundle cp
 
 # suggest package to install
 antigen bundle command-not-find
