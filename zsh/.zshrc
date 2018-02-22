@@ -58,54 +58,30 @@ antigen use oh-my-zsh
 
 # default bundles
 # visit https://github.com/unixorn/awesome-zsh-plugins
-antigen bundle git
-antigen bundle github
-antigen bundle gitignore
-antigen bundle git-fast
-# antigen bundle heroku
-antigen bundle pip
-antigen bundle virtualenv
-antigen bundle golang
-# antigen bundle svn-fast-info
-antigen bundle cp
+my_zsh_plugins=(git github gitignore git-fast
+                python pip virtualenv
+                golang
+                # heroku # svn-fast-info
+                z command-not-find thefuck
+                history-substring-search # implementation of fish history substring search
+                colorize # Plugin highlights file content based on the filename extension.
+                zsh-users/zsh-autosuggestions
+                zsh-users/zsh-completions
+                mosh
+                rsync cp gnu-utils extract
+                urltools
+                archlinux systemd
+                battery
+                colored-man-pages
+                )
 
-# suggest package to install
-antigen bundle command-not-find
-
-# Plugin highlights file content based on the filename extension.
-antigen bundle colorize
+for plugin in ${my_zsh_plugins};do
+    antigen bundle ${plugin}
+done
 
 
-antigen bundle python
-
-antigen bundle z
-
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-completions
-
-# implementation of fish history substring search
-antigen bundle history-substring-search
-
-# allow SSH tab completion for mosh hostnames
-antigen bundle mosh
+# custom completion settings
 antigen bundle $HOME/.oh-my-zsh/custom/ completion.zsh --no-local-clone
-
-# alias for rsync
-antigen bundle rsync
-
-# antigen bundle tmux
-# 
-antigen bundle urltools
-
-antigen bundle gnu-utils
-antigen bundle archlinux
-antigen bundle systemd
-antigen bundle battery
-
-# thefuck
-antigen bundle thefuck
-
-antigen bundle colored-man-pages
 
 # uncomment the line below to enable theme
 # antigen theme fishy
