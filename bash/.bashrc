@@ -49,9 +49,12 @@ alias nvidia-settings='optirun nvidia-settings -c :8'
 alias fbv='fbv -f'
 [ -n "$WINDOWID" ] && transset-df -i $WINDOWID >/dev/null
 alias gmplayer='gnome-mplayer'
+# force tmux to use utf-8
+alias tmux='tmux -u'
 
 # list all completions if there are more than one
 set show-all-if-ambiguous on
+LANG="en_US.UTF-8"
 if [ -z ${HOSTNAME+x} ]; then
     HOSTNAME="`hostname`"
 fi

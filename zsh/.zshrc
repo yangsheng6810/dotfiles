@@ -11,9 +11,9 @@ if [ ! -f "$ANTIGEN" ]; then
 	URL="http://git.io/antigen"
 	TMPFILE="/tmp/antigen.zsh"
 	if [ -x "$(which curl)" ]; then
-		curl -L "$URL" -o "$TMPFILE" 
+		curl -L "$URL" -o "$TMPFILE"
 	elif [ -x "$(which wget)" ]; then
-		wget "$URL" -O "$TMPFILE" 
+		wget "$URL" -O "$TMPFILE"
 	else
 		echo "ERROR: please install curl or wget before installation !!"
 		exit
@@ -45,6 +45,12 @@ if [ -z ${HOSTNAME+x} ]; then
 fi
 if [ "${HOSTNAME}" = "carbon" ] || [ "${HOSTNAME}" = "myhost" ]; then
     YANG_HAS_BATTERY=1;
+fi
+if [ "${HOSTNAME}" = "optimizer.cs.umd.edu" ]; then
+    LC_ALL=""
+    LANG="en_US.UTF-8"
+    LC_COLLATE="C"
+    TERM="xterm-256color"
 fi
 
 # Initialize oh-my-zsh
