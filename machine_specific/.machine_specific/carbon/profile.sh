@@ -4,26 +4,35 @@ export SPARKHOME=/home/yangsheng/Documents/PhD/724/CMSC724-Spring16/Assignment3/
 export JPM_FIREFOX_BINARY=/usr/bin/firefox
 
 # for gurobi
-export GUROBI_HOME="$HOME/.gurobi/gurobi651/linux64"
-export PATH="${PATH}:${GUROBI_HOME}/bin"
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
-export GRB_LICENSE_FILE="$GUROBI_HOME/gurobi.lic"
+export GRB_LICENSE_FILE="$XDG_CONFIG_HOME/gurobi.lic"
+PATH="${PATH}:${GUROBI_HOME}/bin"
 
-source /usr/share/bash-completion/completions/tlp
-
-export PYTHONSTARTUP="$(python -m jedi repl)"
-
-BAT_CHARGE="$HOME/bin/battery.py"
-function battery_charge {
-	echo `$BAT_CHARGE` 2>/dev/null
-}
-RPROMPT='$(battery_charge)'
 DEFAULT_USER="yangsheng"
 
+export GOPATH="$HOME/.go"
+PATH="$PATH:$HOME/.go/bin"
 
-export PATH="$PATH:$HOME/bin"
-export PATH="$PATH:$HOME/.node_modules/bin"
-export npm_config_prefix=~/.node_modules
+export npm_config_prefix="$HOME/.node_modules"
+PATH="$PATH:$HOME/.node_modules/bin"
+alias npm='npm -g'
+alias npm8gb='npm --max-old-space-size=8192 --prefix ~/.node_modules'
 
-MACHINE_SPECIFIC="$HOME/.machine_specific/config.sh"
-[[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
+export WINEARCH=win32
+
+alias firefox-nightly="firefox-nightly -p nightly -no-remote"
+
+# xgamma -rgamma 0.83 -ggamma 0.83 -bgamma 0.83 2> /dev/null
+# export PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
+# export PATH="$PATH:$(ruby -rubygems -e 'puts Gem.user_dir')/bin"
+
+alias fbv='fbv -f'
+alias cpufreq='sudo cpupower -c all frequency-info'
+alias cpuset_performance='sudo cpupower -c all frequency-set -r -g performance'
+alias cpuset_ondemand='sudo cpupower -c all frequency-set -r -g ondemand'
+
+alias screenshot='gnome-screenshot -i'
+
+TEXMFMAIN="/usr/share/texmf-dist/"
+alias 'git_latexdiff'="git latexdiff --bibtex --ignore-latex-errors --latexdiff-flatten"
+
+export MAKEFLAGS="${MAKEFLAGS} -j8"

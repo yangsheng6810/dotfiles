@@ -64,3 +64,5 @@ if [ "$HOSTNAME" = "optimizer.cs.umd.edu" ] && [ "$SHELL" == "/bin/bash" ] ;then
     export LC_COLLATE="C"
     exec ~/gentoo/startprefix
 fi
+MACHINE_SPECIFIC="$HOME/.machine_specific/$HOST/profile.sh"
+[[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC

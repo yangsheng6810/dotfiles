@@ -27,7 +27,6 @@ if [ ! -f "$ANTIGEN" ]; then
 	mv "$TMPFILE" "$ANTIGEN"
 fi
 
-
 # Initialize command prompt
 export PS1="%n@%m:%~%# "
 
@@ -35,10 +34,6 @@ CASE_SENSITIVE="true"
 
 # Initialize antigen
 source "$ANTIGEN"
-
-# Load local bash/zsh compatible settings
-[ -f "$HOME/.local/etc/init.sh" ] && source "$HOME/.local/etc/init.sh"
-
 
 if [ -z ${HOSTNAME+x} ]; then
     HOSTNAME=`hostname`;
@@ -88,78 +83,23 @@ antigen bundle $HOME/.oh-my-zsh/custom/ completion.zsh --no-local-clone
 antigen bundle $HOME/.oh-my-zsh/custom/themes/ yang.zsh-theme --no-local-clone
 # antigen theme bhilburn/powerlevel9k powerlevel9k
 
-# check login shell
-if [[ -o login ]]; then
-	[ -f "$HOME/.local/etc/login.sh" ] && source "$HOME/.local/etc/login.sh"
-	[ -f "$HOME/.local/etc/login.zsh" ] && source "$HOME/.local/etc/login.zsh"
-fi
-
 # syntax color definition
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 
 typeset -A ZSH_HIGHLIGHT_STYLES
-
-# ZSH_HIGHLIGHT_STYLES[command]=fg=white,bold
-# ZSH_HIGHLIGHT_STYLES[alias]='fg=magenta,bold'
-
-# ZSH_HIGHLIGHT_STYLES[default]=none
-# ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=009
-# ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=009,standout
-# ZSH_HIGHLIGHT_STYLES[alias]=fg=cyan,bold
-# ZSH_HIGHLIGHT_STYLES[builtin]=fg=cyan,bold
-# ZSH_HIGHLIGHT_STYLES[function]=fg=cyan,bold
-# ZSH_HIGHLIGHT_STYLES[command]=fg=white,bold
-# ZSH_HIGHLIGHT_STYLES[precommand]=fg=white,underline
-# ZSH_HIGHLIGHT_STYLES[commandseparator]=none
-# ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=009
-# ZSH_HIGHLIGHT_STYLES[path]=fg=214,underline
-# ZSH_HIGHLIGHT_STYLES[globbing]=fg=063
-# ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=white,underline
-# ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=none
-# ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=none
-# ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=none
-# ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=063
-# ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=063
-# ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=009
-# ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=009
-# ZSH_HIGHLIGHT_STYLES[assign]=none
-
-# load local config
-[ -f "$HOME/.local/etc/config.zsh" ] && source "$HOME/.local/etc/config.zsh" 
-[ -f "$HOME/.local/etc/local.zsh" ] && source "$HOME/.local/etc/local.zsh"
 
 # enable syntax highlighting
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
 
-# Customize to your needs...
-# for android-sdk
-# export PATH="$PATH:/opt/android-sdk/tools:/opt/android-sdk/platform-tools:$HOME/bin"
-
 export GREP_COLOR="1;33"
+alias grep="grep --color=auto"
+unset GREP_OPTIONS
+
 export LESS="-R"
 eval $(dircolors -b)
-function man() {
-	env \
-		LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-		LESS_TERMCAP_md=$(printf "\e[1;31m") \
-		LESS_TERMCAP_me=$(printf "\e[0m") \
-		LESS_TERMCAP_se=$(printf "\e[0m") \
-		LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-		LESS_TERMCAP_ue=$(printf "\e[0m") \
-		LESS_TERMCAP_us=$(printf "\e[1;32m") \
-			man "$@"
-}
-# alias pacman='pacman --color=auto'
-TEXMFMAIN="/usr/share/texmf-dist/"
-# alias nvidia-settings='optirun nvidia-settings -c :8'
-alias fbv='fbv -f'
 alias gmplayer='gnome-mplayer'
-alias cpufreq='sudo cpupower -c all frequency-info'
-alias cpuset_performance='sudo cpupower -c all frequency-set -r -g performance'
-alias cpuset_ondemand='sudo cpupower -c all frequency-set -r -g ondemand'
-alias screenshot='gnome-screenshot -i'
 alias bc='bc -l'
 alias mkdir='mkdir -pv'
 alias path='echo -e ${PATH//:/\\n}'
@@ -168,28 +108,26 @@ alias nowtime=now
 alias nowdate='date +"%d-%m-%Y"'
 # do not delete / or prompt if deleting more than 3 files at a time #
 alias rm='rm -I --preserve-root'
- 
+
 # confirmation #
 alias mv='mv -i'
 alias cp='cp -i'
 alias ln='ln -i'
- 
+
 # Parenting changing perms on / #
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
 ## this one saved by butt so many times ##
 alias wget='wget -c'
+
 if [ "x$DISPLAY" = "x:0" ]; then
 	xhost + >/dev/null
 fi
+
 export XDG_CONFIG_HOME="$HOME/.config/"
 export EDITOR="vim"
 export ALTERNATE_EDITOR=""
-# xgamma -rgamma 0.83 -ggamma 0.83 -bgamma 0.83 2> /dev/null
-# export PATH="$(ruby -e 'puts Gem.user_dir')/bin:$PATH"
-# export PATH="$PATH:$(ruby -rubygems -e 'puts Gem.user_dir')/bin"
-
 
 autoload bashcompinit
 bashcompinit
@@ -211,35 +149,25 @@ fi
 
 bindkey '^[p' history-substring-search-up
 bindkey '^[n' history-substring-search-down
-alias grep="grep --color=auto"
-unset GREP_OPTIONS
-export WINEARCH=win32
 
-
-alias 'git_latexdiff'="git latexdiff --bibtex --ignore-latex-errors --latexdiff-flatten"
 alias ee="emacsclient -c "
-alias npm='npm -g'
-alias npm8gb='npm --max-old-space-size=8192 --prefix ~/.node_modules'
 
-PATH="$PATH:$HOME/bin:$HOME/.node_modules/bin:$HOME/.go/bin"
-export npm_config_prefix="$HOME/.node_modules"
-alias firefox-nightly="firefox-nightly -p nightly -no-remote"
+PATH="$PATH:$HOME/bin"
 
 function countdown(){
-   date1=$((`date +%s` + $1)); 
-   while [ "$date1" -ge `date +%s` ]; do 
+   date1=$((`date +%s` + $1));
+   while [ "$date1" -ge `date +%s` ]; do
      echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
      sleep 0.1
    done
 }
 function stopwatch(){
-  date1=`date +%s`; 
-   while true; do 
-    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"; 
+  date1=`date +%s`;
+   while true; do
+    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
     sleep 0.1
    done
 }
-alias suroot="sudo -E -s"
-export GOPATH="$HOME/.go"
-export MAKEFLAGS="${MAKEFLAGS} -j8"
-export GRB_LICENSE_FILE="$XDG_CONFIG_HOME/gurobi.lic"
+export PYTHONSTARTUP="$(python -m jedi repl)"
+MACHINE_SPECIFIC="$HOME/.machine_specific/$HOST/profile.sh"
+[[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
