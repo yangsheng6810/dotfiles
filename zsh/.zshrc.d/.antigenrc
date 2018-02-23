@@ -1,0 +1,44 @@
+# Initialize oh-my-zsh
+antigen use oh-my-zsh
+
+# default bundles
+# visit https://github.com/unixorn/awesome-zsh-plugins
+my_zsh_plugins=(git github gitignore git-fast
+                python pip virtualenv
+                golang
+                # heroku # svn-fast-info
+                z command-not-find thefuck
+                history-substring-search # implementation of fish history substring search
+                colorize # Plugin highlights file content based on the filename extension.
+                zsh-users/zsh-autosuggestions
+                zsh-users/zsh-completions
+                mosh
+                rsync cp gnu-utils extract
+                urltools
+                archlinux systemd
+                battery
+                colored-man-pages
+                )
+
+for plugin in ${my_zsh_plugins};do
+    antigen bundle ${plugin}
+done
+
+
+# custom completion settings
+antigen bundle $ZSH_CUSTOM/ completion.zsh --no-local-clone
+
+# uncomment the line below to enable theme
+# antigen theme fishy
+antigen bundle $ZSH_CUSTOM/themes/ yang.zsh-theme --no-local-clone
+# antigen theme bhilburn/powerlevel9k powerlevel9k
+
+# syntax color definition
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+
+typeset -A ZSH_HIGHLIGHT_STYLES
+
+# enable syntax highlighting
+antigen bundle zsh-users/zsh-syntax-highlighting
+
+antigen apply

@@ -1,0 +1,6 @@
+alias suroot="sudo -E -s"
+export PYTHONSTARTUP="$(python -m jedi repl)"
+LC_ALL=""
+LANG="en_US.UTF-8"
+LC_COLLATE="C"
+TERM="xterm-256color"
