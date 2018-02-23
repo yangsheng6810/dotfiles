@@ -473,21 +473,15 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setq-default git-magit-status-fullscreen t)
+  (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
+  (setq ispell-dictionary "american")
   (setq mine-machine-specific-config
         (concat "~/.machine_specific/"
                 system-name
                 "/config.el"))
-  (if (file-exists-p mine-machine-specific-config)
-      (load-file mine-machine-specific-config))
-  (setq flyspell-issue-welcome-flag nil) ;; fix flyspell problem
-  (setq ispell-dictionary "american")
-  (setq mine-specific-config
-        "~/.emacs.d/private/temp.el")
-  (if (file-exists-p mine-specific-config)
-      (progn
-        (setq custom-file mine-specific-config)
-        (load custom-file)
-        ))
+  (load mine-machine-specific-config 'noerror)
+  (setq custom-file "~/.emacs.d/private/temp.el")
+  (load custom-file 'noerror)
   )
 
 (defun dotspacemacs/user-config ()
@@ -569,18 +563,12 @@ you should place your code here."
           )
         `(,evil-insert-state-map
           ,evil-normal-state-map))
+
   ;; fix some keybinding problems
   ;; fix for js2-mode
-  (with-eval-after-load 'js2-mode-map
-    (define-key js2-mode-map (kbd "M-j") nil))
-
-  (with-eval-after-load 'helm
-    (define-key helm-map (kbd "M-SPC") 'helm-toggle-visible-mark)
-    (define-key helm-map (kbd "M-h") 'helm-previous-source)
-    (define-key helm-map (kbd "M-j") 'helm-next-line)
-    (define-key helm-map (kbd "M-k") 'helm-previous-line)
-    (define-key helm-map (kbd "M-l") 'helm-next-source)
-    )
+  (use-package js2-mode
+    :bind (:map js2-mode-map
+                ("M-j" . nil)))
 
   (use-package org
     :init (setq
@@ -798,14 +786,13 @@ you should place your code here."
   (add-hook 'magit-status-mode-hook
             (lambda ()
               (visual-line-mode 1)))
-  ;; (use-package tbemail
-  ;;   :mode ("\\.eml\\'" . tbemail-mode))
   (use-package ivy-rich
     :config (progn
               (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
               (setq ivy-virtual-abbreviate 'full
                     ivy-rich-switch-buffer-align-virtual-buffer t
                     ivy-rich-path-style 'abbrev)))
+
   ;; bug fix for python-mode
   (setq python-shell-native-complete nil)
 
@@ -813,34 +800,6 @@ you should place your code here."
   ;; (add-to-list 'dired-omit-extensions ".~undo-tree~")
 
   ;; doc-view
-;; fix problem with open-junk-file 
-(defun remove-helm-functions ()
-  (remove-hook 'post-command-hook 'helm--maybe-update-keymap)
-  ;; 2015-07-01 The following function was also remaining in the hook.
-  ;; This hook was added 14 days ago coinciding breakage.
-  ;; https://github.com/emacs-helm/helm/commit/ff7c54d39501d894fdb06e049828b291327540e6
-  (remove-hook 'post-command-hook 'helm--update-header-line))
-
-;;
-;; 2015-07-01
-;; This function itself is not remaining in the post-command-hook?
-;;
-;; Candidate hooks for making this happen.
-;; server-done-hook	Hook run when done editing a buffer for the Emacs server.
-;; server-mode-hook	Hook run after entering or leaving `server-mode'.
-;; server-switch-hook	Hook run when switching to a buffer for the Emacs server.
-;; server-visit-hook	Hook run when visiting a file for the Emacs server.
-;;
-;; (add-hook 'server-done-hook   'remove-helm--maybe-update-keymap)
-;; (add-hook 'server-mode-hook   'remove-helm--maybe-update-keymap)
-;; (add-hook 'server-switch-hook 'remove-helm--maybe-update-keymap)
-;; (add-hook 'server-visit-hook  'remove-helm--maybe-update-keymap)
-;;
-;; This hacky universal solution works.
-;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Command-Overview.html#Command-Overview
-;; (add-hook 'post-command-hook 'remove-helm-functions)
-;; 2015-07-01 Changed to the following.
-(add-hook 'pre-command-hook 'remove-helm-functions)
   (use-package doc-view
     :config (setq doc-view-resolution 144)
     :bind (:map doc-view-mode-map
@@ -896,6 +855,34 @@ you should place your code here."
 
   ;; (load custom-file)
 
+  ;; fix problem with open-junk-file
+  (defun remove-helm-functions ()
+    (remove-hook 'post-command-hook 'helm--maybe-update-keymap)
+    ;; 2015-07-01 The following function was also remaining in the hook.
+    ;; This hook was added 14 days ago coinciding breakage.
+    ;; https://github.com/emacs-helm/helm/commit/ff7c54d39501d894fdb06e049828b291327540e6
+    (remove-hook 'post-command-hook 'helm--update-header-line))
+
+  ;;
+  ;; 2015-07-01
+  ;; This function itself is not remaining in the post-command-hook?
+  ;;
+  ;; Candidate hooks for making this happen.
+  ;; server-done-hook	Hook run when done editing a buffer for the Emacs server.
+  ;; server-mode-hook	Hook run after entering or leaving `server-mode'.
+  ;; server-switch-hook	Hook run when switching to a buffer for the Emacs server.
+  ;; server-visit-hook	Hook run when visiting a file for the Emacs server.
+  ;;
+  ;; (add-hook 'server-done-hook   'remove-helm--maybe-update-keymap)
+  ;; (add-hook 'server-mode-hook   'remove-helm--maybe-update-keymap)
+  ;; (add-hook 'server-switch-hook 'remove-helm--maybe-update-keymap)
+  ;; (add-hook 'server-visit-hook  'remove-helm--maybe-update-keymap)
+  ;;
+  ;; This hacky universal solution works.
+  ;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Command-Overview.html#Command-Overview
+  ;; (add-hook 'post-command-hook 'remove-helm-functions)
+  ;; 2015-07-01 Changed to the following.
+  (add-hook 'pre-command-hook 'remove-helm-functions)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
