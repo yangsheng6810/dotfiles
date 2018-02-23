@@ -582,43 +582,67 @@ you should place your code here."
     (define-key helm-map (kbd "M-l") 'helm-next-source)
     )
 
-  (setq org-startup-truncated nil)
-  (with-eval-after-load 'org
-    ;; (message "after loading org-mode")
-    ;; add visual line wrap for org-mode
-    (setq org-startup-truncated nil)
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "PUSHED(p)" "WAIT(w@/!)" "|" "DONE(d!)")
-            (sequence "|" "CANCLED(c@)")))
-    (add-hook 'evil-org-mode-hook
-              (lambda ()
-                ;; (message "into org-mode-hook")
-                (mapc (lambda (state)
-                        (evil-define-key state evil-org-mode-map
-                          (kbd "M-h") nil
-                          (kbd "M-j") nil
-                          (kbd "M-k") nil
-                          (kbd "M-l") nil
-                          (kbd "M-H") nil
-                          (kbd "M-J") nil
-                          (kbd "M-K") nil
-                          (kbd "M-L") nil
-                          ;; actually unset all the following
-                          ;; (kbd "M-h") 'org-metaleft
-                          ;; (kbd "M-j") 'org-metadown
-                          ;; (kbd "M-k") 'org-metaup
-                          ;; (kbd "M-l") 'org-metaright
-                          ;; (kbd "M-H") 'org-shiftmetaleft
-                          ;; (kbd "M-J") 'org-shiftmetadown
-                          ;; (kbd "M-K") 'org-shiftmetaup
-                          ;; (kbd "M-L") 'org-shiftmetaright
-                          ))
-                      '(normal insert))
-                ;; (message "after org-mode-hook")
-                ))
-      ;; need debug the folowing lines
-      ;; (setq org-M-RET-may-split-line ((default . nil)))
-      ;; add visual line wrap for org-mode
+  (use-package org
+    :init (setq
+           org-startup-truncated nil
+           org-agenda-files
+              '("~/Documents/Diary/2017/07/2017-07-18.org" "~/Documents/Diary/2017/07/2017-07-09.org" "~/Documents/Diary/2017/07/2017-07-02.org" "~/Documents/Diary/2017/07/2017-07-07.org" "~/Documents/Diary/2017/07/2017-07-06.org" "~/Documents/Diary/2017/07/2017-07-04.org")
+           org-capture-templates
+              '(("n" "Notes" entry
+                (file+datetree+prompt "~/Documents/org/Notes.org")
+                "")
+               ("r" "Research" entry
+                (file+datetree "~/Documents/org/Research.org")
+                "" :prepend t)
+               ("e" "Emacs" entry
+                (file+headline "~/Documents/org/Computer.org" "Emacs")
+                "* %?
+%T")
+               ("l" "Linux" entry
+                (file+headline "~/Documents/org/Computer.org" "Linux")
+                "* %?
+%t")
+               ("s" "Exercise" entry
+                (file+datetree+prompt "~/Documents/org/Exercise.org")
+                ""))
+              org-todo-keywords
+              '((sequence "TODO(t)" "PUSHED(p)" "WAIT(w@/!)" "|" "DONE(d!)")
+                (sequence "|" "CANCLED(c@)"))
+              org-startup-truncated nil
+              )
+    :config
+    (progn
+      (org-add-link-type
+       "span" #'ignore ; not an 'openable' link
+       #'(lambda (class desc format)
+           (pcase format
+             (`html (format "<span class=\"%s\">%s</span>"
+                            (jw/html-escape-attribute class)
+                            (or desc "")))
+             (_ (or desc "")))))
+      (add-hook 'evil-org-mode-hook
+                (lambda ()
+                  (mapc (lambda (state)
+                          (evil-define-key state evil-org-mode-map
+                            (kbd "M-h") nil
+                            (kbd "M-j") nil
+                            (kbd "M-k") nil
+                            (kbd "M-l") nil
+                            (kbd "M-H") nil
+                            (kbd "M-J") nil
+                            (kbd "M-K") nil
+                            (kbd "M-L") nil
+                            ;; actually unset all the following
+                            ;; (kbd "M-h") 'org-metaleft
+                            ;; (kbd "M-j") 'org-metadown
+                            ;; (kbd "M-k") 'org-metaup
+                            ;; (kbd "M-l") 'org-metaright
+                            ;; (kbd "M-H") 'org-shiftmetaleft
+                            ;; (kbd "M-J") 'org-shiftmetadown
+                            ;; (kbd "M-K") 'org-shiftmetaup
+                            ;; (kbd "M-L") 'org-shiftmetaright
+                            ))
+                        '(normal insert))))))
 
     (defun jw/html-escape-attribute (value)
       "Entity-escape VALUE and wrap it in quotes."
@@ -633,16 +657,6 @@ you should place your code here."
              (value (replace-regexp-in-string "\u00a0" "&nbsp;" value))
              (value (replace-regexp-in-string "\"" "&quot;" value)))
         value))
-
-    (org-add-link-type
-     "span" #'ignore ; not an 'openable' link
-     #'(lambda (class desc format)
-         (pcase format
-           (`html (format "<span class=\"%s\">%s</span>"
-                          (jw/html-escape-attribute class)
-                          (or desc "")))
-           (_ (or desc "")))))
-  )
 
   ;; turn on golden-ratio mode
   ;; (spacemacs/toggle-golden-ratio-on)
@@ -659,8 +673,15 @@ you should place your code here."
 
   (setq use-default-font-for-symbols nil)
 
-  (use-package cnfonts)
+  ;; set up mono font for chinese
+  (use-package cnfonts
+    :init (setq
+           cnfonts--current-profile "profile1"
+           cnfonts--profiles-steps '(("profile1" . 1))
+           cnfonts-directory "~/.emacs.d/private/chinese-fonts-setup/"
+           cnfonts-personal-fontnames '(nil ("思源黑体 CN"))))
 
+  ;; set char width for certain characters
   (defun blaenk/set-char-widths (alist)
     (while (char-table-parent char-width-table)
       (setq char-width-table (char-table-parent char-width-table)))
@@ -674,6 +695,7 @@ you should place your code here."
         (set-char-table-parent table char-width-table)
         (setq char-width-table table))))
 
+  ;; fix char width
   (blaenk/set-char-widths
    `((1 . (,(string-to-char "“")
            ,(string-to-char "”")
@@ -706,6 +728,7 @@ you should place your code here."
 
   (use-package flyspell-lazy
     :ensure t
+    :init (setq flyspell-lazy-extra-lazy t)
     :config (flyspell-lazy-mode 1))
 
   (setq-default search-invisible t)
@@ -787,19 +810,9 @@ you should place your code here."
   (setq python-shell-native-complete nil)
 
   ;; dired mode
-  (setq-default dired-omit-mode t)
   ;; (add-to-list 'dired-omit-extensions ".~undo-tree~")
 
   ;; doc-view
-  (with-eval-after-load 'doc-view
-    (define-key doc-view-mode-map (kbd "h") 'image-backward-hscroll)
-    (define-key doc-view-mode-map (kbd "l") 'image-forward-hscroll)
-    (define-key doc-view-mode-map (kbd "J") 'doc-view-next-page)
-    (define-key doc-view-mode-map (kbd "K") 'doc-view-previous-page)
-    )
-
-  ;; (setq custom-file "~/.temp.el")
-  (load custom-file)
 ;; fix problem with open-junk-file 
 (defun remove-helm-functions ()
   (remove-hook 'post-command-hook 'helm--maybe-update-keymap)
@@ -828,6 +841,61 @@ you should place your code here."
 ;; (add-hook 'post-command-hook 'remove-helm-functions)
 ;; 2015-07-01 Changed to the following.
 (add-hook 'pre-command-hook 'remove-helm-functions)
+  (use-package doc-view
+    :config (setq doc-view-resolution 144)
+    :bind (:map doc-view-mode-map
+                ("h" . image-backward-hscroll)
+                ("l" . image-forward-hscroll)
+                ("J" . doc-view-next-page)
+                ("K" . 'doc-view-previous-page)
+                ))
+
+  ;; move most custom variables here
+  (setq
+   delete-by-moving-to-trash t
+   evil-ex-interactive-search-highlight nil
+   evil-want-Y-yank-to-eol t
+   ispell-extra-args '("--sug-mode=ultra")
+   magit-diff-refine-hunk 'all
+   org-M-RET-may-split-line '((default))
+   paradox-automatically-star nil
+   ;; preview-default-option-list '("displaymath"
+   ;;                               "floats"
+   ;;                               "graphics"
+   ;;                               "textmath"
+   ;;                               "sections"
+   ;;                               "showlabels"
+   ;;                               "sectio") ; seems broken
+   ;; preview-gs-options '("-q" "-dDELAYSAFER" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4") ; seems the same as default
+   term-buffer-maximum-size 10000
+   word-wrap nil
+   )
+
+  (cond ((string-equal system-name "carbon") ; thinkpad X1 carbon
+         (progn
+           (plist-put org-format-latex-options :scale 2.0)
+           (setq
+            preview-scale-function 2)
+           )))
+  (use-package web-mode
+    :init (setq
+           web-mode-enable-auto-closing t
+           web-mode-enable-auto-indentation t
+           web-mode-enable-auto-opening t
+           web-mode-enable-auto-pairing t
+           web-mode-enable-auto-quoting t
+           web-mode-enable-css-colorization t
+           ))
+  (setq dired-recursive-copies 'always)
+  (use-package dired-x
+    :config
+    (progn
+      (add-to-list 'dired-omit-extensions ".~undo-tree~")
+      (setq-default dired-omit-mode t)))
+
+
+  ;; (load custom-file)
+
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
