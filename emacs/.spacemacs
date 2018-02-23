@@ -45,7 +45,9 @@ This function should only modify configuration layer settings."
       auto-completion-enable-help-tooltip 'manual
       auto-completion-enable-sort-by-usage t)
      emacs-lisp
-     ivy
+     (ivy :variables
+          ivy-enable-advanced-buffer-information t
+          ivy-rich-path-style 'abbrev)
      git
      markdown
      org
@@ -99,7 +101,6 @@ This function should only modify configuration layer settings."
                                       flyspell-lazy
                                       cnfonts
                                       atomic-chrome
-                                      ivy-rich
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
