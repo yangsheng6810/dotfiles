@@ -99,6 +99,7 @@ This function should only modify configuration layer settings."
                                       flyspell-lazy
                                       cnfonts
                                       atomic-chrome
+                                      ivy-rich
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -775,6 +776,12 @@ you should place your code here."
               (visual-line-mode 1)))
   ;; (use-package tbemail
   ;;   :mode ("\\.eml\\'" . tbemail-mode))
+  (use-package ivy-rich
+    :config (progn
+              (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+              (setq ivy-virtual-abbreviate 'full
+                    ivy-rich-switch-buffer-align-virtual-buffer t
+                    ivy-rich-path-style 'abbrev)))
   ;; bug fix for python-mode
   (setq python-shell-native-complete nil)
 
