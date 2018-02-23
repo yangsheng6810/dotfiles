@@ -101,6 +101,8 @@ This function should only modify configuration layer settings."
                                       flyspell-lazy
                                       cnfonts
                                       atomic-chrome
+                                      ;; explicitly add ivy-rich for master branch
+                                      ivy-rich
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
