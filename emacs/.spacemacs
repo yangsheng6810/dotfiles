@@ -94,8 +94,8 @@ This function should only modify configuration layer settings."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(vimrc-mode
-                                      (tbemail
-                                       :location local)
+                                      ;; (tbemail
+                                      ;;  :location local)
                                       flyspell-lazy
                                       cnfonts
                                       atomic-chrome
@@ -529,6 +529,12 @@ you should place your code here."
   ;; turn on atomic-chrome
   (atomic-chrome-start-server)
 
+  (add-to-list 'auto-mode-alist
+               '("\\.eml\\'" . (lambda ()
+                                 ;; will add something special
+                                 (markdown-mode)
+                                 )))
+
   ;; set tab-width
   (setq-default tab-width 8)
   (setq-default c-basic-offset 4)
@@ -767,8 +773,8 @@ you should place your code here."
   (add-hook 'magit-status-mode-hook
             (lambda ()
               (visual-line-mode 1)))
-  (use-package tbemail
-    :mode ("\\.eml\\'" . tbemail-mode))
+  ;; (use-package tbemail
+  ;;   :mode ("\\.eml\\'" . tbemail-mode))
   ;; bug fix for python-mode
   (setq python-shell-native-complete nil)
 
