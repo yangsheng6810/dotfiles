@@ -24,3 +24,4 @@ source "$ZSH_CUSTOM/.antigenrc"
 # Finally set up aliases and key bindings
 source "$ZSH_CUSTOM/bindings.zsh"
 source "$ZSH_CUSTOM/aliases.zsh"
+source "$ZSH_CUSTOM/completion.zsh"
