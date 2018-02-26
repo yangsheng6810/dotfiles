@@ -89,6 +89,7 @@ This function should only modify configuration layer settings."
      search-engine
      ;; the layer for R
      ;; ess
+     ranger ;; replacement for dired
      )
 
    ;; List of additional packages that will be installed without being
@@ -543,6 +544,14 @@ you should place your code here."
   ;; set tab-width
   (setq-default tab-width 8)
   (setq-default c-basic-offset 4)
+
+  (use-package ranger
+    :bind (:map ranger-mode-map
+                ("C-h" . nil)) ;; C-h was set to toggle dotfiles
+    :config
+    (progn
+      (setq ranger-show-dotfiles nil ;; default not show dotfiles at startup, toggled by zh
+            )))
 
   ;; turn off linum-mode for performance
   (global-linum-mode -1)
