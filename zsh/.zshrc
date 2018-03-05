@@ -10,10 +10,6 @@ source $ZSH_CUSTOM/bootstrap.zsh
 
 eval $(dircolors -b)
 
-if [ "x$DISPLAY" = "x:0" ]; then
-	xhost + >/dev/null
-fi
-
 autoload bashcompinit
 bashcompinit
 export SUDO_EDITOR=vim
