@@ -551,6 +551,7 @@ you should place your code here."
     :config
     (progn
       (setq ranger-show-dotfiles nil ;; default not show dotfiles at startup, toggled by zh
+            ranger-cleanup-on-disable t ;; kill the buffers when we finish
             )))
 
   ;; turn off linum-mode for performance
@@ -836,6 +837,7 @@ you should place your code here."
    delete-by-moving-to-trash t
    evil-ex-interactive-search-highlight nil
    evil-want-Y-yank-to-eol t
+   mouse-yank-at-point t
    ispell-extra-args '("--sug-mode=ultra")
    magit-diff-refine-hunk 'all
    org-M-RET-may-split-line '((default))
