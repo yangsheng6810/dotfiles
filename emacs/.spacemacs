@@ -534,8 +534,26 @@ you should place your code here."
     "http://dict.cn/%s"
     :docstring "Search Dict.cn")
 
+  ;; check if the port for atomic-chrome is used or not
+  ;; copied from https://github.com/dakrone/atomic-chrome/commit/79a5c17eef37b1e41590fc366cd16f2c4f3d46e4
+  ;; append yang to avoid messing up with naming space
+  (defun yang-atomic-chrome-server-running-p ()
+   "Returns `t' if the atomic-chrome server is currently running,
+ `nil' otherwise."
+   (let ((retval nil))
+     (condition-case ex
+         (progn
+           (delete-process
+            (make-network-process
+             :name "atomic-client-test" :host "localhost"
+             :noquery t :service "64292"))
+           (setq retval t))
+       ('error nil))
+     retval))
   ;; turn on atomic-chrome
-  (atomic-chrome-start-server)
+  (unless (yang-atomic-chrome-server-running-p)
+    (atomic-chrome-start-server))
+
 
   (add-to-list 'auto-mode-alist
                '("\\.eml\\'" . (lambda ()
