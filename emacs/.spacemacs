@@ -655,19 +655,19 @@ you should place your code here."
       (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
       ))
 
-    (defun jw/html-escape-attribute (value)
-      "Entity-escape VALUE and wrap it in quotes."
-      ;; http://www.w3.org/TR/2009/WD-html5-20090212/serializing-html-fragments.html
-      ;;
-      ;; "Escaping a string... consists of replacing any occurrences of
-      ;; the "&" character by the string "&amp;", any occurrences of the
-      ;; U+00A0 NO-BREAK SPACE character by the string "&nbsp;", and, if
-      ;; the algorithm was invoked in the attribute mode, any occurrences
-      ;; of the """ character by the string "&quot;"..."
-      (let* ((value (replace-regexp-in-string "&" "&amp;" value))
-             (value (replace-regexp-in-string "\u00a0" "&nbsp;" value))
-             (value (replace-regexp-in-string "\"" "&quot;" value)))
-        value))
+  (defun jw/html-escape-attribute (value)
+    "Entity-escape VALUE and wrap it in quotes."
+    ;; http://www.w3.org/TR/2009/WD-html5-20090212/serializing-html-fragments.html
+    ;;
+    ;; "Escaping a string... consists of replacing any occurrences of
+    ;; the "&" character by the string "&amp;", any occurrences of the
+    ;; U+00A0 NO-BREAK SPACE character by the string "&nbsp;", and, if
+    ;; the algorithm was invoked in the attribute mode, any occurrences
+    ;; of the """ character by the string "&quot;"..."
+    (let* ((value (replace-regexp-in-string "&" "&amp;" value))
+           (value (replace-regexp-in-string "\u00a0" "&nbsp;" value))
+           (value (replace-regexp-in-string "\"" "&quot;" value)))
+      value))
 
   ;; turn on golden-ratio mode
   ;; (spacemacs/toggle-golden-ratio-on)
