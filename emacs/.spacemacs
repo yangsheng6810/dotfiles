@@ -105,6 +105,7 @@ This function should only modify configuration layer settings."
                                       ;; explicitly add ivy-rich for master branch
                                       ivy-rich
                                       company-jedi ;; add jedi-support
+                                      org-pdfview ;; add pdfview link to org
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -842,6 +843,25 @@ you should place your code here."
                 ("J" . doc-view-next-page)
                 ("K" . 'doc-view-previous-page)
                 ))
+
+  ;; copied from http://pragmaticemacs.com/emacs/even-more-pdf-tools-tweaks/
+  (use-package pdf-tools
+    :ensure t
+    :bind (:map pdf-view-mode-map
+                ("C-s" . isearch-forward))
+    :config
+    (setq-default pdf-view-display-size 'fit-page)
+    ;; automatically annotate highlights
+    (setq pdf-annot-activate-created-annotations t)
+    ;; more fine-grained zooming
+    (setq pdf-view-resize-factor 1.1)
+    )
+
+  (use-package org-pdfview
+    :ensure t
+    :config
+    (add-to-list 'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link))))
+    )
 
   ;; move most custom variables here
   (setq
