@@ -104,6 +104,7 @@ This function should only modify configuration layer settings."
                                       atomic-chrome
                                       ;; explicitly add ivy-rich for master branch
                                       ivy-rich
+                                      company-jedi ;; add jedi-support
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -818,6 +819,16 @@ you should place your code here."
 
   ;; bug fix for python-mode
   (setq python-shell-native-complete nil)
+  (use-package company-jedi             ;;; company-mode completion back-end for Python JEDI
+    :ensure t
+    :config
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (setq jedi:complete-on-dot t)
+    (setq jedi:use-shortcuts t)
+    (defun config/enable-company-jedi ()
+      (add-to-list 'company-backends 'company-jedi))
+    (add-hook 'python-mode-hook 'config/enable-company-jedi))
+
 
   ;; dired mode
   ;; (add-to-list 'dired-omit-extensions ".~undo-tree~")
