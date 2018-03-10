@@ -609,71 +609,76 @@ you should place your code here."
     :bind (:map js2-mode-map
                 ("M-j" . nil)))
 
-  (use-package org
-    :init (setq
-           org-startup-truncated nil
-           org-agenda-files
-              '("~/Documents/Diary/2017/07/2017-07-18.org" "~/Documents/Diary/2017/07/2017-07-09.org" "~/Documents/Diary/2017/07/2017-07-02.org" "~/Documents/Diary/2017/07/2017-07-07.org" "~/Documents/Diary/2017/07/2017-07-06.org" "~/Documents/Diary/2017/07/2017-07-04.org")
-           org-capture-templates
-              '(("n" "Notes" entry
-                (file+datetree+prompt "~/Documents/org/Notes.org")
-                "")
-               ("r" "Research" entry
-                (file+datetree "~/Documents/org/Research.org")
-                "" :prepend t)
-               ("e" "Emacs" entry
-                (file+headline "~/Documents/org/Computer.org" "Emacs")
-                "* %?
+
+  ;; wrap in with-eval-after-load, see
+  ;; http://spacemacs.org/layers/+emacs/org/README.html#important-note
+  (with-eval-after-load 'org
+    (use-package org
+      :init
+      (setq
+       org-startup-truncated nil
+       org-agenda-files
+       '("~/Documents/Diary/2017/07/2017-07-18.org" "~/Documents/Diary/2017/07/2017-07-09.org" "~/Documents/Diary/2017/07/2017-07-02.org" "~/Documents/Diary/2017/07/2017-07-07.org" "~/Documents/Diary/2017/07/2017-07-06.org" "~/Documents/Diary/2017/07/2017-07-04.org")
+       org-capture-templates
+       '(("n" "Notes" entry
+          (file+datetree+prompt "~/Documents/org/Notes.org")
+          "")
+         ("r" "Research" entry
+          (file+datetree "~/Documents/org/Research.org")
+          "" :prepend t)
+         ("e" "Emacs" entry
+          (file+headline "~/Documents/org/Computer.org" "Emacs")
+          "* %?
 %T")
-               ("l" "Linux" entry
-                (file+headline "~/Documents/org/Computer.org" "Linux")
-                "* %?
+         ("l" "Linux" entry
+          (file+headline "~/Documents/org/Computer.org" "Linux")
+          "* %?
 %t")
-               ("s" "Exercise" entry
-                (file+datetree+prompt "~/Documents/org/Exercise.org")
-                ""))
-              org-todo-keywords
-              '((sequence "TODO(t)" "PUSHED(p)" "WAIT(w@/!)" "|" "DONE(d!)")
-                (sequence "|" "CANCLED(c@)"))
-              org-startup-truncated nil
-              )
-    :config
-    (progn
-      (org-add-link-type
-       "span" #'ignore ; not an 'openable' link
-       #'(lambda (class desc format)
-           (pcase format
-             (`html (format "<span class=\"%s\">%s</span>"
-                            (jw/html-escape-attribute class)
-                            (or desc "")))
-             (_ (or desc "")))))
-      (add-hook 'evil-org-mode-hook
-                (lambda ()
-                  (mapc (lambda (state)
-                          (evil-define-key state evil-org-mode-map
-                            (kbd "M-h") nil
-                            (kbd "M-j") nil
-                            (kbd "M-k") nil
-                            (kbd "M-l") nil
-                            (kbd "M-H") nil
-                            (kbd "M-J") nil
-                            (kbd "M-K") nil
-                            (kbd "M-L") nil
-                            ;; actually unset all the following
-                            ;; (kbd "M-h") 'org-metaleft
-                            ;; (kbd "M-j") 'org-metadown
-                            ;; (kbd "M-k") 'org-metaup
-                            ;; (kbd "M-l") 'org-metaright
-                            ;; (kbd "M-H") 'org-shiftmetaleft
-                            ;; (kbd "M-J") 'org-shiftmetadown
-                            ;; (kbd "M-K") 'org-shiftmetaup
-                            ;; (kbd "M-L") 'org-shiftmetaright
-                            ))
-                        '(normal insert))))
-      ;; actually insert space with pangu-spacing for org-mode, to fix indentation
-      ;; in table
-      (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
-      ))
+         ("s" "Exercise" entry
+          (file+datetree+prompt "~/Documents/org/Exercise.org")
+          ""))
+       org-todo-keywords
+       '((sequence "TODO(t)" "PUSHED(p)" "WAIT(w@/!)" "|" "DONE(d!)")
+         (sequence "|" "CANCLED(c@)"))
+       org-startup-truncated nil
+       )
+      :config
+      (progn
+        (org-add-link-type
+         "span" #'ignore ; not an 'openable' link
+         #'(lambda (class desc format)
+             (pcase format
+               (`html (format "<span class=\"%s\">%s</span>"
+                              (jw/html-escape-attribute class)
+                              (or desc "")))
+               (_ (or desc "")))))
+        (add-hook 'evil-org-mode-hook
+                  (lambda ()
+                    (mapc (lambda (state)
+                            (evil-define-key state evil-org-mode-map
+                              (kbd "M-h") nil
+                              (kbd "M-j") nil
+                              (kbd "M-k") nil
+                              (kbd "M-l") nil
+                              (kbd "M-H") nil
+                              (kbd "M-J") nil
+                              (kbd "M-K") nil
+                              (kbd "M-L") nil
+                              ;; actually unset all the following
+                              ;; (kbd "M-h") 'org-metaleft
+                              ;; (kbd "M-j") 'org-metadown
+                              ;; (kbd "M-k") 'org-metaup
+                              ;; (kbd "M-l") 'org-metaright
+                              ;; (kbd "M-H") 'org-shiftmetaleft
+                              ;; (kbd "M-J") 'org-shiftmetadown
+                              ;; (kbd "M-K") 'org-shiftmetaup
+                              ;; (kbd "M-L") 'org-shiftmetaright
+                              ))
+                          '(normal insert))))
+        ;; actually insert space with pangu-spacing for org-mode, to fix indentation
+        ;; in table
+        (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
+        )))
 
   (defun jw/html-escape-attribute (value)
     "Entity-escape VALUE and wrap it in quotes."
@@ -877,6 +882,7 @@ you should place your code here."
 
   (use-package org-pdfview
     :ensure t
+    :after (org)
     :config
     (add-to-list 'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link))))
     )
@@ -905,10 +911,12 @@ you should place your code here."
 
   (cond ((string-equal system-name "carbon") ; thinkpad X1 carbon
          (progn
-           (plist-put org-format-latex-options :scale 2.0)
+           (with-eval-after-load 'org
+             (plist-put org-format-latex-options :scale 2.0))
            (setq
             preview-scale-function 2)
            )))
+
   (use-package web-mode
     :init (setq
            web-mode-enable-auto-closing t
