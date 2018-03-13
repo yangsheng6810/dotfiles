@@ -885,6 +885,11 @@ you should place your code here."
     :after (org)
     :config
     (add-to-list 'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link))))
+    (add-hook
+     'pdf-view-mode-hook
+     (lambda ()
+       (pdf-view-set-slice-from-bounding-box)
+       (pdf-view-fit-width-to-window)))
     )
 
   ;; move most custom variables here
