@@ -64,7 +64,8 @@ This function should only modify configuration layer settings."
              python-enable-yapf-format-on-save t)
      (c-c++ :variables
            c-c++-default-mode-for-headers 'c++-mode)
-     ,(if window-system
+     ,(if (or (string= system-name "carbon")
+              (string= system-name "myhost"))
           '(chinese :variables
                     chinese-enable-fcitx t
                     chinese-enable-youdao-dict t)
