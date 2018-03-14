@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: tikz file template
+# key: tikz_file
+# --
+\documentclass[crop, tikz]{standalone}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{graphicx}
+\begin{document}
+\begin{tikzpicture}
+$0
+\end{tikzpicture}
+\end{document}

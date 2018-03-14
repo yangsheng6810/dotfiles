@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: emacs inputed file
+# key: emacs_input
+# --
+$0
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main.tex"
+%%% End:

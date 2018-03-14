@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: tikz library
+# key: tikz_library
+# --
+\usetikzlibrary{
+calc, % for `($ <do calculations here> $)`
+intersections,
+through, % for circle through
+backgrounds,
+arrows,
+decorations.pathmorphing,
+backgrounds,
+positioning, % for above of=()
+automata,
+fit,
+petri,
+scopes % can use {} to mean scope
+}
+$0

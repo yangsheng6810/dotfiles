@@ -1,0 +1,60 @@
+# -*- mode: snippet -*-
+# name: paper template
+# key: paper
+# --
+\documentclass{article}
+% Allow including standalone graphs
+\usepackage{standalone}
+\usepackage{color}
+\usepackage{amsmath,amsfonts,amssymb}
+%% For pseudo-code
+\usepackage[ruled,lined,linesnumbered,commentsnumbered]{algorithm2e}
+\usepackage[english]{babel}
+
+%% Fix some spacing problem, and allow tricks to squeeze whitespace
+\allowdisplaybreaks
+
+\usepackage{graphicx}
+
+%% For restate theorems
+\usepackage{thmtools}
+\usepackage{thm-restate}
+
+\usepackage{enumerate}
+\usepackage{float}
+
+%% For hyper link in pdf file
+\newcommand{\mytitle}{$1}
+\usepackage{url}
+\usepackage[pdfauthor={XeLaTeX},%
+pdftitle={\mytitle}]{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Define journal and conference version
+%%%%%%%%%%%%%%%%%%%%%%%
+\newif\ifjournal
+\journaltrue
+% \journalfalse
+%%%%%%%%%%%%%%%%%%%%%%%
+% Example use of \ifjournal:
+%%%%%%%%%%%%%%%%%%%%%%%
+% \ifjournal{text for journal version}\fi
+% \ifjournal{text for journal version}\else{text for conference version}\fi
+%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\title{\mytitle}
+\author{$2 Sheng Yang}
+\begin{document}
+\maketitle
+\begin{abstract}
+  Abstract
+\end{abstract}
+$0
+%\bibliographystyle{abbrv}
+%\bibliography{bibfile}
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
