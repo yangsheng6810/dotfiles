@@ -971,6 +971,9 @@ you should place your code here."
   ;; (add-hook 'post-command-hook 'remove-helm-functions)
   ;; 2015-07-01 Changed to the following.
   (add-hook 'pre-command-hook 'remove-helm-functions)
+  ;; modeline optimization/workarounds
+  ;; (spaceline-toggle-purpose-off)
+  (spacemacs/toggle-mode-line-responsive-off)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
