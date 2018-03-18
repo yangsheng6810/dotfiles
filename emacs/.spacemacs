@@ -814,13 +814,14 @@ you should place your code here."
               ;; (TeX-fold-mode t)         ; already enabled in config
               (TeX-engine-set "default")
               (LaTeX-add-environments
-               "Definition"
-               "Example"
+               "definition"
+               "example"
                "tikzpicture"
-               "Corallary"
+               "corallary"
                "align*"
-               "Theorem"
+               "theorem"
                "proof"
+               "lemma"
                ;; '("tikzpicture" LaTeX-env-tikz)
                )
               ;; enable TeX-fold-buffer
