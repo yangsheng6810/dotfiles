@@ -629,18 +629,19 @@ you should place your code here."
        '(("n" "Notes" entry
           (file+datetree+prompt "~/Documents/org/Notes.org")
           "")
+         ("s" "Schedule" entry
+          (file+datetree "~/Documents/org/Schedule.org")
+          "")
          ("r" "Research" entry
           (file+datetree "~/Documents/org/Research.org")
           "" :prepend t)
          ("e" "Emacs" entry
           (file+headline "~/Documents/org/Computer.org" "Emacs")
-          "* %?
-%T")
+          "* %?\n  %T")
          ("l" "Linux" entry
           (file+headline "~/Documents/org/Computer.org" "Linux")
-          "* %?
-%t")
-         ("s" "Exercise" entry
+          "* %?\n  %t")
+         ("x" "Exercise" entry
           (file+datetree+prompt "~/Documents/org/Exercise.org")
           ""))
        org-todo-keywords
