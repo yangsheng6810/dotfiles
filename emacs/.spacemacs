@@ -501,7 +501,7 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (load mine-machine-specific-config 'noerror)
   (setq custom-file "~/.emacs.d/private/temp.el")
   (load custom-file 'noerror)
-  (load "~/.emacs.d/private/github-token.el" 'noerror)
+  (load "~/.emacs.d/private/credentials.el" 'noerror)
   )
 
 (defun dotspacemacs/user-config ()
