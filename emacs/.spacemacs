@@ -110,6 +110,7 @@ This function should only modify configuration layer settings."
                                       ivy-rich
                                       company-jedi ;; add jedi-support
                                       org-pdfview ;; add pdfview link to org
+                                      org-gcal ;; sync calendar with google calendar
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -632,6 +633,9 @@ you should place your code here."
          ("s" "Schedule" entry
           (file+datetree "~/Documents/org/Schedule.org")
           "")
+         ("g" "Calendar" entry
+          (file "~/Documents/org/gcal.org")
+          "* %?\n  %^T\n\n")
          ("r" "Research" entry
           (file+datetree "~/Documents/org/Research.org")
           "" :prepend t)
@@ -946,6 +950,13 @@ you should place your code here."
       (add-to-list 'dired-omit-extensions ".~undo-tree~")
       (setq-default dired-omit-mode t)))
 
+  (use-package org-gcal
+    :config
+    (setq
+     org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
+    (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
+    (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+    )
 
   ;; (load custom-file)
 
