@@ -91,6 +91,7 @@ This function should only modify configuration layer settings."
      ;; the layer for R
      ;; ess
      ranger ;; replacement for dired
+     nlinum ;; fast replacement for linum mode
      )
 
    ;; List of additional packages that will be installed without being
