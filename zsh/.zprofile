@@ -4,3 +4,5 @@ if [ $DISPLAY ];then
 fi
 export VDPAU_NVIDIA_NO_OVERLAY=1
 
+
+export PATH="$HOME/.cargo/bin:$PATH"

@@ -14,3 +14,5 @@ if [ $DISPLAY ];then
     source "$HOME/.xprofile"
 fi
 
+
+export PATH="$HOME/.cargo/bin:$PATH"
