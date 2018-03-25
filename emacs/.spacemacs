@@ -625,8 +625,6 @@ you should place your code here."
       :init
       (setq
        org-startup-truncated nil
-       org-agenda-files
-       '("~/Documents/Diary/2017/07/2017-07-18.org" "~/Documents/Diary/2017/07/2017-07-09.org" "~/Documents/Diary/2017/07/2017-07-02.org" "~/Documents/Diary/2017/07/2017-07-07.org" "~/Documents/Diary/2017/07/2017-07-06.org" "~/Documents/Diary/2017/07/2017-07-04.org")
        org-capture-templates
        '(("n" "Notes" entry
           (file+datetree+prompt "~/Documents/org/Notes.org")
