@@ -991,6 +991,8 @@ you should place your code here."
     ;; https://github.com/emacs-helm/helm/commit/ff7c54d39501d894fdb06e049828b291327540e6
     (remove-hook 'post-command-hook 'helm--update-header-line))
 
+  (setq eshell-cmpl-cycle-completions nil)
+
   (setq diary-file "~/.emacs.d/private/diary")
 
   ;;
