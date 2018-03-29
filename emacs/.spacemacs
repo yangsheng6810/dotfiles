@@ -626,9 +626,18 @@ you should place your code here."
     (use-package org
       :init
       (setq
+       ;; place tags directly after headline text, with only one space in between
+       org-tags-column 0
        org-startup-truncated nil
        org-capture-templates
-       '(("n" "Notes" entry
+       '(("t" "Tasks")
+         ("tr" "Book Reading Task" entry
+          (file+headline "~/Documents/org/Task.org" "Reading")
+          "* TODO %^{书名}\n%u\n%a\n" :clock-in t :clock-resume t)
+         ("tw" "Work Task" entry
+          (file+headline "~/Documents/org/Task.org" "Work")
+          "* TODO %^{任务名}\n%u\n%a\n" :clock-in t :clock-resume t)
+         ("n" "Notes" entry
           (file+datetree+prompt "~/Documents/org/Notes.org")
           "")
          ("s" "Schedule" entry
@@ -952,6 +961,8 @@ you should place your code here."
       (setq-default dired-omit-mode t)))
 
   (use-package org-gcal
+    :init
+    (setq org-gcal-dir "~/.emacs.d/private/org-gcal/")
     :config
     (setq
      org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
@@ -968,6 +979,8 @@ you should place your code here."
     ;; This hook was added 14 days ago coinciding breakage.
     ;; https://github.com/emacs-helm/helm/commit/ff7c54d39501d894fdb06e049828b291327540e6
     (remove-hook 'post-command-hook 'helm--update-header-line))
+
+  (setq diary-file "~/.emacs.d/private/diary")
 
   ;;
   ;; 2015-07-01
