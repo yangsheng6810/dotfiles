@@ -41,9 +41,10 @@ This function should only modify configuration layer settings."
      ;; ----------------------------------------------------------------
      (auto-completion
       :variables
-      auto-completion-enable-snippets-in-popup nil
-      auto-completion-enable-help-tooltip 'manual
-      auto-completion-enable-sort-by-usage t)
+      auto-completion-enable-snippets-in-popup t
+      auto-completion-enable-help-tooltip t
+      auto-completion-enable-sort-by-usage t
+      )
      emacs-lisp
      (ivy :variables
           ivy-enable-advanced-buffer-information t
@@ -944,15 +945,25 @@ you should place your code here."
             preview-scale-function 2)
            )))
 
-  (use-package web-mode
-    :init (setq
-           web-mode-enable-auto-closing t
-           web-mode-enable-auto-indentation t
-           web-mode-enable-auto-opening t
-           web-mode-enable-auto-pairing t
-           web-mode-enable-auto-quoting t
-           web-mode-enable-css-colorization t
-           ))
+  (with-eval-after-load 'web-mode
+    (setq
+     web-mode-enable-auto-closing t
+     web-mode-enable-auto-indentation t
+     web-mode-enable-auto-opening t
+     web-mode-enable-auto-pairing t
+     web-mode-enable-auto-quoting t
+     web-mode-enable-css-colorization t
+     ;; remove emmet from company-mode backends in web-mode
+     company-web-html-emmet-enable nil
+     )
+    (defun try-emmet-expand-line (args)
+      (interactive "P")
+      (when emmet-mode
+        (emmet-expand-line args)))
+    ;; add emmet to hippie-expand backends
+    (add-to-list 'hippie-expand-try-functions-list
+                 'try-emmet-expand-line)
+    )
   (setq dired-recursive-copies 'always)
   (use-package dired-x
     :config
