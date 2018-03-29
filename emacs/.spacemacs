@@ -971,14 +971,14 @@ you should place your code here."
       (add-to-list 'dired-omit-extensions ".~undo-tree~")
       (setq-default dired-omit-mode t)))
 
-  (use-package org-gcal
-    :init
-    (setq org-gcal-dir "~/.emacs.d/private/org-gcal/")
-    :config
-    (setq
-     org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
-    (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
-    (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+  (when (string= system-name "carbon")
+    (with-eval-after-load 'org-gcal
+      (setq org-gcal-dir "~/.emacs.d/private/org-gcal/")
+      (setq
+       org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
+      ;; (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
+      ;; (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+      )
     )
 
   ;; (load custom-file)
