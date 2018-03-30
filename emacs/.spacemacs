@@ -624,83 +624,80 @@ you should place your code here."
   ;; wrap in with-eval-after-load, see
   ;; http://spacemacs.org/layers/+emacs/org/README.html#important-note
   (with-eval-after-load 'org
-    (use-package org
-      :init
-      (setq
-       ;; place tags directly after headline text, with only one space in between
-       org-tags-column 0
-       org-startup-truncated nil
-       org-capture-templates
-       '(("t" "Tasks")
-         ("tr" "Book Reading Task" entry
-          (file+headline "~/Documents/org/Task.org" "Reading")
-          "* TODO %^{书名}\n%u\n%a\n" :clock-in t :clock-resume t)
-         ("tw" "Work Task" entry
-          (file+headline "~/Documents/org/Task.org" "Work")
-          "* TODO %^{任务名}\n%u\n%a\n" :clock-in t :clock-resume t)
-         ("n" "Notes" entry
-          (file+datetree+prompt "~/Documents/org/Notes.org")
-          "")
-         ("s" "Schedule" entry
-          (file+datetree "~/Documents/org/Schedule.org")
-          "")
-         ("g" "Calendar" entry
-          (file "~/Documents/org/gcal.org")
-          "* %?\n  %^T\n\n")
-         ("r" "Research" entry
-          (file+datetree "~/Documents/org/Research.org")
-          "" :prepend t)
-         ("e" "Emacs" entry
-          (file+headline "~/Documents/org/Computer.org" "Emacs")
-          "* %?\n  %T")
-         ("l" "Linux" entry
-          (file+headline "~/Documents/org/Computer.org" "Linux")
-          "* %?\n  %t")
-         ("x" "Exercise" entry
-          (file+datetree+prompt "~/Documents/org/Exercise.org")
-          ""))
-       org-todo-keywords
-       '((sequence "TODO(t)" "PUSHED(p)" "WAIT(w@/!)" "|" "DONE(d!)")
-         (sequence "|" "CANCLED(c@)"))
-       org-startup-truncated nil
-       )
-      :config
-      (progn
-        (org-add-link-type
-         "span" #'ignore ; not an 'openable' link
-         #'(lambda (class desc format)
-             (pcase format
-               (`html (format "<span class=\"%s\">%s</span>"
-                              (jw/html-escape-attribute class)
-                              (or desc "")))
-               (_ (or desc "")))))
-        (add-hook 'evil-org-mode-hook
-                  (lambda ()
-                    (mapc (lambda (state)
-                            (evil-define-key state evil-org-mode-map
-                              (kbd "M-h") nil
-                              (kbd "M-j") nil
-                              (kbd "M-k") nil
-                              (kbd "M-l") nil
-                              (kbd "M-H") nil
-                              (kbd "M-J") nil
-                              (kbd "M-K") nil
-                              (kbd "M-L") nil
-                              ;; actually unset all the following
-                              ;; (kbd "M-h") 'org-metaleft
-                              ;; (kbd "M-j") 'org-metadown
-                              ;; (kbd "M-k") 'org-metaup
-                              ;; (kbd "M-l") 'org-metaright
-                              ;; (kbd "M-H") 'org-shiftmetaleft
-                              ;; (kbd "M-J") 'org-shiftmetadown
-                              ;; (kbd "M-K") 'org-shiftmetaup
-                              ;; (kbd "M-L") 'org-shiftmetaright
-                              ))
-                          '(normal insert))))
-        ;; actually insert space with pangu-spacing for org-mode, to fix indentation
-        ;; in table
-        (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
-        )))
+    (setq
+     ;; place tags directly after headline text, with only one space in between
+     org-tags-column 0
+     org-startup-truncated nil
+     org-capture-templates
+     '(("t" "Tasks")
+       ("tr" "Book Reading Task" entry
+        (file+headline "~/Documents/org/Task.org" "Reading")
+        "* TODO %^{书名}\n%u\n%a\n" :clock-in t :clock-resume t)
+       ("tw" "Work Task" entry
+        (file+headline "~/Documents/org/Task.org" "Work")
+        "* TODO %^{任务名}\n%u\n%a\n" :clock-in t :clock-resume t)
+       ("n" "Notes" entry
+        (file+datetree+prompt "~/Documents/org/Notes.org")
+        "")
+       ("s" "Schedule" entry
+        (file+datetree "~/Documents/org/Schedule.org")
+        "")
+       ("g" "Calendar" entry
+        (file "~/Documents/org/gcal.org")
+        "* %?\n  %^T\n\n")
+       ("r" "Research" entry
+        (file+datetree "~/Documents/org/Research.org")
+        "" :prepend t)
+       ("e" "Emacs" entry
+        (file+headline "~/Documents/org/Computer.org" "Emacs")
+        "* %?\n  %T")
+       ("l" "Linux" entry
+        (file+headline "~/Documents/org/Computer.org" "Linux")
+        "* %?\n  %t")
+       ("x" "Exercise" entry
+        (file+datetree+prompt "~/Documents/org/Exercise.org")
+        ""))
+     org-todo-keywords
+     '((sequence "TODO(t)" "PUSHED(p)" "WAIT(w@/!)" "|" "DONE(d!)")
+       (sequence "|" "CANCLED(c@)"))
+     org-startup-truncated nil
+     )
+    (org-add-link-type
+     "span" #'ignore ; not an 'openable' link
+     #'(lambda (class desc format)
+         (pcase format
+           (`html (format "<span class=\"%s\">%s</span>"
+                          (jw/html-escape-attribute class)
+                          (or desc "")))
+           (_ (or desc "")))))
+    (add-hook 'evil-org-mode-hook
+              (lambda ()
+                (mapc (lambda (state)
+                        (evil-define-key state evil-org-mode-map
+                          (kbd "M-h") nil
+                          (kbd "M-j") nil
+                          (kbd "M-k") nil
+                          (kbd "M-l") nil
+                          (kbd "M-H") nil
+                          (kbd "M-J") nil
+                          (kbd "M-K") nil
+                          (kbd "M-L") nil
+                          ;; actually unset all the following
+                          ;; (kbd "M-h") 'org-metaleft
+                          ;; (kbd "M-j") 'org-metadown
+                          ;; (kbd "M-k") 'org-metaup
+                          ;; (kbd "M-l") 'org-metaright
+                          ;; (kbd "M-H") 'org-shiftmetaleft
+                          ;; (kbd "M-J") 'org-shiftmetadown
+                          ;; (kbd "M-K") 'org-shiftmetaup
+                          ;; (kbd "M-L") 'org-shiftmetaright
+                          ))
+                      '(normal insert))))
+    ;; actually insert space with pangu-spacing for org-mode, to fix indentation
+    ;; in table
+    (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
+    (add-to-list 'org-babel-load-languages '(latex . t))
+    )
 
   (defun jw/html-escape-attribute (value)
     "Entity-escape VALUE and wrap it in quotes."
