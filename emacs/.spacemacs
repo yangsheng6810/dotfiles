@@ -978,6 +978,9 @@ you should place your code here."
       )
     )
 
+  (global-unset-key (kbd "M-SPC"))
+  (global-set-key (kbd "M-SPC") 'set-mark-command)
+
   ;; (load custom-file)
 
   ;; fix problem with open-junk-file
