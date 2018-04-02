@@ -51,8 +51,13 @@ This function should only modify configuration layer settings."
           ivy-rich-path-style 'abbrev)
      git
      markdown
-     org
      go
+     (org :variables
+          org-enable-bootstrap-support t
+          org-enable-reveal-js-support t
+          org-enable-github-support t
+          org-enable-hugo-support t
+          )
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -969,8 +974,10 @@ you should place your code here."
       (setq-default dired-omit-mode t)))
 
   (when (string= system-name "carbon")
-    (with-eval-after-load 'org-gcal
+    (use-package org-gcal
+      :init
       (setq org-gcal-dir "~/.emacs.d/private/org-gcal/")
+      :config
       (setq
        org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
       ;; (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
