@@ -963,6 +963,7 @@ you should place your code here."
      web-mode-enable-css-colorization t
      ;; remove emmet from company-mode backends in web-mode
      company-web-html-emmet-enable nil
+     company-minimum-prefix-length 2
      )
     (defun try-emmet-expand-line (args)
       (interactive "P")
