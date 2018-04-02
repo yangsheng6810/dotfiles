@@ -33,12 +33,14 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   `(csv
+   `(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+
+     ;; csv
      (auto-completion
       :variables
       auto-completion-enable-snippets-in-popup t
@@ -51,13 +53,13 @@ This function should only modify configuration layer settings."
           ivy-rich-path-style 'abbrev)
      git
      markdown
-     go
      (org :variables
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t
           org-enable-github-support t
           org-enable-hugo-support t
           )
+     ;; go
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -98,6 +100,8 @@ This function should only modify configuration layer settings."
      ;; ess
      ranger ;; replacement for dired
      nlinum ;; fast replacement for linum mode
+     rust
+     (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
      )
 
    ;; List of additional packages that will be installed without being
@@ -123,7 +127,9 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(google-c-style)
+   dotspacemacs-excluded-packages '(google-c-style
+                                    nyan-mode
+                                    )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -993,6 +999,8 @@ you should place your code here."
     (setq ace-pinyin--jump-word-timeout 0.8)
     (spacemacs/set-leader-keys "j j" 'ace-pinyin-jump-word)
     )
+
+  (add-hook 'prog-mode-hook 'rainbow-mode)
 
   ;; (load custom-file)
 
