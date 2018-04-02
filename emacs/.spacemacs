@@ -988,6 +988,12 @@ you should place your code here."
   (global-unset-key (kbd "M-SPC"))
   (global-set-key (kbd "M-SPC") 'set-mark-command)
 
+  (use-package ace-pinyin
+    :config
+    (setq ace-pinyin--jump-word-timeout 0.8)
+    (spacemacs/set-leader-keys "j j" 'ace-pinyin-jump-word)
+    )
+
   ;; (load custom-file)
 
   ;; fix problem with open-junk-file
