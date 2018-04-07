@@ -1006,6 +1006,15 @@ you should place your code here."
 
   (add-hook 'prog-mode-hook 'rainbow-mode)
 
+  ;; need to first remove mode from spacemacs--diminished-minor-modes
+  (mapcar '(lambda (mode)
+             (spacemacs/diminish-undo mode)
+             (diminish mode))
+          '(which-key-mode
+            smartparens-mode
+            company-mode
+            ))
+
   ;; (load custom-file)
 
   ;; fix problem with open-junk-file
