@@ -11,3 +11,16 @@ if [[ $TERM == "dumb" ]]; then	# in emacs
 else
     # your prompt stuff
 fi
+
+# Fix PS1 battery indicator problem when we incorrectly have
+# more than one batteries
+# Sample problematic acpi output:
+# > Battery 0: Discharging, 0%, rate information unavailable
+# > Battery 1: Discharging, 64%, 03:24:24 remaining
+if [[ "$OSTYPE" = linux*  ]] ; then
+    function battery_pct() {
+        if (( $+commands[acpi] )) ; then
+            echo "$(acpi 2>/dev/null | grep -v "unavailable" | cut -f2 -d ',' | tr -cd '[:digit:]')"
+        fi
+    }
+fi
