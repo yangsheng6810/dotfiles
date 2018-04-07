@@ -951,6 +951,9 @@ you should place your code here."
              (plist-put org-format-latex-options :scale 2.0))
            (setq
             preview-scale-function 2)
+           ;; for GUI called by emacs
+           (setenv "GDK_SCALE" "2")
+           (setenv "GDK_DPI_SCALE" "0.5")
            )))
 
   (with-eval-after-load 'web-mode
