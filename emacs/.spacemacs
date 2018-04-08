@@ -1015,6 +1015,15 @@ you should place your code here."
             company-mode
             ))
 
+  ;; Nicer completion for eshell
+  ;; From https://emacs.stackexchange.com/a/27871
+  ;; Also we have to put it into shell, because eshell resets eshell-mode-map
+  ;; when initialized
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (define-key eshell-mode-map (kbd "<tab>")
+                (lambda () (interactive) (pcomplete-std-complete)))))
+
   ;; (load custom-file)
 
   ;; fix problem with open-junk-file
