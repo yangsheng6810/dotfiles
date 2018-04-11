@@ -122,6 +122,7 @@ This function should only modify configuration layer settings."
                                       company-jedi ;; add jedi-support
                                       org-pdfview ;; add pdfview link to org
                                       org-gcal ;; sync calendar with google calendar
+                                      cal-china-x
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -1022,6 +1023,21 @@ you should place your code here."
                   (eshell-send-input)))
               (define-key eshell-mode-map (kbd "<tab>")
                 (lambda () (interactive) (pcomplete-std-complete)))))
+
+  ;; enable chinese lunar anniversary
+  (use-package cal-china
+    :config
+    (defun my--diary-chinese-anniversary (lunar-month lunar-day &optional year mark)
+      (if year
+          (let* ((d-date (diary-make-date lunar-month lunar-day year))
+                 (a-date (calendar-absolute-from-gregorian d-date))
+                 (c-date (calendar-chinese-from-absolute a-date))
+                 (cycle (car c-date))
+                 (yy (cadr c-date))
+                 (y (+ (* 100 cycle) yy)))
+            (diary-chinese-anniversary lunar-month lunar-day y mark))
+        (diary-chinese-anniversary lunar-month lunar-day year mark)))
+    )
 
   ;; (load custom-file)
 
