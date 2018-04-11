@@ -947,7 +947,21 @@ you should place your code here."
     (add-to-list 'hippie-expand-try-functions-list
                  'try-emmet-expand-line)
     )
-  (setq dired-recursive-copies 'always)
+
+  ;; dired
+  (with-eval-after-load 'dired
+    (defun yang-dired-mode-setup ()
+      "to be run as hook for `dired-mode'."
+      (dired-hide-details-mode 1))
+    (add-hook 'dired-mode-hook 'yang-dired-mode-setup)
+
+    ;; use RET to open dir in same buffer
+    (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-find-file
+    (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
+
+    (setq dired-recursive-copies 'always)
+    )
+
   (use-package dired-x
     :config
     (progn
