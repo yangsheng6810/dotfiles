@@ -1006,6 +1006,20 @@ you should place your code here."
   ;; when initialized
   (add-hook 'eshell-mode-hook
             (lambda ()
+              ;; some alias
+              (eshell/alias "ee" "find-file $1")
+              (eshell/alias "ff" "find-file $1")
+              (eshell/alias "d" "dired $1")
+              ;; git status
+              (defun eshell/gst (&rest args)
+                (magit-status (pop args) nil)
+                (eshell/echo))   ;; The echo command suppresses output
+              ;; define clear
+              (defun eshell/clear ()
+                "Clear the eshell buffer."
+                (let ((inhibit-read-only t))
+                  (erase-buffer)
+                  (eshell-send-input)))
               (define-key eshell-mode-map (kbd "<tab>")
                 (lambda () (interactive) (pcomplete-std-complete)))))
 
