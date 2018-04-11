@@ -639,35 +639,6 @@ you should place your code here."
      ;; place tags directly after headline text, with only one space in between
      org-tags-column 0
      org-startup-truncated nil
-     org-capture-templates
-     '(("t" "Tasks")
-       ("tr" "Book Reading Task" entry
-        (file+headline "~/Documents/org/Task.org" "Reading")
-        "* TODO %^{书名}\n%u\n%a\n" :clock-in t :clock-resume t)
-       ("tw" "Work Task" entry
-        (file+headline "~/Documents/org/Task.org" "Work")
-        "* TODO %^{任务名}\n%u\n%a\n" :clock-in t :clock-resume t)
-       ("n" "Notes" entry
-        (file+datetree+prompt "~/Documents/org/Notes.org")
-        "")
-       ("s" "Schedule" entry
-        (file+datetree "~/Documents/org/Schedule.org")
-        "")
-       ("g" "Calendar" entry
-        (file "~/Documents/org/gcal.org")
-        "* %?\n  %^T\n\n")
-       ("r" "Research" entry
-        (file+datetree "~/Documents/org/Research.org")
-        "" :prepend t)
-       ("e" "Emacs" entry
-        (file+headline "~/Documents/org/Computer.org" "Emacs")
-        "* %?\n  %T")
-       ("l" "Linux" entry
-        (file+headline "~/Documents/org/Computer.org" "Linux")
-        "* %?\n  %t")
-       ("x" "Exercise" entry
-        (file+datetree+prompt "~/Documents/org/Exercise.org")
-        ""))
      org-todo-keywords
      '((sequence "TODO(t)" "PUSHED(p)" "WAIT(w@/!)" "|" "DONE(d!)")
        (sequence "|" "CANCLED(c@)"))
