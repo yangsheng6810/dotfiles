@@ -123,6 +123,11 @@ This function should only modify configuration layer settings."
                                       org-pdfview ;; add pdfview link to org
                                       org-gcal ;; sync calendar with google calendar
                                       cal-china-x
+                                      (eterm-256color ;; uses github version, since melpa
+                                                      ;; version has some problem
+                                       :location
+                                       (recipe :fetcher github
+                                               :repo "dieggsy/eterm-256color"))
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -1023,6 +1028,10 @@ you should place your code here."
                   (eshell-send-input)))
               (define-key eshell-mode-map (kbd "<tab>")
                 (lambda () (interactive) (pcomplete-std-complete)))))
+
+  (use-package eterm-256color
+    :config
+    (add-hook 'term-mode-hook #'eterm-256color-mode))
 
   ;; enable chinese lunar anniversary
   (use-package cal-china
