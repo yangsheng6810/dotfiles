@@ -472,9 +472,7 @@
      (use-package cnfonts
        :init (setq
               cnfonts--current-profile "profile1"
-              cnfonts--profiles-steps '(("profile1" . 1))
-              cnfonts-directory "~/.emacs.d/private/chinese-fonts-setup/"
-              cnfonts-personal-fontnames '(nil ("思源黑体 CN"))))
+              cnfonts-directory "~/.emacs.d/private/chinese-fonts-setup/"))
 
      ;; set char width for certain characters
      (defun blaenk/set-char-widths (alist)
