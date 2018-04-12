@@ -26,7 +26,7 @@ local user_color='cyan'; [ $UID -eq 0 ] && user_color='red'
 PROMPT="${virtualenv_info}\
 ${ret_status}${user_and_host} \
 %{$fg[white]%}in \
-%{$terminfo[bold]$fg[yellow]%}${current_dir}%{$reset_color%}\
+%{$terminfo[bold]$fg[blue]%}${current_dir}%{$reset_color%}\
 ${git_info} \
 %{$fg[white]%}[%*]
 %{$fg_bold[$user_color]%}λ %{$reset_color%}"

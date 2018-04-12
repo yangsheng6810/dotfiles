@@ -22,7 +22,12 @@ alias chgrp='chgrp --preserve-root'
 ## this one saved by butt so many times ##
 alias wget='wget -c'
 
+alias e="emacsclient -c -nw"
 alias ee="emacsclient -c "
+# for testing new emacs configuration
+alias en='export GDK_SCALE=1
+export GDK_DPI_SCALE=1
+emacs'
 
 # Basic directory operations
 alias .....='cd ../../../..'
