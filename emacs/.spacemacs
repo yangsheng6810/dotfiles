@@ -592,6 +592,7 @@ you should place your code here."
   ;; set tab-width
   (setq-default tab-width 8)
   (setq-default c-basic-offset 4)
+  (setq-default python-indent 4)
 
   (use-package ranger
     :bind (:map ranger-mode-map
