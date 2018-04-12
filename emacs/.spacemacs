@@ -519,6 +519,9 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq custom-file "~/.emacs.d/private/temp.el")
   (load custom-file 'noerror)
   (load "~/.emacs.d/private/credentials.el" 'noerror)
+
+  ;; always follow symbolic links
+  (setq vc-follow-symlinks t)
   )
 
 (defun dotspacemacs/user-config ()
