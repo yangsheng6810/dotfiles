@@ -12,6 +12,16 @@ else
     # your prompt stuff
 fi
 
+# For use in multi-term in emacs
+# Allows emacs to get the current dir
+if [ -n "$INSIDE_EMACS" ]; then
+    chpwd() {
+        print -P "\033AnSiTc %d"
+    }
+    print -P "\033AnSiTu %n"
+    print -P "\033AnSiTc %d"
+fi
+
 # Fix PS1 battery indicator problem when we incorrectly have
 # more than one batteries
 # Sample problematic acpi output:

@@ -4,7 +4,7 @@ export SPARKHOME=/home/yangsheng/Documents/PhD/724/CMSC724-Spring16/Assignment3/
 export JPM_FIREFOX_BINARY=/usr/bin/firefox
 
 # for gurobi
-export GRB_LICENSE_FILE="$XDG_CONFIG_HOME/gurobi.lic"
+export GRB_LICENSE_FILE="${XDG_CONFIG_HOME}gurobi.lic"
 PATH="${PATH}:${GUROBI_HOME}/bin"
 
 DEFAULT_USER="yangsheng"
