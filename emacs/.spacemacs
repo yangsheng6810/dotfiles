@@ -131,7 +131,8 @@ This function should only modify configuration layer settings."
                                                :repo "dieggsy/eterm-256color"))
                                       )
    ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages '()
+   dotspacemacs-frozen-packages (if (<= emacs-major-version 24)
+                                    '(fill-column-indicator))
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(google-c-style
