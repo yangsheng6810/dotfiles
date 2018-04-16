@@ -62,6 +62,7 @@ This function should only modify configuration layer settings."
      ;; go
      (shell :variables
             shell-default-height 30
+            shell-default-shell 'multi-term
             shell-default-position 'bottom)
      (latex :variables
             ;; latex-build-command "XeLaTeX"

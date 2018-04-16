@@ -76,7 +76,7 @@
                (diminish mode))
             '(which-key-mode
               smartparens-mode
-              company-mode
+              ;; company-mode
               ))
   #+END_SRC
   
@@ -555,6 +555,9 @@
   #+BEGIN_SRC emacs-lisp
    ;; modeline optimization/workarounds
    (spacemacs/toggle-mode-line-responsive-off)
+
+    ;; ipython cannot find gurobi license
+    (setenv "GRB_LICENSE_FILE" (concat (getenv "HOME") "/.config/gurobi.lic"))
   #+END_SRC
   
 * Helm (legacy)
