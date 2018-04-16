@@ -143,6 +143,8 @@
       (setq
        ;; place tags directly after headline text, with only one space in between
        org-tags-column 0
+       ;; Highlight latex text in org mode
+       org-highlight-latex-and-related '(latex script entities)
        org-startup-truncated nil
        org-todo-keywords
        '((sequence "TODO(t)" "PUSHED(p)" "WAIT(w@/!)" "|" "DONE(d!)")
@@ -559,7 +561,15 @@
     ;; ipython cannot find gurobi license
     (setenv "GRB_LICENSE_FILE" (concat (getenv "HOME") "/.config/gurobi.lic"))
   #+END_SRC
-  
+
+* Monitor processes
+  =proced= is a major mode like htop. To sort, first press =s=, then =c/m= for cpu/memory
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'proced-mode-hook
+              (lambda ()
+                (proced-toggle-auto-update)))
+
+  #+END_SRC
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
    ;; fix problem with open-junk-file
