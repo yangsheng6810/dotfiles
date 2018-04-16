@@ -69,6 +69,23 @@
     ;; Colorize strings that represent colors.
     (add-hook 'prog-mode-hook 'rainbow-mode)
 
+    (unless (fboundp 'spacemacs/diminish-undo)
+      (defun spacemacs/diminish-undo (mode)
+        "Restore the diminished lighter."
+        (interactive
+         (list (read (completing-read
+                      "Restore what diminished mode: "
+                      (cons (list "diminished-modes")
+                            (mapcar (lambda (x) (list (symbol-name (car x))))
+                                    diminished-mode-alist))
+                      nil t nil 'diminish-history-symbols))))
+        ;; remove the `mode' entry from spacemacs own list
+        (setq spacemacs--diminished-minor-modes
+              (delq nil (mapcar (lambda (x) (unless (eq (car x) mode) x))
+                                spacemacs--diminished-minor-modes)))
+        (diminish-undo mode))
+      )
+
     ;; hide common minor modes
     ;; need to first remove mode from spacemacs--diminished-minor-modes
     (mapcar '(lambda (mode)
@@ -555,11 +572,12 @@
 
 * Bug-fixes
   #+BEGIN_SRC emacs-lisp
-   ;; modeline optimization/workarounds
-   (spacemacs/toggle-mode-line-responsive-off)
+    ;; modeline optimization/workarounds
+    (when (fboundp 'spacemacs/toggle-mode-line-responsive-off)
+      (spacemacs/toggle-mode-line-responsive-off))
 
-    ;; ipython cannot find gurobi license
-    (setenv "GRB_LICENSE_FILE" (concat (getenv "HOME") "/.config/gurobi.lic"))
+     ;; ipython cannot find gurobi license
+     (setenv "GRB_LICENSE_FILE" (concat (getenv "HOME") "/.config/gurobi.lic"))
   #+END_SRC
 
 * Monitor processes
