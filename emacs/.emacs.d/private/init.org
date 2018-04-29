@@ -290,6 +290,7 @@
     (setq magit-diff-refine-hunk 'all)
     (global-git-commit-mode t)
   #+END_SRC
+  
 * web-mode
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'web-mode
@@ -588,6 +589,7 @@
                 (proced-toggle-auto-update)))
 
   #+END_SRC
+  
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
    ;; fix problem with open-junk-file
@@ -621,6 +623,7 @@
    ;; 2015-07-01 Changed to the following.
    (add-hook 'pre-command-hook 'remove-helm-functions)
   #+END_SRC
+  
 * to be structured
 #+BEGIN_SRC emacs-lisp
    ;; (spacemacs/toggle-truncate-lines-on)
@@ -654,3 +657,4 @@
     )
 
 #+END_SRC
+
