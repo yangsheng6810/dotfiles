@@ -22,6 +22,17 @@ if [ -n "$INSIDE_EMACS" ]; then
     print -P "\033AnSiTc %d"
 fi
 
+function zle-line-init () {
+    if (( ${+terminfo[smkx]} )); then
+	echoti smkx
+    fi
+}
+function zle-line-finish () {
+    if (( ${+terminfo[rmkx]} )); then
+	echoti rmkx
+    fi
+}
+
 # Fix PS1 battery indicator problem when we incorrectly have
 # more than one batteries
 # Sample problematic acpi output:
