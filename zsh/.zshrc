@@ -8,7 +8,11 @@ CASE_SENSITIVE="true"
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.zshrc.d}
 source $ZSH_CUSTOM/bootstrap.zsh
 
-eval $(dircolors -b)
+if [ -f "$HOME/.dir_colors" ]; then
+    eval $(dircolors -b $HOME/.dir_colors)
+else
+    eval $(dircolors -b);
+fi
 
 autoload bashcompinit
 bashcompinit
