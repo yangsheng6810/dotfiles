@@ -13,7 +13,7 @@ my_zsh_plugins=(git github gitignore git-fast
                 zsh-users/zsh-autosuggestions
                 zsh-users/zsh-completions
                 mosh
-                rsync cp gnu-utils extract
+                cp gnu-utils extract
                 urltools
                 archlinux systemd
                 battery
