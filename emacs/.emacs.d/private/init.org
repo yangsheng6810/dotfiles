@@ -334,6 +334,10 @@
     (defengine dictcn
       "http://dict.cn/%s"
       :docstring "Search Dict.cn")
+    ;; use ivy--regex-plus for ivy search
+    (setq ivy-re-builders-alist
+          '((t . ivy--regex-plus)))
+
   #+END_SRC
 
 * buffer-management
