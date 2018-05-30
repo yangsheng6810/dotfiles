@@ -168,6 +168,7 @@
          (sequence "|" "CANCLED(c@)"))
        org-startup-truncated nil
        org-M-RET-may-split-line '((default))
+       org-extend-today-until 3 ;; before 3 a.m. is still considered "today"
        )
       (org-add-link-type
        "span" #'ignore ; not an 'openable' link
@@ -214,6 +215,22 @@
      )
    #+END_SRC
    
+** org-journal
+   #+BEGIN_SRC emacs-lisp
+     (setq org-journal-dir "~/Documents/org/journal/"
+           org-journal-date-format "%x %A")
+     (defun org-journal-find-location ()
+       ;; Open today's journal, but specify a non-nil prefix argument in order to
+       ;; inhibit inserting the heading; org-capture will insert the heading.
+       (org-journal-new-entry t)
+       ;; Position point on the journal's top-level heading so that org-capture
+       ;; will add the new entry as a child entry.
+       (goto-char (point-min)))
+
+     (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
+     (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
+     (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map)
+   #+END_SRC
 * LaTeX
   #+BEGIN_SRC emacs-lisp
   ;; LaTeX hook
