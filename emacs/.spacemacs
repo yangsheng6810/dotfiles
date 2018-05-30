@@ -104,6 +104,8 @@ This function should only modify configuration layer settings."
      nlinum ;; fast replacement for linum mode
      rust
      (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
+     (elfeed ;; for reading feed
+      :variables rmh-elfeed-org-files (list "~/.emacs.d/private/elfeed.org"))
      )
 
    ;; List of additional packages that will be installed without being

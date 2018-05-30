@@ -610,6 +610,14 @@
                 (proced-toggle-auto-update)))
 
   #+END_SRC
+
+* elfeed
+  #+BEGIN_SRC emacs-lisp
+        (with-eval-after-load 'elfeed-search
+          (define-key elfeed-search-mode-map (kbd "m") 'elfeed-toggle-star)
+          (defalias 'elfeed-toggle-star
+            (elfeed-expose #'elfeed-search-toggle-all 'star)))
+  #+END_SRC
   
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
