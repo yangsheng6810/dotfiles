@@ -164,7 +164,7 @@
        org-highlight-latex-and-related '(latex script entities)
        org-startup-truncated nil
        org-todo-keywords
-       '((sequence "TODO(t)" "PUSHED(p)" "WAIT(w@/!)" "|" "DONE(d!)")
+       '((sequence "TODO(t)" "PUSHED(p)" "NEXT(n)" "INACTIVE(i@/!)" "WAIT(w@/!)" "|" "DONE(d!)")
          (sequence "|" "CANCLED(c@)"))
        org-startup-truncated nil
        org-M-RET-may-split-line '((default))
