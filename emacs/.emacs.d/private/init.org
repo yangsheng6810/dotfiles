@@ -77,6 +77,13 @@
        ("u" undo nil)
        ("q" nil))      ;; quit
    #+END_SRC
+
+** evil-smartparens
+   Add some keybindings for smartparens under evil
+   #+BEGIN_SRC emacs-lisp
+   (use-package 'evil-bind-smartparens)
+   #+END_SRC
+
 * Display
   #+BEGIN_SRC emacs-lisp
     ;; initial window

@@ -128,6 +128,8 @@ This function should only modify configuration layer settings."
                                       org-gcal ;; sync calendar with google calendar
                                       cal-china-x
                                       eterm-256color
+                                      (evil-bind-smartparens
+                                       :location local)
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages (if (<= emacs-major-version 24)
