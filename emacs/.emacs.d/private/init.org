@@ -84,6 +84,12 @@
    (use-package 'evil-bind-smartparens)
    #+END_SRC
 
+* General
+  #+BEGIN_SRC emacs-lisp
+    (setq system-time-locale "zh_CN.utf-8"
+          user-mail-address "yangsheng6810@gmail.com")
+  #+END_SRC
+
 * Display
   #+BEGIN_SRC emacs-lisp
     ;; initial window
