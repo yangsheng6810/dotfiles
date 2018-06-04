@@ -201,6 +201,7 @@
        ;; Highlight latex text in org mode
        org-highlight-latex-and-related '(latex script entities)
        org-startup-truncated nil
+       org-src-window-setup 'current-window
        org-todo-keywords
        '((sequence "TODO(t)" "PUSHED(p)" "NEXT(n)" "INACTIVE(i@/!)" "WAIT(w@/!)" "|" "DONE(d!)")
          (sequence "|" "CANCLED(c@)"))
