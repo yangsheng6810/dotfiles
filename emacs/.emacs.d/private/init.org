@@ -672,6 +672,19 @@
     (unless (yang-atomic-chrome-server-running-p)
       (atomic-chrome-start-server))
    #+END_SRC
+** Default use eww for browsing
+   #+BEGIN_SRC emacs-lisp
+     (setq browse-url-browser-function 'eww-browse-url)
+
+     ;; open with GUI browser
+     (defun yang/eww-reopen-url-gui ()
+       "Open current url in GUI browser"
+       (interactive)
+       (let ((browse-url-generic-program "/usr/bin/xdg-open"))
+         (browse-url-generic (eww-copy-page-url))))
+     (with-eval-after-load 'eww
+       (define-key eww-mode-map (kbd "B") 'yang/eww-reopen-url-gui))
+   #+END_SRC
 
 * Bug-fixes
   #+BEGIN_SRC emacs-lisp
