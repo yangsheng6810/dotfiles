@@ -44,37 +44,39 @@
       :config (flyspell-lazy-mode 1))
 
     (setq delete-by-moving-to-trash t)
-
-    ;; hydra for rectangle editing
-    (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
-                                         :color pink
-                                         :hint nil
-                                         :post (deactivate-mark))
-      "
-      ^_k_^       _w_ copy      _o_pen       _N_umber-lines            |\\     -,,,--,,_
-    _h_   _l_     _p_aste       _t_ype       _e_xchange-point          /,`.-'`'   ..  \-;;,_
-      ^_j_^       _d_ kill      _c_lear      _r_eset-region-mark      |,4-  ) )_   .;.(  `'-'
-    ^^^^          _u_ndo        _q_uit       ^ ^                     '---''(./..)-'(_\_)
-    "
-      ("k" rectangle-previous-line)
-      ("j" rectangle-next-line)
-      ("h" rectangle-backward-char)
-      ("l" rectangle-forward-char)
-      ("d" kill-rectangle)                    ;; C-x r k
-      ("p" yank-rectangle)                    ;; C-x r y
-      ("w" copy-rectangle-as-kill)            ;; C-x r M-w
-      ("o" open-rectangle)                    ;; C-x r o
-      ("t" string-rectangle)                  ;; C-x r t
-      ("c" clear-rectangle)                   ;; C-x r c
-      ("e" rectangle-exchange-point-and-mark) ;; C-x C-x
-      ("N" rectangle-number-lines)            ;; C-x r N
-      ("r" (if (region-active-p)
-               (deactivate-mark)
-             (rectangle-mark-mode 1)))
-      ("u" undo nil)
-      ("q" nil))      ;; quit
   #+END_SRC
 
+** Rectangle editing
+   #+BEGIN_SRC emacs-lisp
+     ;; hydra for rectangle editing
+     (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
+                                          :color pink
+                                          :hint nil
+                                          :post (deactivate-mark))
+       "
+       ^_k_^       _w_ copy      _o_pen       _N_umber-lines            |\\     -,,,--,,_
+     _h_   _l_     _p_aste       _t_ype       _e_xchange-point          /,`.-'`'   ..  \-;;,_
+       ^_j_^       _d_ kill      _c_lear      _r_eset-region-mark      |,4-  ) )_   .;.(  `'-'
+     ^^^^          _u_ndo        _q_uit       ^ ^                     '---''(./..)-'(_\_)
+     "
+       ("k" rectangle-previous-line)
+       ("j" rectangle-next-line)
+       ("h" rectangle-backward-char)
+       ("l" rectangle-forward-char)
+       ("d" kill-rectangle)                    ;; C-x r k
+       ("p" yank-rectangle)                    ;; C-x r y
+       ("w" copy-rectangle-as-kill)            ;; C-x r M-w
+       ("o" open-rectangle)                    ;; C-x r o
+       ("t" string-rectangle)                  ;; C-x r t
+       ("c" clear-rectangle)                   ;; C-x r c
+       ("e" rectangle-exchange-point-and-mark) ;; C-x C-x
+       ("N" rectangle-number-lines)            ;; C-x r N
+       ("r" (if (region-active-p)
+                (deactivate-mark)
+              (rectangle-mark-mode 1)))
+       ("u" undo nil)
+       ("q" nil))      ;; quit
+   #+END_SRC
 * Display
   #+BEGIN_SRC emacs-lisp
     ;; initial window
@@ -243,7 +245,7 @@
        )
      )
    #+END_SRC
-   
+
 ** org-journal
    #+BEGIN_SRC emacs-lisp
      (setq org-journal-dir "~/Documents/org/journal/"
@@ -598,27 +600,28 @@
    #+END_SRC
 
 * Browser
-  #+BEGIN_SRC emacs-lisp
-   ;; check if the port for atomic-chrome is used or not
-   ;; copied from https://github.com/dakrone/atomic-chrome/commit/79a5c17eef37b1e41590fc366cd16f2c4f3d46e4
-   ;; append yang to avoid messing up with naming space
-   (defun yang-atomic-chrome-server-running-p ()
-    "Returns `t' if the atomic-chrome server is currently running,
-  `nil' otherwise."
-    (let ((retval nil))
-      (condition-case ex
-          (progn
-            (delete-process
-             (make-network-process
-              :name "atomic-client-test" :host "localhost"
-              :noquery t :service "64292"))
-            (setq retval t))
-        ('error nil))
-      retval))
-   ;; turn on atomic-chrome
-   (unless (yang-atomic-chrome-server-running-p)
-     (atomic-chrome-start-server))
-  #+END_SRC
+** Using emacs to edit text area
+   #+BEGIN_SRC emacs-lisp
+    ;; check if the port for atomic-chrome is used or not
+    ;; copied from https://github.com/dakrone/atomic-chrome/commit/79a5c17eef37b1e41590fc366cd16f2c4f3d46e4
+    ;; append yang to avoid messing up with naming space
+    (defun yang-atomic-chrome-server-running-p ()
+     "Returns `t' if the atomic-chrome server is currently running,
+   `nil' otherwise."
+     (let ((retval nil))
+       (condition-case ex
+           (progn
+             (delete-process
+              (make-network-process
+               :name "atomic-client-test" :host "localhost"
+               :noquery t :service "64292"))
+             (setq retval t))
+         ('error nil))
+       retval))
+    ;; turn on atomic-chrome
+    (unless (yang-atomic-chrome-server-running-p)
+      (atomic-chrome-start-server))
+   #+END_SRC
 
 * Bug-fixes
   #+BEGIN_SRC emacs-lisp
@@ -641,10 +644,11 @@
 
 * elfeed
   #+BEGIN_SRC emacs-lisp
-        (with-eval-after-load 'elfeed-search
-          (define-key elfeed-search-mode-map (kbd "m") 'elfeed-toggle-star)
-          (defalias 'elfeed-toggle-star
-            (elfeed-expose #'elfeed-search-toggle-all 'star)))
+    (with-eval-after-load 'elfeed-search
+      (define-key elfeed-search-mode-map (kbd "m") 'elfeed-toggle-star)
+      (defalias 'elfeed-toggle-star
+        (elfeed-expose #'elfeed-search-toggle-all 'star)))
+
   #+END_SRC
   
 * Helm (legacy)
