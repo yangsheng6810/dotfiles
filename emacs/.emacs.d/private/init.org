@@ -712,6 +712,24 @@
       (defalias 'elfeed-toggle-star
         (elfeed-expose #'elfeed-search-toggle-all 'star)))
 
+
+    ;; use =B= to call gui browser
+    (defun yang/elfeed-show-visit-gui ()
+      "Wrapper for elfeed-show-visit to use gui browser instead of eww"
+      (interactive)
+      (let ((browse-url-generic-program "/usr/bin/xdg-open"))
+        (elfeed-show-visit t)))
+
+    (defun yang/elfeed-search-browse-url-gui ()
+      "Visit the current entry in your browser using `browse-url'.
+    If there is a prefix argument, visit the current entry in the
+    browser defined by `browse-url-generic-program'."
+      (interactive)
+      (let ((browse-url-generic-program "/usr/bin/xdg-open"))
+        (elfeed-search-browse-url t)))
+
+    (define-key elfeed-show-mode-map (kbd "B") 'yang/elfeed-show-visit-gui)
+    (define-key elfeed-search-mode-map (kbd "B") 'yang/elfeed-search-browse-url-gui)
   #+END_SRC
   
 * Helm (legacy)
