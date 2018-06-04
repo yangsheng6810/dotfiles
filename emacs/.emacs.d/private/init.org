@@ -269,6 +269,49 @@
      (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
      (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map)
    #+END_SRC
+** org clock
+   #+BEGIN_SRC emacs-lisp
+     (defhydra hydra-org-clock (:color blue :hint nil)
+        "
+     ^Clock:^ ^In/out^     ^Edit^   ^Summary^    | ^Timers:^ ^Run^           ^Insert
+     -^-^-----^-^----------^-^------^-^----------|--^-^------^-^-------------^------
+     (_?_)    _i_n         _e_dit   _g_oto entry | (_z_)     _r_elative      ti_m_e
+      ^ ^     _c_ontinue   _q_uit   _d_isplay    |  ^ ^      cou_n_tdown     i_t_em
+      ^ ^     _o_ut        ^ ^      _r_eport     |  ^ ^      _p_ause toggle
+      ^ ^     ^ ^          ^ ^      ^ ^          |  ^ ^      _s_top
+     "
+        ("i" org-clock-in)
+        ("c" org-clock-in-last)
+        ("o" org-clock-out)
+
+        ("e" org-clock-modify-effort-estimate)
+        ("q" org-clock-cancel)
+
+        ("g" org-clock-goto)
+        ("d" org-clock-display)
+        ("r" org-clock-report)
+        ("?" (org-info "Clocking commands"))
+
+       ("r" org-timer-start)
+       ("n" org-timer-set-timer)
+       ("p" org-timer-pause-or-continue)
+       ("s" org-timer-stop)
+
+       ("m" org-timer)
+       ("t" org-timer-item)
+       ("z" (org-info "Timers")))
+
+     (defhydra hydra-org-agenda-clock (:color blue :hint nil)
+       ("i" org-agenda-clock-in)
+       ("o" org-agenda-clock-out)
+       ("q" org-agenda-clock-cancel)
+       ("g" org-agenda-clock-goto))
+
+     (bind-keys ("C-c w" . hydra-org-clock/body)
+                :map org-agenda-mode-map
+                ("C-c w" . hydra-org-agenda-clock/body))
+   #+END_SRC
+
 * LaTeX
   #+BEGIN_SRC emacs-lisp
     ;; LaTeX hook
