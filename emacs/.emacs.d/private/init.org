@@ -748,6 +748,11 @@
     (define-key elfeed-show-mode-map (kbd "B") 'yang/elfeed-show-visit-gui)
     (define-key elfeed-search-mode-map (kbd "B") 'yang/elfeed-search-browse-url-gui)
   #+END_SRC
+
+* Tramp
+  #+BEGIN_SRC emacs-lisp
+    (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  #+END_SRC
   
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
