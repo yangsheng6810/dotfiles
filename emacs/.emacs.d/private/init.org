@@ -81,7 +81,7 @@
 ** evil-smartparens
    Add some keybindings for smartparens under evil
    #+BEGIN_SRC emacs-lisp
-   (use-package 'evil-bind-smartparens)
+   (use-package evil-bind-smartparens)
    #+END_SRC
 
 * General
@@ -323,9 +323,10 @@
        ("q" org-agenda-clock-cancel)
        ("g" org-agenda-clock-goto))
 
+     (with-eval-after-load 'org-agenda
      (bind-keys ("C-c w" . hydra-org-clock/body)
                 :map org-agenda-mode-map
-                ("C-c w" . hydra-org-agenda-clock/body))
+                ("C-c w" . hydra-org-agenda-clock/body)))
    #+END_SRC
 
 * LaTeX
