@@ -757,6 +757,18 @@
 
      ;; ipython cannot find gurobi license
      (setenv "GRB_LICENSE_FILE" (concat (getenv "HOME") "/.config/gurobi.lic"))
+
+    (defun spacemacs//layout-wait-for-modeline (&rest r)
+      "AAAssure the mode-line is loaded before restoring the layouts."
+      (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline)
+      (when (and (configuration-layer/package-used-p 'spaceline)
+                 (memq (spacemacs/get-mode-line-theme-name) '(spacemacs all-the-icons custom)))
+        (require 'spaceline-config)))
+
+    ;; (with-eval-after-load 'persp-mode
+    ;;   (require 'spaceline)
+    ;;   (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline))
+
   #+END_SRC
 
 * Monitor processes
