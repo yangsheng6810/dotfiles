@@ -791,7 +791,9 @@
 
 * Tramp
   #+BEGIN_SRC emacs-lisp
+    (require 'tramp)
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+    (setq tramp-default-method "ssh")
   #+END_SRC
   
 * Helm (legacy)
