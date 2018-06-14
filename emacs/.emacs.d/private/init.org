@@ -785,8 +785,9 @@
       (let ((browse-url-generic-program "/usr/bin/xdg-open"))
         (elfeed-search-browse-url t)))
 
-    (define-key elfeed-show-mode-map (kbd "B") 'yang/elfeed-show-visit-gui)
-    (define-key elfeed-search-mode-map (kbd "B") 'yang/elfeed-search-browse-url-gui)
+    (with-eval-after-load 'elfeed
+      (define-key elfeed-show-mode-map (kbd "B") 'yang/elfeed-show-visit-gui)
+      (define-key elfeed-search-mode-map (kbd "B") 'yang/elfeed-search-browse-url-gui))
   #+END_SRC
 
 * Tramp
