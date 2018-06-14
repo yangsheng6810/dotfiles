@@ -1,3 +1,4 @@
+#+PROPERTY: header-args :results output silent
 * General Editing
   #+BEGIN_SRC emacs-lisp
     ;; commented out since it may cause undo-tree corruption
