@@ -92,7 +92,9 @@ This function should only modify configuration layer settings."
      (spell-checking :variables spell-checking-enable-by-default nil)
      (syntax-checking :variables syntax-checking-use-original-bitmaps t)
      version-control
-     pdf-tools
+     ,(if (version< emacs-version "25.0")
+          'pdf-tools
+        'pdf)
      semantic
      gtags
      ;; show the current buffer’s index in a side bar
@@ -101,7 +103,8 @@ This function should only modify configuration layer settings."
      ;; the layer for R
      ;; ess
      ranger ;; replacement for dired
-     nlinum ;; fast replacement for linum mode
+     ,(if (version< emacs-version "26.1")
+          'nlinum) ;; fast replacement for linum mode
      rust
      (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
      (elfeed ;; for reading feed
@@ -132,7 +135,7 @@ This function should only modify configuration layer settings."
                                        :location local)
                                       )
    ;; A list of packages that cannot be updated.
-   dotspacemacs-frozen-packages (if (<= emacs-major-version 24)
+   dotspacemacs-frozen-packages (if (version< emacs-version "25")
                                     '(fill-column-indicator))
 
    ;; A list of packages that will not be installed and loaded.
