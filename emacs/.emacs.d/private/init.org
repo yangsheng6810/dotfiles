@@ -582,18 +582,24 @@
 
 * pdf-tools
   #+BEGIN_SRC emacs-lisp
-   ;; copied from http://pragmaticemacs.com/emacs/even-more-pdf-tools-tweaks/
-   (use-package pdf-tools
-     :ensure t
-     :bind (:map pdf-view-mode-map
-                 ("C-s" . isearch-forward))
-     :config
-     (setq-default pdf-view-display-size 'fit-page)
-     ;; automatically annotate highlights
-     (setq pdf-annot-activate-created-annotations t)
-     ;; more fine-grained zooming
-     (setq pdf-view-resize-factor 1.1)
-     )
+    ;; copied from http://pragmaticemacs.com/emacs/even-more-pdf-tools-tweaks/
+    (use-package pdf-tools
+      :ensure t
+      :bind (:map pdf-view-mode-map
+                  ("C-s" . isearch-forward))
+      :config
+      (setq-default pdf-view-display-size 'fit-page)
+      ;; automatically annotate highlights
+      (setq pdf-annot-activate-created-annotations t)
+      ;; more fine-grained zooming
+      (setq pdf-view-resize-factor 1.1)
+      ;; set default annotation color
+      (setq pdf-annot-default-text-annotation-properties
+         '((icon . "Note")
+           (color . "#ffff00")
+           (label . "Sheng Yang")
+           (popup-is-open)))
+      )
   #+END_SRC
 
 * doc-view
