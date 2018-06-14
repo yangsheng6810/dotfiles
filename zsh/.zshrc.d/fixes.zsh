@@ -57,3 +57,8 @@ if [[ "$OSTYPE" = linux*  ]] ; then
         fi
     }
 fi
+if grep -q Microsoft /proc/version; then
+    if [ "$(umask)" = "0000" ]; then
+        umask 0022
+    fi
+fi
