@@ -330,6 +330,44 @@
                 ("C-c w" . hydra-org-agenda-clock/body)))
    #+END_SRC
 
+** org-capture
+   #+BEGIN_SRC emacs-lisp
+     (setq org-agenda-files
+           '("~/Documents/org/Task.org" "~/Documents/org/Notes.org" "~/Documents/org/Days.org" "~/Documents/org/gcal.org" "~/Documents/org/Schedule.org")
+           org-capture-templates
+           '(("e" "Emacs" entry
+              (file+headline "~/Documents/org/Computer.org" "Emacs")
+              "* %?\n  %T")
+             ("g" "Calendar" entry
+              (file "~/Documents/org/gcal.org")
+              "* %?\n  \n  %^T")
+             ("j" "Journal entry" entry
+              (function org-journal-find-location)
+              "* %(format-time-string org-journal-time-format)%^{Title}\n  %i%?")
+             ("l" "Linux" entry
+              (file+headline "~/Documents/org/Computer.org" "Linux")
+              "* %?\n  %t")
+             ("n" "Notes" entry
+              (file+olp+datetree "~/Documents/org/Notes.org")
+              "" :time-prompt t)
+             ("r" "Research" entry
+              (file+olp+datetree "~/Documents/org/Research.org")
+              "" :prepend t)
+             ("s" "Schedule" entry
+              (file+olp+datetree "~/Documents/org/Schedule.org")
+              "")
+             ("t" "Tasks")
+             ("tr" "Book Reading Task" entry
+              (file+headline "~/Documents/org/Task.org" "Reading")
+              "* TODO %^{书名}\n%u\n%a\n" :clock-in t :clock-resume t)
+             ("tw" "Work Task" entry
+              (file+headline "~/Documents/org/Task.org" "Work")
+              "* TODO %^{任务名}\n%u\n%a\n" :clock-in t :clock-resume t)
+             ("x" "Exercise" entry
+              (file+olp+datetree "~/Documents/org/Exercise.org")
+              "" :time-prompt t)))
+   #+END_SRC
+
 * LaTeX
   #+BEGIN_SRC emacs-lisp
     ;; LaTeX hook
