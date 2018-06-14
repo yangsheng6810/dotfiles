@@ -134,11 +134,12 @@
     ;; hide common minor modes
     ;; need to first remove mode from spacemacs--diminished-minor-modes
     (mapcar '(lambda (mode)
-               (spacemacs/diminish-undo mode)
-               (diminish mode))
+               (with-eval-after-load (quote mode)
+                 (spacemacs/diminish-undo (quote mode))
+                 (diminish (quote mode))))
             '(which-key-mode
               smartparens-mode
-              ;; company-mode
+              company-mode
               ))
   #+END_SRC
   
