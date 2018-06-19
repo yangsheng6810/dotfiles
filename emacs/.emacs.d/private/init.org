@@ -893,6 +893,12 @@
            message))
    #+END_SRC
 
+* Debug
+** undo-tree
+   #+BEGIN_SRC emacs-lisp
+     (setq undo-tree-auto-save-history t)
+   #+END_SRC
+
 * Semantic
   #+BEGIN_SRC emacs-lisp
     (cl-defun semanticdb-rescan-directory-1 (pathname &optional (file-regex ".*\\.\\(el\\|el.gz\\)$"))
@@ -928,7 +934,6 @@
     ;; use fancy icons
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   #+END_SRC
-
 
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
