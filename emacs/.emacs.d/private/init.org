@@ -889,6 +889,36 @@
            message))
    #+END_SRC
 
+* Semantic
+  #+BEGIN_SRC emacs-lisp
+    (cl-defun semanticdb-rescan-directory-1 (pathname &optional (file-regex ".*\\.\\(el\\|el.gz\\)$"))
+      (let* ((root (file-name-as-directory pathname))
+             (files (directory-files root t )))
+        (setq files (delete (format "%s." root) files))
+        (setq files (delete (format "%s.." root) files))
+        (while files
+          (setq file (pop files))
+          (message "Parsing %s file." file)
+          (if (not(file-accessible-directory-p file))
+              ;;if it's a file that matches the regex we seek
+              (progn (when (string-match-p file-regex file)
+                       (save-excursion
+                         (message "Parsing %s file." file)
+                         (ignore-errors
+                           (semanticdb-file-table-object file)))
+               ))
+              ;;else if it's a directory
+              (semanticdb-rescan-directory-1 file file-regex)))))
+
+    (defun semantic-rescan-directory (dir)
+      (interactive "D")
+      (message "Scanning directory %s." dir)
+      (semanticdb-rescan-directory-1 dir))
+
+    ;; (semantic-rescan-directory "/home/yangsheng/.emacs.d/elpa/26.1/develop/")
+    ;; (semantic-rescan-directory "/usr/share/emacs/26.1/")
+  #+END_SRC
+
 
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
