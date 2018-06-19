@@ -923,6 +923,12 @@
     ;; (semantic-rescan-directory "/usr/share/emacs/26.1/")
   #+END_SRC
 
+* neo-tree
+  #+BEGIN_SRC emacs-lisp
+    ;; use fancy icons
+    (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  #+END_SRC
+
 
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
