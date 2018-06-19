@@ -342,7 +342,7 @@
            org-capture-templates
            '(("e" "Emacs" entry
               (file+headline "~/Documents/org/Computer.org" "Emacs")
-              "* %?\n  %T")
+              "* %?\n  %u")
              ("g" "Calendar" entry
               (file "~/Documents/org/gcal.org")
               "* %?\n  \n  %^T")
@@ -351,7 +351,7 @@
               "* %(format-time-string org-journal-time-format)%^{Title}\n  %i%?")
              ("l" "Linux" entry
               (file+headline "~/Documents/org/Computer.org" "Linux")
-              "* %?\n  %t")
+              "* %?\n  %u")
              ("n" "Notes" entry
               (file+olp+datetree "~/Documents/org/Notes.org")
               "" :time-prompt t)
