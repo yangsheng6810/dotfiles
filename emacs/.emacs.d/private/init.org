@@ -774,6 +774,10 @@
     ;;   (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline))
 
   #+END_SRC
+** ad-Advice-popwin:create-popup-window: Symbol’s function definition is void: purpose-window-purpose-dedicated-p
+   #+BEGIN_SRC emacs-lisp
+  (require 'window-purpose-core)
+   #+END_SRC
 
 * Monitor processes
   =proced= is a major mode like htop. To sort, first press =s=, then =c/m= for cpu/memory
