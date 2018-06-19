@@ -340,18 +340,26 @@
      (setq org-agenda-files
            '("~/Documents/org/Task.org" "~/Documents/org/Notes.org" "~/Documents/org/Days.org" "~/Documents/org/gcal.org" "~/Documents/org/Schedule.org")
            org-capture-templates
-           '(("e" "Emacs" entry
+           '(
+             ("c" "Computer")
+             ("ce" "Emacs" entry
               (file+headline "~/Documents/org/Computer.org" "Emacs")
               "* %?\n  %u")
+             ("cl" "Linux" entry
+              (file+headline "~/Documents/org/Computer.org" "Linux")
+              "* %?\n  %u")
+             ("cp" "Python" entry
+              (file+headline "~/Documents/org/Computer.org" "Python")
+              "* %?\n  %u")
+             ("cw" "Windows" entry
+              (file+headline "~/Documents/org/Computer.org" "Windows")
+               "* %?\n  %u")
              ("g" "Calendar" entry
               (file "~/Documents/org/gcal.org")
               "* %?\n  \n  %^T")
-             ("j" "Journal entry" entry
-              (function org-journal-find-location)
-              "* %(format-time-string org-journal-time-format)%^{Title}\n  %i%?")
-             ("l" "Linux" entry
-              (file+headline "~/Documents/org/Computer.org" "Linux")
-              "* %?\n  %u")
+             ;; ("j" "Journal entry" entry
+             ;;  (function org-journal-find-location)
+             ;;  "* %(format-time-string org-journal-time-format)%^{Title}\n  %i%?")
              ("n" "Notes" entry
               (file+olp+datetree "~/Documents/org/Notes.org")
               "" :time-prompt t)
