@@ -935,6 +935,16 @@
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   #+END_SRC
 
+* persp-mode
+  Use =<leader> b l= to show all buffers in current perspective
+  #+BEGIN_SRC emacs-lisp
+    (with-eval-after-load 'ibuffer
+      (spacemacs/set-leader-keys "b l"
+        #'(lambda (arg)
+            (interactive "P")
+            (with-persp-buffer-list () (ibuffer arg)))))
+  #+END_SRC
+
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
    ;; fix problem with open-junk-file
