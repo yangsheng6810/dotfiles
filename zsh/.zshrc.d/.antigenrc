@@ -1,3 +1,4 @@
+# -*- mode: shell-script;-*-
 # Initialize oh-my-zsh
 antigen use oh-my-zsh
 

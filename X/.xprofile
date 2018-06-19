@@ -1,3 +1,4 @@
+# -*- mode: shell-script;-*-
 export LANG=zh_CN.UTF-8
 export XMODIFIERS="@im=fcitx"
 export QT_IM_MODULE=fcitx
