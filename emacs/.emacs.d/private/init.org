@@ -969,6 +969,13 @@
     ;; (semantic-rescan-directory "/usr/share/emacs/26.1/")
   #+END_SRC
 
+* c++
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'c-mode-common-hook
+              (lambda ()
+                (rainbow-mode -1)))
+  #+END_SRC
+
 * neo-tree
   #+BEGIN_SRC emacs-lisp
     ;; use fancy icons
