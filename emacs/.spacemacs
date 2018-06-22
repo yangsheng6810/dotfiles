@@ -103,8 +103,7 @@ This function should only modify configuration layer settings."
      ;; the layer for R
      ;; ess
      ranger ;; replacement for dired
-     ,(if (version< emacs-version "26.1")
-          'nlinum) ;; fast replacement for linum mode
+     nlinum ;; fast replacement for linum mode
      rust
      (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
      (elfeed ;; for reading feed
