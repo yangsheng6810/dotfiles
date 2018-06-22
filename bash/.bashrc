@@ -58,11 +58,16 @@ LANG="en_US.UTF-8"
 if [ -z ${HOSTNAME+x} ]; then
     HOSTNAME="`hostname`"
 fi
-if [ "$HOSTNAME" = "optimizer.cs.umd.edu" ] && [ "$SHELL" == "/bin/bash" ] ;then
-    export LC_ALL=""
-    export LANG="en_US.UTF-8"
-    export LC_COLLATE="C"
-    exec ~/gentoo/startprefix
+if [ "$HOSTNAME" = "optimizer.cs.umd.edu" ] ;then
+    if [ "$SHELL" == "/bin/bash" ] ;then
+        export LC_ALL=""
+        export LANG="en_US.UTF-8"
+        export LC_COLLATE="C"
+        # exec env SHELL="zsh" ~/gentoo/startprefix
+        exec ~/gentoo/startprefix
+    else
+        exec zsh
+    fi
 fi
 MACHINE_SPECIFIC="$HOME/.machine_specific/$HOSTNAME/profile.sh"
 [[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
