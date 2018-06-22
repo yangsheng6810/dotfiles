@@ -999,6 +999,12 @@
            message))
    #+END_SRC
 
+* Projectile
+  #+BEGIN_SRC emacs-lisp
+    (setq shell-file-name "/bin/sh"
+          projectile-enable-caching t
+          projectile-file-exists-remote-cache-expire nil)
+  #+END_SRC
 * Debug
 ** undo-tree
    #+BEGIN_SRC emacs-lisp
