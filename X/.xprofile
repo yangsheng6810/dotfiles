@@ -3,6 +3,10 @@ export LANG=zh_CN.UTF-8
 export XMODIFIERS="@im=fcitx"
 export QT_IM_MODULE=fcitx
 export GTK_IM_MODULE=fcitx
+if [ -n "$DESKTOP_SESSION" ];then
+    eval $(gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+fi
 # xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.7
 # alias firefox='optirun --failsafe firefox'
 # alias smplayer='optirun --failsafe smplayer'
