@@ -933,7 +933,10 @@
 * Debug
 ** undo-tree
    #+BEGIN_SRC emacs-lisp
-     (setq undo-tree-auto-save-history t)
+     (setq undo-tree-auto-save-history t
+           undo-tree-enable-undo-in-region nil
+           undo-tree-history-directory-alist '(("." . "~/.emacs.d/.cache/undo-tree/"))
+           )
    #+END_SRC
 
 * Semantic
