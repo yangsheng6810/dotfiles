@@ -134,17 +134,21 @@
 
     ;; hide common minor modes
     ;; need to first remove mode from spacemacs--diminished-minor-modes
-    (mapcar #'(lambda (ll)
-                (let ((package (car ll))
-                      (mode (cadr ll)))
-                  (with-eval-after-load package
-                    (spacemacs/diminish-undo mode)
-                    (diminish mode)))
-                  )
-            '((which-key which-key-mode)
-              (smartparens smartparens-mode)
-              ;; (company company-mode)
-              ))
+    (use-package which-key
+      :defer t
+      :after core-fonts-support
+      :init (spacemacs/diminish-undo 'which-key-mode)
+      :diminish which-key-mode)
+
+    (use-package smartparens
+      :after core-fonts-support
+      :init (spacemacs/diminish-undo 'smartparens-mode)
+      :diminish smartparens-mode)
+
+    ;; (use-package company
+    ;;   :after core-fonts-support
+    ;;   :init (spacemacs/diminish-undo 'company-mode)
+    ;;   :diminish company-mode)
   #+END_SRC
   
 * Ergonomic keybindings
