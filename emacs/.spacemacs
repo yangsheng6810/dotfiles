@@ -74,6 +74,7 @@ This function should only modify configuration layer settings."
              python-enable-yapf-format-on-save t)
      (c-c++ :variables
            c-c++-default-mode-for-headers 'c++-mode)
+     (cmake :variables cmake-enable-cmake-ide-support t)
      ,(if (or (string= system-name "carbon")
               (string= system-name "myhost"))
           '(chinese :variables
