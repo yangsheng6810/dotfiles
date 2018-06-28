@@ -145,10 +145,11 @@
       :init (spacemacs/diminish-undo 'smartparens-mode)
       :diminish smartparens-mode)
 
-    ;; (use-package company
-    ;;   :after core-fonts-support
-    ;;   :init (spacemacs/diminish-undo 'company-mode)
-    ;;   :diminish company-mode)
+    (use-package diminish
+      :after (core-fonts-support company)
+      :init (spacemacs/diminish-undo 'company-mode)
+      :diminish company-mode)
+
   #+END_SRC
   
 * Ergonomic keybindings
