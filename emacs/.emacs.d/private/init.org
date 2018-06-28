@@ -150,6 +150,11 @@
       :init (spacemacs/diminish-undo 'company-mode)
       :diminish company-mode)
 
+    (use-package diminish
+      :after (core-fonts-support importmagic)
+      :init (spacemacs/diminish-undo 'importmagic-mode)
+      :diminish importmagic-mode
+      )
   #+END_SRC
   
 * Ergonomic keybindings
