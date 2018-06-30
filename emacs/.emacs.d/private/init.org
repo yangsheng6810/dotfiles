@@ -575,29 +575,25 @@
 * buffer-management
   #+BEGIN_SRC emacs-lisp
     (use-package ivy-rich
-      :config (progn
-                (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
-                (setq ivy-virtual-abbreviate 'full
-                      ivy-rich-switch-buffer-align-virtual-buffer t
-                      ivy-rich-path-style 'abbrev)))
-    (with-eval-after-load 'ivy-rich
-      (setq yang-ivy-rich-parse-remote-project nil)
+      :init (setq yang-ivy-rich-parse-remote-project nil)
+      :config
+      (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+      (setq ivy-virtual-abbreviate 'full
+            ivy-rich-switch-buffer-align-virtual-buffer t
+            ivy-rich-path-style 'abbrev)
       (defun ivy-rich-switch-buffer-project ()
-        (if (or (not (bound-and-true-p projectile-mode))
-                (and (file-remote-p (or (buffer-file-name) default-directory))
-                     (not ivy-rich-parse-remote-buffer)))
-            nil
-          (propertize
-           (ivy-rich-switch-buffer-pad
-            (if (and (file-remote-p (or (buffer-file-name) default-directory))
-                     (not yang-ivy-rich-parse-remote-project))
-                ""
-                (if (string= (projectile-project-name) "-")
-                    ""
-                  (projectile-project-name)))
-            ivy-rich-switch-buffer-project-max-length)
-           'face
-           'success)))
+        (propertize
+         (ivy-rich-switch-buffer-pad
+          (if (or (not (bound-and-true-p projectile-mode))
+                  (and (file-remote-p (or (buffer-file-name) default-directory))
+                       (or (not ivy-rich-parse-remote-buffer)
+                           (not yang-ivy-rich-parse-remote-project)))
+                  (string= (projectile-project-name) "-"))
+              ""
+            (projectile-project-name))
+         ivy-rich-switch-buffer-project-max-length)
+        'face
+        'success))
 
       (defun ivy-rich-switch-buffer-path (project)
         (let* ((path-max-length (- (window-width (minibuffer-window))
