@@ -278,27 +278,31 @@
 
 ** org-journal
    #+BEGIN_SRC emacs-lisp
-     (setq org-journal-dir "~/Documents/org/journal/"
-           org-journal-date-format "%x %A")
-     (defun org-journal-find-location ()
-       ;; Open today's journal, but specify a non-nil prefix argument in order to
-       ;; inhibit inserting the heading; org-capture will insert the heading.
-       (org-journal-new-entry t)
-       ;; Position point on the journal's top-level heading so that org-capture
-       ;; will add the new entry as a child entry.
-       (goto-char (point-min)))
+     (use-package org-journal
+       :init
+       (setq org-journal-dir "~/Documents/org/journal/"
+             org-journal-date-format "%x %A")
+       :config
+       (defun org-journal-find-location ()
+         ;; Open today's journal, but specify a non-nil prefix argument in order to
+         ;; inhibit inserting the heading; org-capture will insert the heading.
+         (org-journal-new-entry t)
+         ;; Position point on the journal's top-level heading so that org-capture
+         ;; will add the new entry as a child entry.
+         (goto-char (point-min)))
 
-     (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
-     (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
-     (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map)
+       (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
+       (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
+       (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map)
 
-     (defun yang/switch-to-journal-today ()
+       (defun yang/switch-to-journal-today ()
          "Switch to today's org-journal file"
          (interactive)
          (org-journal-new-entry t))
 
-     (spacemacs/set-leader-keys "bj" 'yang/switch-to-journal-today)
-     (spacemacs/set-leader-keys "bJ" 'org-journal-new-entry)
+       (spacemacs/set-leader-keys "bj" 'yang/switch-to-journal-today)
+       (spacemacs/set-leader-keys "bJ" 'org-journal-new-entry)
+       )
    #+END_SRC
 
 ** org clock
