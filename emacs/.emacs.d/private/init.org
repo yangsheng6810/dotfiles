@@ -487,6 +487,13 @@
                 ))
   #+END_SRC
 
+** bibtex
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'bibtex-mode-hook
+               (lambda ()
+                  (add-hook 'after-save-hook 'reftex-parse-all nil 'make-it-local)))
+
+   #+END_SRC
 * Python
   #+BEGIN_SRC emacs-lisp
    (setq-default python-indent 4)
