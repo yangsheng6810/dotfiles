@@ -52,7 +52,7 @@ This function should only modify configuration layer settings."
           ivy-enable-advanced-buffer-information t
           ivy-rich-path-style 'abbrev)
      git
-     markdown
+     (markdown :variables markdown-live-preview-engine 'vmd)
      (org :variables
           org-enable-bootstrap-support t
           org-enable-reveal-js-support t
@@ -60,7 +60,7 @@ This function should only modify configuration layer settings."
           org-enable-hugo-support t
           org-enable-org-journal-support t
           )
-     ;; go
+     go
      (shell :variables
             shell-default-height 30
             shell-default-shell 'multi-term
@@ -131,6 +131,8 @@ This function should only modify configuration layer settings."
                                       org-gcal ;; sync calendar with google calendar
                                       cal-china-x
                                       eterm-256color
+                                      ;; highlight-indent-guides
+                                      highlight-indentation
                                       (evil-bind-smartparens
                                        :location local)
                                       )
