@@ -1128,11 +1128,24 @@
 * persp-mode
   Use =<leader> b l= to show all buffers in current perspective
   #+BEGIN_SRC emacs-lisp
-    (with-eval-after-load 'ibuffer
+    (use-package persp-mode
+      :after ibuffer
+      :config
       (spacemacs/set-leader-keys "b l"
         #'(lambda (arg)
             (interactive "P")
             (with-persp-buffer-list () (ibuffer arg)))))
+  #+END_SRC
+  Switch to the first persp when loading from file
+  #+BEGIN_SRC emacs-lisp
+    (use-package persp-mode
+      :config
+      (defun yang-persp-switch-to-persp-after-load (persp-list)
+        (message "come to my switch to persp")
+        (let ((persp-name (car persp-list)))
+          (when persp-name
+            (persp-switch persp-name))))
+      (advice-add 'persp-load-state-from-file :filter-return 'yang-persp-switch-to-persp-after-load))
   #+END_SRC
 
 * Helm (legacy)
