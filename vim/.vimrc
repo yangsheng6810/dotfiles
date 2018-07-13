@@ -181,5 +181,9 @@ inoremap <A-L> <C-o>g$
 nnoremap <A-H> g0
 nnoremap <A-L> g$
 
+" use ~/.vim/backup as backup directory
+if !isdirectory($HOME. "/.vim/backup")
+    call mkdir($HOME. "/.vim/backup", "p")
+endif
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
