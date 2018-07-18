@@ -403,16 +403,16 @@
              ("c" "Computer")
              ("ce" "Emacs" entry
               (file+headline "~/Documents/org/Computer.org" "Emacs")
-              "* %?\n  %u")
+              "* %? :emacs:\n  %u")
              ("cl" "Linux" entry
               (file+headline "~/Documents/org/Computer.org" "Linux")
-              "* %?\n  %u")
+              "* %? :linux:\n  %u")
              ("cp" "Python" entry
               (file+headline "~/Documents/org/Computer.org" "Python")
               "* %?\n  %u")
              ("cw" "Windows" entry
               (file+headline "~/Documents/org/Computer.org" "Windows")
-               "* %?\n  %u")
+               "* %? :computer:\n  %u")
              ("g" "Calendar" entry
               (file "~/Documents/org/gcal.org")
               "* %?\n  \n  %^T")
