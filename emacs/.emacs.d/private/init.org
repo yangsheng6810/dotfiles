@@ -855,12 +855,13 @@
                  (message "in before-make-frame-hook")
                  (setq yang-cnfonts-has-started nil)))
 
-     (defun my-reload-fonts (plist)
-       (message "in my-reload-fonts")
+     (defun my-reload-fonts (&rest _args)
+       (message "in new my-after-frame-function")
        (cnfonts-set-font-with-saved-step)
        )
 
      (add-function :after (symbol-function 'spacemacs/set-default-font) #'my-reload-fonts)
+     (add-function :after (symbol-function 'server-create-window-system-frame) #'my-reload-fonts)
    #+END_SRC
 ** ace-pinyin
    #+BEGIN_SRC emacs-lisp
