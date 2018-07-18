@@ -822,28 +822,44 @@
               ,(string-to-char "…")
               ))))
 
-     (defun my-after-frame-function ()
-       (message "in my-after-frame-function")
-       ;; 让 chinese-fonts-setup 随着 emacs 自动生效。
-       (cnfonts-enable)
-       ;; 让 spacemacs mode-line 中的 Unicode 图标正确显示。
-       (cnfonts-set-spacemacs-fallback-fonts)
-       ;; (when window-system (set-frame-size (selected-frame) 120 48))
-       )
+     (setq yang-cnfonts-has-started nil)
+
+     (defun yang-cnfonts-set-font-first-time (func &rest _args)
+       (message "in yang-cnfonts-set-font-first-time")
+       (when (or (not (boundp 'yang-cnfonts-has-started))
+                 (null yang-cnfonts-has-started))
+         (message "call cnfonts-set-font-first-time")
+         (apply func _args)
+         (setq yang-cnfonts-has-started t)))
+
+     (advice-add 'yang-cnfonts-set-font-first-time
+                 :around #'cnfonts-set-font-first-time)
+
+     ;; (defun my-cnfonts--enable ()
+     ;;   (message "in my-my-cnfonts--enable")
+     ;;   ;; 让 chinese-fonts-setup 随着 emacs 自动生效。
+     ;;   ;; the contant of (cnfonts-enable)
+     ;;   (setq cnfonts--enabled-p t)
+     ;;   (add-hook 'after-make-frame-functions #'yang-cnfonts-set-font-first-time)
+     ;;   (add-hook 'window-setup-hook #'yang-cnfonts-set-font-first-time)
+
+     ;;   ;; 让 spacemacs mode-line 中的 Unicode 图标正确显示。
+     ;;   ;; (cnfonts-set-spacemacs-fallback-fonts)
+     ;;   ;; (when window-system (set-frame-size (selected-frame) 120 48))
+     ;;   )
+
+     (cnfonts-enable)
+
+     (add-hook 'before-make-frame-hook
+               (lambda ()
+                 (message "in before-make-frame-hook")
+                 (setq yang-cnfonts-has-started nil)))
 
      (defun my-reload-fonts (plist)
-       (message "in new my-after-frame-function")
+       (message "in my-reload-fonts")
        (cnfonts-set-font-with-saved-step)
        )
 
-     (my-after-frame-function)
-
-     ;; (add-hook 'after-make-frame-functions
-     ;;           '(lambda (f)
-     ;;              (my-after-frame-function)
-     ;;              ))
-     ;; (add-hook 'window-setup-hook
-     ;;           'my-after-frame-function)
      (add-function :after (symbol-function 'spacemacs/set-default-font) #'my-reload-fonts)
    #+END_SRC
 ** ace-pinyin
