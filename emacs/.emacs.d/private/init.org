@@ -596,6 +596,12 @@
       (setq ivy-virtual-abbreviate 'full
             ivy-rich-switch-buffer-align-virtual-buffer t
             ivy-rich-path-style 'abbrev)
+
+      ;; ivy-rich-switch-buffer-pad was renamed to ivy-rich-pad
+      ;; this is for backward compatibility
+      (unless (fboundp 'ivy-rich-pad)
+        (defalias 'ivy-rich-pad 'ivy-rich-switch-buffer-pad))
+
       (defun ivy-rich-switch-buffer-project ()
         (propertize
          (ivy-rich-pad
