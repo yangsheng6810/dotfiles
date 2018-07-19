@@ -863,8 +863,7 @@
        (cnfonts-set-font-with-saved-step)
        )
 
-     (add-function :after (symbol-function 'spacemacs/set-default-font) #'my-reload-fonts)
-     (add-function :after (symbol-function 'server-create-window-system-frame) #'my-reload-fonts)
+     (advice-add 'server-create-window-system-frame :after #'my-reload-fonts)
    #+END_SRC
 ** ace-pinyin
    #+BEGIN_SRC emacs-lisp
@@ -928,10 +927,16 @@
                  (memq (spacemacs/get-mode-line-theme-name) '(spacemacs all-the-icons custom)))
         (require 'spaceline-config)))
 
+    (defun my-reload-modeline (&rest _args)
+      (message "in my-reload-modeline")
+      (spacemacs-modeline/init-spaceline)
+      (advice-remove 'server-create-window-system-frame #'my-reload-modeline))
+
     ;; (with-eval-after-load 'persp-mode
     ;;   (require 'spaceline)
     ;;   (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline))
 
+    (advice-add 'server-create-window-system-frame :after #'my-reload-modeline)
   #+END_SRC
 ** ad-Advice-popwin:create-popup-window: Symbol’s function definition is void: purpose-window-purpose-dedicated-p
    #+BEGIN_SRC emacs-lisp
