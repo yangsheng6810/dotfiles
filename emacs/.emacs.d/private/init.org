@@ -797,9 +797,12 @@
    #+BEGIN_SRC emacs-lisp
      ;; set up mono font for chinese
      (use-package cnfonts
-       :init (setq
-              cnfonts--current-profile "profile1"
-              cnfonts-directory "~/.emacs.d/private/chinese-fonts-setup/"))
+       :init
+       (setq
+        cnfonts--current-profile "Monaco"
+        cnfonts-directory "~/.emacs.d/private/chinese-fonts-setup/")
+       (customize-set-variable 'cnfonts-profiles
+                           '("Monaco" "Source Code Pro" "Fira Code")))
 
      ;; set char width for certain characters
      (defun blaenk/set-char-widths (alist)

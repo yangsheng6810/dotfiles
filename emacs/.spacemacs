@@ -280,10 +280,10 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-default-font `(
                                "DejaVu Sans Mono"
                                :size ,(if (string= system-name "carbon")
-                                          21 14)
+                                          31 11.5)
                                :weight normal
                                :width normal
-                               :powerline-scale 1.6
+                               :powerline-scale 1.0
                                "思源黑体 CN"
                                )
    ;; The leader key (default "SPC")
