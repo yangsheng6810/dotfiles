@@ -869,7 +869,7 @@
    #+BEGIN_SRC emacs-lisp
     (use-package ace-pinyin
       :config
-      (setq ace-pinyin--jump-word-timeout 0.8)
+      (setq ace-pinyin--jump-word-timeout 0.3)
       (spacemacs/set-leader-keys "j j" 'ace-pinyin-jump-word)
       )
    #+END_SRC
