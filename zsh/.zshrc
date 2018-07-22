@@ -1,5 +1,8 @@
 # POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
 
+# Fix tramp hang, and early return if in tramp
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+
 # Initialize command prompt
 export PS1="%n@%m:%~%# "
 
