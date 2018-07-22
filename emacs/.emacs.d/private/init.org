@@ -924,7 +924,12 @@
    #+END_SRC
 ** Default use eww for browsing
    #+BEGIN_SRC emacs-lisp
-     (setq browse-url-browser-function 'eww-browse-url)
+     (setq browse-url-browser-function
+           ;; use eww only when from elfeed-mode
+           (lambda (URL &rest args)
+             (if (string= major-mode "elfeed-search-mode")
+                 (eww-browse-url URL args)
+               (browse-url-default-browser URL args))))
 
      ;; open with GUI browser
      (defun yang/eww-reopen-url-gui ()
