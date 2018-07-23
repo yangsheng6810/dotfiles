@@ -416,16 +416,16 @@
              ("c" "Computer")
              ("ce" "Emacs" entry
               (file+headline "~/Documents/org/Computer.org" "Emacs")
-              "* %? :emacs:\n  %u")
+              "* %? \n  %u")
              ("cl" "Linux" entry
               (file+headline "~/Documents/org/Computer.org" "Linux")
-              "* %? :linux:\n  %u")
+              "* %? \n  %u")
              ("cp" "Python" entry
               (file+headline "~/Documents/org/Computer.org" "Python")
               "* %?\n  %u")
              ("cw" "Windows" entry
               (file+headline "~/Documents/org/Computer.org" "Windows")
-               "* %? :computer:\n  %u")
+               "* %? \n  %u")
              ("g" "Calendar" entry
               (file "~/Documents/org/gcal.org")
               "* %?\n  \n  %^T")
