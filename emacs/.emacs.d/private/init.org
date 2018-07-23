@@ -84,6 +84,7 @@
    Add some keybindings for smartparens under evil
    #+BEGIN_SRC emacs-lisp
      (use-package evil-bind-smartparens
+       :after smartparens
        :defer t)
    #+END_SRC
 
