@@ -1142,6 +1142,16 @@
            message))
    #+END_SRC
 
+** yadm
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'tramp-methods
+                  '("yadm"
+                    (tramp-login-program "yadm")
+                    (tramp-login-args (("enter")))
+                    (tramp-remote-shell "/bin/sh")
+                    (tramp-remote-shell-args ("-c"))))
+   #+END_SRC
+
 * Projectile
   #+BEGIN_SRC emacs-lisp
     (setq shell-file-name "/bin/sh"
