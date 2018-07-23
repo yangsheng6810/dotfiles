@@ -135,15 +135,15 @@
 
     ;; hide common minor modes
     ;; need to first remove mode from spacemacs--diminished-minor-modes
-    (use-package which-key
+    (use-package diminish
       :defer t
-      :after core-fonts-support
+      :after (core-fonts-support which-key)
       :init (spacemacs/diminish-undo 'which-key-mode)
       :diminish which-key-mode)
 
-    (use-package smartparens
+    (use-package diminish
       :defer t
-      :after core-fonts-support
+      :after (core-fonts-support smartparens)
       :init (spacemacs/diminish-undo 'smartparens-mode)
       :diminish smartparens-mode)
 
