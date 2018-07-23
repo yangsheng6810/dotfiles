@@ -222,6 +222,9 @@
        org-tags-column 0
        ;; Highlight latex text in org mode
        org-highlight-latex-and-related '(latex script entities)
+       ;; do not treat bare '_' as indication of subscript,
+       ;; require a_{x} to indicate subscript
+       org-use-sub-superscripts '{}
        org-startup-truncated nil
        org-src-window-setup 'current-window
        org-todo-keywords
