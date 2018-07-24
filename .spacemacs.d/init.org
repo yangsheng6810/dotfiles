@@ -883,8 +883,8 @@
        (when (or (not (boundp 'yang-cnfonts-has-started))
                  (null yang-cnfonts-has-started))
          (message "call cnfonts-set-font-first-time")
-         (apply func _args)
-         (setq yang-cnfonts-has-started t)))
+         (setq yang-cnfonts-has-started t)
+         (apply func _args)))
 
      (advice-add 'yang-cnfonts-set-font-first-time
                  :around #'cnfonts-set-font-first-time)
