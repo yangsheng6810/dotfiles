@@ -83,7 +83,9 @@
 ** evil-smartparens
    Add some keybindings for smartparens under evil
    #+BEGIN_SRC emacs-lisp
-   (use-package evil-bind-smartparens)
+     (use-package evil-bind-smartparens
+       :after smartparens
+       :defer t)
    #+END_SRC
 
 * General
@@ -141,16 +143,19 @@
       :diminish which-key-mode)
 
     (use-package smartparens
+      :defer t
       :after core-fonts-support
       :init (spacemacs/diminish-undo 'smartparens-mode)
       :diminish smartparens-mode)
 
     (use-package diminish
+      :defer t
       :after (core-fonts-support company)
       :init (spacemacs/diminish-undo 'company-mode)
       :diminish company-mode)
 
     (use-package diminish
+      :defer t
       :after (core-fonts-support importmagic)
       :init (spacemacs/diminish-undo 'importmagic-mode)
       :diminish importmagic-mode
@@ -184,6 +189,7 @@
     ;; fix some keybinding problems
     ;; fix for js2-mode
     (use-package js2-mode
+      :defer t
       :bind (:map js2-mode-map
                   ("M-j" . nil)))
     (with-eval-after-load 'org
@@ -222,6 +228,9 @@
        org-tags-column 0
        ;; Highlight latex text in org mode
        org-highlight-latex-and-related '(latex script entities)
+       ;; do not treat bare '_' as indication of subscript,
+       ;; require a_{x} to indicate subscript
+       org-use-sub-superscripts '{}
        org-startup-truncated nil
        org-src-window-setup 'current-window
        org-todo-keywords
@@ -263,17 +272,18 @@
    
 ** org-gcal
    #+BEGIN_SRC emacs-lisp
-   (when (string= system-name "carbon")
-     (use-package org-gcal
-       :init
-       (setq org-gcal-dir "~/.emacs.d/private/org-gcal/")
-       :config
-       (setq
-        org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
-       ;; (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
-       ;; (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+     (when (string= system-name "carbon")
+       (use-package org-gcal
+         :defer t
+         :init
+         (setq org-gcal-dir "~/.emacs.d/private/org-gcal/")
+         :config
+         (setq
+          org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
+         ;; (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
+         ;; (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
+         )
        )
-     )
    #+END_SRC
 
 ** org-journal
@@ -336,8 +346,10 @@
 
 ** org clock
    #+BEGIN_SRC emacs-lisp
-     (use-package org-timer)
+     (use-package org-timer
+       :defer t)
      (use-package hydra
+       :defer t
        :after (org-clock org-timer)
        :config
        (message "run hydra for org-clock")
@@ -376,6 +388,7 @@
        )
 
      (use-package hydra
+       :defer t
        :after org-agenda
        :config
        (defhydra hydra-org-agenda-clock (:color blue :hint nil)
@@ -403,16 +416,16 @@
              ("c" "Computer")
              ("ce" "Emacs" entry
               (file+headline "~/Documents/org/Computer.org" "Emacs")
-              "* %? :emacs:\n  %u")
+              "* %? \n  %u")
              ("cl" "Linux" entry
               (file+headline "~/Documents/org/Computer.org" "Linux")
-              "* %? :linux:\n  %u")
+              "* %? \n  %u")
              ("cp" "Python" entry
               (file+headline "~/Documents/org/Computer.org" "Python")
               "* %?\n  %u")
              ("cw" "Windows" entry
               (file+headline "~/Documents/org/Computer.org" "Windows")
-               "* %? :computer:\n  %u")
+               "* %? \n  %u")
              ("g" "Calendar" entry
               (file "~/Documents/org/gcal.org")
               "* %?\n  \n  %^T")
@@ -496,18 +509,19 @@
    #+END_SRC
 * Python
   #+BEGIN_SRC emacs-lisp
-   (setq-default python-indent 4)
-   ;; bug fix for python-mode
-   (setq python-shell-native-complete nil)
-   (use-package company-jedi             ;;; company-mode completion back-end for Python JEDI
-     :ensure t
-     :config
-     (add-hook 'python-mode-hook 'jedi:setup)
-     (setq jedi:complete-on-dot t)
-     (setq jedi:use-shortcuts t)
-     (defun config/enable-company-jedi ()
-       (add-to-list 'company-backends 'company-jedi))
-     (add-hook 'python-mode-hook 'config/enable-company-jedi))
+    (setq-default python-indent 4)
+    ;; bug fix for python-mode
+    (setq python-shell-native-complete nil)
+    (use-package company-jedi             ;;; company-mode completion back-end for Python JEDI
+      :defer t
+      :ensure t
+      :config
+      (add-hook 'python-mode-hook 'jedi:setup)
+      (setq jedi:complete-on-dot t)
+      (setq jedi:use-shortcuts t)
+      (defun config/enable-company-jedi ()
+        (add-to-list 'company-backends 'company-jedi))
+      (add-hook 'python-mode-hook 'config/enable-company-jedi))
   #+END_SRC
 
 * Git
@@ -575,12 +589,19 @@
 * buffer-management
   #+BEGIN_SRC emacs-lisp
     (use-package ivy-rich
+      :defer t
       :init (setq yang-ivy-rich-parse-remote-project nil)
       :config
       (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
       (setq ivy-virtual-abbreviate 'full
             ivy-rich-switch-buffer-align-virtual-buffer t
             ivy-rich-path-style 'abbrev)
+
+      ;; ivy-rich-switch-buffer-pad was renamed to ivy-rich-pad
+      ;; this is for backward compatibility
+      (unless (fboundp 'ivy-rich-pad)
+        (defalias 'ivy-rich-pad 'ivy-rich-switch-buffer-pad))
+
       (defun ivy-rich-switch-buffer-project ()
         (propertize
          (ivy-rich-pad
@@ -659,6 +680,7 @@
 * Ranger & Dired  
   #+BEGIN_SRC emacs-lisp
     (use-package ranger
+      :defer t
       :bind (:map ranger-mode-map
                   ("C-h" . nil)) ;; C-h was set to toggle dotfiles
       :config
@@ -681,6 +703,7 @@
       )
 
     (use-package dired-x
+      :defer t
       :config
       (progn
         (add-to-list 'dired-omit-extensions ".~undo-tree~")
@@ -727,6 +750,7 @@
   #+BEGIN_SRC emacs-lisp
     ;; copied from http://pragmaticemacs.com/emacs/even-more-pdf-tools-tweaks/
     (use-package pdf-tools
+      :defer t
       :ensure t
       :bind (:map pdf-view-mode-map
                   ("C-s" . isearch-forward))
@@ -776,20 +800,21 @@
  
 * Lunar Calendar
   #+BEGIN_SRC emacs-lisp
-   ;; enable chinese lunar anniversary
-   (use-package cal-china
-     :config
-     (defun my--diary-chinese-anniversary (lunar-month lunar-day &optional year mark)
-       (if year
-           (let* ((d-date (diary-make-date lunar-month lunar-day year))
-                  (a-date (calendar-absolute-from-gregorian d-date))
-                  (c-date (calendar-chinese-from-absolute a-date))
-                  (cycle (car c-date))
-                  (yy (cadr c-date))
-                  (y (+ (* 100 cycle) yy)))
-             (diary-chinese-anniversary lunar-month lunar-day y mark))
-         (diary-chinese-anniversary lunar-month lunar-day year mark)))
-     )
+    ;; enable chinese lunar anniversary
+    (use-package cal-china
+      :defer t
+      :config
+      (defun my--diary-chinese-anniversary (lunar-month lunar-day &optional year mark)
+        (if year
+            (let* ((d-date (diary-make-date lunar-month lunar-day year))
+                   (a-date (calendar-absolute-from-gregorian d-date))
+                   (c-date (calendar-chinese-from-absolute a-date))
+                   (cycle (car c-date))
+                   (yy (cadr c-date))
+                   (y (+ (* 100 cycle) yy)))
+              (diary-chinese-anniversary lunar-month lunar-day y mark))
+          (diary-chinese-anniversary lunar-month lunar-day year mark)))
+      )
   #+END_SRC
 
 * Chinese
@@ -802,7 +827,32 @@
         cnfonts--current-profile "Monaco"
         cnfonts-directory "~/.emacs.d/private/chinese-fonts-setup/")
        (customize-set-variable 'cnfonts-profiles
-                           '("Monaco" "Source Code Pro" "Fira Code")))
+                               '("Monaco" "Source Code Pro" "Fira Code"))
+       :config
+       (setq
+         cnfonts--fontnames-fallback
+         '(("Monaco" "Consolas" "DejaVu Sans Mono" "Droid Sans Mono" "PragmataPro"
+            "Courier" "Courier New" "Ubuntu Mono" "Liberation Mono" "MonacoB" "MonacoB2"
+            "MonacoBSemi" "Droid Sans Mono Pro" "Inconsolata" "Source Code Pro" "Lucida Console"
+            "Envy Code R" "Andale Mono" "Lucida Sans Typewriter" "monoOne" "Lucida Typewriter"
+            "Panic Sans" "Hack" "Bitstream Vera Sans Mono" "HyperFont" "PT Mono" "Ti92Pluspc"
+            "Excalibur Monospace" "Menlof" "Cousine" "Fira Mono" "Lekton" "M+ 1mn" "BPmono"
+            "Free Mono" "Anonymous Pro" "ProFont" "ProFontWindows" "Latin Modern Mono" "Code 2002"
+            "ProggyCleanTT" "ProggyTinyTT" "Iosevka Term" "Inconsolata-dz" "American Typewriter"
+            "Menlo" "Ubuntu Mono" "Anka/Coder Condensed" "Fantasque Sans Mono" "M+ 1m" "CamingoCode"
+            "Office Code Pro" "Roboto Mono" "Input Mono" "Courier Prime Code" "NanumGothicCoding"
+            "Monoid" "Edlo" "Iosevka" "Mononoki" "Robot Mono" "Fantasque" "Fira Code" "Go Mono"
+            "Noto Sans Mono CJK" "InputMonoCompressed" "Hasklig" "Terminus" "FantasqueSansMono"
+            "AnonymousPro" "3270" "Arimo" "D2Coding" "Inconsolata-g" "ProFont for Powerline"
+            "Meslo" "Meslo Dotted" "Noto Mono" "Symbol Neu" "Tinos" "Space Mono")
+           ("WenQuanYi Micro Hei Mono" "WenQuanYi Zen Hei Mono"
+            "文泉驿等宽微米黑" "文泉驿等宽正黑"
+            "Source Han Sans CN" "Source Han Serif CN" "Source Han Sans" "Source Han Serif"
+            "Noto Sans MOno CJK SC"
+            "微软雅黑" "Microsoft Yahei" "Ubuntu Mono"
+            "黑体" "SimHei" "宋体" "SimSun" "新宋体" "NSimSun"
+            "Hiragino Sans GB")
+           ("HanaMinB" "SimSun-ExtB" "MingLiU-ExtB" "PMingLiU-ExtB" "MingLiU_HKSCS-ExtB"))))
 
      ;; set char width for certain characters
      (defun blaenk/set-char-widths (alist)
@@ -867,11 +917,12 @@
    #+END_SRC
 ** ace-pinyin
    #+BEGIN_SRC emacs-lisp
-    (use-package ace-pinyin
-      :config
-      (setq ace-pinyin--jump-word-timeout 0.3)
-      (spacemacs/set-leader-keys "j j" 'ace-pinyin-jump-word)
-      )
+     (use-package ace-pinyin
+       :defer t
+       :config
+       (setq ace-pinyin--jump-word-timeout 0.3)
+       (spacemacs/set-leader-keys "j j" 'ace-pinyin-jump-word)
+       )
    #+END_SRC
 
 * Browser
@@ -899,7 +950,12 @@
    #+END_SRC
 ** Default use eww for browsing
    #+BEGIN_SRC emacs-lisp
-     (setq browse-url-browser-function 'eww-browse-url)
+     (setq browse-url-browser-function
+           ;; use eww only when from elfeed-mode
+           (lambda (URL &rest args)
+             (if (string= major-mode "elfeed-search-mode")
+                 (eww-browse-url URL args)
+               (browse-url-default-browser URL args))))
 
      ;; open with GUI browser
      (defun yang/eww-reopen-url-gui ()
@@ -1086,6 +1142,16 @@
            message))
    #+END_SRC
 
+** yadm
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'tramp-methods
+                  '("yadm"
+                    (tramp-login-program "yadm")
+                    (tramp-login-args (("enter")))
+                    (tramp-remote-shell "/bin/sh")
+                    (tramp-remote-shell-args ("-c"))))
+   #+END_SRC
+
 * Projectile
   #+BEGIN_SRC emacs-lisp
     (setq shell-file-name "/bin/sh"
@@ -1154,6 +1220,7 @@
   Use =<leader> b l= to show all buffers in current perspective
   #+BEGIN_SRC emacs-lisp
     (use-package persp-mode
+      :defer t
       :after ibuffer
       :config
       (spacemacs/set-leader-keys "b l"
@@ -1164,6 +1231,7 @@
   Switch to the first persp when loading from file
   #+BEGIN_SRC emacs-lisp
     (use-package persp-mode
+      :defer t
       :config
       (defun yang-persp-switch-to-persp-after-load (persp-list)
         (message "come to my switch to persp")
