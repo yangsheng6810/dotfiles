@@ -108,7 +108,8 @@ This function should only modify configuration layer settings."
      rust
      (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
      (elfeed ;; for reading feed
-      :variables rmh-elfeed-org-files (list "~/.emacs.d/private/elfeed.org"))
+      :variables rmh-elfeed-org-files
+      (list "~/.spacemacs.d/elfeed.org"))
      )
 
    ;; List of additional packages that will be installed without being
@@ -528,9 +529,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                 system-name
                 "/config.el"))
   (load mine-machine-specific-config 'noerror)
-  (setq custom-file "~/.emacs.d/private/temp.el")
+  (setq dotspacemacs-directory "~/.spacemacs.d/")
+  (setq custom-file (concat dotspacemacs-directory "temp.el"))
   (load custom-file 'noerror)
-  (load "~/.emacs.d/private/credentials.el" 'noerror)
+  (load (concat dotspacemacs-directory "credentials.el") 'noerror)
 
   ;; always follow symbolic links
   (setq vc-follow-symlinks t)
@@ -549,7 +551,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (org-babel-load-file (concat user-emacs-directory "private/init.org"))
+  (org-babel-load-file (concat dotspacemacs-directory "init.org"))
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
