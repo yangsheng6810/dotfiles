@@ -416,16 +416,16 @@
              ("c" "Computer")
              ("ce" "Emacs" entry
               (file+headline "~/Documents/org/Computer.org" "Emacs")
-              "* %? :emacs:\n  %u")
+              "* %? \n  %u")
              ("cl" "Linux" entry
               (file+headline "~/Documents/org/Computer.org" "Linux")
-              "* %? :linux:\n  %u")
+              "* %? \n  %u")
              ("cp" "Python" entry
               (file+headline "~/Documents/org/Computer.org" "Python")
               "* %?\n  %u")
              ("cw" "Windows" entry
               (file+headline "~/Documents/org/Computer.org" "Windows")
-               "* %? :computer:\n  %u")
+               "* %? \n  %u")
              ("g" "Calendar" entry
               (file "~/Documents/org/gcal.org")
               "* %?\n  \n  %^T")
@@ -596,6 +596,12 @@
       (setq ivy-virtual-abbreviate 'full
             ivy-rich-switch-buffer-align-virtual-buffer t
             ivy-rich-path-style 'abbrev)
+
+      ;; ivy-rich-switch-buffer-pad was renamed to ivy-rich-pad
+      ;; this is for backward compatibility
+      (unless (fboundp 'ivy-rich-pad)
+        (defalias 'ivy-rich-pad 'ivy-rich-switch-buffer-pad))
+
       (defun ivy-rich-switch-buffer-project ()
         (propertize
          (ivy-rich-pad
@@ -1134,6 +1140,16 @@
              (setq term-partial-ansi-terminal-message (match-string 0 message))
              (setq message (replace-match "" t t message)))
            message))
+   #+END_SRC
+
+** yadm
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'tramp-methods
+                  '("yadm"
+                    (tramp-login-program "yadm")
+                    (tramp-login-args (("enter")))
+                    (tramp-remote-shell "/bin/sh")
+                    (tramp-remote-shell-args ("-c"))))
    #+END_SRC
 
 * Projectile
