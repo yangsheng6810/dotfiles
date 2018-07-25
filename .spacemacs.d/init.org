@@ -846,6 +846,9 @@
            "黑体" "SimHei" "宋体" "SimSun" "新宋体" "NSimSun"
            "Hiragino Sans GB")
           ("HanaMinB" "SimSun-ExtB" "MingLiU-ExtB" "PMingLiU-ExtB" "MingLiU_HKSCS-ExtB"))))
+   #+END_SRC
+*** Fix char width
+   #+BEGIN_SRC emacs-lisp
      ;; set char width for certain characters
      (defun blaenk/set-char-widths (alist)
        (while (char-table-parent char-width-table)
@@ -866,8 +869,14 @@
               ,(string-to-char "”")
               ,(string-to-char "…")
               ))))
-
+   #+END_SRC
+*** Only reload when necessary   
+   #+BEGIN_SRC emacs-lisp
      (setq yang-cnfonts-has-started nil)
+     (add-hook 'before-make-frame-hook
+               (lambda ()
+                 (message "in before-make-frame-hook")
+                 (setq yang-cnfonts-has-started nil)))
 
      (defun yang-cnfonts-set-font-first-time (func &rest _args)
        (message "in yang-cnfonts-set-font-first-time")
@@ -877,35 +886,34 @@
          (setq yang-cnfonts-has-started t)
          (apply func _args)))
 
-     (advice-add 'yang-cnfonts-set-font-first-time
-                 :around #'cnfonts-set-font-first-time)
-
-     ;; (defun my-cnfonts--enable ()
-     ;;   (message "in my-my-cnfonts--enable")
-     ;;   ;; 让 chinese-fonts-setup 随着 emacs 自动生效。
-     ;;   ;; the contant of (cnfonts-enable)
-     ;;   (setq cnfonts--enabled-p t)
-     ;;   (add-hook 'after-make-frame-functions #'yang-cnfonts-set-font-first-time)
-     ;;   (add-hook 'window-setup-hook #'yang-cnfonts-set-font-first-time)
-
-     ;;   ;; 让 spacemacs mode-line 中的 Unicode 图标正确显示。
-     ;;   ;; (cnfonts-set-spacemacs-fallback-fonts)
-     ;;   ;; (when window-system (set-frame-size (selected-frame) 120 48))
-     ;;   )
-
+     (advice-add 'cnfonts-set-font-first-time
+                 :around #'yang-cnfonts-set-font-first-time)
+   #+END_SRC
+   
+*** Enable cnfonts
+   #+BEGIN_SRC emacs-lisp
      (cnfonts-enable)
+     (cnfonts-set-spacemacs-fallback-fonts)
+     (defun yang-server-create-window-system-frame-advice (&rest _)
+       (setq yang-cnfonts-has-started nil)
+       (cnfonts-set-font-first-time))
+     (advice-add 'server-create-window-system-frame
+                 :after #'yang-server-create-window-system-frame-advice)
+   #+END_SRC
+   
+*** Fix client problems
+   #+BEGIN_SRC emacs-lisp
+     (require 'cl)
+     (defun yang-check-last-client-frame (frame)
+       (when (eq 1 (cl-count-if
+                    (lambda (f)
+                      (eq
+                       (frame-parameter f 'display)
+                       (frame-parameter frame 'display)))
+                    (visible-frame-list)))
+         (setq yang-cnfonts-has-started nil)))
 
-     (add-hook 'before-make-frame-hook
-               (lambda ()
-                 (message "in before-make-frame-hook")
-                 (setq yang-cnfonts-has-started nil)))
-
-     (defun my-reload-fonts (&rest _args)
-       (message "in new my-after-frame-function")
-       (cnfonts-set-font-with-saved-step)
-       )
-
-     (advice-add 'server-create-window-system-frame :after #'my-reload-fonts)
+     (add-to-list 'delete-frame-functions #'yang-check-last-client-frame)
    #+END_SRC
 ** ace-pinyin
    #+BEGIN_SRC emacs-lisp
