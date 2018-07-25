@@ -1229,6 +1229,8 @@
         #'(lambda (arg)
             (interactive "P")
             (with-persp-buffer-list () (ibuffer arg)))))
+
+    (setq persp-emacsclient-init-frame-behaviour-override nil)
   #+END_SRC
   Switch to the first persp when loading from file
   #+BEGIN_SRC emacs-lisp
