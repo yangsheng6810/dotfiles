@@ -1153,6 +1153,10 @@
                       ("/bin/bash")))
                     (tramp-remote-shell "/bin/sh")
                     (tramp-remote-shell-args ("-c"))))
+
+     (defun yadm-magit-status ()
+       (interactive)
+       (magit-status "/yadm::"))
    #+END_SRC
 
 * Projectile
