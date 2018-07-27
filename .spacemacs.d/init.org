@@ -804,6 +804,7 @@
     ;; enable chinese lunar anniversary
     (use-package cal-china
       :defer t
+      :commands my--diary-chinese-anniversary
       :config
       (defun my--diary-chinese-anniversary (lunar-month lunar-day &optional year mark)
         (if year
@@ -814,8 +815,7 @@
                    (yy (cadr c-date))
                    (y (+ (* 100 cycle) yy)))
               (diary-chinese-anniversary lunar-month lunar-day y mark))
-          (diary-chinese-anniversary lunar-month lunar-day year mark)))
-      )
+          (diary-chinese-anniversary lunar-month lunar-day year mark))))
   #+END_SRC
 
 * Chinese
