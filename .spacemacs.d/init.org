@@ -348,14 +348,16 @@
 ** org clock
    #+BEGIN_SRC emacs-lisp
      (use-package org-timer
-       :defer t)
-     (use-package hydra
        :defer t
-       :after (org-clock org-timer)
-       :config
-       (message "run hydra for org-clock")
-       (defhydra hydra-org-clock (:color blue :hint nil)
-         "
+       :commands (org-timer-pause-or-continue)
+       :init
+       (use-package org-timer
+         :defer t
+         :commands (org-clock-modify-effort-estimate org-info)
+         :init
+         (message "Defining hydra for org-clock")
+         (defhydra hydra-org-clock (:color blue :hint nil)
+           "
      ^Clock:^ ^In/out^     ^Edit^   ^Summary^    | ^Timers:^ ^Run^           ^Insert
      -^-^-----^-^----------^-^------^-^----------|--^-^------^-^-------------^------
      (_?_)    _i_n         _e_dit   _g_oto entry | (_z_)     _r_elative      ti_m_e
@@ -363,35 +365,35 @@
       ^ ^     _o_ut        ^ ^      _r_eport     |  ^ ^      _p_ause toggle
       ^ ^     ^ ^          ^ ^      ^ ^          |  ^ ^      _s_top
      "
-         ("i" org-clock-in)
-         ("c" org-clock-in-last)
-         ("o" org-clock-out)
+           ("i" org-clock-in)
+           ("c" org-clock-in-last)
+           ("o" org-clock-out)
 
-         ("e" org-clock-modify-effort-estimate)
-         ("q" org-clock-cancel)
+           ("e" org-clock-modify-effort-estimate)
+           ("q" org-clock-cancel)
 
-         ("g" org-clock-goto)
-         ("d" org-clock-display)
-         ("r" org-clock-report)
-         ("?" (org-info "Clocking commands"))
+           ("g" org-clock-goto)
+           ("d" org-clock-display)
+           ("r" org-clock-report)
+           ("?" (org-info "Clocking commands"))
 
-         ("r" org-timer-start)
-         ("n" org-timer-set-timer)
-         ("p" org-timer-pause-or-continue)
-         ("s" org-timer-stop)
+           ("r" org-timer-start)
+           ("n" org-timer-set-timer)
+           ("p" org-timer-pause-or-continue)
+           ("s" org-timer-stop)
 
-         ("m" org-timer)
-         ("t" org-timer-item)
-         ("z" (org-info "Timers")))
+           ("m" org-timer)
+           ("t" org-timer-item)
+           ("z" (org-info "Timers")))
+         (bind-keys ("C-c w" . hydra-org-clock/body))))
 
-       ;; use-package :bind does not work with hydra
-       (bind-keys ("C-c w" . hydra-org-clock/body))
-       )
-
-     (use-package hydra
+     (use-package org-agenda
        :defer t
-       :after org-agenda
-       :config
+       :commands (org-agenda-clock-in
+                  org-agenda-clock-out
+                  org-agenda-clock-cancel
+                  org-agenda-clock-goto)
+       :init
        (defhydra hydra-org-agenda-clock (:color blue :hint nil)
            "
      clock _i_n   clock _o_ut   _q_uit   _g_oto
