@@ -280,8 +280,8 @@ It should only modify the values of Spacemacs settings."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font `(
                                "DejaVu Sans Mono"
-                               :size ,(if (string= system-name "carbon")
-                                          31 11.5)
+                               ;; :size ,(if (string= system-name "carbon")
+                               ;;            31 11.5)
                                :weight normal
                                :width normal
                                :powerline-scale 1.0
