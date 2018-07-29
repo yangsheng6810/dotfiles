@@ -668,6 +668,10 @@
                (ivy-rich-switch-buffer-shorten-path path path-max-length)
                path-max-length))))))
   #+END_SRC
+  allow ivy to select the content of prompt
+  #+BEGIN_SRC emacs-lisp
+    (setq ivy-use-selectable-prompt t)
+  #+END_SRC
   
 * Email
   #+BEGIN_SRC emacs-lisp
