@@ -7,3 +7,6 @@ set CASE_SENSITIVE
 [ -f ~/.ssh/known_hosts ] && : ${(A)ssh_known_hosts:=${${${(f)"$(<$HOME/.ssh/known_hosts)"}%%\ *}%%,*}}
 
 zstyle ':completion:*:*:*' hosts $ssh_config_hosts $ssh_known_hosts
+fpath=("$HOME/bin" $fpath)
+autoload -U compinit
+compinit
