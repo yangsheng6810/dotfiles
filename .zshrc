@@ -7,8 +7,9 @@
 export PS1="%n@%m:%~%# "
 
 CASE_SENSITIVE="true"
-
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.zshrc.d}
+
+source "${HOME}/.zgen/zgen.zsh"
 source $ZSH_CUSTOM/bootstrap.zsh
 
 if [ -f "$HOME/.dir_colors" ]; then
