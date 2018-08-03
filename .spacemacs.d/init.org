@@ -881,14 +881,14 @@
      (setq yang-cnfonts-has-started nil)
      (add-hook 'before-make-frame-hook
                (lambda ()
-                 (message "in before-make-frame-hook")
+                 ;; (message "in before-make-frame-hook")
                  (setq yang-cnfonts-has-started nil)))
 
      (defun yang-cnfonts-set-font-first-time (func &rest _args)
-       (message "in yang-cnfonts-set-font-first-time")
+       ;; (message "in yang-cnfonts-set-font-first-time")
        (when (or (not (boundp 'yang-cnfonts-has-started))
                  (null yang-cnfonts-has-started))
-         (message "call cnfonts-set-font-first-time")
+         ;; (message "call cnfonts-set-font-first-time")
          (setq yang-cnfonts-has-started t)
          (apply func _args)))
 
