@@ -404,7 +404,7 @@
          ("g" org-agenda-clock-goto))
 
        ;; use-package :bind does not work with hydra
-       (bind-keys :map org-agenda-mode-map
+       :bind (:map org-agenda-mode-map
                   ("C-c w" . hydra-org-agenda-clock/body))
        )
 
