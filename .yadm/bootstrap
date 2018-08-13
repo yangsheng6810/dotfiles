@@ -1,0 +1,5 @@
+#!/bin/zsh
+if [ ! -d "${HOME}/.zgen" ]; then
+    echo "Setting zgen..."
+    git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+fi
