@@ -1,5 +1,3 @@
-# Load zsh custom sources
-source "$ZSH_CUSTOM/functions.zsh"
 
 # Load all environment variables
 # First it tries to load default env.zsh then the custom .env..*.zsh
@@ -57,8 +55,6 @@ if ! zgen saved; then
   # enable syntax highlighting
   zgen load zsh-users/zsh-syntax-highlighting
 
-  # custom completion settings
-  zgen load "$ZSH_CUSTOM/completion.zsh"
 
   # uncomment the line below to enable theme
   # antigen theme fishy
@@ -73,13 +69,17 @@ if ! zgen saved; then
   # generate the init script from plugins above
   zgen save
 fi
-# source "$ZSH_CUSTOM/zgen_load.zsh"
-# echo "After loading zgen config"
-# Finally set up aliases and key bindings
-source "$ZSH_CUSTOM/bindings.zsh"
-source "$ZSH_CUSTOM/aliases.zsh"
-source "$ZSH_CUSTOM/completion.zsh"
-source "$ZSH_CUSTOM/fixes.zsh"
-zgen load "$ZSH_CUSTOM/themes/yang.zsh-theme"
+# # source "$ZSH_CUSTOM/zgen_load.zsh"
+# # echo "After loading zgen config"
+# # Finally set up aliases and key bindings
+# # custom completion settings
+# source "$ZSH_CUSTOM/completion.zsh"
+# source "$ZSH_CUSTOM/bindings.zsh"
+# source "$ZSH_CUSTOM/aliases.zsh"
+# source "$ZSH_CUSTOM/completion.zsh"
+# source "$ZSH_CUSTOM/fixes.zsh"
+# # Load zsh custom sources
+# source "$ZSH_CUSTOM/functions.zsh"
+# source "$ZSH_CUSTOM/themes/yang.zsh-theme"
 
 

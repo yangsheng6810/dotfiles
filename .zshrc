@@ -1,3 +1,6 @@
+## start zsh profiling
+# zmodload zsh/zprof
+
 # POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
 
 # Fix tramp hang, and early return if in tramp
@@ -8,9 +11,10 @@ export PS1="%n@%m:%~%# "
 
 CASE_SENSITIVE="true"
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.zshrc.d}
+ZSH_THEME="yang"
 
 source "${HOME}/.zgen/zgen.zsh"
-source $ZSH_CUSTOM/bootstrap.zsh
+source $ZSH_CUSTOM/bootstrap.sh
 
 if [ -f "$HOME/.dir_colors" ]; then
     eval $(dircolors -b $HOME/.dir_colors)
@@ -22,3 +26,5 @@ autoload bashcompinit
 bashcompinit
 export SUDO_EDITOR=vim
 
+## end zsh profiling
+# zprof
