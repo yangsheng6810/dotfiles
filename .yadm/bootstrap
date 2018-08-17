@@ -1,5 +1,8 @@
 #!/bin/zsh
+umask 022
 if [ ! -d "${HOME}/.zgen" ]; then
     echo "Setting zgen..."
+    mkdir "${HOME}/.zgen"
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
+    zsh -i -c exit
 fi
