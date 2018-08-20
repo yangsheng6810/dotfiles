@@ -1,8 +1,23 @@
 #!/bin/zsh
 umask 022
+NEED_ROOTLESS_MANAGER=1
 if [ ! -d "${HOME}/.zgen" ]; then
     echo "Setting zgen..."
     mkdir "${HOME}/.zgen"
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
     zsh -i -c exit
+fi
+if [ ! -d "${HOME}/.tmux/plugins/tpm" ];then
+    echo "Installing tmux plugin manager"
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+if ! [ -x "$(command -v tmux)" ]; then
+    echo 'tmux not available!!!' >&2
+    NEED_ROOTLESS_MANAGER=0
+else
+    TMUX_VERSION=$(tmux -V | cut -c 6-)
+    if [ "$TMUX_VERSION < 2.2 | bc)" = 1]; then
+        echo "tmux version too low. Expected > 2.1, got $TMUX_VERSION"
+        NEED_ROOTLESS_MANAGER=0
+    fi
 fi
