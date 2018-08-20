@@ -46,6 +46,9 @@
       :config (flyspell-lazy-mode 1))
 
     (setq delete-by-moving-to-trash t)
+
+    ;; Show different cursor for different evil mode in terminal
+    (evil-terminal-cursor-changer-activate)
   #+END_SRC
 
 ** Rectangle editing
