@@ -12,3 +12,6 @@ fi
 # xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.7
 # alias firefox='optirun --failsafe firefox'
 # alias smplayer='optirun --failsafe smplayer'
+if [ "$HOSTNAME" = "carbon" ]; then
+    xrandr --output eDP1 --scale 1.25x1.25
+fi
