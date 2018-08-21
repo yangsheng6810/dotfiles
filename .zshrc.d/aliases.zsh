@@ -42,3 +42,8 @@ alias rsync-copy="rsync -avz --info=progress2 -h"
 alias rsync-move="rsync -avz --info=progress2 -h --remove-source-files"
 alias rsync-update="rsync -avzu --info=progress2 -h"
 alias rsync-synchronize="rsync -avzu --delete --info=progress2 -h"
+
+alias rsync-copy-local="rsync -avW --no-compress --info=progress2 -h"
+alias rsync-move-local="rsync -avW --no-compress --info=progress2 -h --remove-source-files"
+alias rsync-update-local="rsync -avWu --no-compress --info=progress2 -h"
+alias rsync-synchronize-local="rsync -avWu --no-compress --delete --info=progress2 -h"
