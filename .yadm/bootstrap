@@ -16,7 +16,7 @@ if ! [ -x "$(command -v tmux)" ]; then
     NEED_ROOTLESS_MANAGER=0
 else
     TMUX_VERSION=$(tmux -V | cut -c 6-)
-    if [ "$TMUX_VERSION < 2.2 | bc)" = 1]; then
+    if [ "$TMUX_VERSION < 2.2 | bc)" = 1 ]; then
         echo "tmux version too low. Expected > 2.1, got $TMUX_VERSION"
         NEED_ROOTLESS_MANAGER=0
     fi
