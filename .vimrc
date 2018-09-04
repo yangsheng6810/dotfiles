@@ -190,6 +190,8 @@ set directory=~/.vim/backup
 
 " change cursor in different modes
 let &t_SI = "\<Esc>[6 q"
-let &t_SR = "\<Esc>[4 q"
+if v:version > 704 || v:version == 704 && has('patch687')
+    let &t_SR = "\<Esc>[4 q"
+end
 let &t_EI = "\<Esc>[2 q"
 
