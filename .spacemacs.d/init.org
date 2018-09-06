@@ -772,6 +772,11 @@
 
 * pdf-tools
   #+BEGIN_SRC emacs-lisp
+    (defun yang-xdg-reopen ()
+      (interactive)
+      (if (buffer-file-name)
+          (call-process-shell-command (concat "xdg-open " (prin1-to-string (buffer-file-name))) nil 0 nil)
+        (message "No file available")))
     ;; copied from http://pragmaticemacs.com/emacs/even-more-pdf-tools-tweaks/
     (use-package pdf-tools
       :defer t
