@@ -25,6 +25,7 @@ fi
 autoload bashcompinit
 bashcompinit
 export SUDO_EDITOR=vim
+compinit
 
 ## end zsh profiling
 # zprof
