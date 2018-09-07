@@ -612,80 +612,19 @@
       :defer t
       :init (setq yang-ivy-rich-parse-remote-project nil)
       :config
-      (ivy-set-display-transformer 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+      (ivy-rich-mode 1)
       (setq ivy-virtual-abbreviate 'full
             ivy-rich-switch-buffer-align-virtual-buffer t
             ivy-rich-path-style 'abbrev)
 
-      ;; ivy-rich-switch-buffer-pad was renamed to ivy-rich-pad
-      ;; this is for backward compatibility
-      (unless (fboundp 'ivy-rich-pad)
-        (defalias 'ivy-rich-pad 'ivy-rich-switch-buffer-pad))
-
-      (defun ivy-rich-switch-buffer-project ()
-        (propertize
-         (ivy-rich-pad
-          (if (or (not (bound-and-true-p projectile-mode))
-                  (and (file-remote-p (or (buffer-file-name) default-directory))
-                       (or (not ivy-rich-parse-remote-buffer)
-                           (not yang-ivy-rich-parse-remote-project)))
-                  (string= (projectile-project-name) "-"))
-              ""
-            (projectile-project-name))
-         ivy-rich-switch-buffer-project-max-length)
-        'face
-        'success))
-
-      (defun ivy-rich-switch-buffer-path (project)
-        (let* ((path-max-length (- (window-width (minibuffer-window))
-                                   ivy-rich-switch-buffer-name-max-length
-                                   ivy-rich-switch-buffer-indicator-length
-                                   ivy-rich-switch-buffer-buffer-size-length
-                                   ivy-rich-switch-buffer-mode-max-length
-                                   (if project ivy-rich-switch-buffer-project-max-length 0)
-                                   (* 4 (length ivy-rich-switch-buffer-delimiter))
-                                   (if (eq 'ivy-format-function-arrow ivy-format-function) 2 0)
-                                   2)))       ; Fixed the unexpected wrapping in terminal
-          (if (or (and (file-remote-p (or (buffer-file-name) default-directory))
-                       (not ivy-rich-parse-remote-buffer))
-                  ;; Workaround for `browse-url-emacs' buffers , it changes
-                  ;; `default-directory' to "http://" (#25)
-                  (string-match "https?:\\/\\/" default-directory))
-              (ivy-rich-pad "" path-max-length)
-            (let* (;; Find the project root directory or `default-directory'
-                   (root (file-truename
-                          (if (or (not project)
-                                  (not (projectile-project-p))
-                                  (and (file-remote-p
-                                        (or (buffer-file-name) default-directory))
-                                       (not yang-ivy-rich-parse-remote-project)))
-                              default-directory
-                            (projectile-project-root))))
-                   ;; Find the file name or `nil'
-                   (filename
-                    (if (buffer-file-name)
-                        (if (and (buffer-file-name)
-                                 (string-match "^https?:\\/\\/" (buffer-file-name))
-                                 (not (file-exists-p (buffer-file-name))))
-                            nil
-                          (file-truename (buffer-file-name)))
-                      (if (eq major-mode 'dired-mode)
-                          (file-truename (dired-current-directory))
-                        nil)))
-                   (path (cond ((or (memq ivy-rich-path-style '(full absolute))
-                                    (and (null ivy-rich-parse-remote-file-path)
-                                         (or (file-remote-p root))))
-                                (expand-file-name (or filename root)))
-                               ((memq ivy-rich-path-style '(abbreviate abbrev))
-                                (abbreviate-file-name (or filename root)))
-                               ((or (eq ivy-rich-path-style 'relative)
-                                    t)            ; make 'relative default
-                                (if (and filename root)
-                                    (substring-no-properties (string-remove-prefix root filename))
-                                  "")))))
-              (ivy-rich-pad
-               (ivy-rich-switch-buffer-shorten-path path path-max-length)
-               path-max-length))))))
+      (defun ivy-rich-switch-buffer-in-propject-p (candidate)
+        (with-current-buffer
+            (get-buffer candidate)
+          (and (and (bound-and-true-p projectile-mode)
+                    (projectile-project-p))
+               (not (and (file-remote-p (or (buffer-file-name) default-directory))
+                         (or (not ivy-rich-parse-remote-buffer)
+                             (not yang-ivy-rich-parse-remote-project))))))))
   #+END_SRC
   allow ivy to select the content of prompt
   #+BEGIN_SRC emacs-lisp
