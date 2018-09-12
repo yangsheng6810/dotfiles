@@ -69,5 +69,6 @@ if [ "$HOSTNAME" = "optimizer.cs.umd.edu" ] ;then
         exec zsh
     fi
 fi
-MACHINE_SPECIFIC="$HOME/.machine_specific/$HOSTNAME/profile.sh"
+
+MACHINE_SPECIFIC="${HOME}/.shell/host_specific/${HOSTNAME}.sh"
 [[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
