@@ -1160,7 +1160,7 @@
                        (save-excursion
                          (message "Parsing %s file." file)
                          (ignore-errors
-                           (semanticdb-file-table-object file)))
+                           (semanticdb-file-table-object file t)))
                ))
               ;;else if it's a directory
               (semanticdb-rescan-directory-1 file file-regex)))))
