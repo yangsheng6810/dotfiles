@@ -161,8 +161,9 @@
       :defer t
       :after (core-fonts-support importmagic)
       :init (spacemacs/diminish-undo 'importmagic-mode)
-      :diminish importmagic-mode
-      )
+      :diminish importmagic-mode)
+    (with-eval-after-load 'spaceline
+      (spaceline-toggle-buffer-encoding-abbrev-off))
   #+END_SRC
   
 * Ergonomic keybindings
