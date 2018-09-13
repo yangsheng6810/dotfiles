@@ -735,7 +735,10 @@
            (color . "#ffff00")
            (label . "Sheng Yang")
            (popup-is-open)))
-      )
+      (spacemacs/set-leader-keys-for-major-mode
+        'pdf-view-mode
+        "t b" 'pdf-history-backward
+        "t f" 'pdf-history-forward))
   #+END_SRC
 
 * doc-view
