@@ -1205,7 +1205,8 @@
             (interactive "P")
             (with-persp-buffer-list () (ibuffer arg)))))
 
-    (setq persp-emacsclient-init-frame-behaviour-override nil)
+    (setq persp-emacsclient-init-frame-behaviour-override nil
+          persp-init-new-frame-behaviour-override -1)
   #+END_SRC
   Switch to the first persp when loading from file
   #+BEGIN_SRC emacs-lisp
@@ -1243,6 +1244,16 @@
       (setq counsel-describe-function-function #'helpful-callable)
       ;; (global-set-key (kbd "C-h v") #'helpful-variable)
       (setq counsel-describe-variable-function #'helpful-variable))
+  #+END_SRC
+
+* auto-highlight-symbol (ahs)
+  #+BEGIN_SRC emacs-lisp
+    (setq
+     ahs-case-fold-search nil
+     ahs-default-range 'ahs-range-whole-buffer
+     ahs-idle-interval 0.25
+     ahs-idle-timer 0
+     ahs-inhibit-face-list nil)
   #+END_SRC
 
 * Helm (legacy)
