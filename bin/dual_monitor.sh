@@ -23,17 +23,17 @@ function connect()
     EX_MONITOR=${xrandr_d[$1]}
     echo "EX_MONITOR = ${EX_MONITOR}"
     xrandr --output $EX_MONITOR --primary
-    xrandr --output $EX_MONITOR --scale 1.75x1.75
-    xrandr --output eDP1 --scale 1x1
+    xrandr --output $EX_MONITOR --scale 2x2
+    xrandr --output eDP1 --scale 1.25x1.25
     xrandr --output $EX_MONITOR --pos 0x0
-    xrandr --output eDP1 --pos 3360x0
+    xrandr --output eDP1 --pos 3840x0
 }
 
 function disconnect()
 {
     ACTION="OFF"
     sleep 0.1
-    xrandr --output eDP1 --scale 1x1
+    xrandr --output eDP1 --scale 1.25x1.25
 }
 
 LOG_FILE="/tmp/monitor.log"
