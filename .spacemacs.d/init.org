@@ -349,6 +349,14 @@
        )
    #+END_SRC
 
+** org-agenda
+   This shows the current week from today, but also the past three days.
+   #+BEGIN_SRC emacs-lisp
+     (setq org-agenda-span 10
+           org-agenda-start-on-weekday nil
+           org-agenda-start-day "-3d")
+   #+END_SRC
+
 ** org clock
    #+BEGIN_SRC emacs-lisp
      (use-package org-timer
