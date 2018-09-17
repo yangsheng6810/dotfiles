@@ -40,3 +40,4 @@ export MAKEFLAGS="${MAKEFLAGS} -j8"
 export PYTHONSTARTUP="$(python -m jedi repl)"
 YANG_HAS_BATTERY=1;
 export GTAGSLABEL=pygments
+export GIT_EDITOR="emacsclient -c"

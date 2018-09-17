@@ -161,8 +161,9 @@
       :defer t
       :after (core-fonts-support importmagic)
       :init (spacemacs/diminish-undo 'importmagic-mode)
-      :diminish importmagic-mode
-      )
+      :diminish importmagic-mode)
+    (with-eval-after-load 'spaceline
+      (spaceline-toggle-buffer-encoding-abbrev-off))
   #+END_SRC
   
 * Ergonomic keybindings
@@ -237,7 +238,7 @@
        org-startup-truncated nil
        org-src-window-setup 'current-window
        org-todo-keywords
-       '((sequence "TODO(t)" "PUSHED(p)" "NEXT(n)" "INACTIVE(i@/!)" "WAIT(w@/!)" "|" "DONE(d!)")
+       '((sequence "TODO(t)" "PUSHED(p@)" "NEXT(n)" "INACTIVE(i@/!)" "WAIT(w@/!)" "|" "DONE(d!)")
          (sequence "|" "CANCLED(c@)"))
        org-startup-truncated nil
        org-M-RET-may-split-line '((default))
@@ -711,6 +712,11 @@
 
 * pdf-tools
   #+BEGIN_SRC emacs-lisp
+    (defun yang-xdg-reopen ()
+      (interactive)
+      (if (buffer-file-name)
+          (call-process-shell-command (concat "xdg-open " (prin1-to-string (buffer-file-name))) nil 0 nil)
+        (message "No file available")))
     ;; copied from http://pragmaticemacs.com/emacs/even-more-pdf-tools-tweaks/
     (use-package pdf-tools
       :defer t
@@ -729,7 +735,10 @@
            (color . "#ffff00")
            (label . "Sheng Yang")
            (popup-is-open)))
-      )
+      (spacemacs/set-leader-keys-for-major-mode
+        'pdf-view-mode
+        "t b" 'pdf-history-backward
+        "t f" 'pdf-history-forward))
   #+END_SRC
 
 * doc-view
@@ -1154,7 +1163,7 @@
                        (save-excursion
                          (message "Parsing %s file." file)
                          (ignore-errors
-                           (semanticdb-file-table-object file)))
+                           (semanticdb-file-table-object file t)))
                ))
               ;;else if it's a directory
               (semanticdb-rescan-directory-1 file file-regex)))))
@@ -1199,7 +1208,8 @@
             (interactive "P")
             (with-persp-buffer-list () (ibuffer arg)))))
 
-    (setq persp-emacsclient-init-frame-behaviour-override nil)
+    (setq persp-emacsclient-init-frame-behaviour-override nil
+          persp-init-new-frame-behaviour-override -1)
   #+END_SRC
   Switch to the first persp when loading from file
   #+BEGIN_SRC emacs-lisp
@@ -1212,6 +1222,41 @@
           (when persp-name
             (persp-switch persp-name))))
       (advice-add 'persp-load-state-from-file :filter-return 'yang-persp-switch-to-persp-after-load))
+  #+END_SRC
+
+* helpful
+  #+BEGIN_SRC emacs-lisp
+    ;; Note that the built-in `describe-function' includes both functions
+    ;; and macros. `helpful-function' is functions only, so we provide
+    ;; `helpful-callable' as a drop-in replacement.
+    (use-package helpful
+      :bind (("C-h k" . helpful-key)
+             ;; Look up *F*unctions (excludes macros).
+             ;;
+             ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
+             ;; already links to the manual, if a function is referenced there.
+             ("C-h F" . helpful-function)
+             ;; Look up *C*ommands.
+             ;;
+             ;; By default, C-h C is bound to describe `describe-coding-system'. I
+             ;; don't find this very useful, but it's frequently useful to only
+             ;; look at interactive functions.
+             ("C-h C" . helpful-command))
+      :config
+      ;; (global-set-key (kbd "C-h f") #'helpful-callable)
+      (setq counsel-describe-function-function #'helpful-callable)
+      ;; (global-set-key (kbd "C-h v") #'helpful-variable)
+      (setq counsel-describe-variable-function #'helpful-variable))
+  #+END_SRC
+
+* auto-highlight-symbol (ahs)
+  #+BEGIN_SRC emacs-lisp
+    (setq
+     ahs-case-fold-search nil
+     ahs-default-range 'ahs-range-whole-buffer
+     ahs-idle-interval 0.25
+     ahs-idle-timer 0
+     ahs-inhibit-face-list nil)
   #+END_SRC
 
 * Helm (legacy)

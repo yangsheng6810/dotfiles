@@ -1,16 +1,16 @@
 [user]
-	name = Yang Sheng
-	email = yangsheng6810@gmail.com
-	signingkey = 256ECEAAB5B918F3
+    name = Yang Sheng
+    email = yangsheng6810@gmail.com
+    signingkey = 256ECEAAB5B918F3
 [credential]
-	helper = cache
+    helper = cache
 [core]
-	autocrlf = input
-	excludesfile = ~/.gitignore_global
+    autocrlf = input
+    excludesfile = ~/.gitignore_global
     quotepath = false
-    editor = emacsclient -c
+    editor = vim
 [push]
-	default = simple
+    default = simple
 [alias]
     wdiff = diff --word-diff-regex=.
     lg = !"git lg1"

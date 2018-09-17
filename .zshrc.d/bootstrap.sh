@@ -1,15 +1,4 @@
 
-# Load all environment variables
-# First it tries to load default env.zsh then the custom .env..*.zsh
-# This is useful if you want to have custom (not versioned) environment configs,
-# such as .env.work.zsh or .env.private.zsh.
-#load "$ZSH_CUSTOM/.env.zsh" "$ZSH_CUSTOM/.env..*.zsh"
-# ^ adds 0.01s for some reason
-source "$ZSH_CUSTOM/.env"
-
-MACHINE_SPECIFIC="${ZSH_CUSTOM}/machines/${HOSTNAME}.zsh"
-[[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
-
 # export ANTIGEN="$HOME/.local/bin/antigen.zsh"
 
 # # Load antigen and bootstrap the configuration
@@ -23,7 +12,6 @@ MACHINE_SPECIFIC="${ZSH_CUSTOM}/machines/${HOSTNAME}.zsh"
 # if the init scipt doesn't exist
 # echo "in bootstrap.zsh"
 if ! zgen saved; then
-
   echo "Before loading zgen.zsh, in if"
   # specify plugins here
   zgen oh-my-zsh
@@ -51,6 +39,8 @@ if ! zgen saved; then
   done
 
   zgen load zsh-users/zsh-autosuggestions
+  # to fix compinit problem of not adding src/ to fpath
+  -zgen-add-to-fpath "$ZGEN_DIR/zsh-users/zsh-completions-master/src"
   zgen load zsh-users/zsh-completions
   # enable syntax highlighting
   zgen load zsh-users/zsh-syntax-highlighting
