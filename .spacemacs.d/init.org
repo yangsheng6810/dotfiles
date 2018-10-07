@@ -474,7 +474,7 @@
               "" :time-prompt t)
              ("r" "Research" entry
               (file+olp+datetree "~/Documents/org/Research.org")
-              "" :prepend t)
+              "* %?\n  %u" :prepend t)
              ("s" "Schedule" entry
               (file+olp+datetree "~/Documents/org/Schedule.org")
               "")
@@ -487,7 +487,7 @@
               "* TODO %^{任务名}\n%u\n%a\n" :clock-in t :clock-resume t)
              ("x" "Exercise" entry
               (file+olp+datetree "~/Documents/org/Exercise.org")
-              "" :time-prompt t)))
+              "* %?\n  %u" :time-prompt t)))
    #+END_SRC
 
 ** hydra for org
