@@ -360,6 +360,14 @@
         "~/Documents/org/Days.org"
         "~/Documents/org/gcal.org"
         "~/Documents/org/Schedule.org"))
+
+     (add-to-list 'org-agenda-custom-commands
+           '("w" "Last week" tags "TIMESTAMP_IA>=\"<-9d>\"" ;; (1) (2) (3) (4)
+              ((org-agenda-files '("~/Documents/org/Schedule.org"
+                                   "~/Documents/org/Computer.org"
+                                   "~/Documents/org/Research.org"
+                                   "~/Documents/org/papers.org"))) ;; (5)
+             ))
    #+END_SRC
    This shows the current week from today, but also the past three days.
    #+BEGIN_SRC emacs-lisp
