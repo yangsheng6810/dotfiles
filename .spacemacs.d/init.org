@@ -350,6 +350,17 @@
    #+END_SRC
 
 ** org-agenda
+   #+BEGIN_SRC emacs-lisp
+     (setq
+      org-agenda-files
+      '("~/Documents/org/papers.org"
+        "~/Documents/org/Computer.org"
+        "~/Documents/org/Task.org"
+        "~/Documents/org/Notes.org"
+        "~/Documents/org/Days.org"
+        "~/Documents/org/gcal.org"
+        "~/Documents/org/Schedule.org"))
+   #+END_SRC
    This shows the current week from today, but also the past three days.
    #+BEGIN_SRC emacs-lisp
      (setq org-agenda-span 10
@@ -424,9 +435,7 @@
 
 ** org-capture
    #+BEGIN_SRC emacs-lisp
-     (setq org-agenda-files
-           '("~/Documents/org/Task.org" "~/Documents/org/Notes.org" "~/Documents/org/Days.org" "~/Documents/org/gcal.org" "~/Documents/org/Schedule.org")
-           org-capture-templates
+     (setq org-capture-templates
            '(
              ("c" "Computer")
              ("ce" "Emacs" entry
