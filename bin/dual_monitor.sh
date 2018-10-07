@@ -22,11 +22,20 @@ function connect()
     done
     EX_MONITOR=${xrandr_d[$1]}
     echo "EX_MONITOR = ${EX_MONITOR}"
-    xrandr --output $EX_MONITOR --primary
-    xrandr --output $EX_MONITOR --scale 2x2
-    xrandr --output eDP1 --scale 1.25x1.25
-    xrandr --output $EX_MONITOR --pos 0x0
-    xrandr --output eDP1 --pos 3840x0
+    # xrandr --output $EX_MONITOR --primary
+    # xrandr --output $EX_MONITOR --scale 2x2
+    # xrandr --output eDP1 --scale 1.25x1.25
+    # xrandr --output $EX_MONITOR --pos 0x0
+    # xrandr --output eDP1 --pos 3840x0
+
+    MAIN_X=${2%%x*}
+    # MAIN_Y=${2#*x}
+
+    SCALED_X=$((MAIN_X * 2))
+    # SCALED_Y=$((MAIN_Y * 2))
+
+    xrandr --output $EX_MONITOR --auto --primary --scale 2x2 --pos 0x0
+    xrandr --output eDP1 --auto --scale 1.25x1.25 --pos "${SCALED_X}x0"
 }
 
 function disconnect()
@@ -43,11 +52,13 @@ echo `date` >> $LOG_FILE
 SOMETHING_CONNECTED=0
 for i in 0 1;do
     MONITOR=${sys_d[$i]}
-    SCREEN_STATUS=`cat /sys/class/drm/${MONITOR}/status`
+    SCREEN_LOCATION="/sys/class/drm/${MONITOR}"
+    SCREEN_STATUS=`cat ${SCREEN_LOCATION}/status`
+    SCREEN_RESOLUTION=`cat ${SCREEN_LOCATION}/modes|head -1`
     echo ${MONITOR} is $SCREEN_STATUS >> $LOG_FILE
     ACTION="default"
     if [ "$SCREEN_STATUS" == "connected" ]; then
-        connect $i
+        connect $i $SCREEN_RESOLUTION
         SOMETHING_CONNECTED=1
         echo ${MONITOR} connected >> $LOG_FILE
         break
