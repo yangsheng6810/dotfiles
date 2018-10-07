@@ -430,7 +430,12 @@
        :bind (:map org-agenda-mode-map
                   ("C-c w" . hydra-org-agenda-clock/body))
        )
-
+     ;; Resume clocking task when emacs is restarted
+     (org-clock-persistence-insinuate)
+     ;; Save the running clock and all clock history when exiting Emacs, load it on startup
+     (setq org-clock-persist t)
+     ;; Show lot of clocking history so it's easy to pick items
+     (setq org-clock-history-length 23)
    #+END_SRC
 
 ** org-capture
