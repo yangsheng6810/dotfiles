@@ -11,3 +11,5 @@ setopt hist_ignore_space
 setopt hist_verify
 setopt inc_append_history
 unsetopt share_history # share command history data
+
+alias history='omz_history -i'
