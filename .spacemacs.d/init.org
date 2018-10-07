@@ -482,6 +482,26 @@
               "" :time-prompt t)))
    #+END_SRC
 
+** hydra for org
+   #+BEGIN_SRC emacs-lisp
+     (defhydra yang/hydra-org-mode (:color blue :hint nil)
+     ;;   "
+     ;;      ^Clock:^ ^In/out^     ^Edit^   ^Summary^    | ^Timers:^ ^Run^           ^Insert
+     ;;      -^-^-----^-^----------^-^------^-^----------|--^-^------^-^-------------^------
+     ;;      (_?_)    _i_n         _e_dit   _g_oto entry | (_z_)     _r_elative      ti_m_e
+     ;;       ^ ^     _c_ontinue   _q_uit   _d_isplay    |  ^ ^      cou_n_tdown     i_t_em
+     ;;       ^ ^     _o_ut        ^ ^      _r_eport     |  ^ ^      _p_ause toggle
+     ;;       ^ ^     ^ ^          ^ ^      ^ ^          |  ^ ^      _s_top
+     ;; "
+       "
+             _l_ store-link   _L_ insert-last-link
+     "
+                ("l" org-store-link)
+                ("L" org-insert-last-stored-link)
+       )
+     (spacemacs/set-leader-keys "o" 'yang/hydra-org-mode/body)
+   #+END_SRC
+
 * LaTeX
   #+BEGIN_SRC emacs-lisp
     ;; LaTeX hook
