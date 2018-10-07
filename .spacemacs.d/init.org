@@ -361,13 +361,28 @@
         "~/Documents/org/gcal.org"
         "~/Documents/org/Schedule.org"))
 
-     (add-to-list 'org-agenda-custom-commands
-           '("w" "Last week" tags "TIMESTAMP_IA>=\"<-9d>\"" ;; (1) (2) (3) (4)
-              ((org-agenda-files '("~/Documents/org/Schedule.org"
-                                   "~/Documents/org/Computer.org"
-                                   "~/Documents/org/Research.org"
-                                   "~/Documents/org/papers.org"))) ;; (5)
-             ))
+     (mapc (lambda (value)
+             (add-to-list
+              'org-agenda-custom-commands value)
+             nil (lambda (ele1 ele2)
+                   (equal (car ele1) (car ele2))))
+      '(("w" "Last week!!! "
+         tags "TIMESTAMP_IA>=\"<-9d>\""
+         ((org-agenda-files '("~/Documents/org/Schedule.org"
+                              "~/Documents/org/Computer.org"
+                              "~/Documents/org/Research.org"
+                              "~/Documents/org/papers.org"))))
+        ("W" "Last week schedule" tags "SCHEDULED>=\"<-9d>\"+SCHEDULED<=\"<today>\""
+         ((org-agenda-files '("~/Documents/org/Schedule.org"
+                              "~/Documents/org/Computer.org"
+                              "~/Documents/org/Research.org"
+                              "~/Documents/org/papers.org"))))
+        ("g" "Last week gcal schedule" tags "TIMESTAMP>=\"<-9d>\"+TIMESTAMP<=\"<today>\""
+         ((org-agenda-files '("~/Documents/org/Schedule.org"
+                              "~/Documents/org/Computer.org"
+                              "~/Documents/org/Research.org"
+                              "~/Documents/org/gcal.org"
+                              "~/Documents/org/papers.org"))))))
    #+END_SRC
    This shows the current week from today, but also the past three days.
    #+BEGIN_SRC emacs-lisp
