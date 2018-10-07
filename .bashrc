@@ -70,5 +70,5 @@ if [ "$HOSTNAME" = "optimizer.cs.umd.edu" ] ;then
     fi
 fi
 
-MACHINE_SPECIFIC="${HOME}/.shell/host_specific/${HOSTNAME}.sh"
-[[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
+LOAD_FILE="${HOME}/.shell/load.sh"
+[[ -f $LOAD_FILE ]] && . $LOAD_FILE
