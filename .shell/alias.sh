@@ -47,3 +47,6 @@ alias rsync-copy-local="rsync -avW --no-compress --info=progress2 -h"
 alias rsync-move-local="rsync -avW --no-compress --info=progress2 -h --remove-source-files"
 alias rsync-update-local="rsync -avWu --no-compress --info=progress2 -h"
 alias rsync-synchronize-local="rsync -avWu --no-compress --delete --info=progress2 -h"
+
+# magit
+alias magit='emacsclient -c -nw -e "(progn (magit-status) (delete-other-windows))"'
