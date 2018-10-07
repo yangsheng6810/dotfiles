@@ -67,9 +67,9 @@ fi
 # source "$ZSH_CUSTOM/bindings.zsh"
 # source "$ZSH_CUSTOM/aliases.zsh"
 # source "$ZSH_CUSTOM/completion.zsh"
-# source "$ZSH_CUSTOM/fixes.zsh"
+source "$ZSH_CUSTOM/fixes.zsh"
 # # Load zsh custom sources
 # source "$ZSH_CUSTOM/functions.zsh"
-# source "$ZSH_CUSTOM/themes/yang.zsh-theme"
+source "$ZSH_CUSTOM/themes/yang.zsh-theme"
 
 
