@@ -1210,6 +1210,14 @@
               ;;else if it's a directory
               (semanticdb-rescan-directory-1 file file-regex)))))
 
+    (defun yang/rescan-semantic-files ()
+      (interactive)
+      (mapc #'semantic-rescan-directory
+            '("/usr/share/emacs/"
+              "~/.emacs.d/core/"
+              "~/.emacs.d/elpa/"
+              "~/.emacs.d/layers/")))
+
     (defun semantic-rescan-directory (dir)
       (interactive "D")
       (message "Scanning directory %s." dir)
