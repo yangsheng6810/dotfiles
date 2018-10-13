@@ -361,6 +361,8 @@
         "~/Documents/org/gcal.org"
         "~/Documents/org/Schedule.org"))
 
+     (use-package org-agenda
+       :config
      (mapc (lambda (value)
              (add-to-list
               'org-agenda-custom-commands value)
@@ -383,6 +385,7 @@
                               "~/Documents/org/Research.org"
                               "~/Documents/org/gcal.org"
                               "~/Documents/org/papers.org"))))))
+     )
    #+END_SRC
    This shows the current week from today, but also the past three days.
    #+BEGIN_SRC emacs-lisp
