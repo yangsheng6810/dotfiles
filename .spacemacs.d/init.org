@@ -459,6 +459,12 @@
      (setq org-clock-persist t)
      ;; Show lot of clocking history so it's easy to pick items
      (setq org-clock-history-length 23)
+
+     ;; Set default column view headings: Task Total-Time Time-Stamp
+     (setq org-columns-default-format "%50ITEM(Task) %10CLOCKSUM %16TIMESTAMP_IA"
+           org-agenda-skip-scheduled-if-done t
+           org-agenda-skip-deadline-if-done t
+           )
    #+END_SRC
 
 ** org-capture
