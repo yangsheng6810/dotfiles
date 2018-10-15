@@ -517,10 +517,11 @@
      ;;       ^ ^     ^ ^          ^ ^      ^ ^          |  ^ ^      _s_top
      ;; "
        "
-             _l_ store-link   _L_ insert-last-link
+             _l_ store-link   _L_ insert-last-link   insert _i_d
      "
                 ("l" org-store-link)
                 ("L" org-insert-last-stored-link)
+                ("i" org-id-store-link)
        )
      (spacemacs/set-leader-keys "o" 'yang/hydra-org-mode/body)
    #+END_SRC
