@@ -95,6 +95,7 @@
   #+BEGIN_SRC emacs-lisp
     (setq system-time-locale "zh_CN.utf-8"
           user-mail-address "yangsheng6810@gmail.com")
+    (setq exec-path (cons (expand-file-name "~/.pyenv/shims") exec-path))
   #+END_SRC
 
 * Display
