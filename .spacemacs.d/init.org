@@ -355,7 +355,6 @@
      (setq
       org-agenda-files
       '("~/Documents/org/papers.org"
-        "~/Documents/org/Computer.org"
         "~/Documents/org/Task.org"
         "~/Documents/org/Notes.org"
         "~/Documents/org/Days.org"
@@ -372,17 +371,14 @@
       '(("w" "Last week!!! "
          tags "TIMESTAMP_IA>=\"<-9d>\""
          ((org-agenda-files '("~/Documents/org/Schedule.org"
-                              "~/Documents/org/Computer.org"
                               "~/Documents/org/Research.org"
                               "~/Documents/org/papers.org"))))
         ("W" "Last week schedule" tags "SCHEDULED>=\"<-9d>\"+SCHEDULED<=\"<today>\""
          ((org-agenda-files '("~/Documents/org/Schedule.org"
-                              "~/Documents/org/Computer.org"
                               "~/Documents/org/Research.org"
                               "~/Documents/org/papers.org"))))
         ("g" "Last week gcal schedule" tags "TIMESTAMP>=\"<-9d>\"+TIMESTAMP<=\"<today>\""
          ((org-agenda-files '("~/Documents/org/Schedule.org"
-                              "~/Documents/org/Computer.org"
                               "~/Documents/org/Research.org"
                               "~/Documents/org/gcal.org"
                               "~/Documents/org/papers.org"))))))
