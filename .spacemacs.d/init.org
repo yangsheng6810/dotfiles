@@ -711,6 +711,12 @@
                                    ;; will add something special
                                    (markdown-mode)
                                    )))
+    (with-eval-after-load 'markdown-mode
+      (mapc (lambda (keys)
+              (evil-define-key 'normal markdown-mode-map (kbd keys) nil)
+              (evil-define-key 'insert markdown-mode-map (kbd keys) nil)
+              )
+            '("M-h" "M-j" "M-k" "M-l" "M-H" "M-J" "M-K" "M-L")))
   #+END_SRC
 
 * Ranger & Dired  
