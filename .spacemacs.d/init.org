@@ -1300,6 +1300,20 @@
             (interactive "P")
             (with-persp-buffer-list () (ibuffer arg)))))
 
+    (with-eval-after-load 'ibuffer
+      (define-ibuffer-op ibuffer-do-remove-persp ()
+        "Remove marked buffers from current persp."
+        (:opstring "removed from current persp"
+                   :active-opstring "remove from current persp"
+                   :dangerous t
+                   :complex t
+                   :modifier-p t)
+        (if (persp-remove-buffer buf)
+            'kill
+          nil))
+
+      (define-key ibuffer-mode-map (kbd "R") 'ibuffer-do-remove-persp))
+
     (setq persp-emacsclient-init-frame-behaviour-override nil
           persp-init-new-frame-behaviour-override -1)
   #+END_SRC
