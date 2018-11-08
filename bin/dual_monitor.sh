@@ -37,20 +37,21 @@ function connect()
     INTERNAL_SCREEN_X=2560
     INTERNAL_SCREEN_Y=1440
 
-    SCALED_INTERNAL_SCREEN_X=$((INTERNAL_SCREEN_X * 3 / 2))
-    SCALED_INTERNAL_SCREEN_Y=$((INTERNAL_SCREEN_Y * 3 / 2))
+    SCALED_INTERNAL_SCREEN_X=$((INTERNAL_SCREEN_X * 5 / 4))
+    SCALED_INTERNAL_SCREEN_Y=$((INTERNAL_SCREEN_Y * 5 / 4))
 
     INTERNAL_POS_X=$SCALED_X
     INTERNAL_POS_Y=$((SCALED_Y - SCALED_INTERNAL_SCREEN_Y))
+    echo $INTERNAL_POS_Y
 
-    xrandr --output $EX_MONITOR --auto --primary --scale 2x2 --pos 0x0
+    xrandr --output $EX_MONITOR  --primary --scale 2x2 --pos 0x0
     xrandr --output eDP1 --auto --scale 1.25x1.25 --pos "${INTERNAL_POS_X}x${INTERNAL_POS_Y}"
 }
 
 function disconnect()
 {
     ACTION="OFF"
-    sleep 0.1
+    sleep 0.2
     xrandr --output eDP1 --scale 1.25x1.25
 }
 
