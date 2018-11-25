@@ -244,6 +244,8 @@
        org-startup-truncated nil
        org-M-RET-may-split-line '((default))
        org-extend-today-until 3 ;; before 3 a.m. is still considered "today"
+       org-refile-targets '((nil :maxlevel . 3)
+                            (org-agenda-files :maxlevel . 3))
        )
       (org-add-link-type
        "span" #'ignore ; not an 'openable' link
@@ -581,6 +583,14 @@
      (spacemacs/set-leader-keys "o" 'yang/hydra-org-mode/body)
    #+END_SRC
 
+** org-refile
+   [[https://blog.aaronbieber.com/2017/03/19/organizing-notes-with-refile.html][ref]], [[https://github.com/abo-abo/swiper/issues/444][ref]]
+   #+BEGIN_SRC emacs-lisp
+     (setq org-refile-use-outline-path 'file
+           org-outline-path-complete-in-steps nil
+           ;; creating new parent
+           org-refile-allow-creating-parent-nodes t)
+   #+END_SRC
 * LaTeX
   #+BEGIN_SRC emacs-lisp
     ;; LaTeX hook
