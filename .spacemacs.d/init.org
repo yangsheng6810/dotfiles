@@ -292,63 +292,63 @@
            )
    #+END_SRC
 
-** org-journal
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-journal
-       :init
-       (setq org-journal-dir "~/Documents/org/journal/"
-             org-journal-date-format "%x %A")
-       :config
-       (defun org-journal-find-location ()
-         ;; Open today's journal, but specify a non-nil prefix argument in order to
-         ;; inhibit inserting the heading; org-capture will insert the heading.
-         (org-journal-new-entry t)
-         ;; Position point on the journal's top-level heading so that org-capture
-         ;; will add the new entry as a child entry.
-         (goto-char (point-min)))
+# ** org-journal
+#    #+BEGIN_SRC emacs-lisp
+#      (use-package org-journal
+#        :init
+#        (setq org-journal-dir "~/Documents/org/journal/"
+#              org-journal-date-format "%x %A")
+#        :config
+#        (defun org-journal-find-location ()
+#          ;; Open today's journal, but specify a non-nil prefix argument in order to
+#          ;; inhibit inserting the heading; org-capture will insert the heading.
+#          (org-journal-new-entry t)
+#          ;; Position point on the journal's top-level heading so that org-capture
+#          ;; will add the new entry as a child entry.
+#          (goto-char (point-min)))
 
-       (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
-       (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
-       (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map)
+#        (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
+#        (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
+#        (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map)
 
-       (defun yang/switch-to-journal-today ()
-         "Switch to today's org-journal file"
-         (interactive)
-         (org-journal-new-entry t))
+#        (defun yang/switch-to-journal-today ()
+#          "Switch to today's org-journal file"
+#          (interactive)
+#          (org-journal-new-entry t))
 
-       (spacemacs/set-leader-keys "bj" 'yang/switch-to-journal-today)
-       (spacemacs/set-leader-keys "bJ" 'org-journal-new-entry)
+#        (spacemacs/set-leader-keys "bj" 'yang/switch-to-journal-today)
+#        (spacemacs/set-leader-keys "bJ" 'org-journal-new-entry)
 
-       ;; override default function as it prints out lots of messages
-       (defun org-journal-update-org-agenda-files ()
-         "Adds the current and future journal files to org-agenda-files.
-     And cleans out past org-journal files."
-         (when org-journal-enable-agenda-integration
-           (let ((agenda-files-without-org-journal
-                  (seq-filter
-                   (lambda (f)
-                     ;; (message "DEBUG: %s %s"
-                     ;;          (expand-file-name (file-name-directory f))
-                     ;;          (expand-file-name (file-name-as-directory org-journal-dir)))
-                     (not (and (string= (expand-file-name (file-name-directory f))
-                                        (expand-file-name (file-name-as-directory org-journal-dir)))
-                               (string-match org-journal-file-pattern (file-name-nondirectory f)))))
-                   org-agenda-files))
-                 (org-journal-agenda-files
-                  (seq-filter
-                   ;; skip files that are older than today
-                   (lambda (f)
-                     (not (time-less-p
-                           (org-journal-calendar-date->time
-                            (org-journal-file-name->calendar-date
-                             (file-name-nondirectory f)))
-                           (time-subtract (current-time) (days-to-time 1)))))
-                   (directory-files org-journal-dir t
-                                    org-journal-file-pattern))))
-             (setq org-agenda-files (append agenda-files-without-org-journal
-                                            org-journal-agenda-files)))))
-       )
-   #+END_SRC
+#        ;; override default function as it prints out lots of messages
+#        (defun org-journal-update-org-agenda-files ()
+#          "Adds the current and future journal files to org-agenda-files.
+#      And cleans out past org-journal files."
+#          (when org-journal-enable-agenda-integration
+#            (let ((agenda-files-without-org-journal
+#                   (seq-filter
+#                    (lambda (f)
+#                      ;; (message "DEBUG: %s %s"
+#                      ;;          (expand-file-name (file-name-directory f))
+#                      ;;          (expand-file-name (file-name-as-directory org-journal-dir)))
+#                      (not (and (string= (expand-file-name (file-name-directory f))
+#                                         (expand-file-name (file-name-as-directory org-journal-dir)))
+#                                (string-match org-journal-file-pattern (file-name-nondirectory f)))))
+#                    org-agenda-files))
+#                  (org-journal-agenda-files
+#                   (seq-filter
+#                    ;; skip files that are older than today
+#                    (lambda (f)
+#                      (not (time-less-p
+#                            (org-journal-calendar-date->time
+#                             (org-journal-file-name->calendar-date
+#                              (file-name-nondirectory f)))
+#                            (time-subtract (current-time) (days-to-time 1)))))
+#                    (directory-files org-journal-dir t
+#                                     org-journal-file-pattern))))
+#              (setq org-agenda-files (append agenda-files-without-org-journal
+#                                             org-journal-agenda-files)))))
+#        )
+#    #+END_SRC
 
 ** org-agenda
    #+BEGIN_SRC emacs-lisp
