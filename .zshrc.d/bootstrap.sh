@@ -13,6 +13,14 @@
 # echo "in bootstrap.zsh"
 if ! zgen saved; then
   echo "Before loading zgen.zsh, in if"
+  # to fix compinit problem of not adding src/ to fpath
+  -zgen-add-to-fpath "$ZGEN_DIR/zsh-users/zsh-completions-master/src"
+  zgen load zsh-users/zsh-autosuggestions
+  zgen load zsh-users/zsh-completions
+  # enable syntax highlighting
+  zgen load zsh-users/zsh-syntax-highlighting
+
+
   # specify plugins here
   zgen oh-my-zsh
 
@@ -37,13 +45,6 @@ if ! zgen saved; then
   for plugin in ${my_oh_my_zsh_plugins};do
       zgen oh-my-zsh plugins/${plugin}
   done
-
-  zgen load zsh-users/zsh-autosuggestions
-  # to fix compinit problem of not adding src/ to fpath
-  -zgen-add-to-fpath "$ZGEN_DIR/zsh-users/zsh-completions-master/src"
-  zgen load zsh-users/zsh-completions
-  # enable syntax highlighting
-  zgen load zsh-users/zsh-syntax-highlighting
 
 
   # uncomment the line below to enable theme
