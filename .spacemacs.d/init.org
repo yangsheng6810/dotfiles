@@ -552,13 +552,13 @@
               "* TODO %^{Book title}\n%u\n%a\n" :clock-in t :clock-resume t)
              ("tc" "Computer" entry
               (file+headline "~/Documents/org/Tasks.org" "Computer")
-              "* TODO %^{Topic}\n %u\n %a\n" :clock-in t :clock-resume t)
+              "* TODO %^{Topic} :computer:\n %u\n %a\n" :clock-in t :clock-resume t)
              ("tr" "Research" entry
               (file+headline "~/Documents/org/Tasks.org" "Research")
-              "* TODO %^{Title}\n%u\n%a\n" :clock-in t :clock-resume t)
+              "* TODO %^{Title} :research:\n%u\n%a\n" :clock-in t :clock-resume t)
              ("ti" "Idea" entry
               (file+headline "~/Documents/org/Tasks.org" "Idea")
-              "* TODO %^{Idea}\n%u\n%a\n" :clock-in t :clock-resume t)
+              "* TODO %^{Idea} :idea:\n%u\n%a\n" :clock-in t :clock-resume t)
              ("x" "Exercise" entry
               (file+olp+datetree "~/Documents/org/Exercise.org")
               "* %?\n  %u" :time-prompt t)))
