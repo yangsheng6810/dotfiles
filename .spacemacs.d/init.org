@@ -170,26 +170,28 @@
 * Ergonomic keybindings
   #+BEGIN_SRC emacs-lisp
     ;; Ergonomic keybinding M-<hjkl>
-    (mapc (lambda (keymap)
-            ;; Normal-mode, hjkl
-            (define-key keymap (kbd "M-h") 'evil-backward-char)
-            (define-key keymap (kbd "M-l") 'evil-forward-char)
-            (define-key keymap (kbd "M-k") 'evil-previous-visual-line)
-            (define-key keymap (kbd "M-j") 'evil-next-visual-line)
+    (with-eval-after-load 'evil-evilified-state
+      (mapc (lambda (keymap)
+              ;; Normal-mode, hjkl
+              (define-key keymap (kbd "M-h") 'evil-backward-char)
+              (define-key keymap (kbd "M-l") 'evil-forward-char)
+              (define-key keymap (kbd "M-k") 'evil-previous-visual-line)
+              (define-key keymap (kbd "M-j") 'evil-next-visual-line)
 
-            ;; Move to beginning/ending of line
-            (define-key keymap (kbd "M-H") 'move-beginning-of-line)
-            (define-key keymap (kbd "M-L") 'move-end-of-line)
-            (define-key keymap (kbd "C-a") 'move-beginning-of-line)
-            (define-key keymap (kbd "C-e") 'move-end-of-line)
-            ;; Scroll up/down
-            (define-key keymap (kbd "M-J") 'evil-scroll-down)
-            (define-key keymap (kbd "M-K") 'evil-scroll-up)
-            ;; delete-char
-            (define-key keymap (kbd "C-d") 'delete-char)
-            )
-          `(,evil-insert-state-map
-            ,evil-normal-state-map))
+              ;; Move to beginning/ending of line
+              (define-key keymap (kbd "M-H") 'move-beginning-of-line)
+              (define-key keymap (kbd "M-L") 'move-end-of-line)
+              (define-key keymap (kbd "C-a") 'move-beginning-of-line)
+              (define-key keymap (kbd "C-e") 'move-end-of-line)
+              ;; Scroll up/down
+              (define-key keymap (kbd "M-J") 'evil-scroll-down)
+              (define-key keymap (kbd "M-K") 'evil-scroll-up)
+              ;; ;; delete-char
+              ;; (define-key keymap (kbd "C-d") 'delete-char)
+              )
+            `(,evil-insert-state-map
+              ,evil-motion-state-map
+              ,evil-evilified-state-map-original)))
 
     ;; fix some keybinding problems
     ;; fix for js2-mode
