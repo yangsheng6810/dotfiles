@@ -221,7 +221,7 @@
                             ;; (kbd "M-K") 'org-shiftmetaup
                             ;; (kbd "M-L") 'org-shiftmetaright
                             ))
-                        '(normal insert)))))
+                        '(normal insert motion visual)))))
   #+END_SRC
   
 * org-mode
