@@ -899,9 +899,9 @@
    (cond ((string-equal system-name "carbon") ; thinkpad X1 carbon
           (progn
             (with-eval-after-load 'org
-              (plist-put org-format-latex-options :scale 2.0))
+              (plist-put org-format-latex-options :scale 2.5))
             (setq
-             preview-scale-function 2)
+             preview-scale-function 3)
             ;; for GUI called by emacs
             (setenv "GDK_SCALE" "2")
             (setenv "GDK_DPI_SCALE" "0.5")
