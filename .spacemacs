@@ -135,7 +135,7 @@ This function should only modify configuration layer settings."
                                       ;; highlight-indent-guides
                                       highlight-indentation
                                       (evil-bind-smartparens
-                                       :location local)
+                                       :location "~/.spacemacs.d/local/evil-bind-smartparens")
                                       ;; show different cursor in terminal according to evil mode
                                       evil-terminal-cursor-changer
                                       helpful
