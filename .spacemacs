@@ -134,8 +134,6 @@ This function should only modify configuration layer settings."
                                       eterm-256color
                                       ;; highlight-indent-guides
                                       highlight-indentation
-                                      (evil-bind-smartparens
-                                       :location "~/.spacemacs.d/local/evil-bind-smartparens")
                                       ;; show different cursor in terminal according to evil mode
                                       evil-terminal-cursor-changer
                                       helpful
