@@ -10,6 +10,7 @@
           evil-ex-interactive-search-highlight nil
           evil-want-Y-yank-to-eol t
           mouse-yank-at-point t)
+    (define-key evil-insert-state-map (kbd "C-k") nil)
 
     (setq isearch-lax-whitespace t
           isearch-regexp-lax-whitespace t
@@ -239,8 +240,8 @@
               ;; Scroll up/down
               (define-key keymap (kbd "M-J") 'evil-scroll-down)
               (define-key keymap (kbd "M-K") 'evil-scroll-up)
-              ;; ;; delete-char
-              ;; (define-key keymap (kbd "C-d") 'delete-char)
+              ;; delete-char
+              (define-key keymap (kbd "C-d") 'delete-char)
               )
             `(,evil-insert-state-map
               ,evil-motion-state-map
