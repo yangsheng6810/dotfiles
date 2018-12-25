@@ -1,6 +1,6 @@
 * Blogs :elfeed:
 ** Research
-*** http://feedworld.net/toc/atom.xml :research:
+*** http://cstheory-feed.org/atom.xml :research:
 ** Emacs
 *** http://planet.emacsen.org/atom.xml :emacs:
 ** Friends
