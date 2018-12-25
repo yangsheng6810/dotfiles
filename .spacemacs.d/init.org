@@ -607,12 +607,18 @@
              ("tc" "Computer" entry
               (file+headline "~/Documents/org/Tasks.org" "Computer")
               "* TODO %^{Topic} :computer:\n %u\n %a\n" :clock-in t :clock-resume t)
+             ("tf" "Food" entry
+              (file+headline "~/Documents/org/Tasks.org" "Food")
+              "* TODO %^{Food} :food:\n %u\n %a\n" :clock-in t :clock-resume t)
              ("tr" "Research" entry
               (file+headline "~/Documents/org/Tasks.org" "Research")
               "* TODO %^{Title} :research:\n%u\n%a\n" :clock-in t :clock-resume t)
              ("ti" "Idea" entry
               (file+headline "~/Documents/org/Tasks.org" "Idea")
               "* TODO %^{Idea} :idea:\n%u\n%a\n" :clock-in t :clock-resume t)
+             ("tn" "Not grouped" entry
+              (file+headline "~/Documents/org/Tasks.org" "Not grouped")
+              "* TODO %^{Subject}\n%u\n%a\n" :clock-in t :clock-resume t)
              ("x" "Exercise" entry
               (file+olp+datetree "~/Documents/org/Exercise.org")
               "* %?\n  %u" :time-prompt t)))
