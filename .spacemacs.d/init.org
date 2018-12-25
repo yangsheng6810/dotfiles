@@ -1345,6 +1345,10 @@
            `(("." .
               ,(concat dotspacemacs-directory ".cache/undo-tree/")))
            )
+
+     (when (string= system-name "carbon")
+       (load "~/git/undo-tree/undo-tree.el")
+       )
    #+END_SRC
 
 * Semantic
