@@ -849,7 +849,7 @@
       :config
       (progn
         (setq ranger-show-dotfiles nil ;; default not show dotfiles at startup, toggled by zh
-              ranger-cleanup-on-disable t ;; kill the buffers when we finish
+              ranger-cleanup-on-disable nil ;; kill the buffers when we finish
               )))
 
     (with-eval-after-load 'dired
