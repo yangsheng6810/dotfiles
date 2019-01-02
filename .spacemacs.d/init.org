@@ -217,6 +217,13 @@
       :after (core-fonts-support importmagic)
       :init (spacemacs/diminish-undo 'importmagic-mode)
       :diminish importmagic-mode)
+
+    (use-package beacon
+      :defer t
+      :diminish beacon-mode
+      :config
+      (beacon-mode 1))
+
     (with-eval-after-load 'spaceline
       (spaceline-toggle-buffer-encoding-abbrev-off))
   #+END_SRC

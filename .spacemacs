@@ -137,6 +137,7 @@ This function should only modify configuration layer settings."
                                       ;; show different cursor in terminal according to evil mode
                                       evil-terminal-cursor-changer
                                       helpful
+                                      beacon
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages (if (version< emacs-version "25")
