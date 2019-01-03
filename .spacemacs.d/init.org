@@ -1519,7 +1519,7 @@
 
     (advice-add 'server-create-window-system-frame :after #'my-reload-modeline)
   #+END_SRC
-** ad-Advice-popwin:create-popup-window: Symbol’s function definition is void: purpose-window-purpose-dedicated-p
+** ad-Advice-popwin:create-popup-window: Symbol's function definition is void: purpose-window-purpose-dedicated-p
    #+BEGIN_SRC emacs-lisp
   (require 'window-purpose-core)
    #+END_SRC
