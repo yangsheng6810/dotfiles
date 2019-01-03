@@ -687,48 +687,49 @@
 * LaTeX
   #+BEGIN_SRC emacs-lisp
     ;; LaTeX hook
-    (add-hook 'LaTeX-mode-hook
-              (lambda ()
-                (turn-on-reftex)
-                (add-to-list 'TeX-command-list '
-                             ("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-                (setq TeX-auto-save t)
-                (LaTeX-math-mode)
-                (imenu-add-menubar-index)
-                ;; (setq LaTeX-command-style
-                ;;       (quote (("\\`fontspec\\'" "xelatex ")
-                ;;               ("" "%(PDF)%(latex) %S%(PDFout)"))))
-                ;; (custom-set-variables
-                ;;     '(preview-fast-dvips-command "pdftops -origpagesizes %s.pdf %m/preview.ps"))
-                (setq TeX-save-query nil)
-                (setq TeX-parse-self t)
-                (setq TeX-output-view-style
-                      (cons '("^pdf$" "." "evince  %o ") TeX-output-view-style))
-                ;; (set-default 'preview-default-document-pt 12)
-                ;; (set-default 'preview-scale-function 1.2)
-                ;; (setq preview-required-option-list
-                ;; 	  (quote ("active" "tightpage" "auctex" "xetex" (preview-preserve-counters "counters"))))
-                (setq preview-default-option-list
-                      (quote ("displaymath" "floats" "graphics" "textmath" "showlabels" "sections" )))
-                (TeX-engine-set "default")
-                (LaTeX-add-environments
-                 "definition"
-                 "example"
-                 "tikzpicture"
-                 "corallary"
-                 "align*"
-                 "theorem"
-                 "proof"
-                 "lemma"
-                 ;; '("tikzpicture" LaTeX-env-tikz)
-                 )
-                ;; enable TeX-fold-buffer
-                ;; (add-hook 'find-file-hook 'TeX-fold-buffer t t)
-                (setq preview-auto-cache-preamble t)
-                (rainbow-delimiters-mode-enable)
-                (setq fill-column 10000)
-                ;; (turn-off-auto-fill)
-                ))
+    (defun yang/LaTeX-setup ()
+      (turn-on-reftex)
+      (add-to-list 'TeX-command-list '
+                   ("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+      (setq TeX-auto-save t)
+      (LaTeX-math-mode)
+      (imenu-add-menubar-index)
+      ;; (setq LaTeX-command-style
+      ;;       (quote (("\\`fontspec\\'" "xelatex ")
+      ;;               ("" "%(PDF)%(latex) %S%(PDFout)"))))
+      ;; (custom-set-variables
+      ;;     '(preview-fast-dvips-command "pdftops -origpagesizes %s.pdf %m/preview.ps"))
+      (setq TeX-save-query nil)
+      (setq TeX-parse-self t)
+      (setq TeX-output-view-style
+            (cons '("^pdf$" "." "evince  %o ") TeX-output-view-style))
+      ;; (set-default 'preview-default-document-pt 12)
+      ;; (set-default 'preview-scale-function 1.2)
+      ;; (setq preview-required-option-list
+      ;; 	  (quote ("active" "tightpage" "auctex" "xetex" (preview-preserve-counters "counters"))))
+      (setq preview-default-option-list
+            (quote ("displaymath" "floats" "graphics" "textmath" "showlabels" "sections" )))
+      (TeX-engine-set "default")
+      (LaTeX-add-environments
+       "definition"
+       "example"
+       "tikzpicture"
+       "corallary"
+       "align*"
+       "theorem"
+       "proof"
+       "lemma"
+       ;; '("tikzpicture" LaTeX-env-tikz)
+       )
+      ;; enable TeX-fold-buffer
+      ;; (add-hook 'find-file-hook 'TeX-fold-buffer t t)
+      (setq preview-auto-cache-preamble t)
+      (rainbow-delimiters-mode-enable)
+      (setq fill-column 10000)
+      ;; (turn-off-auto-fill)
+      )
+
+    (add-hook 'LaTeX-mode-hook #'yang/LaTeX-setup)
   #+END_SRC
 
 ** bibtex
