@@ -32,7 +32,7 @@
     ;; as one insertion.
 
     ;; turn on highlight-current-line-globally
-    (spacemacs/toggle-highlight-current-line-globally-on)
+    (spacemacs/toggle-highlight-current-line-globally-off)
 
     (global-unset-key (kbd "M-SPC"))
     (global-set-key (kbd "M-SPC") 'set-mark-command)
