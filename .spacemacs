@@ -110,6 +110,7 @@ This function should only modify configuration layer settings."
      (elfeed ;; for reading feed
       :variables rmh-elfeed-org-files
       (list "~/.spacemacs.d/elfeed.org"))
+     theming
      )
 
    ;; List of additional packages that will be installed without being
