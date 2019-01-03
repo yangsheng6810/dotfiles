@@ -1043,7 +1043,7 @@
        ;; '("tikzpicture" LaTeX-env-tikz)
        )
       ;; enable TeX-fold-buffer
-      ;; (add-hook 'find-file-hook 'TeX-fold-buffer t t)
+      (add-hook 'find-file-hook 'TeX-fold-buffer t t)
       (setq preview-auto-cache-preamble t)
       (rainbow-delimiters-mode-enable)
       (setq fill-column 10000)
