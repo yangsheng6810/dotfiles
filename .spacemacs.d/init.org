@@ -228,7 +228,25 @@
       :defer t
       :diminish beacon-mode
       :config
-      (beacon-mode 1))
+      (beacon-mode 1)
+
+      (defun beacon--visual-current-column ()
+        "Get the visual column we are at, takes long lines and visual line mode into account."
+        (save-excursion
+          (let ((current (point)))
+            (beginning-of-visual-line)
+            (- current (point)))))
+
+      (defun yang/beacon--after-string-overlay (colors)
+        "Put an overlay at point with an after-string property.
+    The property's value is a string of spaces with background
+    COLORS applied to each one."
+        ;; The after-string must not be longer than the remaining columns
+        ;; from point to right window-end else it will be wrapped around.
+        (let ((colors (seq-take colors (- (window-width) (beacon--visual-current-column) 1))))
+          (beacon--ov-put-after-string (beacon--make-overlay 0) colors)))
+      (advice-add #'beacon--after-string-overlay :override #'yang/beacon--after-string-overlay)
+      )
 
     (with-eval-after-load 'spaceline
       (spaceline-toggle-buffer-encoding-abbrev-off))
