@@ -138,6 +138,7 @@ This function should only modify configuration layer settings."
                                       ;; show different cursor in terminal according to evil mode
                                       evil-terminal-cursor-changer
                                       helpful
+                                      olivetti
                                       beacon
                                       )
    ;; A list of packages that cannot be updated.

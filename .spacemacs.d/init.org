@@ -1049,6 +1049,7 @@
       (setq fill-column 10000)
       ;; (turn-off-auto-fill)
       (variable-pitch-mode 1)
+      (olivetti-mode 1)
       )
 
     (add-hook 'LaTeX-mode-hook #'yang/LaTeX-setup)
