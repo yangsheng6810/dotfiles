@@ -1217,6 +1217,8 @@
       (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
 
       (setq dired-recursive-copies 'always)
+      (add-to-list 'completion-ignored-extensions ".synctex.gz")
+      (setq counsel-find-file-ignore-regexp (regexp-opt completion-ignored-extensions))
       )
 
     (use-package dired-x
