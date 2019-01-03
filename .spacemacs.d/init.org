@@ -50,6 +50,12 @@
 
     ;; Show different cursor for different evil mode in terminal
     (evil-terminal-cursor-changer-activate)
+
+    (defun yang/swiper-no-visual-line ()
+      "Swpier as if visual-line-mode is off."
+      (interactive)
+      (let ((visual-line-mode nil))
+        (swiper)))
   #+END_SRC
 
 ** Rectangle editing
