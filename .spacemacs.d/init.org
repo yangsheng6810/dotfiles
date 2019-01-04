@@ -1221,7 +1221,7 @@
 
       (setq dired-recursive-copies 'always)
       (add-to-list 'completion-ignored-extensions ".synctex.gz")
-      (setq counsel-find-file-ignore-regexp (regexp-opt completion-ignored-extensions))
+      (setq counsel-find-file-ignore-regexp (concat (regexp-opt completion-ignored-extensions) "$"))
       )
 
     (use-package dired-x
