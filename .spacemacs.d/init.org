@@ -228,8 +228,6 @@
       :defer t
       :diminish beacon-mode
       :config
-      (beacon-mode 1)
-
       (defun beacon--visual-current-column ()
         "Get the visual column we are at, takes long lines and visual line mode into account."
         (save-excursion
@@ -273,6 +271,8 @@
 
     (use-package buffer-face
       :diminish buffer-face-mode)
+    (beacon-mode 1)
+
 
     (with-eval-after-load 'spaceline
       (spaceline-toggle-buffer-encoding-abbrev-off))
