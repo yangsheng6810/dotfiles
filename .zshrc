@@ -1,4 +1,4 @@
-## start zsh profiling
+# # start zsh profiling
 # zmodload zsh/zprof
 
 # POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
@@ -28,5 +28,5 @@ fi
 export SUDO_EDITOR=vim
 # compinit
 
-## end zsh profiling
+# # end zsh profiling
 # zprof
