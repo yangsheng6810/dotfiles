@@ -227,7 +227,7 @@
     (use-package beacon
       :defer t
       :diminish beacon-mode
-      :config
+      :init
       (defun beacon--visual-current-column ()
         "Get the visual column we are at, takes long lines and visual line mode into account."
         (save-excursion
@@ -243,21 +243,24 @@
             (overlay-put temp-ov 'after-string " ")
             (setq new-pixel-x (car (nth 2 (posn-at-point))))
             (delete-overlay temp-ov)
-            (- new-pixel-x old-pixel-x))))
+        (if (= new-pixel-x old-pixel-x)
+            (window-font-width)
+            (- new-pixel-x old-pixel-x)))))
 
-      (defun yang/beacon--visual-current-column (func)
+      (defun yang/beacon--visual-current-column (func &rest args)
         (interactive)
-        (if (not (eq buffer-face-mode-face 'variable-pitch))
-            (func)
+        (if (not (and (display-graphic-p)
+                      (boundp 'buffer-face-mode-face)
+                      (eq buffer-face-mode-face 'variable-pitch)))
+            (apply func args)
           (let* ((cur-pos (posn-at-point))
                  (cur-char-pixel-width (car (nth 9 cur-pos)))
                  (cur-x (car (nth 2 cur-pos)))
                  (window-pixel-width (window-body-width nil t))
                  (space-pixel-width (yang/beacon--space-pixel-width)))
             (- (window-width) (/ (- window-pixel-width cur-x cur-char-pixel-width) space-pixel-width) 1))))
-
-      (advice-add #'beacon--visual-current-column :around #'yang/beacon--visual-current-column)
-
+      :config
+      ;; (advice-add #'beacon--visual-current-column :around #'yang/beacon--visual-current-column)
       (defun yang/beacon--after-string-overlay (colors)
         "Put an overlay at point with an after-string property.
     The property's value is a string of spaces with background
