@@ -269,10 +269,10 @@
       (advice-add #'beacon--after-string-overlay :override #'yang/beacon--after-string-overlay)
       )
 
-    (use-package buffer-face
-      :diminish buffer-face-mode)
     (beacon-mode 1)
 
+    (with-eval-after-load 'face-remap
+      (diminish 'buffer-face-mode))
 
     (with-eval-after-load 'spaceline
       (spaceline-toggle-buffer-encoding-abbrev-off))
