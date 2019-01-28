@@ -21,7 +21,7 @@ esac
 createTunnel() {
     /usr/bin/ssh -p "$SSH_PORT" -f -N \
                  -R "$PORT":localhost:"$LOCAL_SSH_PORT" \
-                 dimlight.tk
+                 yangsheng@dimlight.tk
                  # -L"$LOCAL_PORT":dimlight.tk:"$SSH_PORT" \
     if [[ $? -eq 0 ]]; then
         echo Tunnel to HostA created successfully
@@ -34,7 +34,7 @@ if ping -q -c 1 -W 1 8.8.8.8 > /dev/null; then
     if ping -q -c 1 -W 1 dimlight.tk > /dev/null; then
         echo "linode server available"
         # /usr/bin/ssh -p "$LOCAL_PORT" "$USER"@localhost ls > /dev/null
-        timeout 25 /usr/bin/ssh -o ConnectTimeout=20 -o ProxyCommand="ssh -p $SSH_PORT -q dimlight.tk nc -q0 localhost $PORT" localhost ls > /dev/null
+        timeout 25 /usr/bin/ssh -o ConnectTimeout=20 -o ProxyCommand="ssh -p $SSH_PORT -q yangsheng@dimlight.tk nc -q0 localhost $PORT" localhost ls > /dev/null
         if [[ $? -ne 0 ]]; then
             echo Creating new tunnel connection to HostA
             createTunnel
