@@ -1950,7 +1950,7 @@
     (defun semantic-rescan-directory (dir)
       (interactive "D")
       (message "Scanning directory %s." dir)
-      (semanticdb-rescan-directory-1 dir))
+      (semanticdb-rescan-directory-1 (expand-file-name dir)))
 
     ;; (semantic-rescan-directory "/home/yangsheng/.emacs.d/elpa/26.1/develop/")
     ;; (semantic-rescan-directory "/usr/share/emacs/26.1/")
