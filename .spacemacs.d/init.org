@@ -1130,7 +1130,7 @@
       ;; (setq preview-required-option-list
       ;; 	  (quote ("active" "tightpage" "auctex" "xetex" (preview-preserve-counters "counters"))))
       (setq preview-default-option-list
-            (quote ("displaymath" "floats" "graphics" "textmath" "showlabels" "sections" )))
+            (quote ("displaymath" "floats" "graphics" "textmath" "showlabels")))
       (TeX-engine-set "default")
       (LaTeX-add-environments
        "definition"
