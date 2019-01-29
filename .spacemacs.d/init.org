@@ -51,11 +51,22 @@
     ;; Show different cursor for different evil mode in terminal
     (evil-terminal-cursor-changer-activate)
 
-    (defun yang/swiper-no-visual-line ()
-      "Swpier as if visual-line-mode is off."
+    (defun yang/swiper ()
+      "In visual-line-mode, call swiper on visual line when universal prefix is provided, normal swiper otherwise"
       (interactive)
-      (let ((visual-line-mode nil))
+      (let ((visual-line-mode (and visual-line-mode
+                                   (not (null current-prefix-arg)))))
         (swiper)))
+
+    (defun yang/kill-line ()
+      "kill line in visual-line-mode, normal kill-line with no arg, and kill-visual-line when called with prefix arg"
+      (interactive)
+      (when visual-line-mode
+        (if current-prefix-arg
+            (kill-visual-line)
+          (kill-line))))
+
+    (define-key visual-line-mode-map (kbd "C-k") #'yang/kill-line)
   #+END_SRC
 
 ** Rectangle editing
@@ -668,6 +679,13 @@
       ;; in table
       (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
       (add-to-list 'org-babel-load-languages '(latex . t))
+
+      (defun yang/org-wrap-span (beg end)
+        (interactive "r")
+        (let ((class-name (read-string "Enter the class for span: ")))
+          (save-excursion
+            (goto-char end) (insert ")}}}")
+            (goto-char beg) (insert (format "{{{SPAN(%s," class-name)))))
       )
   #+END_SRC
 
@@ -1132,6 +1150,17 @@
       (setq fill-column 10000)
       ;; (turn-off-auto-fill)
       (olivetti-mode 1)
+      (define-key LaTeX-mode-map (kbd "C-s") #'yang/swiper)
+
+      (spacemacs/set-leader-keys-for-major-mode 'latex-mode
+        "zc" 'TeX-fold-comment)
+
+      (defun yang/LaTeX-narrow-to-section ()
+        (interactive)
+        (save-excursion
+          (LaTeX-mark-section)
+          (narrow-to-region (point) (mark))
+          (deactivate-mark)))
       )
 
     (add-hook 'LaTeX-mode-hook #'yang/LaTeX-setup)
