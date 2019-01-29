@@ -1372,6 +1372,9 @@
            (message-send-and-exit)))
 
        (add-hook 'org-ctrl-c-ctrl-c-hook 'htmlize-and-send t)
+
+       ;; fix C-h
+       (evil-define-key 'evilified mu4e-view-mode-map (kbd "C-h") nil)
      )
    #+END_SRC
 ** Sending
