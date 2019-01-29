@@ -257,6 +257,10 @@
   
 ** varable-pitch-mode
    #+BEGIN_SRC emacs-lisp
+     (add-hook 'text-mode-hook
+               (lambda ()
+                 (variable-pitch-mode 1)))
+
      (use-package theming
        :defer t
        :init
@@ -664,9 +668,6 @@
       ;; in table
       (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
       (add-to-list 'org-babel-load-languages '(latex . t))
-      (add-hook 'org-mode-hook
-                (lambda ()
-                  (variable-pitch-mode 1)))
       )
   #+END_SRC
 
@@ -1048,7 +1049,6 @@
       (rainbow-delimiters-mode-enable)
       (setq fill-column 10000)
       ;; (turn-off-auto-fill)
-      (variable-pitch-mode 1)
       (olivetti-mode 1)
       )
 
