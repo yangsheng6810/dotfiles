@@ -1659,6 +1659,26 @@
        (setq ace-pinyin--jump-word-timeout 0.3)
        ;; (spacemacs/set-leader-keys "j j" 'ace-pinyin-jump-char-2)
        (spacemacs/set-leader-keys "j j" (lambda () (interactive) (ace-pinyin-jump-word t)))
+
+       (defun yang/ace-pinyin--jump-word-1 (query)
+         (let ((regexp
+                (pinyinlib-build-regexp-string
+                 query
+                 (not ace-pinyin-enable-punctuation-translation)
+                 (not ace-pinyin-simplified-chinese-only-p))))
+           (if ace-pinyin-use-avy
+               (avy-with avy-goto-char
+                 (avy--generic-jump regexp nil))
+             (if ace-jump-current-mode (ace-jump-done))
+
+             (let ((case-fold-search nil))
+               (when (string-match-p "[^a-z]" query)
+                 (error "[AcePinyin] Non-lower case character")))
+
+             (setq ace-jump-current-mode 'ace-jump-char-mode)
+             (ace-jump-do regexp))))
+
+       (advice-add #'ace-pinyin--jump-word-1 :override #'yang/ace-pinyin--jump-word-1)
        )
    #+END_SRC
 
