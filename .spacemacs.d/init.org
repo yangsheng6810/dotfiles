@@ -1493,6 +1493,7 @@
 
        ;; fix C-h
        (evil-define-key 'evilified mu4e-view-mode-map (kbd "C-h") nil)
+       (setq mu4e-headers-include-related nil)
      )
    #+END_SRC
 ** Sending
