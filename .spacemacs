@@ -142,6 +142,7 @@ This function should only modify configuration layer settings."
                                       helpful
                                       olivetti
                                       beacon
+                                      mu4e-conversation
                                       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages (if (version< emacs-version "25")
