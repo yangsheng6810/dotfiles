@@ -167,6 +167,17 @@
     (setq system-time-locale "zh_CN.utf-8"
           user-mail-address "yangsheng6810@gmail.com")
     (setq exec-path (cons (expand-file-name "~/.pyenv/shims") exec-path))
+    (setq yang/at-china nil)
+    (when yang/at-china
+      (setq url-gateway-method 'socks)
+      (setq socks-server '("Default server" "127.0.0.1" 8883 5))
+      (setq url-proxy-services
+            '(
+              ;; ("no_proxy" . "^\\(localhost\\|192\\.168\\..*\\)")
+              ("http"     . "127.0.0.1:8123")
+              ("https"    . "127.0.0.1:8123")))
+      (setq request--url-options
+            '("--proxy" "socks5://localhost:8883")))
   #+END_SRC
 
 * Display
