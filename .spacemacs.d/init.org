@@ -902,77 +902,77 @@
    :ID:       d3110ee0-3505-4775-8d15-ba2b1d9f7f4b
    :END:
    #+BEGIN_SRC emacs-lisp
-          (use-package org-agenda
-            :init
-            (setq org-agenda-files
-                  '("~/Documents/org/papers.org"
-                    "~/Documents/org/Tasks.org"
-                    "~/Documents/org/Birthdays.org"
-                    "~/Documents/org/gcal.org"
-                    "~/Documents/org/Schedule.org"))
-            :config
-            (mapc
-             (lambda (value)
-               (add-to-list
-                'org-agenda-custom-commands value
-               ;; nil (lambda (ele1 ele2)
-               ;;       (equal (car ele1) (car ele2)))
-               ))
-             '(
-               ("W" "Weekly Review"
-                ((agenda "" ((org-agenda-span 7))); review upcoming deadlines and appointments
-                                                  ; type "l" in the agenda to review logged items
-                 (stuck "") ; review stuck projects as designated by org-stuck-projects
-                 ;; (todo "PROJECT") ; review all projects (assuming you use todo keywords to designate projects)
-                 ;; (todo "MAYBE") ; review someday/maybe items
-                 (todo "WAIT"))) ; review waiting items
-               ("g" . "GTD contexts")
-               ("gc" "Computer" tags-todo "computer|linux|emacs"
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-                 (org-agenda-overriding-header "Unscheduled computer tasks")))
-               ("ge" "Emacs" tags-todo "emacs"
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-                 (org-agenda-overriding-header "Unscheduled computer tasks")))
-               ("gh" "Home" tags-todo "home"
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-                 (org-agenda-overriding-header "Unscheduled computer tasks")))
-               ("gl" "Life" tags-todo "life"
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-                 (org-agenda-overriding-header "Unscheduled computer tasks")))
-               ("gp" "Photography" tags-todo "photography|photo"
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-                 (org-agenda-overriding-header "Unscheduled computer tasks")))
-               ("gr" "Research" tags-todo "research"
-                ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-                 (org-agenda-overriding-header "Unscheduled computer tasks")))
-               ("d" "Upcoming deadlines" agenda ""
-                ((org-agenda-entry-types '(:deadline))
-                 (org-agenda-span 14)
-                 (org-agenda-time-grid nil)))
+     (use-package org-agenda
+       :init
+       (setq org-agenda-files
+             '("~/Documents/org/papers.org"
+               "~/Documents/org/Tasks.org"
+               "~/Documents/org/Birthdays.org"
+               "~/Documents/org/gcal.org"
+               "~/Documents/org/Schedule.org"))
+       :config
+       (mapc
+        (lambda (value)
+          (add-to-list
+           'org-agenda-custom-commands value
+          ;; nil (lambda (ele1 ele2)
+          ;;       (equal (car ele1) (car ele2)))
+          ))
+        '(
+          ("W" "Weekly Review"
+           ((agenda "" ((org-agenda-span 7))); review upcoming deadlines and appointments
+                                             ; type "l" in the agenda to review logged items
+            (stuck "") ; review stuck projects as designated by org-stuck-projects
+            ;; (todo "PROJECT") ; review all projects (assuming you use todo keywords to designate projects)
+            ;; (todo "MAYBE") ; review someday/maybe items
+            (todo "WAIT"))) ; review waiting items
+          ("g" . "GTD contexts")
+          ("gc" "Computer" tags-todo "computer|linux|emacs"
+           ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
+            (org-agenda-overriding-header "Unscheduled computer tasks")))
+          ("ge" "Emacs" tags-todo "emacs"
+           ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
+            (org-agenda-overriding-header "Unscheduled emacs tasks")))
+          ("gh" "Home" tags-todo "home"
+           ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
+            (org-agenda-overriding-header "Unscheduled home tasks")))
+          ("gl" "Life" tags-todo "life"
+           ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
+            (org-agenda-overriding-header "Unscheduled life tasks")))
+          ("gp" "Photography" tags-todo "photography|photo"
+           ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
+            (org-agenda-overriding-header "Unscheduled photography tasks")))
+          ("gr" "Research" tags-todo "research"
+           ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
+            (org-agenda-overriding-header "Unscheduled research tasks")))
+          ("d" "Upcoming deadlines" agenda ""
+           ((org-agenda-entry-types '(:deadline))
+            (org-agenda-span 14)
+            (org-agenda-time-grid nil)))
 
-               ("r" . "Weekly review")
-               ("rw" "Last week"
-                ((tags "TIMESTAMP_IA>=\"<-9d>\"+TIMESTAMP_IA<=\"<today>\"/DONE"
-                       ((org-agenda-overriding-header "Got inactive in the last week")))
-                 (tags "TIMESTAMP>=\"<-9d>\"+TIMESTAMP<=\"<today>\"/DONE"
-                       ((org-agenda-overriding-header "Happened in the last week")
-                        (org-agenda-files '("~/Documents/org/Schedule.org"
-                                            "~/Documents/org/Research.org"
-                                            "~/Documents/org/gcal.org"
-                                            "~/Documents/org/papers.org"
-                                            "~/Documents/org/Tasks.org"))))
-                 (tags "SCHEDULED>=\"<-9d>\"+SCHEDULED<=\"<today>\"/DONE"
-                       ((org-agenda-overriding-header "Scheduled and finished in the last week")
-                        (org-agenda-repeating-timestamp-show-all t)   ;; ensures that repeating events appear on all relevant dates
-                        ))
-                 (tags "SCHEDULED>=\"<-9d>\"+SCHEDULED<=\"<today>\""
-                       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                        (org-agenda-overriding-header "Scheduled but didn't finished in the last week")))))
-               ("c" "Weekly schedule" agenda ""
-                ((org-agenda-span 7)           ;; agenda will start in week view
-                 (org-agenda-repeating-timestamp-show-all t)   ;; ensures that repeating events appear on all relevant dates
-                 (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
-               )))
+          ("r" . "Weekly review")
+          ("rw" "Last week"
+           ((tags "TIMESTAMP_IA>=\"<-9d>\"+TIMESTAMP_IA<=\"<today>\"/DONE"
+                  ((org-agenda-overriding-header "Got inactive in the last week")))
+            (tags "TIMESTAMP>=\"<-9d>\"+TIMESTAMP<=\"<today>\"/DONE"
+                  ((org-agenda-overriding-header "Happened in the last week")
+                   (org-agenda-files '("~/Documents/org/Schedule.org"
+                                       "~/Documents/org/Research.org"
+                                       "~/Documents/org/gcal.org"
+                                       "~/Documents/org/papers.org"
+                                       "~/Documents/org/Tasks.org"))))
+            (tags "SCHEDULED>=\"<-9d>\"+SCHEDULED<=\"<today>\"/DONE"
+                  ((org-agenda-overriding-header "Scheduled and finished in the last week")
+                   (org-agenda-repeating-timestamp-show-all t)   ;; ensures that repeating events appear on all relevant dates
+                   ))
+            (tags "SCHEDULED>=\"<-9d>\"+SCHEDULED<=\"<today>\""
+                  ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
+                   (org-agenda-overriding-header "Scheduled but didn't finished in the last week")))))
+          ("c" "Weekly schedule" agenda ""
+           ((org-agenda-span 7)           ;; agenda will start in week view
+            (org-agenda-repeating-timestamp-show-all t)   ;; ensures that repeating events appear on all relevant dates
+            (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
+          )))
    #+END_SRC
    This shows the current week from today, but also the past three days.
    #+BEGIN_SRC emacs-lisp
