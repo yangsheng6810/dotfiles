@@ -1,3 +1,4 @@
+# -*- mode: shell-script;-*-
 #PROMPT='%{$fg[yellow]%}λ %m %{$fg[green]%}%c %{$fg[yellow]%}→ $(git_prompt_info)%{$reset_color%}'
 
 # Machine name.
