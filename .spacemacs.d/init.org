@@ -302,11 +302,11 @@
 
       (set-pair-faces
        ;; Themes to cycle in
-       (doom-molokai spacemacs-light)
+       (doom-molokai spacemacs-light spacemacs-dark)
 
        ;; Variables
        ((bg-white           "#fbf8ef")
-        (bg-light           "#222425")
+        (bg-light           "#e3e1e0")
         (bg-dark            "#1c1e1f")
         (bg-darker          "#1c1c1c")
         (fg-white           "#ffffff")
@@ -336,6 +336,10 @@
          (:family ,et-font
                   :background nil
                   :foreground ,bg-dark
+                  :height 1.2)
+         (:family ,et-font
+                  :background nil
+                  :foreground ,bg-light
                   :height 1.2))
         (org-document-title
          (:inherit variable-pitch
@@ -346,10 +350,17 @@
                    :family ,et-font
                    :height 1.8
                    :foreground ,bg-dark
+                   :underline nil)
+         (:inherit nil
+                   :family ,et-font
+                   :height 1.8
+                   :foreground ,bg-light
                    :underline nil))
         (org-document-info
          (:foreground ,gray
                       :slant italic)
+         (:height 1.2
+                  :slant italic)
          (:height 1.2
                   :slant italic))
         (org-level-1
@@ -363,7 +374,13 @@
                    :height 1.6
                    :weight normal
                    :slant normal
-                   :foreground ,bg-dark))
+                   :foreground ,bg-dark)
+         (:inherit nil
+                   :family ,et-font
+                   :height 1.6
+                   :weight normal
+                   :slant normal
+                   :foreground ,bg-light))
         (org-level-2
          (:inherit variable-pitch
                    :weight bold
@@ -375,7 +392,13 @@
                    :weight normal
                    :height 1.3
                    :slant italic
-                   :foreground ,bg-dark))
+                   :foreground ,bg-dark)
+         (:inherit nil
+                   :family ,et-font
+                   :weight normal
+                   :height 1.3
+                   :slant italic
+                   :foreground ,bg-light))
         (org-level-3
          (:inherit variable-pitch
                    :weight bold
@@ -387,7 +410,13 @@
                    :weight normal
                    :slant italic
                    :height 1.2
-                   :foreground ,bg-dark))
+                   :foreground ,bg-dark)
+         (:inherit nil
+                   :family ,et-font
+                   :weight normal
+                   :slant italic
+                   :height 1.2
+                   :foreground ,bg-light))
         (org-level-4
          (:inherit variable-pitch
                    :weight bold
@@ -399,13 +428,20 @@
                    :weight normal
                    :slant italic
                    :height 1.1
-                   :foreground ,bg-dark))
+                   :foreground ,bg-dark)
+         (:inherit nil
+                   :family ,et-font
+                   :weight normal
+                   :slant italic
+                   :height 1.1
+                   :foreground ,bg-light))
         (org-level-5
          (:inherit variable-pitch
                    :weight bold
                    :height 1.1
                    :foreground ,slate
                    :background ,bg-dark)
+         nil
          nil)
         (org-level-6
          (:inherit variable-pitch
@@ -413,6 +449,7 @@
                    :height 1.1
                    :foreground ,slate
                    :background ,bg-dark)
+         nil
          nil)
         (org-level-7
          (:inherit variable-pitch
@@ -420,6 +457,7 @@
                    :height 1.1
                    :foreground ,slate
                    :background ,bg-dark)
+         nil
          nil)
         (org-level-8
          (:inherit variable-pitch
@@ -427,20 +465,30 @@
                    :height 1.1
                    :foreground ,slate
                    :background ,bg-dark)
+         nil
          nil)
         (org-headline-done
          (:strike-through t)
          (:family ,et-font
+                  :strike-through t)
+         (:family ,et-font
                   :strike-through t))
         (org-quote
          (:background ,bg-dark)
+         nil
          nil)
         (org-block
          (:background ,bg-dark)
          (:background nil
-                      :foreground ,bg-dark))
+                      :foreground ,bg-dark)
+         (:background nil
+                      :foreground ,bg-light))
         (org-block-begin-line
          (:background ,bg-dark)
+         (:background nil
+                      :height 0.8
+                      :family ,sans-mono-font
+                      :foreground ,slate)
          (:background nil
                       :height 0.8
                       :family ,sans-mono-font
@@ -450,47 +498,65 @@
          (:background nil
                       :height 0.8
                       :family ,sans-mono-font
+                      :foreground ,slate)
+         (:background nil
+                      :height 0.8
+                      :family ,sans-mono-font
                       :foreground ,slate))
         (org-document-info-keyword
          (:foreground ,comment)
          (:height 0.8
-                  :foreground ,gray))
+                  :foreground ,gray)
+         (:height 0.8
+                  :foreground ,gray-dark))
         (org-link
          (:underline nil
                      :weight normal
                      :foreground ,slate)
-         (:foreground ,bg-dark))
+         (:foreground ,bg-dark)
+         (:foreground ,bg-light))
         (org-special-keyword
          (:height 0.9
                   :foreground ,comment)
+         (:family ,sans-mono-font
+                  :height 0.8)
          (:family ,sans-mono-font
                   :height 0.8))
         (org-todo
          (:foreground ,builtin
                       :background ,bg-dark)
+         nil
          nil)
         (org-done
          (:inherit variable-pitch
                    :foreground ,dark-cyan
                    :background ,bg-dark)
+         nil
          nil)
         (org-agenda-current-time
          (:foreground ,slate)
+         nil
          nil)
         (org-hide
          nil
-         (:foreground ,bg-white))
+         (:foreground ,bg-white)
+         (:foreground ,bg-darker))
         (org-indent
          (:inherit org-hide)
+         (:inherit (org-hide fixed-pitch))
          (:inherit (org-hide fixed-pitch)))
         (org-time-grid
          (:foreground ,comment)
+         nil
          nil)
         (org-warning
          (:foreground ,builtin)
+         nil
          nil)
         (org-date
          nil
+         (:family ,sans-mono-font
+                  :height 0.8)
          (:family ,sans-mono-font
                   :height 0.8))
         (org-agenda-structure
@@ -498,54 +564,74 @@
                   :foreground ,doc
                   :weight normal
                   :inherit variable-pitch)
+         nil
          nil)
         (org-agenda-date
          (:foreground ,doc
                       :inherit variable-pitch)
          ;; (:inherit variable-pitch
          ;;           :height 1.1)
+         nil
          nil)
         (org-agenda-date-today
          (:height 1.5
                   :foreground ,keyword
                   :inherit variable-pitch)
+         nil
          nil)
         (org-agenda-date-weekend
          (:inherit org-agenda-date)
+         nil
          nil)
         (org-scheduled
          (:foreground ,gray)
+         nil
          nil)
         (org-upcoming-deadline
          (:foreground ,keyword)
+         nil
          nil)
         (org-scheduled-today
          (:foreground ,fg-white)
+         nil
          nil)
         (org-scheduled-previously
          (:foreground ,slate)
+         nil
          nil)
         (org-agenda-done
          (:inherit nil
                    :strike-through t
                    :foreground ,doc)
          (:strike-through t
+                          :foreground ,doc)
+         (:strike-through t
                           :foreground ,doc))
         (org-ellipsis
+         (:underline nil
+                     :foreground ,comment)
          (:underline nil
                      :foreground ,comment)
          (:underline nil
                      :foreground ,comment))
         (org-tag
          (:foreground ,doc)
+         (:foreground ,doc)
          (:foreground ,doc))
         (org-table
          (:background nil)
          (:family ,serif-mono-font
                   :height 1.0
-                  :background ,bg-white))
+                  :background ,bg-white)
+         (:family ,serif-mono-font
+                  :height 1.0
+                  :background ,bg-darker))
         (org-formula
          (:inherit font-lock-builtin-face)
+         (:inherit nil
+                   :family ,serif-mono-font
+                   :foreground ,keyword
+                   :height 1.0)
          (:inherit nil
                    :family ,serif-mono-font
                    :foreground ,keyword
@@ -555,33 +641,44 @@
          (:inherit nil
                    :family ,serif-mono-font
                    :foreground ,comment
+                   :height 1.0)
+         (:inherit nil
+                   :family ,serif-mono-font
+                   :foreground ,comment
                    :height 1.0))
         (font-latex-sectioning-0-face
          (:foreground ,type
                       :height 1.2)
+         nil
          nil)
         (font-latex-sectioning-1-face
          (:foreground ,type
                       :height 1.1)
+         nil
          nil)
         (font-latex-sectioning-2-face
          (:foreground ,type
                       :height 1.1)
+         nil
          nil)
         (font-latex-sectioning-3-face
          (:foreground ,type
                       :height 1.0)
+         nil
          nil)
         (font-latex-sectioning-4-face
          (:foreground ,type
                       :height 1.0)
+         nil
          nil)
         (font-latex-sectioning-5-face
          (:foreground ,type
                       :height 1.0)
+         nil
          nil)
         (font-latex-verbatim-face
          (:foreground ,builtin)
+         nil
          nil)))
       )
    #+END_SRC
