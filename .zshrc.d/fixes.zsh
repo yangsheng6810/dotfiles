@@ -22,6 +22,11 @@ if [ -n "$INSIDE_EMACS" ]; then
     print -P "\033AnSiTc %d"
 fi
 
+# Fix zsh-autosuggestion color scheme
+if [ -n "$INSIDE_EMACS" ]; then
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
+fi
+
 function zle-line-init () {
     if (( ${+terminfo[smkx]} )); then
 	echoti smkx
