@@ -67,6 +67,16 @@
           (kill-line))))
 
     (define-key visual-line-mode-map (kbd "C-k") #'yang/kill-line)
+
+    ;; from https://demonastery.org/2013/04/emacs-narrow-to-region-indirect/
+    (defun narrow-to-region-indirect (start end)
+      "Restrict editing in this buffer to the current region, indirectly."
+      (interactive "r")
+      (deactivate-mark)
+      (let ((buf (clone-indirect-buffer nil nil)))
+        (with-current-buffer buf
+          (narrow-to-region start end))
+        (switch-to-buffer buf)))
   #+END_SRC
 
 ** Rectangle editing
@@ -1527,6 +1537,36 @@
       (setq dired-recursive-copies 'always)
       (add-to-list 'completion-ignored-extensions ".synctex.gz")
       (setq counsel-find-file-ignore-regexp (concat (regexp-opt completion-ignored-extensions) "$"))
+
+      ;; from https://oremacs.com/2016/02/24/dired-rsync/
+      (defun dired-do-rsync (dest)
+        (interactive
+         (list
+          (expand-file-name
+           (read-file-name
+            "Rsync to:"
+            (dired-dwim-target-directory)))))
+        ;; store all selected files into "files" list
+        (let ((files (dired-get-marked-files
+                      nil current-prefix-arg))
+              ;; the rsync command
+              (tmtxt/rsync-command
+               "rsync -arv --progress "))
+          ;; add all selected file names as arguments
+          ;; to the rsync command
+          (dolist (file files)
+            (setq tmtxt/rsync-command
+                  (concat tmtxt/rsync-command
+                          (shell-quote-argument file)
+                          " ")))
+          ;; append the destination
+          (setq tmtxt/rsync-command
+                (concat tmtxt/rsync-command
+                        (shell-quote-argument dest)))
+          ;; run the async shell command
+          (async-shell-command tmtxt/rsync-command "*rsync*")
+          ;; finally, switch to that window
+          (other-window 1)))
       )
 
     (use-package dired-x
