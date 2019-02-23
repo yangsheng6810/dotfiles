@@ -1481,6 +1481,18 @@
        (setq send-mail-function 'sendmail-send-it)
        (setq message-send-mail-function 'message-send-mail-with-sendmail)
 
+       ;; save multiple attachments without asking
+       (setq mu4e-save-multiple-attachments-without-asking t)
+
+       (defun mu4e-view-toggle-addresses ()
+         (interactive)
+         (when (not (local-variable-p mu4e-view-show-addresses))
+           (make-local-variable 'mu4e-view-show-addresses)
+           (let ((temp mu4e-view-show-addresses))
+             (setq mu4e-view-show-addresses temp)))
+         (setq mu4e-view-show-addresses (null mu4e-view-show-addresses))
+         (mu4e-view-refresh))
+
        ;; send email using org-mode to form html
        (defun htmlize-and-send ()
          "When in an org-mu4e-compose-org-mode message, htmlize and send it."
