@@ -111,8 +111,9 @@ This function should only modify configuration layer settings."
       :variables rmh-elfeed-org-files
       (list "~/.spacemacs.d/elfeed.org"))
      theming
-     (mu4e
-      :variables mu4e-enable-notifications t)
+     ;; (mu4e
+     ;;  :variables mu4e-enable-notifications t)
+     notmuch
      )
 
    ;; List of additional packages that will be installed without being
