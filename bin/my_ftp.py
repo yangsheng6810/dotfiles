@@ -6,19 +6,32 @@ from urllib import request
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
+import configparser
 
 IS_BEHIND_NAT = False
 if platform.node() == "pi_yangsheng":
     IS_BEHIND_NAT = True
+USERNAME = "user"
+PASSWORD = "12345"
+
+def parseConfig():
+    global USERNAME, PASSWORD
+    config = configparser.ConfigParser()
+    try:
+        config.read('my_ftp.conf')
+        USERNAME = config['DEFAULT']['username']
+        PASSWORD = config['DEFAULT']['password']
 
 
 def main():
+    parseConfig()
+
     # Instantiate a dummy authorizer for managing 'virtual' users
     authorizer = DummyAuthorizer()
 
     # Define a new user having full r/w permissions and a read-only
     # anonymous user
-    authorizer.add_user('user', '12345', '.', perm='elradfmwM')
+    authorizer.add_user(USERNAME, PASSWORD, '.', perm='elradfmwM')
     # authorizer.add_anonymous(os.getcwd())
 
     # Instantiate FTP handler class
