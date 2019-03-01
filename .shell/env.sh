@@ -20,3 +20,4 @@ if [ -x "$(command -v pyenv)" ]; then
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
 fi
+export PYTHONSTARTUP="${HOME}/.pythonrc.py"
