@@ -785,6 +785,11 @@
        org-refile-targets '((nil :maxlevel . 3)
                             (org-agenda-files :maxlevel . 3))
        )
+
+      ;; restore easy templates, can also use =, i b= to insert
+      (require 'org-tempo)
+      (add-to-list 'org-structure-template-alist (cons "se" "src emacs-lisp"))
+
       (org-add-link-type
        "span" #'ignore ; not an 'openable' link
        #'(lambda (class desc format)
