@@ -1511,6 +1511,9 @@
        ;; save multiple attachments without asking
        (setq mu4e-save-multiple-attachments-without-asking t)
 
+       ;; use single window
+       (setq mu4e-split-view 'single-window)
+
        (defun mu4e-view-toggle-addresses ()
          (interactive)
          (when (not (local-variable-p mu4e-view-show-addresses))
