@@ -829,19 +829,29 @@
    
 ** org-gcal
    #+BEGIN_SRC emacs-lisp
-         (when (string= system-name "carbon")
-           (use-package org-gcal
-             :defer t
-             :init
-             (setq org-gcal-dir (concat dotspacemacs-directory
-                                        "org-gcal/"))
-             :config
-             (setq
-              org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
-             ;; (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
-             ;; (add-hook 'org-capture-after-finalize-hook (lambda () (org-gcal-sync) ))
-             )
-           )
+     (when (string= system-name "carbon")
+       (use-package org-gcal
+         :defer t
+         :init
+         (setq org-gcal-dir (concat dotspacemacs-directory
+                                    "org-gcal/"))
+         (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
+         :config
+         (setq
+          org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
+
+         (defun org-gcal-capture-after-func ()
+           (message "run org-gcal-sync")
+           (org-gcal-sync)
+           (remove-hook 'org-capture-after-finalize-hook #'org-gcal-capture-after-func))
+
+         (defun org-gcal-capture-before-func ()
+           (let ((buffer-name (prin1-to-string (current-buffer))))
+             (when (string-match-p "CAPTURE-gcal.org" buffer-name)
+               (add-hook 'org-capture-after-finalize-hook #'org-gcal-capture-after-func))))
+
+         (add-hook 'org-capture-before-finalize-hook #'org-gcal-capture-before-func)
+         ))
    #+END_SRC
 
 # ** org-journal
