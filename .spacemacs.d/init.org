@@ -1425,6 +1425,22 @@
   #+END_SRC
   
 * Email
+** General
+   #+begin_src emacs-lisp
+     (setq mail-interactive t)
+
+     ;; send mail using mail
+     (setq send-mail-function 'sendmail-send-it)
+     (setq message-send-mail-function 'message-send-mail-with-sendmail)
+
+
+     (setq message-signature
+           "Sheng Yang(杨圣), PhD student
+     Computer Science Department
+     University of Maryland, College Park
+     E-mail: yangsheng6810@gmail.com")
+
+   #+end_src
 ** Mu4e
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'mu4e
@@ -1491,10 +1507,6 @@
          :config
          ;; notification using mu4e-alert
          (mu4e-alert-set-default-style 'libnotify))
-
-       ;; send mail using postfix
-       (setq send-mail-function 'sendmail-send-it)
-       (setq message-send-mail-function 'message-send-mail-with-sendmail)
 
        ;; save multiple attachments without asking
        (setq mu4e-save-multiple-attachments-without-asking t)
