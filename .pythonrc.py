@@ -1,7 +1,9 @@
 from math import *
 import scipy as sp
 import numpy as np
+import matplotlib.pyplot as plt
 
+# import jedi for completion
 try:
     from jedi.utils import setup_readline
     setup_readline()
