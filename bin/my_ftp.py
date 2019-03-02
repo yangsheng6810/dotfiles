@@ -18,9 +18,12 @@ def parseConfig():
     global USERNAME, PASSWORD
     config = configparser.ConfigParser()
     try:
-        config.read('my_ftp.conf')
-        USERNAME = config['DEFAULT']['username']
+        config_file = os.path.expandvars("${XDG_CONFIG_HOME}/my_ftp.conf")
+        config.read(config_file)
+        USERNAME = config['DEFAULT']['user']
         PASSWORD = config['DEFAULT']['password']
+    except:
+        pass
 
 
 def main():
