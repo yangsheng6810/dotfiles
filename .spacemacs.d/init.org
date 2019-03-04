@@ -841,17 +841,18 @@
           org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
 
          (defun org-gcal-capture-after-func ()
-           (message "run org-gcal-sync")
-           (org-gcal-sync)
+           (message "run org-gcal-post-at-point")
+           (org-gcal-post-at-point)
            (remove-hook 'org-capture-after-finalize-hook #'org-gcal-capture-after-func))
 
          (defun org-gcal-capture-before-func ()
-           (let ((buffer-name (prin1-to-string (current-buffer))))
-             (when (string-match-p "CAPTURE-gcal.org" buffer-name)
-               (add-hook 'org-capture-after-finalize-hook #'org-gcal-capture-after-func))))
+           (let* ((buffer-name (prin1-to-string (current-buffer))))
+             (dolist (pair org-gcal-file-alist )
+               (when (and pair (cdr pair)
+                          (string= buffer-file-name (expand-file-name (cdr pair))))
+                 (add-hook 'org-capture-after-finalize-hook #'org-gcal-capture-after-func)))))
 
-         (add-hook 'org-capture-before-finalize-hook #'org-gcal-capture-before-func)
-         ))
+         (add-hook 'org-capture-before-finalize-hook #'org-gcal-capture-before-func)))
    #+END_SRC
 
 # ** org-journal
