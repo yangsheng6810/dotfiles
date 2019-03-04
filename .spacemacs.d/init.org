@@ -1574,87 +1574,78 @@
                              (and (functionp binding) (notmuch-documentation-first-line binding))))
                    tail)))
          tail)
-     (defun notmuch-save-attachments-for-export (mm-handle directory)
-       (notmuch-foreach-mime-part
-        (lambda (p)
-          (let ((disposition (mm-handle-disposition p))
-                filename
-                cid)
-            (message "handle is: %S" p)
-            (and (listp disposition)
-                 (string-equal "text/html" (mm-handle-media-type p))
-                 (message "handle inside is: %S" p)
-                 (mm-insert-part p)
-                 (set-buffer-file-coding-system 'raw-text)
-                 )
-            (and (listp disposition)
-                 ;; (message "p is: %S" p)
-                 (or (equal (car disposition) "attachment")
-                     (and (equal (car disposition) "inline")
-                          (assq 'filename disposition)))
-                 (setq filename (mm-handle-filename p))
-                 (setq cid (mm-handle-id p))
-                 (setq cid (s-chop-suffix ">" (s-chop-prefix "<" cid)))
-                 ;; (message "adding: (%S, %S)" cid filename)
-                 (add-to-list 'attachments (cons cid filename))
-                 ;; (message "added: %S" disposition)
-                 ;; (message "filename: %S" (cdadr disposition))
-                 (mm-save-part-to-file
-                  p (concat directory
-                            filename))
-                 )))
-        mm-handle))
 
-     (defun notmuch/mu4e-remove-file-later (filename)
-       "Remove FILENAME in a few seconds."
-       (lexical-let ((filename filename))
-         (run-at-time "30 sec" nil
-                      (lambda () (ignore-errors (delete-file filename))))))
+       (defun notmuch-show-exports-all-attachments (mm-handle directory)
+         (notmuch-foreach-mime-part
+          (lambda (p)
+            (let ((disposition (mm-handle-disposition p))
+                  filename
+                  cid)
+              (message "handle is: %S" p)
+              (and (listp disposition)
+                   (string-equal "text/html" (mm-handle-media-type p))
+                   (message "handle inside is: %S" p)
+                   (mm-insert-part p)
+                   (set-buffer-file-coding-system 'raw-text)
+                   )
+              (and (listp disposition)
+                   ;; (message "p is: %S" p)
+                   (or (equal (car disposition) "attachment")
+                       (and (equal (car disposition) "inline")
+                            (assq 'filename disposition)))
+                   (setq filename (mm-handle-filename p))
+                   (setq cid (mm-handle-id p))
+                   (setq cid (s-chop-suffix ">" (s-chop-prefix "<" cid)))
+                   ;; (message "adding: (%S, %S)" cid filename)
+                   (add-to-list 'attachments (cons cid filename))
+                   ;; (message "added: %S" disposition)
+                   ;; (message "filename: %S" (cdadr disposition))
+                   (mm-save-part-to-file
+                    p (concat directory
+                              filename))
+                   )))
+          mm-handle))
 
-     (defun notmuch/mu4e-make-temp-file (ext)
-       "Create a temporary file with extension EXT. The file will
+       (defun notmuch-make-temp-file (ext)
+         "Create a temporary file with extension EXT. The file will
      self-destruct in a few seconds, enough to open it in another
      program."
-       (let ((tmpfile (make-temp-file "mu4e-" nil (concat "." ext))))
-         (notmuch/mu4e-remove-file-later tmpfile)
-         tmpfile))
+         (let ((tmpfile (make-temp-file
+                         "notmuch-" nil (concat "." ext))))
+           (lexical-let ((filename tmpfile))
+             (run-at-time "30 sec" nil
+                          (lambda () (ignore-errors (delete-file filename)))))
+           tmpfile))
 
-     (defun yang/notmuch-write-body-to-html ()
-       "Write the body (either html or text) to a temporary file;
-     return the filename."
-       (interactive)
-       (with-current-notmuch-show-message
-        (let ((mm-handle (mm-dissect-buffer))
-              (tmpfile (notmuch/mu4e-make-temp-file "html"))
-              html
-              txt
-              ;; (html (mu4e-message-field msg :body-html))
-              ;; (txt (mu4e-message-field msg :body-txt))
-              attachments)
-         (with-temp-buffer
-           (insert "<head><meta charset=\"UTF-8\"></head>\n")
-           (notmuch-save-attachments-for-export
-            mm-handle temporary-file-directory)
-           (message "temp-directory is: %s" temporary-file-directory)
-           ;; (insert "<head><meta charset=\"UTF-8\"></head>\n")
-           ;; (insert (or html (concat "<pre>" txt "</pre>")))
-           ;; (unless (or html txt)
-           ;;   (mu4e-error "No body part for this message"))
-           (write-file tmpfile nil)
-           ;; (message "attachments: %S" attachments)
-           ;; rewrite attachment urls
-           (mapc (lambda (attachment)
-                   (goto-char (point-min))
-                   (while (re-search-forward (format "src=\"cid:%s\""
-                                               (car attachment)) nil t)
-                     (replace-match (format "src=\"%s%s\"" temporary-file-directory
-                                        (cdr attachment)))))
-             attachments)
-           (save-buffer)
-           (browse-url tmpfile)
-           tmpfile))))
-
-       )
+       (defun notmuch-show-reopen-in-browser ()
+         "Write the text/html to a temporary file and open it."
+         (interactive)
+         (with-current-notmuch-show-message
+          (let ((mm-handle (mm-dissect-buffer))
+                (tmpfile (notmuch-make-temp-file "html"))
+                html
+                txt
+                ;; (html (mu4e-message-field msg :body-html))
+                ;; (txt (mu4e-message-field msg :body-txt))
+                attachments)
+            (with-temp-buffer
+              (insert "<head><meta charset=\"UTF-8\"></head>\n")
+              (notmuch-show-exports-all-attachments
+               mm-handle temporary-file-directory)
+              (message "temp-directory is: %s" temporary-file-directory)
+              (write-file tmpfile nil)
+              ;; (message "attachments: %S" attachments)
+              ;; rewrite attachment urls
+              (mapc (lambda (attachment)
+                      (goto-char (point-min))
+                      (while (re-search-forward (format "src=\"cid:%s\""
+                                                        (car attachment)) nil t)
+                        (replace-match (format "src=\"%s%s\"" temporary-file-directory
+                                               (cdr attachment)))))
+                    attachments)
+              (save-buffer)
+              (browse-url tmpfile)))))
+     )
    #+END_SRC
 ** Sending
    #+BEGIN_SRC emacs-lisp
