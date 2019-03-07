@@ -22,7 +22,7 @@ alias chgrp='chgrp --preserve-root'
 ## this one saved by butt so many times ##
 alias wget='wget -c'
 
-alias e="TERM=xterm-24bit emacsclient -c -nw"
+alias e="TERM=xterm-24bit emacsclient -c -nw -s terminal"
 alias ee="emacsclient -c "
 # for testing new emacs configuration
 alias en='export GDK_SCALE=1
