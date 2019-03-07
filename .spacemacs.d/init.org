@@ -1,8 +1,12 @@
 #+PROPERTY: header-args :results output silent
 * General Editing
   #+BEGIN_SRC emacs-lisp
+    ;;; -*- lexical-binding: t -*-
+    (setq-default lexical-binding t)
+
     ;; commented out since it may cause undo-tree corruption
     ;; (setq undo-tree-auto-save-history t)
+
     ;; to allow cursor move beyond eol, and do not move back.
     (setq evil-move-beyond-eol t
           evil-move-cursor-back nil
