@@ -1543,14 +1543,17 @@
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'notmuch
        (setq notmuch-search-oldest-first nil)
-       (setq notmuch-fcc-dirs '((".*" . "gmail/\[Gmail\]/已发邮件 -inbox +sent -unread")))
+       (setq notmuch-fcc-dirs '((".*" . "sent -inbox +sent -unread")))
        (define-key notmuch-show-mode-map "d"
          (lambda ()
            "toggle deleted tag for message"
            (interactive)
-           (if (member "deleted" (notmuch-show-get-tags))
-               (notmuch-show-tag (list "-deleted"))
-             (notmuch-show-tag (list "+deleted")))))
+           (if (member "trash" (notmuch-show-get-tags))
+               (notmuch-show-tag (list "-trash"))
+             (notmuch-show-tag (list "+trash")))))
+
+       (spacemacs/set-leader-keys-for-major-mode 'notmuch-show-mode
+         "v" 'notmuch-show-reopen-in-browser)
 
        (defun notmuch-describe-key (actual-key binding prefix ua-keys tail)
          "Prepend cons cells describing prefix-arg ACTUAL-KEY and ACTUAL-KEY to TAIL
