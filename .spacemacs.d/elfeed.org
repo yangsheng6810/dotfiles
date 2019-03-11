@@ -2,7 +2,7 @@
 ** Research
 *** http://cstheory-feed.org/atom.xml :research:
 ** Emacs
-*** http://planet.emacsen.org/atom.xml :emacs:
+*** [[http://planet.emacslife.com/atom.xml]] :emacs:
 ** Friends
 *** https://bigeagle.me/index.xml
 *** http://scateu.me/feed.xml
