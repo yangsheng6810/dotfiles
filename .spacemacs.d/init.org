@@ -176,6 +176,15 @@
          ("C-<right>" sp-backward-slurp-sexp)))
    #+END_SRC
 
+** COMMENT recursive-narrow
+   #+begin_src emacs-lisp
+     ;; (use-package recursive-narrow
+     ;;   :commands
+     ;;   (recursive-narrow-or-widen-dwim recursive-widen recursive-narrow-to-region)
+     ;;   )
+     (use-package recursive-narrow)
+     (recursive-narrow-mode)
+   #+end_src
 * General
   #+BEGIN_SRC emacs-lisp
     (setq system-time-locale "zh_CN.utf-8"
