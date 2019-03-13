@@ -1252,6 +1252,18 @@
             elem)))
      )
    #+end_src
+** org-ref
+   #+begin_src emacs-lisp
+(setq reftex-default-bibliography '("~/Documents/org/bibliography/references.bib"))
+
+;; see org-ref for use of these variables
+(setq org-ref-bibliography-notes "~/Documents/org/bibliography/notes.org"
+      org-ref-default-bibliography '("~/Documents/org/bibliography/references.bib")
+      org-ref-pdf-directory "~/Documents/Library/bibtex-pdfs/")
+(setq bibtex-completion-bibliography "~/Documents/org/bibliography/references.bib"
+      bibtex-completion-library-path "~/Documents/Library/bibtex-pdfs"
+      bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
+   #+end_src
 
 * LaTeX
   #+BEGIN_SRC emacs-lisp
