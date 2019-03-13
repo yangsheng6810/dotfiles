@@ -10,17 +10,16 @@ fi
 # OPT="-aPh"
 OPT="-aAXH --info=progress2"
 SRC="/"
-# DEST_ROOT="/media/Mine/"
-DEST_ROOT="HPE:/mnt/Backup/Mine/"
-SNAP="${DEST_ROOT}FullSystem_newer/"
-LAST="${SNAP}last"
-LINK="--link-dest=${LAST}/" 
-EXCLUDE="--exclude-from=${DEST_ROOT}exclude-list.txt"
-# EXCLUDE="--exclude-from=${HOME}/bin/system_backup_exclude-list.txt"
+DEST_ROOT="/media/8T_Backup/Mine"
+SNAP="${DEST_ROOT}/FullSystem_newer"
+LAST="${SNAP}/last"
+LINK="--link-dest=${LAST}" 
+# EXCLUDE="--exclude-from=${DEST_ROOT}/exclude-list.txt"
+EXCLUDE="--exclude-from=/home/yangsheng/bin/system_backup_exclude-list.txt"
 date=`LC_ALL=en_US.utf8 date "+%Y-%b-%d:_%T"`
 
 # Run rsync to create snapshot
-rsync --dry-run $OPT $LINK $EXCLUDE $SRC ${SNAP}$date
+rsync $OPT $LINK $EXCLUDE $SRC ${SNAP}/$date
 
 cd ${SNAP}
 # Remove symlink to previous snapshot
