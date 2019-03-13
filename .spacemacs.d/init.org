@@ -1661,6 +1661,20 @@
                     attachments)
               (save-buffer)
               (browse-url tmpfile)))))
+
+       (setq-default notmuch-refresh-timer nil)
+
+       (defun notmuch-refresh-func ()
+         (when (null notmuch-refresh-timer)
+           (setq notmuch-refresh-timer
+                 (run-at-time
+                  30 nil
+                  (lambda ()
+                    (start-process "mail-sync.sh" "*mail-sync*" "mail-sync.sh")
+                    (setq notmuch-refresh-timer nil))))))
+
+       ;; sync gmi after tagging
+       (add-hook 'notmuch-after-tag-hook #'notmuch-refresh-func)
      )
    #+END_SRC
 ** Sending
