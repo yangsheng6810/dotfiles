@@ -1,0 +1,95 @@
+# global configuration
+[global]
+
+#[MailMover]
+#folders = INBOX Junk
+#max_age = 15
+
+##rules
+#INBOX = 'tag:spam':Junk 'NOT tag:inbox':Archive
+#Junk = 'NOT tag:spam and tag:inbox':INBOX 'NOT tag:spam':Archive
+
+# This is the default filter chain
+#[SpamFilter]
+#[KillThreadsFilter]
+#[ListMailsFilter]
+#[ArchiveSentMailsFilter]
+#[InboxFilter]
+
+# Let's say you like the SpamFilter, but it is way too polite
+
+# 1. create an filter object and customize it
+#[SpamFilter.0] # note the index
+#message = meh
+
+# 2. create a new type and...
+#[ShitFilter(SpamFilter)]
+#message = I hatez teh spam!
+
+#    create an object or two...
+#[ShitFilter.0]
+#[ShitFilter.1]
+#message = Me hatez it too.
+
+# 3. drop a custom filter type in ~/.config/afew/
+#[MyCustomFilter]
+
+
+# To create a custom generic filter, define it inline with
+# your above filter chain. E.g.:
+
+# ...
+# [ListMailsFilter]
+#
+# [Filter.1]
+# query = from:boss@office.com
+# tags = +office
+#
+# [ArchiveSentMailsFilter]
+# ...
+#
+
+[SpamFilter]
+[KillThreadsFilter]
+# [ListMailsFilter]
+[SentMailsFilter]
+sent_tag = sent
+[ArchiveSentMailsFilter]
+
+[Filter.1]
+query = 'from:emacs-orgmode-request@gnu.org or from:noreply@emacs-china.org'
+tags = +emacs;+lists;-new;-inbox
+message = Relocate emacs emails
+
+[Filter.2]
+tags = +github;+lists;-new;-inbox
+query = 'from:notifications@github.com'
+message = Relocate github emails
+
+[Filter.3]
+tags = +notmuch;+lists;-new;-inbox
+query = 'from:notmuch-request@notmuchmail.org'
+message = Relocate notmuch emails
+
+[Filter.4]
+tags = +wsj;+lists;-new;-inbox
+query = 'from:Editors.Chinese@dowjones.com'
+message = Relocate wsj emails
+
+[Filter.5]
+tags = +arxiv.org;+lists;-new;-inbox
+query = 'from:no-reply@arXiv.org'
+message = Relocate arxiv emails
+
+[Filter.6]
+tags = +logs
+query = 'snapraid and from:yangsheng6810'
+message = Archive snapraid logs
+
+[Filter.7]
+tags = +inbox
+query = 'tag:new'
+message = All remaining mails
+
+# committed out to allow notification
+# [InboxFilter]
