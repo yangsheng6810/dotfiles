@@ -1682,7 +1682,7 @@
                  (run-at-time
                   30 nil
                   (lambda ()
-                    (start-process "mail-sync.sh" "*mail-sync*" "mail-sync.sh")
+                    (start-process "mail-sync.py" "*mail-sync*" "mail-sync.py")
                     (setq notmuch-refresh-timer nil))))))
 
        ;; sync gmi after tagging
