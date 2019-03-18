@@ -148,7 +148,8 @@ This function should only modify configuration layer settings."
                                       helm-bibtex
                                       ,(if (string= system-name "carbon")
                                            '(recursive-narrow :location local)
-                                         'recursive-narrow))
+                                         'recursive-narrow)
+                                      poporg)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages (if (version< emacs-version "25")
                                     '(fill-column-indicator))
