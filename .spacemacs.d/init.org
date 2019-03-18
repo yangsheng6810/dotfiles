@@ -203,6 +203,17 @@
             '("--proxy" "socks5://localhost:8883")))
   #+END_SRC
 
+** Terminal
+   #+begin_src emacs-lisp
+     (defun yang/load-theme-according-to-gui ()
+       (message "yang: load theme...")
+       (message "server name is %s" server-name)
+       (when (string-equal "terminal" server-name)
+         (load-theme 'spacemacs-dark)))
+
+     (yang/load-theme-according-to-gui)
+     (add-hook 'before-make-frame-hook #'yang/load-theme-according-to-gui)
+   #+end_src
 * Display
   #+BEGIN_SRC emacs-lisp
     ;; initial window
