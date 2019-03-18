@@ -317,6 +317,9 @@
                (lambda ()
                  (variable-pitch-mode 1)))
 
+     (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+     (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+
      (use-package theming
        :defer t
        :init
@@ -523,11 +526,14 @@
          nil
          nil)
         (org-block
-         (:background ,bg-dark)
+         (:background ,bg-dark
+                      :inhert fixed-pitch)
          (:background nil
-                      :foreground ,bg-dark)
+                      :foreground ,bg-dark
+                      :inhert fixed-pitch)
          (:background nil
-                      :foreground ,bg-light))
+                      :foreground ,bg-light
+                      :inhert fixed-pitch))
         (org-block-begin-line
          (:background ,bg-dark)
          (:background nil
@@ -664,13 +670,16 @@
          (:foreground ,doc)
          (:foreground ,doc))
         (org-table
-         (:background nil)
+         (:background nil
+                      :inherit fixed-pitch)
          (:family ,serif-mono-font
                   :height 1.0
-                  :background ,bg-white)
+                  :background ,bg-white
+                  :inherit fixed-pitch)
          (:family ,serif-mono-font
                   :height 1.0
-                  :background ,bg-darker))
+                  :background ,bg-darker
+                  :inherit fixed-pitch))
         (org-formula
          (:inherit font-lock-builtin-face)
          (:inherit nil
@@ -683,11 +692,11 @@
                    :height 1.0))
         (org-code
          (:inherit font-lock-builtin-face)
-         (:inherit nil
+         (:inherit fixed-pitch
                    :family ,serif-mono-font
                    :foreground ,comment
                    :height 1.0)
-         (:inherit nil
+         (:inherit fixed-pitch
                    :family ,serif-mono-font
                    :foreground ,comment
                    :height 1.0))
@@ -1905,7 +1914,8 @@
        :init
        (setq
         cnfonts--current-profile "Monaco"
-        cnfonts-directory (concat dotspacemacs-directory "chinese-fonts-setup/"))
+        cnfonts-directory (concat dotspacemacs-directory "chinese-fonts-setup/")
+        cnfonts-use-face-font-rescale nil)
        (customize-set-variable 'cnfonts-profiles
                                '("Monaco" "Source Code Pro" "Fira Code"))
        :config
@@ -1976,7 +1986,8 @@
                  (null yang-cnfonts-has-started))
          ;; (message "call cnfonts-set-font-first-time")
          (setq yang-cnfonts-has-started t)
-         (apply func _args)))
+         (apply func _args)
+         (set-face-font 'fixed-pitch "fontset-default")))
 
      (advice-add 'cnfonts-set-font-first-time
                  :around #'yang-cnfonts-set-font-first-time)
