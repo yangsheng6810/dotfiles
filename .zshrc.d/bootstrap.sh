@@ -31,7 +31,7 @@ if ! zgen saved; then
       python pip virtualenv
       golang
       # heroku # svn-fast-info
-      z command-not-found thefuck
+      z command-not-found
       history-substring-search # implementation of fish history substring search
       colorize # Plugin highlights file content based on the filename extension.
       mosh
