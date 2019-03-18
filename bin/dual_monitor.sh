@@ -44,7 +44,7 @@ function connect()
     INTERNAL_POS_Y=$((SCALED_Y - SCALED_INTERNAL_SCREEN_Y))
     echo $INTERNAL_POS_Y
 
-    xrandr --output $EX_MONITOR  --primary --scale 2x2 --pos 0x0
+    xrandr --output $EX_MONITOR  --auto --primary --scale 2x2 --pos 0x0
     xrandr --output eDP1 --auto --scale 1.25x1.25 --pos "${INTERNAL_POS_X}x${INTERNAL_POS_Y}"
 }
 
@@ -53,6 +53,8 @@ function disconnect()
     ACTION="OFF"
     sleep 0.2
     xrandr --output eDP1 --scale 1.25x1.25
+    xrandr --output DP1 --off
+    xrandr --output HDMI2 --off
 }
 
 LOG_FILE="/tmp/monitor.log"
