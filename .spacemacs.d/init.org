@@ -872,7 +872,6 @@
          :init
          (setq org-gcal-dir (concat dotspacemacs-directory
                                     "org-gcal/"))
-         (add-hook 'org-agenda-mode-hook (lambda () (org-gcal-sync)))
          :config
          (setq
           org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
