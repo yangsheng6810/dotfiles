@@ -202,7 +202,11 @@
       (setq request--url-options
             '("--proxy" "socks5://localhost:8883")))
   #+END_SRC
-
+** Purpose
+   #+begin_src emacs-lisp
+     (setq purpose-layout-dirs
+           (list (concat dotspacemacs-directory "layouts/")))
+   #+end_src
 ** Terminal
    #+begin_src emacs-lisp
      (defun yang/load-theme-according-to-gui ()
