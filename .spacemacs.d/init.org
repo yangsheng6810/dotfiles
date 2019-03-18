@@ -1624,35 +1624,41 @@
          tail)
 
        (defun notmuch-show-exports-all-attachments (mm-handle directory)
-         (notmuch-foreach-mime-part
-          (lambda (p)
-            (let ((disposition (mm-handle-disposition p))
-                  filename
-                  cid)
-              (message "handle is: %S" p)
-              (and (listp disposition)
-                   (string-equal "text/html" (mm-handle-media-type p))
-                   (message "handle inside is: %S" p)
-                   (mm-insert-part p)
-                   (set-buffer-file-coding-system 'raw-text)
-                   )
-              (and (listp disposition)
-                   ;; (message "p is: %S" p)
-                   (or (equal (car disposition) "attachment")
-                       (and (equal (car disposition) "inline")
-                            (assq 'filename disposition)))
-                   (setq filename (mm-handle-filename p))
-                   (setq cid (mm-handle-id p))
-                   (setq cid (s-chop-suffix ">" (s-chop-prefix "<" cid)))
-                   ;; (message "adding: (%S, %S)" cid filename)
-                   (add-to-list 'attachments (cons cid filename))
-                   ;; (message "added: %S" disposition)
-                   ;; (message "filename: %S" (cdadr disposition))
-                   (mm-save-part-to-file
-                    p (concat directory
-                              filename))
-                   )))
-          mm-handle))
+         (let (attachments)
+           (notmuch-foreach-mime-part
+            (lambda (p)
+              (let ((disposition (mm-handle-disposition p))
+                    filename
+                    cid
+                    file-location)
+                (message "handle is: %S" p)
+                (and (listp disposition)
+                     (string-equal "text/html" (mm-handle-media-type p))
+                     (message "handle inside is: %S" p)
+                     (mm-insert-part p)
+                     (set-buffer-file-coding-system 'raw-text))
+                (and (listp disposition)
+                     ;; (message "p is: %S" p)
+                     (or (equal (car disposition) "attachment")
+                         (and (equal (car disposition) "inline")
+                              (assq 'filename disposition)))
+                     (progn
+                       (setq filename (mm-handle-filename p))
+                       (setq cid (mm-handle-id p))
+                       (setq cid (s-chop-suffix ">" (s-chop-prefix "<" cid)))
+                       ;; (message "adding: (%S, %S)" cid filename)
+                       (add-to-list 'attachments (cons cid filename))
+                       ;; (message "added: %S" disposition)
+                       ;; (message "filename: %S" (cdadr disposition))
+                       (setq file-location (concat directory
+                                                   filename))
+                       (mm-save-part-to-file p file-location)
+                       (lexical-let ((file-name file-location))
+                         (run-at-time 2 nil
+                                      (lambda ()
+                                        (ignore-errors (delete-file file-name)))))))))
+           mm-handle)
+           attachments))
 
        (defun notmuch-make-temp-file (ext)
          "Create a temporary file with extension EXT. The file will
@@ -1678,8 +1684,9 @@
                 attachments)
             (with-temp-buffer
               (insert "<head><meta charset=\"UTF-8\"></head>\n")
-              (notmuch-show-exports-all-attachments
-               mm-handle temporary-file-directory)
+              (setq attachments
+                    (notmuch-show-exports-all-attachments
+                     mm-handle temporary-file-directory))
               (message "temp-directory is: %s" temporary-file-directory)
               (write-file tmpfile nil)
               ;; (message "attachments: %S" attachments)
@@ -1700,10 +1707,11 @@
          (when (null notmuch-refresh-timer)
            (setq notmuch-refresh-timer
                  (run-at-time
-                  30 nil
+                  10 nil
                   (lambda ()
-                    (start-process "mail-sync.py" "*mail-sync*" "mail-sync.py")
-                    (setq notmuch-refresh-timer nil))))))
+                    (message "mail-sync.py called")
+                    (setq notmuch-refresh-timer nil)
+                    (start-process "mail-sync" "*mail-sync*" "mail-sync.py" "--do-gmi"))))))
 
        ;; sync gmi after tagging
        (add-hook 'notmuch-after-tag-hook #'notmuch-refresh-func)
