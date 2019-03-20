@@ -1193,13 +1193,14 @@
            org-refile-allow-creating-parent-nodes t)
    #+END_SRC
 ** org-reveal
-   #+begin_src emacs-lisp
-     (setq org-reveal-note-key-char nil)
-
-     (with-eval-after-load 'ox-reveal
-       (setq org-structure-template-alist
-            (-remove (lambda (x) (and (car x) (string-equal (car x) "n")))
-                     org-structure-template-alist))
+   #+BEGIN_SRC emacs-lisp
+     (use-package ox-reveal
+       :init
+       (customize-save-variable 'org-reveal-note-key-char nil)
+       :config
+       ;; (setq org-structure-template-alist
+       ;;      (-remove (lambda (x) (and (car x) (string-equal (car x) "n")))
+       ;;               org-structure-template-alist))
 
       ;; (when org-reveal-note-key-char
       ;;   (add-to-list 'org-structure-template-alist
@@ -1221,7 +1222,8 @@
               (assert (or (integerp frag-index)
                           (eq frag-index '-)
                           (and (not (listp frag-index))
-                               (not (char-equal (string-to-char frag-index) ?\())))
+                               (not (char-equal (string-to-char frag-index) 40))
+                               ))
                       nil "Index cannot be a list: %s" frag-index)
               (push (format ":data-fragment-index %s" frag-index) attr-html)))
           (org-element-put-property elem :attr_html attr-html)))
@@ -1233,7 +1235,7 @@
               (frag-index (org-export-read-attribute :attr_reveal elem :frag_idx)))
           (when frag
             (if (and (string= (org-element-type elem) 'plain-list)
-                     (char-equal (string-to-char frag) ?\())
+                     (char-equal (string-to-char frag) 40))
                 (let* ((items (org-element-contents elem))
                        (frag-list (car (read-from-string frag)))
                        (frag-list (if default-style
@@ -1272,9 +1274,9 @@
                elem frag default-style frag-index))
             elem)))
      )
-   #+end_src
+   #+END_SRC
 ** org-ref
-   #+begin_src emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (setq reftex-default-bibliography '("~/Documents/org/bibliography/references.bib"))
 
 ;; see org-ref for use of these variables
@@ -1284,7 +1286,7 @@
 (setq bibtex-completion-bibliography "~/Documents/org/bibliography/references.bib"
       bibtex-completion-library-path "~/Documents/Library/bibtex-pdfs"
       bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
-   #+end_src
+   #+END_SRC
 
 * LaTeX
   #+BEGIN_SRC emacs-lisp
