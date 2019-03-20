@@ -1,4 +1,4 @@
-#+PROPERTY: header-args :results output silent
+#+PROPERTY: header-args
 * General Editing
   #+BEGIN_SRC emacs-lisp
     ;;; -*- lexical-binding: t -*-
