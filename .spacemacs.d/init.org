@@ -322,7 +322,8 @@
                  (variable-pitch-mode 1)))
 
      (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-     (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+     (set-face-attribute 'fixed-pitch nil :font "fontset-default" :family "Monaco")
+
 
      (use-package theming
        :defer t
