@@ -183,7 +183,7 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status
 }
-set $Locker i3lock && sleep 1
+set $Locker i3lock -c 222222 && sleep 1
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
@@ -200,7 +200,7 @@ mode "$mode_system" {
 }
 
 bindsym $mod+Shift+x mode "$mode_system"
-exec --no-startup-id xss-lock -- i3lock
+exec --no-startup-id xss-lock -- $Locker
 exec --no-startup-id dispwin -d1 ~/.local/share/dispcalGUI/storage/LP140QH1-SPF2\ 2018-08-08\ 120cdm²\ D6500\ 2.2\ F-S\ XYZLUT+MTX/LP140QH1-SPF2\ 2018-08-08\ 120cdm²\ D6500\ 2.2\ F-S\ XYZLUT+MTX.icc
 
 # Pulse Audio controls
