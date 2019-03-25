@@ -29,6 +29,17 @@ font pango:monospace 8
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+################# i3 gaps next #################
+# Settings for I3 next gap git
+# https://github.com/Airblader/i3/tree/gaps-next
+# delete or uncomment the following lines if you do not have it or do not
+# want it
+for_window [class="^.*"] border pixel 2
+gaps inner 10
+gaps outer 0
+# smart_gaps on
+smart_borders on
+
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec gnome-terminal
