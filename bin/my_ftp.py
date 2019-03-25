@@ -60,7 +60,7 @@ def main():
 
     # set a limit for connections
     server.max_cons = 256
-    server.max_cons_per_ip = 10
+    server.max_cons_per_ip = 20
 
     # start ftp server
     server.serve_forever()
