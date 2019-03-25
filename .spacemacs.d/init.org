@@ -1917,6 +1917,19 @@
   #+END_SRC
 
 * Chinese
+** pangu-spacing
+   #+begin_src emacs-lisp
+     (use-package pangu-spacing
+       :config
+       (global-pangu-spacing-mode -1)
+       (defun yang/pangu-spacing-mode-on ()
+         (pangu-spacing-mode 1))
+       (defun yang/pangu-spacing-mode-off ()
+         (pangu-spacing-mode -1))
+       ;; only open for org-mode
+       (add-hook 'org-mode-hook
+                 #'yang/pangu-spacing-mode-on))
+   #+end_src
 ** alignment
    #+BEGIN_SRC emacs-lisp
      ;; set up mono font for chinese
