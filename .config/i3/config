@@ -42,9 +42,15 @@ smart_borders on
 
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec gnome-terminal
-# bindsym $mod+Shift+Return exec gnome-terminal -name "floating_term"
-# for_window [class="gnome-terminal-server" instance="floating_term"] floating enable
+# bindsym $mod+Return exec gnome-terminal
+# # bindsym $mod+Shift+Return exec urxvt -name floating
+# bindsym $mod+Shift+Return exec gnome-terminal -t floating
+# for_window [class="Gnome-terminal" title="floating"] floating enable
+
+bindsym $mod+Return exec terminator
+# bindsym $mod+Shift+Return exec urxvt -name floating
+bindsym $mod+Shift+Return exec terminator -T floating
+for_window [class="Terminator" title="floating"] floating enable
 
 # kill focused window
 bindsym $mod+Shift+q kill
