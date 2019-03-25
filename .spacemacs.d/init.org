@@ -185,6 +185,12 @@
      (use-package recursive-narrow)
      (recursive-narrow-mode)
    #+end_src
+** vlf
+   deal with very large files
+   #+begin_src emacs-lisp
+     (use-package vlf-setup)
+   #+end_src
+
 * General
   #+BEGIN_SRC emacs-lisp
     (setq system-time-locale "zh_CN.utf-8"
