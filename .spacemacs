@@ -149,6 +149,7 @@ This function should only modify configuration layer settings."
                                       ,(if (string= system-name "carbon")
                                            '(recursive-narrow :location local)
                                          'recursive-narrow)
+                                      zeal-at-point
                                       vlf
                                       poporg)
    ;; A list of packages that cannot be updated.
