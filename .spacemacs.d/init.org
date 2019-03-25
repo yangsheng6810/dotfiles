@@ -322,7 +322,6 @@
                  (variable-pitch-mode 1)))
 
      (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-     (set-face-attribute 'fixed-pitch nil :font "fontset-default" :family "Monaco")
 
 
      (use-package theming
@@ -1998,7 +1997,11 @@
          ;; (message "call cnfonts-set-font-first-time")
          (setq yang-cnfonts-has-started t)
          (apply func _args)
-         (set-face-font 'fixed-pitch "fontset-default")))
+         (when (display-graphic-p)
+           ;; (fontset-name-p "fontset-default")
+           ;; (set-face-font 'fixed-pitch "fontset-default")
+           (set-face-attribute 'fixed-pitch nil :font "fontset-default" :family "Monaco"))
+         ))
 
      (advice-add 'cnfonts-set-font-first-time
                  :around #'yang-cnfonts-set-font-first-time)
