@@ -1,4 +1,4 @@
-Xft.dpi:96
+Xft.dpi:192
 
 xpdf.title: PDF
 
@@ -64,8 +64,8 @@ URxvt.scrollBar:false
 URxvt.saveLines:5000
 
 ! font set
-URxvt.font:xft:Dejavu Sans Mono:pixelsize=14:antialias=true,xft:WenQuanYi Microhei:pixelsize=14
-URxvt.boldFont:xft:Dejavu Sans Mono:pixelsize=14:antialias=true:Bold,xft:WenQuanYi Microhei:pixelsize=14:Bold
+URxvt.font:xft:Dejavu Sans Mono:pixelsize=28:antialias=true,xft:WenQuanYi Microhei:pixelsize=28,xft:DejaVu Sans Mono for Powerline
+URxvt.boldFont:xft:Dejavu Sans Mono:pixelsize=28:antialias=true:Bold,xft:WenQuanYi Microhei:pixelsize=28:Bold
 
 ! Input Method set 
 URxvt.inputMethod:fcitx
@@ -92,7 +92,7 @@ Rxvt.menu:/etc/X11/rxvt.menu
 !Rxvt.transparency:255
 
 ! 开启标签功能
-URxvt.perl-ext-common: default,tabbed
+! URxvt.perl-ext-common: default,tabbed
 chdir:/home/yangsheng/ -cd
 
 
