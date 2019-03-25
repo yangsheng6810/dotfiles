@@ -1,7 +1,8 @@
 #!/bin/bash
 X_USER=yangsheng
-export DISPLAY=:1
-export XAUTHORITY=/run/user/1000/gdm/Xauthority
+# export DISPLAY=:0
+# export XAUTHORITY=/run/user/1000/gdm/Xauthority
+export XAUTHORITY=$HOME/.Xauthority
 
 declare -A sys_d
 sys_d[0]="card0-DP-1"
