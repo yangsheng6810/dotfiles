@@ -1,6 +1,6 @@
 #!/bin/bash
 X_USER=yangsheng
-# export DISPLAY=:0
+export DISPLAY=:0
 # export XAUTHORITY=/run/user/1000/gdm/Xauthority
 export XAUTHORITY=$HOME/.Xauthority
 
@@ -16,7 +16,7 @@ function connect()
     while true;do
         NUMBER_OF_MONITOR=`xrandr |grep -w connected |wc -l`
         if [ ${NUMBER_OF_MONITOR} -eq 1 ];then
-            sleep 0.1
+            sleep 0.5
         else
             break
         fi
@@ -45,17 +45,21 @@ function connect()
     INTERNAL_POS_Y=$((SCALED_Y - SCALED_INTERNAL_SCREEN_Y))
     echo $INTERNAL_POS_Y
 
-    xrandr --output $EX_MONITOR  --auto --primary --scale 2x2 --pos 0x0
     xrandr --output eDP1 --auto --scale 1.25x1.25 --pos "${INTERNAL_POS_X}x${INTERNAL_POS_Y}"
+    xrandr --output $EX_MONITOR  --auto --primary --scale 2x2 --pos 0x0
+    nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=1
+    nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
 }
 
 function disconnect()
 {
+    echo "disconnecting"
     ACTION="OFF"
-    sleep 0.2
-    xrandr --output eDP1 --scale 1.25x1.25
+    sleep 0.5
     xrandr --output DP1 --off
     xrandr --output HDMI2 --off
+    xrandr --output eDP1 --scale 1.25x1.25
+    nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
 }
 
 LOG_FILE="/tmp/monitor.log"
