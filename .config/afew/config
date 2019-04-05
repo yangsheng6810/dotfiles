@@ -91,5 +91,10 @@ tags = +inbox
 query = 'tag:new'
 message = All remaining mails
 
+[Filter.8]
+tags = +inbox;+lists;+research
+query ='to:<theory-local@cs.umd.edu>'
+message = Theory Local
+
 # committed out to allow notification
 # [InboxFilter]
