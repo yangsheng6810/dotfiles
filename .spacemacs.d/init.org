@@ -326,6 +326,9 @@
      (add-hook 'text-mode-hook
                (lambda ()
                  (variable-pitch-mode 1)))
+     (add-hook 'conf-mode-hook
+               (lambda ()
+                 (variable-pitch-mode -1)))
 
      (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
 
