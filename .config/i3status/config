@@ -13,6 +13,7 @@ general {
 
 order += "ipv6"
 order += "disk /"
+order += "disk /home/"
 order += "wireless _first_"
 order += "ethernet _first_"
 order += "battery all"
@@ -46,5 +47,8 @@ load {
 }
 
 disk "/" {
+        format = "%avail"
+}
+disk "/home/" {
         format = "%avail"
 }
