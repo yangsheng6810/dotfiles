@@ -1621,6 +1621,7 @@
      (with-eval-after-load 'notmuch
        (setq notmuch-search-oldest-first nil)
        (setq notmuch-fcc-dirs '((".*" . "sent -inbox +sent -unread")))
+       (setq notmuch-message-deleted-tags '("+trash" "-inbox" "-unread"))
        (define-key notmuch-show-mode-map "d"
          (lambda ()
            "toggle deleted tag for message"
