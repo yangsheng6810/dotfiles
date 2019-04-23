@@ -1673,7 +1673,8 @@
                      ;; (message "p is: %S" p)
                      (or (equal (car disposition) "attachment")
                          (and (equal (car disposition) "inline")
-                              (assq 'filename disposition)))
+                              (assq 'filename disposition))
+                         (mm-handle-id p))
                      (progn
                        (setq filename (mm-handle-filename p))
                        (setq cid (mm-handle-id p))
@@ -1685,6 +1686,7 @@
                        (setq file-location (concat directory
                                                    filename))
                        (mm-save-part-to-file p file-location)
+                       (message "Saved file %s" file-location)
                        (lexical-let ((file-name file-location))
                          (run-at-time 2 nil
                                       (lambda ()
