@@ -1361,7 +1361,7 @@
       (setq fill-column 10000)
       ;; (turn-off-auto-fill)
       (olivetti-mode 1)
-      (define-key LaTeX-mode-map (kbd "C-s") #'yang/swiper)
+      ;; (define-key LaTeX-mode-map (kbd "C-s") #'yang/swiper)
 
       (spacemacs/set-leader-keys-for-major-mode 'latex-mode
         "zc" 'TeX-fold-comment)
