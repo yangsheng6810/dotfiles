@@ -7,24 +7,7 @@
     ;; commented out since it may cause undo-tree corruption
     ;; (setq undo-tree-auto-save-history t)
 
-    ;; to allow cursor move beyond eol, and do not move back.
-    (setq evil-move-beyond-eol t
-          evil-move-cursor-back nil
-          evil-want-fine-undo t
-          evil-ex-interactive-search-highlight nil
-          evil-want-Y-yank-to-eol t
-          mouse-yank-at-point t)
-    (define-key evil-insert-state-map (kbd "C-k") nil)
-
-    (setq isearch-lax-whitespace t
-          isearch-regexp-lax-whitespace t
-          search-whitespace-regexp "[ \t\r\n]+"
-          word-wrap nil)
-    ;; (setq search-whitespace-regexp "\\s-+")
-
-    (setq-default search-invisible t)
-
-    (setq-default evil-search-module "isearch")
+    (setq word-wrap nil)
 
     ;; set tab-width
     (setq-default tab-width 8
@@ -32,57 +15,82 @@
 
     ;; turn off linum-mode for performance
     (global-linum-mode -1)
-    ;; stop the behavior that evil consider all inputs done when in insert mode
-    ;; as one insertion.
 
     ;; turn on highlight-current-line-globally
     (spacemacs/toggle-highlight-current-line-globally-off)
 
     (global-unset-key (kbd "M-SPC"))
     (global-set-key (kbd "M-SPC") 'set-mark-command)
-    (setq ispell-extra-args '("--sug-mode=ultra")
-          flyspell-issue-welcome-flag nil ;; fix flyspell problem
-          ispell-dictionary "american")
-
-    ;; to avoid lagging
-    (use-package flyspell-lazy
-      :ensure t
-      :init (setq flyspell-lazy-extra-lazy t)
-      :config (flyspell-lazy-mode 1))
 
     (setq delete-by-moving-to-trash t)
-
-    ;; Show different cursor for different evil mode in terminal
-    (evil-terminal-cursor-changer-activate)
-
-    (defun yang/swiper ()
-      "In visual-line-mode, call swiper on visual line when universal prefix is provided, normal swiper otherwise"
-      (interactive)
-      (let ((visual-line-mode (and visual-line-mode
-                                   (not (null current-prefix-arg)))))
-        (swiper)))
-
-    (defun yang/kill-line ()
-      "kill line in visual-line-mode, normal kill-line with no arg, and kill-visual-line when called with prefix arg"
-      (interactive)
-      (when visual-line-mode
-        (if current-prefix-arg
-            (kill-visual-line)
-          (kill-line))))
-
-    (define-key visual-line-mode-map (kbd "C-k") #'yang/kill-line)
-
-    ;; from https://demonastery.org/2013/04/emacs-narrow-to-region-indirect/
-    (defun narrow-to-region-indirect (start end)
-      "Restrict editing in this buffer to the current region, indirectly."
-      (interactive "r")
-      (deactivate-mark)
-      (let ((buf (clone-indirect-buffer nil nil)))
-        (with-current-buffer buf
-          (narrow-to-region start end))
-        (switch-to-buffer buf)))
   #+END_SRC
+** Moving around
+   #+begin_src emacs-lisp
+     ;; first recenter to top, then to half-top
+     (setq recenter-positions '(top 0.15 middle bottom))
+   #+end_src
+** ispell
+   #+begin_src emacs-lisp
+     (setq ispell-extra-args '("--sug-mode=ultra")
+           flyspell-issue-welcome-flag nil ;; fix flyspell problem
+           ispell-dictionary "american")
 
+     ;; to avoid lagging
+     (use-package flyspell-lazy
+       :ensure t
+       :init (setq flyspell-lazy-extra-lazy t)
+       :config (flyspell-lazy-mode 1))
+   #+end_src
+** Search
+   #+begin_src emacs-lisp
+     (setq isearch-lax-whitespace t
+           isearch-regexp-lax-whitespace t
+           search-whitespace-regexp "[ \t\r\n]+")
+     ;; (setq search-whitespace-regexp "\\s-+")
+
+     (setq-default search-invisible t)
+
+     (defun yang/swiper ()
+       "In visual-line-mode, call swiper on visual line when universal prefix is provided, normal swiper otherwise"
+       (interactive)
+       (let ((visual-line-mode (and visual-line-mode
+                                    (not (null current-prefix-arg)))))
+         (swiper)))
+
+     (use-package swiper
+       :config
+       (progn
+         (spacemacs/set-leader-keys
+           "ss" 'swiper
+           "sS" 'spacemacs/swiper-region-or-symbol
+           "sb" 'swiper-all
+           "sB" 'spacemacs/swiper-all-region-or-symbol)
+         (global-set-key "\C-s" 'swiper-isearch)))
+   #+end_src
+** Evil
+   #+begin_src emacs-lisp
+     ;; to allow cursor move beyond eol, and do not move back.
+     (setq evil-move-beyond-eol t
+           evil-move-cursor-back nil
+           evil-want-fine-undo t
+           evil-ex-interactive-search-highlight nil
+           evil-want-Y-yank-to-eol t
+           mouse-yank-at-point t
+           evil-cross-lines t)
+
+     ;; stop the behavior that evil consider all inputs done when in insert mode
+     ;; as one insertion.
+
+     ;; use isearch instead evil search
+     (setq-default evil-search-module "isearch")
+
+     ;; unset C-k, to give it back to kill-line
+     (define-key evil-insert-state-map (kbd "C-k") nil)
+
+     ;; Show different cursor for different evil mode in terminal
+     (evil-terminal-cursor-changer-activate)
+
+   #+end_src
 ** Rectangle editing
    #+BEGIN_SRC emacs-lisp
      ;; hydra for rectangle editing
@@ -184,6 +192,18 @@
      ;;   )
      (use-package recursive-narrow)
      (recursive-narrow-mode)
+   #+end_src
+** Narrow
+   #+begin_src emacs-lisp
+    ;; from https://demonastery.org/2013/04/emacs-narrow-to-region-indirect/
+    (defun narrow-to-region-indirect (start end)
+      "Restrict editing in this buffer to the current region, indirectly."
+      (interactive "r")
+      (deactivate-mark)
+      (let ((buf (clone-indirect-buffer nil nil)))
+        (with-current-buffer buf
+          (narrow-to-region start end))
+        (switch-to-buffer buf)))
    #+end_src
 ** vlf
    deal with very large files
@@ -328,7 +348,7 @@
                  (variable-pitch-mode 1)))
      (add-hook 'conf-mode-hook
                (lambda ()
-                 (variable-pitch-mode -1)))
+                 (variable-pitch-mode -1)) t)
 
      (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
 
@@ -695,11 +715,11 @@
                   :inherit fixed-pitch))
         (org-formula
          (:inherit font-lock-builtin-face)
-         (:inherit nil
+         (:inherit fixed-pitch
                    :family ,serif-mono-font
                    :foreground ,keyword
                    :height 1.0)
-         (:inherit nil
+         (:inherit fixed-pitch
                    :family ,serif-mono-font
                    :foreground ,keyword
                    :height 1.0))
