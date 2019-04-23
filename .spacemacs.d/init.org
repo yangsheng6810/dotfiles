@@ -1221,7 +1221,7 @@
            ;; creating new parent
            org-refile-allow-creating-parent-nodes t)
    #+END_SRC
-** org-reveal
+** COMMENT org-reveal
    #+BEGIN_SRC emacs-lisp
      (use-package ox-reveal
        :init
