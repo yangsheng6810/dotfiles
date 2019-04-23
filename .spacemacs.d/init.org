@@ -2197,7 +2197,7 @@
   #+BEGIN_SRC emacs-lisp
     (add-hook 'proced-mode-hook
               (lambda ()
-                (proced-toggle-auto-update)))
+                (proced-toggle-auto-update +1)))
 
   #+END_SRC
 
