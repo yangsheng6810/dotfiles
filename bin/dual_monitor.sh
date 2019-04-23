@@ -49,6 +49,7 @@ function connect()
     xrandr --output $EX_MONITOR  --auto --primary --scale 2x2 --pos 0x0
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=1
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
+    displaycal-apply-profiles
 }
 
 function disconnect()
@@ -60,6 +61,7 @@ function disconnect()
     xrandr --output HDMI2 --off
     xrandr --output eDP1 --scale 1.25x1.25
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
+    displaycal-apply-profiles
 }
 
 LOG_FILE="/tmp/monitor.log"
