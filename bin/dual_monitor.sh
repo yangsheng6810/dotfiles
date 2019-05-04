@@ -10,6 +10,7 @@ sys_d[1]="card0-HDMI-A-2"
 declare -A xrandr_d
 xrandr_d[0]="DP1"
 xrandr_d[1]="HDMI2"
+
 function connect()
 {
     ACTION="ON"
@@ -35,18 +36,27 @@ function connect()
     SCALED_X=$((MAIN_X * 2))
     SCALED_Y=$((MAIN_Y * 2))
 
-    INTERNAL_SCREEN_X=2560
+    # INTERNAL_SCREEN_X=2560
     INTERNAL_SCREEN_Y=1440
 
-    SCALED_INTERNAL_SCREEN_X=$((INTERNAL_SCREEN_X * 5 / 4))
+    # SCALED_INTERNAL_SCREEN_X=$((INTERNAL_SCREEN_X * 5 / 4))
     SCALED_INTERNAL_SCREEN_Y=$((INTERNAL_SCREEN_Y * 5 / 4))
 
-    INTERNAL_POS_X=$SCALED_X
-    INTERNAL_POS_Y=$((SCALED_Y - SCALED_INTERNAL_SCREEN_Y))
-    echo $INTERNAL_POS_Y
+    ORIENTATION_OPTION=""
 
+    if [ "${EXT_ORIENTATION}" == "vertical" ];then
+        INTERNAL_POS_X=$SCALED_Y
+        INTERNAL_POS_Y=$(((SCALED_X - SCALED_INTERNAL_SCREEN_Y) / 2))
+        ORIENTATION_OPTION="--rotate left"
+    else
+        INTERNAL_POS_X=$SCALED_X
+        INTERNAL_POS_Y=$(((SCALED_Y - SCALED_INTERNAL_SCREEN_Y) / 2))
+        ORIENTATION_OPTION="--rotate normal"
+    fi
+    echo $INTERNAL_POS_X $INTERNAL_POS_Y
+
+    xrandr --output $EX_MONITOR  --auto --primary --scale 2x2 --pos 0x0 $ORIENTATION_OPTION --set audio on
     xrandr --output eDP1 --auto --scale 1.25x1.25 --pos "${INTERNAL_POS_X}x${INTERNAL_POS_Y}"
-    xrandr --output $EX_MONITOR  --auto --primary --scale 2x2 --pos 0x0
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=1
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
     displaycal-apply-profiles
@@ -67,6 +77,9 @@ function disconnect()
 LOG_FILE="/tmp/monitor.log"
 touch $LOG_FILE
 chmod a+w $LOG_FILE
+if [ "$1" == "--vertical" ]; then
+    EXT_ORIENTATION="vertical"
+fi
 echo `date` >> $LOG_FILE
 SOMETHING_CONNECTED=0
 for i in 0 1;do
