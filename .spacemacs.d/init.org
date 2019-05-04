@@ -1866,7 +1866,7 @@
    #+BEGIN_SRC emacs-lisp
      (setq term-buffer-maximum-size 10000)
      (use-package eterm-256color
-       :config
+       :init
        (add-hook 'term-mode-hook #'eterm-256color-mode))
    #+END_SRC
 
