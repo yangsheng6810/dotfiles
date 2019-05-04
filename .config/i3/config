@@ -274,3 +274,6 @@ exec --no-startup-id dispalcal-apply-profiles
 exec --no-startup-id blueman-applet
 exec --no-startup-id nm-applet
 exec --no-startup-id dropbox
+
+# notify when battery is really low
+exec --no-startup-id i3-battery-popup
