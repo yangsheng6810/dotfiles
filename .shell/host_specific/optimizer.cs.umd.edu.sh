@@ -3,9 +3,9 @@ export PYTHONSTARTUP="$(python -m jedi repl)"
 LC_ALL=""
 LANG="en_US.UTF-8"
 LC_COLLATE="C"
-TERM="xterm-256color"
+# TERM="xterm-256color"
 # added by Anaconda3 installer
-export PATH="/fs/optimizer/styang/anaconda3/bin:$PATH"
+# export PATH="/fs/optimizer/styang/anaconda3/bin:$PATH"
 
 # for gurobi
 export GUROBI_HOME="$HOME/gurobi/gurobi811/linux64"
