@@ -27,7 +27,7 @@
 ** Moving around
    #+begin_src emacs-lisp
      ;; first recenter to top, then to half-top
-     (setq recenter-positions '(top 0.15 middle bottom))
+     (setq recenter-positions '(0.15 top middle bottom))
    #+end_src
 ** ispell
    #+begin_src emacs-lisp
