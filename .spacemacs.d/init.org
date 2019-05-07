@@ -211,6 +211,10 @@
      (use-package vlf-setup)
    #+end_src
 
+** Beginend
+   #+begin_src emacs-lisp
+     (beginend-global-mode)
+   #+end_src
 * General
   #+BEGIN_SRC emacs-lisp
     (setq system-time-locale "zh_CN.utf-8"
