@@ -32,89 +32,13 @@ This function should only modify configuration layer settings."
    dotspacemacs-configuration-layer-path '()
 
    ;; List of configuration layers to load.
+   ;; ----------------------------------------------------------------
+   ;; Example of useful layers you may want to use right away.
+   ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
+   ;; `M-m f e R' (Emacs style) to install them.
+   ;; ----------------------------------------------------------------
    dotspacemacs-configuration-layers
-   `(
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-
-     ;; csv
-     (auto-completion
-      :variables
-      auto-completion-enable-snippets-in-popup t
-      auto-completion-enable-help-tooltip t
-      auto-completion-enable-sort-by-usage t
-      )
-     emacs-lisp
-     (ivy :variables
-          ivy-enable-advanced-buffer-information t
-          ivy-rich-path-style 'abbrev)
-     git
-     (markdown :variables markdown-live-preview-engine 'vmd)
-     (org :variables
-          org-enable-bootstrap-support t
-          org-enable-reveal-js-support t
-          org-enable-github-support t
-          org-enable-hugo-support t
-          ;; org-enable-org-journal-support t
-          )
-     go
-     (shell :variables
-            shell-default-height 30
-            shell-default-shell 'multi-term
-            shell-default-position 'bottom)
-     (latex :variables
-            ;; latex-build-command "XeLaTeX"
-            latex-enable-auto-fill nil
-            latex-enable-folding t)
-     (python :variables:
-             ;; enable YAPF formating
-             python-enable-yapf-format-on-save t)
-     (c-c++ :variables
-           c-c++-default-mode-for-headers 'c++-mode)
-     (cmake :variables cmake-enable-cmake-ide-support t)
-     ,(if (or (string= system-name "carbon")
-              (string= system-name "myhost"))
-          '(chinese :variables
-                    chinese-enable-fcitx t
-                    chinese-enable-youdao-dict t)
-        '(chinese :variables
-                  chinese-enable-youdao-dict t))
-     ;; (chinese :variables
-     ;;          ;; chinese-enable-fcitx t
-     ;;          chinese-enable-youdao-dict t)
-     (ibuffer :variables
-              ibuffer-group-buffers-by 'projects)
-     html
-     javascript
-     shell-scripts
-     (spell-checking :variables spell-checking-enable-by-default nil)
-     (syntax-checking :variables syntax-checking-use-original-bitmaps t)
-     version-control
-     ,(if (version< emacs-version "25.0")
-          'pdf-tools
-        'pdf)
-     semantic
-     gtags
-     ;; show the current buffer’s index in a side bar
-     imenu-list
-     search-engine
-     ;; the layer for R
-     ;; ess
-     ranger ;; replacement for dired
-     nlinum ;; fast replacement for linum mode
-     rust
-     (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
-     (elfeed ;; for reading feed
-      :variables rmh-elfeed-org-files
-      (list "~/.spacemacs.d/elfeed.org"))
-     theming
-     ;; (mu4e
-     ;;  :variables mu4e-enable-notifications t)
-     notmuch
-     )
+   yang/dotspacemacs-configuration-layers
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -123,35 +47,9 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages `(vimrc-mode
-                                      ;; (tbemail
-                                      ;;  :location local)
-                                      flyspell-lazy
-                                      cnfonts
-                                      atomic-chrome
-                                      ;; explicitly add ivy-rich for master branch
-                                      ivy-rich
-                                      company-jedi ;; add jedi-support
-                                      org-pdfview ;; add pdfview link to org
-                                      org-gcal ;; sync calendar with google calendar
-                                      cal-china-x
-                                      eterm-256color
-                                      ;; highlight-indent-guides
-                                      highlight-indentation
-                                      ;; show different cursor in terminal according to evil mode
-                                      evil-terminal-cursor-changer
-                                      helpful
-                                      olivetti
-                                      beacon
-                                      ;; mu4e-conversation
-                                      org-ref
-                                      helm-bibtex
-                                      ,(if (string= system-name "carbon")
-                                           '(recursive-narrow :location local)
-                                         'recursive-narrow)
-                                      zeal-at-point
-                                      vlf
-                                      poporg)
+   dotspacemacs-additional-packages
+   yang/dotspacemacs-additional-packages
+
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages (if (version< emacs-version "25")
                                     '(fill-column-indicator))
@@ -539,19 +437,152 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;;     ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
   ;;     ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
 
+  ;; List of configuration layers to load.
+  (setq yang/dotspacemacs-configuration-layers-base
+        '(
+          ;; csv
+          (auto-completion
+           :variables
+           auto-completion-enable-snippets-in-popup t
+           auto-completion-enable-help-tooltip t
+           auto-completion-enable-sort-by-usage t
+           )
+          emacs-lisp
+          (ivy :variables
+               ivy-enable-advanced-buffer-information t
+               ivy-rich-path-style 'abbrev)
+          git
+          (markdown :variables markdown-live-preview-engine 'vmd)
+          (org :variables
+               org-enable-bootstrap-support t
+               org-enable-reveal-js-support t
+               org-enable-github-support t
+               org-enable-hugo-support t
+               ;; org-enable-org-journal-support t
+               )
+          (shell :variables
+                 shell-default-height 30
+                 shell-default-shell 'multi-term
+                 shell-default-position 'bottom)
+          (python :variables:
+                  ;; enable YAPF formating
+                  python-enable-yapf-format-on-save t)
+          (c-c++ :variables
+                 c-c++-default-mode-for-headers 'c++-mode)
+          (cmake :variables cmake-enable-cmake-ide-support t)
+          (ibuffer :variables
+                   ibuffer-group-buffers-by 'projects)
+          html
+          javascript
+          shell-scripts
+          (spell-checking :variables spell-checking-enable-by-default nil)
+          (syntax-checking :variables syntax-checking-use-original-bitmaps t)
+          version-control
+          semantic
+          gtags
+          ;; show the current buffer’s index in a side bar
+          imenu-list
+          search-engine
+          ;; the layer for R
+          ;; ess
+          ranger ;; replacement for dired
+          nlinum ;; fast replacement for linum mode
+          (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
+          theming)
+
+        yang/dotspacemacs-configuration-layers-cli
+        '((chinese :variables
+                   chinese-enable-youdao-dict t))
+
+        yang/dotspacemacs-configuration-layers-gui
+        `((latex :variables
+                 ;; latex-build-command "XeLaTeX"
+                 latex-enable-auto-fill nil
+                 latex-enable-folding t)
+          (chinese :variables
+                   chinese-enable-fcitx t
+                   chinese-enable-youdao-dict t)
+          pdf
+          (elfeed ;; for reading feed
+           :variables rmh-elfeed-org-files
+           (list "~/.spacemacs.d/elfeed.org"))
+          notmuch
+          ;; (mu4e
+          ;;  :variables mu4e-enable-notifications t)
+          go
+          rust)
+
+        yang/dotspacemacs-configuration-layers
+        (if (or (string= system-name "carbon")
+                (string= system-name "myhost"))
+            (append
+             yang/dotspacemacs-configuration-layers-base
+             yang/dotspacemacs-configuration-layers-gui)
+          (append
+           yang/dotspacemacs-configuration-layers-base
+           yang/dotspacemacs-configuration-layers-cli))
+
+        yang/dotspacemacs-additional-packages-base
+        '(vimrc-mode
+          ;; (tbemail
+          ;;  :location local)
+          flyspell-lazy
+          cnfonts
+          ;; explicitly add ivy-rich for master branch
+          ivy-rich
+          company-jedi ;; add jedi-support
+          cal-china-x
+          eterm-256color
+          ;; highlight-indent-guides
+          highlight-indentation
+          ;; show different cursor in terminal according to evil mode
+          evil-terminal-cursor-changer
+          helpful
+          olivetti
+          beacon
+          org-ref
+          helm-bibtex
+          ;; support for open large files
+          vlf
+          ;; pop into org-mode
+          poporg
+          ;; abo-abo's helper for lisp
+          lispy
+          ;; smart M-< and M->
+          beginend)
+
+        yang/dotspacemacs-additional-packages-gui
+        '((recursive-narrow :location local)
+          atomic-chrome
+          org-pdfview ;; add pdfview link to org
+          org-gcal    ;; sync calendar with google calendar
+          zeal-at-point)
+
+        yang/dotspacemacs-additional-packages-cli
+        '(recursive-narrow)
+
+        yang/dotspacemacs-additional-packages
+        (if (string= system-name "carbon")
+            (append
+             yang/dotspacemacs-additional-packages-base
+             yang/dotspacemacs-additional-packages-gui)
+          (append
+           yang/dotspacemacs-additional-packages-base
+           yang/dotspacemacs-additional-packages-cli))
+        )
+
   (setq mine-machine-specific-config
         (concat "~/.machine_specific/"
                 system-name
                 "/config.el"))
-  (load mine-machine-specific-config 'noerror)
-  (setq dotspacemacs-directory "~/.spacemacs.d/")
-  (setq custom-file (concat dotspacemacs-directory "temp.el"))
-  (load custom-file 'noerror)
-  (load (concat dotspacemacs-directory "credentials.el") 'noerror)
+    (load mine-machine-specific-config 'noerror)
+    (setq dotspacemacs-directory "~/.spacemacs.d/")
+    (setq custom-file (concat dotspacemacs-directory "temp.el"))
+    (load custom-file 'noerror)
+    (load (concat dotspacemacs-directory "credentials.el") 'noerror)
 
-  ;; always follow symbolic links
-  (setq vc-follow-symlinks t)
-  )
+    ;; always follow symbolic links
+    (setq vc-follow-symlinks t))
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
