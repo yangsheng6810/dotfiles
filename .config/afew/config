@@ -87,14 +87,19 @@ query = 'snapraid and from:yangsheng6810'
 message = Archive snapraid logs
 
 [Filter.7]
-tags = +inbox
-query = 'tag:new'
-message = All remaining mails
+tags = +umd
+query = 'from:umd.edu or from:cs.umd.edu'
+message = UMD emails
 
 [Filter.8]
 tags = +inbox;+lists;+research
 query ='to:<theory-local@cs.umd.edu>'
 message = Theory Local
+
+[Filter.9]
+tags = +inbox
+query = 'tag:new'
+message = All remaining mails
 
 # committed out to allow notification
 # [InboxFilter]
