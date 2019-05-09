@@ -275,5 +275,8 @@ exec --no-startup-id blueman-applet
 exec --no-startup-id nm-applet
 exec --no-startup-id dropbox
 
+# auto-mounting USB devices
+exec --no-startup-id udiskie
+
 # notify when battery is really low
 exec --no-startup-id i3-battery-popup
