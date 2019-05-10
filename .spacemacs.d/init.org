@@ -2099,8 +2099,8 @@
        :defer t
        :config
        (setq ace-pinyin--jump-word-timeout 0.3)
-       ;; (spacemacs/set-leader-keys "j j" 'ace-pinyin-jump-char-2)
-       (spacemacs/set-leader-keys "j j" (lambda () (interactive) (ace-pinyin-jump-word t)))
+       (spacemacs/set-leader-keys "j j" 'ace-pinyin-jump-char-2)
+       ;; (spacemacs/set-leader-keys "j j" (lambda () (interactive) (ace-pinyin-jump-word t)))
        )
    #+END_SRC
 
