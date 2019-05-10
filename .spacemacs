@@ -549,6 +549,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           poporg
           ;; abo-abo's helper for lisp
           lispy
+          ;; and its evil companion
+          evil-lispy
           ;; smart M-< and M->
           beginend)
 
@@ -569,8 +571,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
              yang/dotspacemacs-additional-packages-gui)
           (append
            yang/dotspacemacs-additional-packages-base
-           yang/dotspacemacs-additional-packages-cli))
-        )
+           yang/dotspacemacs-additional-packages-cli)))
 
   (setq mine-machine-specific-config
         (concat "~/.machine_specific/"
