@@ -836,14 +836,20 @@
   
 * Emacs-lisp
   #+begin_src emacs-lisp
-    ;; enable lispy-mode in emacs-lisp-mode
-    (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
+    (use-package lispy
+      :init
+      (defun yang/enable-lispy-mode ()
+        (lispy-mode 1))
+      ;; enable lispy-mode in emacs-lisp-mode
+      (add-hook 'emacs-lisp-mode-hook #'yang/enable-lispy-mode)
 
-    ;; enable lispy-mode in minibuffer
-    (defun conditionally-enable-lispy ()
-      (when (eq this-command 'eval-expression)
-        (lispy-mode 1)))
-    (add-hook 'minibuffer-setup-hook 'conditionally-enable-lispy)
+      ;; enable lispy-mode in minibuffer
+      (defun conditionally-enable-lispy ()
+        (when (eq this-command 'eval-expression)
+          (lispy-mode 1)))
+      (add-hook 'minibuffer-setup-hook 'conditionally-enable-lispy)
+      :diminish lispy-mode)
+
   #+end_src
 * org-mode
   #+BEGIN_SRC emacs-lisp
