@@ -269,6 +269,8 @@ bindsym XF86AudioPrev exec playerctl previous
 exec --no-startup-id xss-lock -- $Locker
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id compton
+# load color profiles
+exec --no-startup-id xiccd
 exec --no-startup-id dispalcal-apply-profiles
 
 exec --no-startup-id blueman-applet
