@@ -552,7 +552,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           ;; and its evil companion
           evil-lispy
           ;; smart M-< and M->
-          beginend)
+          beginend
+          ;; try out etags with counsel
+          counsel-etags)
 
         yang/dotspacemacs-additional-packages-gui
         '((recursive-narrow :location local)
