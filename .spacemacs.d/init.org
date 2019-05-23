@@ -213,6 +213,12 @@
 
 ** Beginend
    #+begin_src emacs-lisp
+     (use-package beginend
+       :diminish (beginend-global-mode
+                  beginend-bs-mode
+                  beginend-prog-mode
+                  beginend-compilation-mode))
+
      (beginend-global-mode)
    #+end_src
 * General
