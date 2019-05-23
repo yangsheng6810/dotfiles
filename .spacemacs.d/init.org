@@ -1333,15 +1333,18 @@
    #+END_SRC
 ** org-ref
    #+BEGIN_SRC emacs-lisp
-(setq reftex-default-bibliography '("~/Documents/org/bibliography/references.bib"))
+     (setq reftex-default-bibliography '("~/Documents/org/bibliography/references.bib"))
 
-;; see org-ref for use of these variables
-(setq org-ref-bibliography-notes "~/Documents/org/bibliography/notes.org"
-      org-ref-default-bibliography '("~/Documents/org/bibliography/references.bib")
-      org-ref-pdf-directory "~/Documents/Library/bibtex-pdfs/")
-(setq bibtex-completion-bibliography "~/Documents/org/bibliography/references.bib"
-      bibtex-completion-library-path "~/Documents/Library/bibtex-pdfs"
-      bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
+     ;; see org-ref for use of these variables
+     (setq org-ref-bibliography-notes "~/Documents/org/bibliography/notes.org"
+           org-ref-default-bibliography '("~/Documents/org/bibliography/references.bib")
+           org-ref-pdf-directory "~/Documents/Library/bibtex-pdfs/")
+     (setq bibtex-completion-bibliography "~/Documents/org/bibliography/references.bib"
+           bibtex-completion-library-path "~/Documents/Library/bibtex-pdfs"
+           bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
+
+     (use-package org-ref
+       :bind ("C-c ]" . org-ref-insert-link))
    #+END_SRC
 
 * LaTeX
