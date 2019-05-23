@@ -1898,6 +1898,9 @@
      (use-package eterm-256color
        :init
        (add-hook 'term-mode-hook #'eterm-256color-mode))
+
+     (evil-define-key 'normal term-raw-map (kbd "<mouse-2>") 'term-mouse-paste)
+     (evil-define-key 'insert term-raw-map (kbd "<mouse-2>") 'term-mouse-paste)
    #+END_SRC
 
 * pdf-tools
