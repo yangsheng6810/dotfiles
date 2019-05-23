@@ -2836,6 +2836,41 @@
      ahs-inhibit-face-list nil)
   #+END_SRC
 
+* misc
+** Migrating to org-ref
+   #+begin_src emacs-lisp
+     (defun yang/move-pdf-to-archive ()
+       (interactive)
+       (save-excursion
+         (save-restriction
+           (org-narrow-to-subtree)
+           (goto-char (point-min))
+           (while (char-equal ?* (following-char))
+             (forward-char))
+           (while (char-equal ?  (following-char))
+             (forward-char))
+           (let* ((ele (org-element-context))
+                  (path (org-element-property :path ele))
+                  (name (buffer-substring (org-element-property :contents-begin ele)
+                                          (org-element-property :contents-end ele)))
+                  (dest-dir org-ref-pdf-directory)
+                  filename
+                  beg end)
+             (setq path (s-replace-regexp (rx "::" (one-or-more digit)) "" path))
+             (save-excursion
+               (search-forward "cite:")
+               (setq beg (point))
+               (end-of-line)
+               (setq end (point))
+               (setq filename (buffer-substring beg end))
+               )
+             (message "path is -%s-, name is -%s-, filename is -%s-" path name filename)
+             (when (f-exists-p path)
+               (f-move path (concat dest-dir filename ".pdf"))
+               (kill-line)
+               (insert name))))))
+   #+end_src
+
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
    ;; fix problem with open-junk-file
