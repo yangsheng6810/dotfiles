@@ -40,3 +40,6 @@ export MAKEFLAGS="${MAKEFLAGS} -j8"
 YANG_HAS_BATTERY=1;
 export GTAGSLABEL=pygments
 export GIT_EDITOR="emacsclient -c"
+
+export GDK_SCALE=2
+export GDK_DPI_SCALE=0.5
