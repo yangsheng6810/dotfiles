@@ -35,7 +35,9 @@ def main():
 
     print("Initial tagging...")
     notmuch = sh.Command("notmuch")
-    notmuch("new")
+    new_env = os.environ.copy()
+    new_env["XAPIAN_CJK_NGRAM"] = "1"
+    notmuch("new", _env=new_env)
     afew = sh.Command("afew")
     afew("-t", "-n")
     notmuch_search = notmuch.bake("search", "--format=json")
