@@ -554,7 +554,12 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           ;; smart M-< and M->
           beginend
           ;; try out etags with counsel
-          counsel-etags)
+          counsel-etags
+          posframe
+          ;; using posframe in company-mode
+          company-posframe
+          ;; using posframe in ivy
+          ivy-posframe)
 
         yang/dotspacemacs-additional-packages-gui
         '((recursive-narrow :location local)

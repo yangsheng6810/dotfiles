@@ -793,6 +793,26 @@
          nil)))
       )
    #+END_SRC
+** Posframe
+   #+begin_src emacs-lisp
+     ;; (use-package ivy-posframe
+     ;;   ;; (push '(spacemacs/ivy-spacemacs-layouts . ivy-posframe-display-at-window-bottom-left) ivy-display-functions-alist)
+     ;;   ;; (push '(complete-symbol . ivy-posframe-display-at-point) ivy-display-functions-alist)
+     ;;   ;; ;; not enable in swiper since it cause trouble for long lines
+     ;;   ;; (push '(swiper . ivy-posframe-display-at-point) ivy-display-functions-alist)
+     ;;   ;; (setq ivy-display-function #'ivy-posframe-display)
+     ;;   :diminish (ivy-posframe)
+     ;;   :config
+     ;;   (push '(counsel-M-x . ivy-posframe-display-at-window-bottom-left) ivy-display-functions-alist)
+     ;;   (ivy-posframe-enable))
+
+     (use-package company-posframe
+       :diminish company-posframe-mode)
+
+     (company-posframe-mode 1)
+
+   #+end_src
+
 * Ergonomic keybindings
   #+BEGIN_SRC emacs-lisp
     ;; Ergonomic keybinding M-<hjkl>
