@@ -2902,6 +2902,34 @@
                (f-move path (concat dest-dir filename ".pdf"))
                (kill-line)
                (insert name))))))
+
+     (defun yang/parse-authors ()
+       (interactive)
+       (save-excursion
+         (let* ((beg (progn (move-beginning-of-line 1)
+                            (point)))
+                (end (progn (move-end-of-line 1)
+                            (point)))
+                (line-string (buffer-substring beg end))
+                (new-string (s-join
+                             ", "
+                             (mapcar (lambda (ss)
+                                       (let ((first)
+                                             (last)
+                                             (name (s-split "," ss)))
+                                         (setq first (s-trim (nth 1 name))
+                                               last (s-trim (nth 0 name)))
+                                         (format "%s %s" first last)))
+                                     (s-with line-string
+                                       s-trim
+                                       (s-chop-prefix "author={")
+                                       (s-chop-suffix "},")
+                                       (s-split " and "))
+                                     ))))
+           (move-beginning-of-line 1)
+           (kill-region beg end)
+           (message "new-string %s" new-string)
+           (insert (format ":author: %s" new-string)))))
    #+end_src
 
 * Helm (legacy)
