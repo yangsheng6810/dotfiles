@@ -283,7 +283,7 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # lock screen after 20 mins
-exec --no-startup-id xset 1200 120
+exec --no-startup-id xset s 1200 120
 exec --no-startup-id xss-lock -- $Locker
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id compton
