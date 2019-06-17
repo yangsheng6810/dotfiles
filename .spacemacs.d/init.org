@@ -2474,46 +2474,48 @@
   #+END_SRC
 
 * persp-mode
-  Use =<leader> b l= to show all buffers in current perspective
-  #+BEGIN_SRC emacs-lisp
-    (use-package persp-mode
-      :defer t
-      :after ibuffer
-      :config
-      (spacemacs/set-leader-keys "b l"
-        #'(lambda (arg)
-            (interactive "P")
-            (with-persp-buffer-list () (ibuffer arg)))))
+  
+** ibuffer for current layout
+   Use =<leader> b l= to show all buffers in current perspective
+   #+BEGIN_SRC emacs-lisp
+     (use-package persp-mode
+       :defer t
+       :after ibuffer
+       :config
+       (spacemacs/set-leader-keys "b l"
+         #'(lambda (arg)
+             (interactive "P")
+             (with-persp-buffer-list () (ibuffer arg)))))
 
-    (with-eval-after-load 'ibuffer
-      (define-ibuffer-op ibuffer-do-remove-persp ()
-        "Remove marked buffers from current persp."
-        (:opstring "removed from current persp"
-                   :active-opstring "remove from current persp"
-                   :dangerous t
-                   :complex t
-                   :modifier-p t)
-        (if (persp-remove-buffer buf)
-            'kill
-          nil))
+     (with-eval-after-load 'ibuffer
+       (define-ibuffer-op ibuffer-do-remove-persp ()
+         "Remove marked buffers from current persp."
+         (:opstring "removed from current persp"
+                    :active-opstring "remove from current persp"
+                    :dangerous t
+                    :complex t
+                    :modifier-p t)
+         (if (persp-remove-buffer buf)
+             'kill
+           nil))
 
-      (define-key ibuffer-mode-map (kbd "R") 'ibuffer-do-remove-persp))
+       (define-key ibuffer-mode-map (kbd "R") 'ibuffer-do-remove-persp))
 
-    (setq persp-emacsclient-init-frame-behaviour-override nil
-          persp-init-new-frame-behaviour-override -1)
-  #+END_SRC
-  Switch to the first persp when loading from file
-  #+BEGIN_SRC emacs-lisp
-    (use-package persp-mode
-      :defer t
-      :config
-      (defun yang-persp-switch-to-persp-after-load (persp-list)
-        (message "come to my switch to persp")
-        (let ((persp-name (car persp-list)))
-          (when persp-name
-            (persp-switch persp-name))))
-      (advice-add 'persp-load-state-from-file :filter-return 'yang-persp-switch-to-persp-after-load))
-  #+END_SRC
+     (setq persp-emacsclient-init-frame-behaviour-override nil
+           persp-init-new-frame-behaviour-override -1)
+   #+END_SRC
+** Switch to the first persp when loading from file
+   #+BEGIN_SRC emacs-lisp
+     (use-package persp-mode
+       :defer t
+       :config
+       (defun yang-persp-switch-to-persp-after-load (persp-list)
+         (message "come to my switch to persp")
+         (let ((persp-name (car persp-list)))
+           (when persp-name
+             (persp-switch persp-name))))
+       (advice-add 'persp-load-state-from-file :filter-return 'yang-persp-switch-to-persp-after-load))
+   #+END_SRC
 
 * helpful
   #+BEGIN_SRC emacs-lisp
