@@ -542,6 +542,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           olivetti
           beacon
           org-ref
+          ox-reveal
           helm-bibtex
           ;; support for open large files
           vlf
