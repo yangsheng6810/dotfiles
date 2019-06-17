@@ -1583,6 +1583,10 @@
      University of Maryland, College Park
      E-mail: yangsheng6810@gmail.com")
 
+     (add-hook 'message-mode-hook
+               (lambda ()
+                 (auto-fill-mode -1)))
+
    #+end_src
 ** Mu4e
    #+BEGIN_SRC emacs-lisp
