@@ -42,7 +42,7 @@ gaps outer 0
 # Only enable outer gaps when there is exactly one container
 smart_gaps inverse_outer
 # Activate smart borders (always)
-smart_borders on
+# smart_borders on
 
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
