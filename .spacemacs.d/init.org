@@ -89,17 +89,18 @@
      (setq-default evil-search-module "isearch")
 
      ;; unset some never used keys in evil insert mode
-     (mapcar (lambda (key)
-               (define-key evil-insert-state-map (kbd key) nil))
-             '("C-d"                         ; evil-shift-left-line
-               "C-k"                         ; evil-insert-digraph
-               "C-o"                         ; evil-execute-in-normal-mode
-               "C-p"                         ; hippie-expand
-               "C-z"                         ; evil-emacs-state
-               "C-v"                         ; quoted-insert
-               "C-w"                         ; evil-delete-backward-word
-               "<delete>"                    ; delete-char (delete char before cursor)
-               ))
+     (let ((evil-keys-to-unset
+            '("C-d"                         ; evil-shift-left-line
+              "C-k"                         ; evil-insert-digraph
+              "C-o"                         ; evil-execute-in-normal-mode
+              "C-p"                         ; hippie-expand
+              "C-z"                         ; evil-emacs-state
+              "C-v"                         ; quoted-insert
+              "C-w"                         ; evil-delete-backward-word
+              "<delete>"                    ; delete-char (delete char before cursor)
+              )))
+       (dolist (key evil-keys-to-unset)
+         (define-key evil-insert-state-map (kbd key) nil)))
 
      ;; Show different cursor for different evil mode in terminal
      (evil-terminal-cursor-changer-activate)
@@ -1824,11 +1825,9 @@
                                     (markdown-mode)
                                     )))
      (with-eval-after-load 'markdown-mode
-       (mapc (lambda (keys)
-               (evil-define-key 'normal markdown-mode-map (kbd keys) nil)
-               (evil-define-key 'insert markdown-mode-map (kbd keys) nil)
-               )
-             '("M-h" "M-j" "M-k" "M-l" "M-H" "M-J" "M-K" "M-L")))
+       (dolist (key '("M-h" "M-j" "M-k" "M-l" "M-H" "M-J" "M-K" "M-L"))
+         (evil-define-key 'normal markdown-mode-map (kbd key) nil)
+         (evil-define-key 'insert markdown-mode-map (kbd key) nil)))
    #+END_SRC
 
 * Ranger & Dired  
