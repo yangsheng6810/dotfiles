@@ -507,6 +507,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           (elfeed ;; for reading feed
            :variables rmh-elfeed-org-files
            (list "~/.spacemacs.d/elfeed.org"))
+          asciidoc
           notmuch
           ;; (mu4e
           ;;  :variables mu4e-enable-notifications t)
