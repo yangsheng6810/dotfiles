@@ -59,7 +59,7 @@ function connect()
     xrandr --output eDP1 --auto --scale 1.25x1.25 --pos "${INTERNAL_POS_X}x${INTERNAL_POS_Y}"
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=1
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
-    displaycal-apply-profiles
+    after_hook
 }
 
 function disconnect()
@@ -71,7 +71,13 @@ function disconnect()
     xrandr --output HDMI2 --off
     xrandr --output eDP1 --scale 1.25x1.25
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
+    after_hook
+}
+
+function after_hook()
+{
     displaycal-apply-profiles
+    $XDG_CONFIG_HOME/polybar/launch.sh
 }
 
 LOG_FILE="/tmp/monitor.log"
