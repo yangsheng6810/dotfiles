@@ -77,7 +77,7 @@ function disconnect()
 function after_hook()
 {
     displaycal-apply-profiles
-    $XDG_CONFIG_HOME/polybar/launch.sh
+    # $XDG_CONFIG_HOME/polybar/launch.sh
 }
 
 LOG_FILE="/tmp/monitor.log"
