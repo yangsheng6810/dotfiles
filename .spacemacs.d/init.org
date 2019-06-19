@@ -2928,7 +2928,11 @@
                                          (format "%s %s" first last)))
                                      (s-with line-string
                                        s-trim
-                                       (s-chop-prefix "author={")
+                                       (s-chop-prefix "author")
+                                       s-trim-left
+                                       (s-chop-prefix "=")
+                                       s-trim-left
+                                       (s-chop-prefix "{")
                                        (s-chop-suffix "},")
                                        (s-split " and "))
                                      ))))
