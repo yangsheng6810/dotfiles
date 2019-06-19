@@ -80,7 +80,8 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 client.background       #ffffff
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec GDK_SCALE=2 GDK_DPI_SCALE=0.5 dmenu_run
+# bindsym $mod+d exec GDK_SCALE=2 GDK_DPI_SCALE=0.5 dmenu_run
+bindsym $mod+d exec "rofi -show-icons -modi combi -show combi -combi-modi drun,run"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
