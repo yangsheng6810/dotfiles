@@ -64,6 +64,7 @@ function connect()
 
     xrandr --output $EX_MONITOR  --auto --primary --scale "${EXT_SCALE}x${EXT_SCALE}" --pos 0x0 $ORIENTATION_OPTION --set audio on
     xrandr --output eDP1 --auto --scale "${INT_SCALE_STR}x${INT_SCALE_STR}" --pos "${INTERNAL_POS_X}x${INTERNAL_POS_Y}"
+    sleep 0.5
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=1
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
     after_hook
