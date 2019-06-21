@@ -11,6 +11,13 @@ declare -A xrandr_d
 xrandr_d[0]="DP1"
 xrandr_d[1]="HDMI2"
 
+EXT_SCALE="1"
+INT_SCALE="1"
+INT_SCALE_STR="1"
+# EXT_SCALE="2"
+# INT_SCALE="5/4"
+# INT_SCALE_STR="1.25"
+
 function connect()
 {
     ACTION="ON"
@@ -33,14 +40,14 @@ function connect()
     MAIN_X=${2%%x*}
     MAIN_Y=${2#*x}
 
-    SCALED_X=$((MAIN_X * 2))
-    SCALED_Y=$((MAIN_Y * 2))
+    SCALED_X=$((MAIN_X * EXT_SCALE))
+    SCALED_Y=$((MAIN_Y * EXT_SCALE))
 
     # INTERNAL_SCREEN_X=2560
     INTERNAL_SCREEN_Y=1440
 
     # SCALED_INTERNAL_SCREEN_X=$((INTERNAL_SCREEN_X * 5 / 4))
-    SCALED_INTERNAL_SCREEN_Y=$((INTERNAL_SCREEN_Y * 5 / 4))
+    SCALED_INTERNAL_SCREEN_Y=$((INTERNAL_SCREEN_Y * INT_SCALE))
 
     ORIENTATION_OPTION=""
 
@@ -55,8 +62,8 @@ function connect()
     fi
     echo $INTERNAL_POS_X $INTERNAL_POS_Y
 
-    xrandr --output $EX_MONITOR  --auto --primary --scale 2x2 --pos 0x0 $ORIENTATION_OPTION --set audio on
-    xrandr --output eDP1 --auto --scale 1.25x1.25 --pos "${INTERNAL_POS_X}x${INTERNAL_POS_Y}"
+    xrandr --output $EX_MONITOR  --auto --primary --scale "${EXT_SCALE}x${EXT_SCALE}" --pos 0x0 $ORIENTATION_OPTION --set audio on
+    xrandr --output eDP1 --auto --scale "${INT_SCALE_STR}x${INT_SCALE_STR}" --pos "${INTERNAL_POS_X}x${INTERNAL_POS_Y}"
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=1
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
     after_hook
