@@ -1442,6 +1442,26 @@
     (add-hook 'LaTeX-mode-hook #'yang/LaTeX-setup)
   #+END_SRC
 
+** preview
+   adapted from [[https://emacs.stackexchange.com/questions/406/see-latex-code-and-math-preview-at-the-same-time-with-preview-latex][keep old preview visible when editing]]
+   #+begin_src emacs-lisp
+     (with-eval-after-load 'preview
+       (defun yang/preview-inactive-string-adv (func ov)
+         "Show old preview when editing source code."
+         (when (overlay-get ov 'preview-state)
+           (let ((preview-icon (or (car-safe (overlay-get ov 'preview-image)) preview-icon)))
+             (overlay-put ov 'preview-old-image preview-icon)
+             (funcall func ov))))
+
+       (advice-add #'preview-inactive-string :around #'yang/preview-inactive-string-adv)
+
+       (defun yang/preview-disabled-string-adv (func ov)
+         (when (overlay-get ov 'preview-state)
+           (let ((preview-icon (or (overlay-get ov 'preview-old-image) preview-icon)))
+             (funcall func ov))))
+
+       (advice-add #'preview-disabled-string :around #'yang/preview-disable-string-adv))
+   #+end_src
 ** bibtex
    #+BEGIN_SRC emacs-lisp
      (add-hook 'bibtex-mode-hook
