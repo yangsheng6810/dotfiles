@@ -1379,7 +1379,24 @@
            bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
 
      (use-package org-ref
-       :bind ("C-c ]" . org-ref-insert-link))
+       :commands (org-ref-insert-link)
+       :bind (:map org-mode-map
+                   ("C-c ]" . org-ref-insert-link))
+       :config
+       (org-ref-ivy-cite-completion)
+
+       (defun yang/org-ref-open-pdf-at-point ()
+         "Open the pdf for bibtex key under point with xdg-open if it exists."
+         (interactive)
+         (let* ((results (org-ref-get-bibtex-key-and-file))
+                (key (car results))
+                (pdf-file (funcall org-ref-get-pdf-filename-function key)))
+           (if (file-exists-p pdf-file)
+               (call-process-shell-command (concat "xdg-open " pdf-file) nil 0 nil)
+             (message "no pdf found for %s" key))))
+
+       (defhydra+ org-ref-cite-hydra ()
+         ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open")))
    #+END_SRC
 
 * LaTeX
