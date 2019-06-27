@@ -467,6 +467,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                  shell-default-position 'bottom)
           (python :variables:
                   ;; enable YAPF formating
+                  python-backend 'lsp
+                  python-lsp-server 'pyls
                   python-enable-yapf-format-on-save t)
           (c-c++ :variables
                  c-c++-default-mode-for-headers 'c++-mode)
@@ -489,7 +491,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           ranger ;; replacement for dired
           nlinum ;; fast replacement for linum mode
           (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
-          theming)
+          theming
+          lsp)
 
         yang/dotspacemacs-configuration-layers-cli
         '((chinese :variables
