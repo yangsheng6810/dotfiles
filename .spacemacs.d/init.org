@@ -248,6 +248,14 @@
          ("f" er/mark-defun "Function")
          ("c" er/mark-comment "Comment")
          ("e" evil-iedit-state/iedit-mode-from-expand-region "Edit")
+         ("b" (lambda (beg end)
+                (interactive "r")
+                (let ((str (buffer-substring beg end)))
+                  (unless (browse-url str)
+                    (google-this-string nil str t))
+                  (er/expand-region 0)))
+          "Browse/search"
+          :color blue)
          ("r" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue))
 
        (defun yang/expand-region-wrap (arg)
