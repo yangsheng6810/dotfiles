@@ -244,7 +244,7 @@ bindsym $mod+r mode "resize"
 bar {
         # status_command i3status
         status_command i3blocks
-        font pango:sans, awesome 10
+        font pango:DejaVu Sans Mono, awesome 10
 }
 
 # exec_always --no-startup-id /home/yangsheng/.config/polybar/launch.sh
