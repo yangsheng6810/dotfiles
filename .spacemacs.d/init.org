@@ -1481,9 +1481,12 @@
    #+end_src
 ** bibtex
    #+BEGIN_SRC emacs-lisp
+     (use-package reftex
+       :commands (reftex-parse-all))
+
      (add-hook 'bibtex-mode-hook
                (lambda ()
-                  (add-hook 'after-save-hook 'reftex-parse-all nil 'make-it-local)))
+                 (add-hook 'after-save-hook 'reftex-parse-all nil 'make-it-local)))
 
    #+END_SRC
 * Python
