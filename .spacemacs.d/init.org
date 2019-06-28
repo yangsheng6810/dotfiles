@@ -1283,89 +1283,11 @@
            ;; creating new parent
            org-refile-allow-creating-parent-nodes t)
    #+END_SRC
-** COMMENT org-reveal
-   #+BEGIN_SRC emacs-lisp
-     (use-package ox-reveal
-       :init
-       (customize-save-variable 'org-reveal-note-key-char nil)
-       :config
-       ;; (setq org-structure-template-alist
-       ;;      (-remove (lambda (x) (and (car x) (string-equal (car x) "n")))
-       ;;               org-structure-template-alist))
+** org-reveal
+   #+begin_src emacs-lisp
+   (use-package ox-reveal)
+   #+end_src
 
-      ;; (when org-reveal-note-key-char
-      ;;   (add-to-list 'org-structure-template-alist
-      ;;                (cons org-reveal-note-key-char "NOTES")))
-
-      (defun org-reveal--update-attr-html (elem frag default-style
-                                                &optional frag-index frag-audio)
-        "Update ELEM's attr_html attribute with reveal's
-     fragment attributes."
-        (let ((attr-html (org-element-property :attr_html elem)))
-          (when (and frag (not (string= frag "none")))
-            (push (if (string= frag t)
-                      (if default-style (format ":class fragment %s" default-style)
-                        ":class fragment")
-                    (format ":class fragment %s" frag))
-                  attr-html)
-            (when frag-index
-              ;; Index positions should be numbers or the minus sign.
-              (assert (or (integerp frag-index)
-                          (eq frag-index '-)
-                          (and (not (listp frag-index))
-                               (not (char-equal (string-to-char frag-index) 40))
-                               ))
-                      nil "Index cannot be a list: %s" frag-index)
-              (push (format ":data-fragment-index %s" frag-index) attr-html)))
-          (org-element-put-property elem :attr_html attr-html)))
-
-      (defun org-reveal-append-frag (elem default-style)
-        "Read org-reveal's fragment attribute from ELEM and append
-     transformed fragment attribute to ELEM's attr_html plist."
-        (let ((frag (org-export-read-attribute :attr_reveal elem :frag))
-              (frag-index (org-export-read-attribute :attr_reveal elem :frag_idx)))
-          (when frag
-            (if (and (string= (org-element-type elem) 'plain-list)
-                     (char-equal (string-to-char frag) 40))
-                (let* ((items (org-element-contents elem))
-                       (frag-list (car (read-from-string frag)))
-                       (frag-list (if default-style
-                                      (mapcar (lambda (s)
-                                                "Replace t with default-style"
-                                                (if (string= s t) default-style
-                                                  s))
-                                              frag-list)
-                                    frag-list))
-                       (itemno (length items))
-                       (style-list (make-list itemno default-style))
-                       ;; Make sure that we have enough fragments.  Duplicate the
-                       ;; last element of frag-list so that frag-list and items
-                       ;; have the same length.
-                       (last-frag (car (last frag-list)))
-                       (tail-list (make-list
-                                   (- itemno (length frag-list)) last-frag))
-                       (frag-list (append frag-list tail-list))
-                       ;; Concerning index positions and audio files, check later
-                       ;; that their number is OK.
-                       (frag-index (if frag-index
-                                       (car (read-from-string frag-index))
-                                     (make-list itemno nil)))
-                       )
-                  ;; As we are looking at fragments in lists, we make sure
-                  ;; that other specs are lists of proper length.
-                  (assert (listp frag-index) t
-                          "Must use list for index positions, not: %s")
-                  (when frag-index
-                    (assert (= (length frag-index) itemno) nil
-                            "Use one index per item!  %s has %d, need %d"
-                            frag-index (length frag-index) (length items)))
-                  (mapcar* 'org-reveal--update-attr-html
-                           items frag-list style-list frag-index))
-              (org-reveal--update-attr-html
-               elem frag default-style frag-index))
-            elem)))
-     )
-   #+END_SRC
 ** org-ref
    #+BEGIN_SRC emacs-lisp
      (setq reftex-default-bibliography '("~/Documents/org/bibliography/references.bib"))
