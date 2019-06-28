@@ -236,6 +236,27 @@
 
      (beginend-global-mode)
    #+end_src
+** Expand-region
+   #+begin_src emacs-lisp
+     (setq expand-region-fast-keys-enabled nil)
+     (with-eval-after-load 'hydra
+       (defhydra yang/hydra-expand (:columns 5)
+         "expand-region"
+         ("V" er/contract-region "Contract")
+         ("v" er/expand-region "Expand")
+         ("u" er/mark-url "Mark url")
+         ("f" er/mark-defun "Function")
+         ("c" er/mark-comment "Comment")
+         ("e" evil-iedit-state/iedit-mode-from-expand-region "Edit")
+         ("r" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue))
+
+       (defun yang/expand-region-wrap (arg)
+         (interactive "p")
+         (er/expand-region arg)
+         (yang/hydra-expand/body))
+
+       (spacemacs/set-leader-keys "v" 'yang/expand-region-wrap))
+   #+end_src
 * General
   #+BEGIN_SRC emacs-lisp
     (setq system-time-locale "zh_CN.utf-8"
