@@ -252,10 +252,8 @@
                 (interactive "r")
                 (let ((str (buffer-substring beg end)))
                   (unless (browse-url str)
-                    (google-this-string nil str t))
-                  (er/expand-region 0)))
-          "Browse/search"
-          :color blue)
+                    (google-this-string nil str t))))
+          "Browse/search")
          ("r" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue))
 
        (defun yang/expand-region-wrap (arg)
