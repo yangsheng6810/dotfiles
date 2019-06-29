@@ -26,6 +26,17 @@ def sync_with_gmail():
         print("error syncing gmi")
         notify_send("Error syncing gmi")
 
+def sync_with_muchsync():
+    global notify_send
+    try:
+        print("muchsync syncing")
+        muchsync = sh.Command("muchsync")
+        output = str(muchsync("HPE"))
+        print(output)
+    except sh.ErrorReturnCode_1:
+        print("error syncing with HPE")
+        notify_send("Error syncing HPE")
+
 def notify_new():
     global notify_send, notmuch
 
@@ -74,6 +85,7 @@ def main():
         sync_with_gmail()
     init_tags()
     notify_new()
+    sync_with_muchsync()
 
 if __name__ == '__main__':
     main()
