@@ -11,12 +11,12 @@ declare -A xrandr_d
 xrandr_d[0]="DP1"
 xrandr_d[1]="HDMI2"
 
-EXT_SCALE="1"
-INT_SCALE="1"
-INT_SCALE_STR="1"
-# EXT_SCALE="2"
-# INT_SCALE="5/4"
-# INT_SCALE_STR="1.25"
+# EXT_SCALE="1"
+# INT_SCALE="1"
+# INT_SCALE_STR="1"
+EXT_SCALE="2"
+INT_SCALE="5/4"
+INT_SCALE_STR="1.25"
 
 function connect()
 {
