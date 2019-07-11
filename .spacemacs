@@ -492,7 +492,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           nlinum ;; fast replacement for linum mode
           (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
           theming
-          lsp)
+          lsp
+          ;; use ledger for accounting
+          finance
+          csv)
 
         yang/dotspacemacs-configuration-layers-cli
         '((chinese :variables
