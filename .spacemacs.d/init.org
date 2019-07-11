@@ -1971,6 +1971,10 @@
 
      (evil-define-key 'normal term-raw-map (kbd "<mouse-2>") 'term-mouse-paste)
      (evil-define-key 'insert term-raw-map (kbd "<mouse-2>") 'term-mouse-paste)
+     (evil-define-key 'normal term-raw-map (kbd "C-a") 'term-send-home)
+     (evil-define-key 'insert term-raw-map (kbd "C-a") 'term-send-home)
+     (evil-define-key 'normal term-raw-map (kbd "C-e") 'term-send-end)
+     (evil-define-key 'insert term-raw-map (kbd "C-e") 'term-send-end)
    #+END_SRC
 
 * pdf-tools
