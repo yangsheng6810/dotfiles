@@ -1827,6 +1827,10 @@
        ;; sync gmi after tagging
        (add-hook 'notmuch-after-tag-hook #'notmuch-refresh-func)
      )
+
+     (with-eval-after-load 'org-mime
+       ;; fix org-mime-htmlize with latex
+       (setq org-mime-export-options '(:with-latex dvipng)))
    #+END_SRC
 ** Sending
    #+BEGIN_SRC emacs-lisp
