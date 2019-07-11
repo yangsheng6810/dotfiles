@@ -566,7 +566,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           ;; using posframe in ivy
           ivy-posframe
           ;; google for something
-          google-this)
+          google-this
+          ;; jump buffer
+          frog-jump-buffer)
 
         yang/dotspacemacs-additional-packages-gui
         '((recursive-narrow :location local)

@@ -1595,6 +1595,10 @@
                          (or (not ivy-rich-parse-remote-buffer)
                              (not yang-ivy-rich-parse-remote-project))))))))
   #+END_SRC
+** Jumb to buffer
+   #+begin_src emacs-lisp
+     (spacemacs/set-leader-keys "bj" #'frog-jump-buffer)
+   #+end_src
   
 * Email
 ** General
