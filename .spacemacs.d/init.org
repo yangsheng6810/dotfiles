@@ -1734,6 +1734,7 @@
 
        (spacemacs/set-leader-keys-for-major-mode 'notmuch-show-mode
          "v" 'notmuch-show-reopen-in-browser)
+       (add-hook 'notmuch-mua-send-hook #'notmuch-mua-attachment-check)
 
        (defun notmuch-describe-key (actual-key binding prefix ua-keys tail)
          "Prepend cons cells describing prefix-arg ACTUAL-KEY and ACTUAL-KEY to TAIL
