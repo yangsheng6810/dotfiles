@@ -1,11 +1,11 @@
 alias addon-sdk="cd /opt/addon-sdk && source bin/activate; cd -"
 alias tllocalmgr="tllocalmgr --mirror='http://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet'"
-export SPARKHOME=/home/yangsheng/Documents/PhD/724/CMSC724-Spring16/Assignment3/spark-1.6.0-bin-cdh4
+# export SPARKHOME=/home/yangsheng/Documents/PhD/724/CMSC724-Spring16/Assignment3/spark-1.6.0-bin-cdh4
 export JPM_FIREFOX_BINARY=/usr/bin/firefox
 
 # for gurobi
 export GRB_LICENSE_FILE="$XDG_CONFIG_HOME/gurobi.lic"
-PATH="${PATH}:${GUROBI_HOME}/bin"
+# PATH="${PATH}:${GUROBI_HOME}/bin"
 
 DEFAULT_USER="yangsheng"
 
