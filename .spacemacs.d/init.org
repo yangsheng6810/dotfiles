@@ -1446,7 +1446,23 @@
 ** bibtex
    #+BEGIN_SRC emacs-lisp
      (use-package reftex
-       :commands (reftex-parse-all))
+       :commands (reftex-parse-all)
+       :after (dash s)
+       :config
+       (defun yang/reftex-get-bib-names (func field entry)
+         "Return a list with the full author or editor names in ENTRY.
+     If FIELD is empty try \"editor\" field."
+         (if (eq #'org-ref-open-bibtex-notes this-command)
+             (let ((names (reftex-get-bib-field field entry)))
+               (message "This command is %s" this-command)
+               (if (equal "" names)
+                   (setq names (reftex-get-bib-field "editor" entry)))
+               (cl-loop for name in (s-split "[ \t]*\\band\\b[ \t]*" names) collect
+                        (let ((name-list (s-split "[ \t]*,[ \t]*" name)))
+                          (s-join " " (-concat (-take-last 1 name-list) (-drop-last 1 name-list))))))
+           (funcall func field entry)))
+
+       (advice-add #'reftex-get-bib-names :around #'yang/reftex-get-bib-names))
 
      (add-hook 'bibtex-mode-hook
                (lambda ()
