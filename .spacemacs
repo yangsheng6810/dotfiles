@@ -471,7 +471,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                   python-lsp-server 'pyls
                   python-enable-yapf-format-on-save t)
           (c-c++ :variables
-                 c-c++-default-mode-for-headers 'c++-mode)
+                 c-c++-default-mode-for-headers 'c++-mode
+                 c-c++-backend 'rtags
+                 ;; c-c++-enable-clang-support t
+                 )
           (cmake :variables cmake-enable-cmake-ide-support t)
           (ibuffer :variables
                    ibuffer-group-buffers-by 'projects)
