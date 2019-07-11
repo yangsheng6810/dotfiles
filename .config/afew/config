@@ -82,7 +82,7 @@ query = 'from:no-reply@arXiv.org'
 message = Relocate arxiv emails
 
 [Filter.6]
-tags = +logs
+tags = +logs;-important;-sent
 query = 'snapraid and from:yangsheng6810'
 message = Archive snapraid logs
 
