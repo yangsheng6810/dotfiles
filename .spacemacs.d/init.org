@@ -2455,9 +2455,10 @@
 
 * Semantic
   #+BEGIN_SRC emacs-lisp
-    (cl-defun semanticdb-rescan-directory-1 (pathname &optional (file-regex ".*\\.\\(el\\|el.gz\\)$"))
+    (cl-defun semanticdb-rescan-directory-1 (pathname &optional (file-regex ".*\\.\\(el\\|el.gz\\|h\\|hpp\\)$"))
       (let* ((root (file-name-as-directory pathname))
-             (files (directory-files root t )))
+             (files (directory-files root t ))
+             (dotspacemacs-large-file-size 50))
         (setq files (delete (format "%s." root) files))
         (setq files (delete (format "%s.." root) files))
         (while files
@@ -2469,6 +2470,7 @@
                        (save-excursion
                          (message "Parsing %s file." file)
                          (ignore-errors
+                           ;; (semanticdb-create-table-for-file-not-in-buffer file)
                            (semanticdb-file-table-object file t)))
                ))
               ;;else if it's a directory
