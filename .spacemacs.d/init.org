@@ -67,6 +67,10 @@
            "sB" 'spacemacs/swiper-all-region-or-symbol)
          (global-set-key "\C-s" 'swiper-isearch)))
    #+end_src
+*** Allow ivy to select the content of prompt
+    #+BEGIN_SRC emacs-lisp
+      (setq ivy-use-selectable-prompt t)
+    #+END_SRC
 ** Evil
    #+begin_src emacs-lisp
      ;; to allow cursor move beyond eol, and do not move back.
@@ -1568,10 +1572,6 @@
                (not (and (file-remote-p (or (buffer-file-name) default-directory))
                          (or (not ivy-rich-parse-remote-buffer)
                              (not yang-ivy-rich-parse-remote-project))))))))
-  #+END_SRC
-  allow ivy to select the content of prompt
-  #+BEGIN_SRC emacs-lisp
-    (setq ivy-use-selectable-prompt t)
   #+END_SRC
   
 * Email
