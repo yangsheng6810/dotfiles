@@ -1346,9 +1346,11 @@
            (if (file-exists-p pdf-file)
                (call-process-shell-command (concat "xdg-open " pdf-file) nil 0 nil)
              (message "no pdf found for %s" key))))
-
        (defhydra+ org-ref-cite-hydra ()
          ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open")))
+
+     (use-package parsebib
+       :commands (parsebib-find-bibtex-dialect))
    #+END_SRC
 
 * LaTeX
