@@ -1319,7 +1319,7 @@
    #+END_SRC
 ** org-reveal
    #+begin_src emacs-lisp
-   (use-package ox-reveal)
+     ;; (use-package ox-reveal)
    #+end_src
 
 ** org-ref
