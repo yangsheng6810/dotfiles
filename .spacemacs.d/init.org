@@ -1417,7 +1417,10 @@
           (deactivate-mark)))
       )
 
+    (use-package latex
+      :commands (LaTeX-math-mode))
     (add-hook 'LaTeX-mode-hook #'yang/LaTeX-setup)
+    (add-hook 'org-mode-hook #'LaTeX-math-mode)
   #+END_SRC
 
 ** preview
