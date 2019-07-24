@@ -77,7 +77,7 @@ function disconnect()
     sleep 0.5
     xrandr --output DP1 --off
     xrandr --output HDMI2 --off
-    xrandr --output eDP1 --scale 1.25x1.25
+    xrandr --output eDP1 --primary --scale 1.25x1.25
     nitrogen ~/Pictures/wallpaper/desktop.png --set-scaled --head=0
     after_hook
 }

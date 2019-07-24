@@ -245,6 +245,7 @@ bar {
         # status_command i3status
         status_command i3blocks
         font pango:DejaVu Sans Mono, awesome 10
+        tray_output primary
 }
 
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
