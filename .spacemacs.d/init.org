@@ -842,10 +842,14 @@
      ;;   (ivy-posframe-enable))
 
      (use-package company-posframe
-       :commands (company-posframe-mode)
+       :commands (company-posframe-mode yang/company-posframe-helper)
        :after (company)
        :diminish company-posframe-mode
-       :init (company-posframe-mode 1))
+       :init
+       (defun yang/company-posframe-helper (&optional frame)
+         (message "Helper for company-posframe called")
+         (company-posframe-mode 1))
+       (run-with-timer 10 nil #'yang/company-posframe-helper))
    #+end_src
 
 * Ergonomic keybindings
