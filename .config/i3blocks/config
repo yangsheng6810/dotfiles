@@ -35,7 +35,7 @@ markup=none
 # The second parameter overrides the mixer selection
 # See the script for details.
 
-[volume]
+[volume-pulseaudio]
 label=♪
 # label=VOL
 interval=once
@@ -77,14 +77,14 @@ color=#00FF00
 interval=10
 separator=false
 
-[wifi]
-INTERFACE=wlp4s0
-label=:
-interval=10
-separator=false
+# [wifi]
+# INTERFACE=wlp4s0
+# label=:
+# interval=10
+# separator=false
 
 [essid]
-# label=
+label=:
 INTERFACE=wlp4s0
 interval=60
 
@@ -121,7 +121,6 @@ LABEL=
 [temperature]
 label=:
 interval=10
-interval=10
 #T_WARN=70
 #T_CRIT=90
 #SENSOR_CHIP=""
@@ -144,7 +143,8 @@ label=
 # Date Time
 #
 [time]
-command=date '+%Y-%m-%d %H:%M:%S'
+# command=date '+%Y-%m-%d %H:%M:%S'
+command=date '+%m月%d日 %H:%M'
 interval=5
 
 # [rofi-calendar]
