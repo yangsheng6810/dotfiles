@@ -444,6 +444,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           ;; csv
           (auto-completion
            :variables
+           auto-completion-idle-delay 0
            auto-completion-enable-snippets-in-popup t
            auto-completion-enable-help-tooltip t
            auto-completion-enable-sort-by-usage t
