@@ -1,0 +1,109 @@
+Xft.dpi: 192
+rofi.dpi: 192
+
+xpdf.title: PDF
+
+XTerm*termName: xterm
+!XTerm*geometry: 80*40
+XTerm*locale: true
+XTerm*utf8Title: true
+XTerm*fontMenu*fontdefault*Label: Default
+XTerm*faceName: DejaVu Sans Mono:pixelsize=15
+!Monaco:antialias=True:pixelsize=14
+XTerm*faceNameDoublesize: WenQuanYi Microhei Mono:pixelsize=15
+!XTerm*wideFont:WenQuanYi Microhei:antilias=True
+XTerm*faceSize: 10
+XTerm*faceSize1: 10
+XTerm*faceSize2: 10
+XTerm*faceSize3: 10
+XTerm*faceSize4: 10
+XTerm*faceSize5: 10
+XTerm*faceSize6: 10
+XTerm.cjkWidth:true
+XTerm*background: black
+XTerm*foreground: white
+!XTerm*scrollBar: true
+!XTerm*rightScrollBar: true
+XTerm*jumpScroll:  true
+XTerm*SaveLines: 1000
+
+!fix alt key input
+XTerm*eightBitInput: false
+XTerm*altSendsEscape: true
+! urxvt color set
+URxvt.depth:32
+URxvt.background:black
+URxvt.shading:80
+!URxvt.rgba:0000/0000/0000/3333
+URxvt.foreground:gray
+URxvt.colorBD:yellow
+URxvt.colorUL:antiquewhite
+URxvt.color0: #000000
+URxvt.color1: #e01010
+URxvt.color2: #4E9A06
+URxvt.color3: #C4A000
+URxvt.color4: #3465A4
+URxvt.color5: #92549B
+URxvt.color6: #06989A
+URxvt.color7: #D3D7CF
+URxvt.color8: #555753
+URxvt.color9: #EF2929
+URxvt.color10: #8AE234
+URxvt.color11: #FCE94F
+URxvt.color12: #729FCF
+URxvt.color13: #AD7FA8
+URxvt.color14: #34E2E2
+URxvt.color15: #EEEEEC
+
+! scroll set 
+URxvt.scrollBar:false
+!URxvt.scrollBar_left:True
+!URxvt.scrollBar_floating:False
+!URxvt.scrollstyle:next
+!URxvt.scrollColor:#999999
+!URxvt.scrollWithBuffer:false
+URxvt.saveLines:5000
+
+! font set
+URxvt.font:xft:Dejavu Sans Mono:pixelsize=28:antialias=true,xft:WenQuanYi Microhei:pixelsize=28,xft:DejaVu Sans Mono for Powerline
+URxvt.boldFont:xft:Dejavu Sans Mono:pixelsize=28:antialias=true:Bold,xft:WenQuanYi Microhei:pixelsize=28:Bold
+
+! Input Method set 
+URxvt.inputMethod:fcitx
+URxvt.imFont:Liberation Mono
+URxvt.preeditType: Root
+
+! window geometry set 
+URxvt.geometry: 80x30
+URxvt.title:URxvt
+
+! bg transparent set
+!URxvt.inheritPixmap: true
+!URxvt.tintCddolor: white
+!URxvt.shading: 80
+
+! Tab set
+!URxvt.perl-ext-common: default,tabbed
+!URxvt.tabbed.tab-fg: 12
+!URxvt.tabbed.tab-bg: 0
+!URxvt.tabbed.tabbar-fg: 4
+
+Rxvt.menu:/etc/X11/rxvt.menu
+!Rxvt.preeditType:Root
+!Rxvt.transparency:255
+
+! 开启标签功能
+! URxvt.perl-ext-common: default,tabbed
+chdir:/home/yangsheng/ -cd
+
+
+! English font
+!xterm*faceName: DejaVu Sans Mono:antialias=True:pixelsize=14
+! Chinese font
+!xterm*faceNameDoublesize: WenQuanYi Micro Hei:pixelsize=14
+!XTerm.background: black
+!XTerm.foreground: white
+!URxvt*transparent:true
+URxvt*scrollBar:false
+URxvt*borderless:true
+!URxvt*foreground:white

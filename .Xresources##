@@ -1,0 +1,31 @@
+Xft.dpi: 192
+rofi.dpi: 192
+
+xpdf.title: PDF
+
+XTerm*termName: xterm
+!XTerm*geometry: 80*40
+XTerm*locale: true
+XTerm*utf8Title: true
+XTerm*fontMenu*fontdefault*Label: Default
+XTerm*faceName: Monaco:antialias=True
+!:pixelsize=14
+XTerm*faceNameDoublesize: WenQuanYi Microhei
+XTerm*faceSize: 10
+XTerm*faceSize1: 10
+XTerm*faceSize2: 10
+XTerm*faceSize3: 10
+XTerm*faceSize4: 10
+XTerm*faceSize5: 10
+XTerm*faceSize6: 10
+XTerm.cjkWidth:true
+XTerm*background: black
+XTerm*foreground: white
+XTerm*scrollBar: true
+XTerm*rightScrollBar: true
+XTerm*jumpScroll:  true
+XTerm*SaveLines: 1000
+
+!fix alt key input
+XTerm*eightBitInput: false
+XTerm*altSendsEscape: true

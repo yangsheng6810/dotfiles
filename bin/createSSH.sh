@@ -5,6 +5,7 @@ LOCAL_PORT=10022
 SSH_PORT=8022
 LOCAL_SSH_PORT=8022
 USER=yangsheng
+echo $(date)
 # echo "$HOSTNAME"
 case "$HOSTNAME" in
     "t420") PORT=15022
