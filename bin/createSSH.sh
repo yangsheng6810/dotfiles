@@ -8,16 +8,25 @@ USER=yangsheng
 echo $(date)
 # echo "$HOSTNAME"
 case "$HOSTNAME" in
-    "t420") PORT=15022
+    "t420")
+        PORT=15022
         echo "in myhost"
         ;;
-    "carbon") PORT=15122
+    "carbon")
+        PORT=15122
         echo "in carbon"
         ;;
-    "pi_yangsheng") PORT=15222
+    "pi_yangsheng")
+        PORT=15222
+        echo "in raspberry"
         LOCAL_SSH_PORT=9022
         ;;
-    *) PORT=15522
+    "HPE")
+        PORT=15322
+        echo "in carbon"
+        LOCAL_SSH_PORT=9022
+        ;;
+    *) PORT=15922
 esac
 createTunnel() {
     /usr/bin/ssh -p "$SSH_PORT" -f -N \
