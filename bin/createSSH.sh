@@ -23,8 +23,7 @@ case "$HOSTNAME" in
         ;;
     "HPE")
         PORT=15322
-        echo "in carbon"
-        LOCAL_SSH_PORT=9022
+        echo "in HPE"
         ;;
     *) PORT=15922
 esac
