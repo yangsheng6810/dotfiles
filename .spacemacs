@@ -499,7 +499,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           lsp
           ;; use ledger for accounting
           finance
-          csv)
+          csv
+          systemd)
 
         yang/dotspacemacs-configuration-layers-cli
         '((chinese :variables
