@@ -600,7 +600,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           (append
            yang/dotspacemacs-additional-packages-base
            yang/dotspacemacs-additional-packages-cli)))
-
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
   (setq mine-machine-specific-config
         (concat "~/.machine_specific/"
                 system-name
