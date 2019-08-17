@@ -961,9 +961,9 @@
                             (jw/html-escape-attribute class)
                             (or desc "")))
              (_ (or desc "")))))
-      ;; actually insert space with pangu-spacing for org-mode, to fix indentation
-      ;; in table
-      (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
+      ;; ;; actually insert space with pangu-spacing for org-mode, to fix indentation
+      ;; ;; in table
+      ;; (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
       (add-to-list 'org-babel-load-languages '(latex . t))
 
       (defun yang/org-wrap-span (beg end)
@@ -1018,12 +1018,12 @@
          ))
    #+END_SRC
 
-** COMMENT org-journal
+** org-journal
    #+BEGIN_SRC emacs-lisp
      (use-package org-journal
-       :init
-       (setq org-journal-dir "~/Documents/org/journal/"
-             org-journal-date-format "%x %A")
+       ;; :init
+       ;; (setq org-journal-dir "~/Documents/org/journal/"
+       ;;       org-journal-date-format "%x %A")
        :config
        (defun org-journal-find-location ()
          ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -1045,34 +1045,34 @@
        (spacemacs/set-leader-keys "bj" 'yang/switch-to-journal-today)
        (spacemacs/set-leader-keys "bJ" 'org-journal-new-entry)
 
-       ;; override default function as it prints out lots of messages
-       (defun org-journal-update-org-agenda-files ()
-         "Adds the current and future journal files to org-agenda-files.
-     And cleans out past org-journal files."
-         (when org-journal-enable-agenda-integration
-           (let ((agenda-files-without-org-journal
-                  (seq-filter
-                   (lambda (f)
-                     ;; (message "DEBUG: %s %s"
-                     ;;          (expand-file-name (file-name-directory f))
-                     ;;          (expand-file-name (file-name-as-directory org-journal-dir)))
-                     (not (and (string= (expand-file-name (file-name-directory f))
-                                        (expand-file-name (file-name-as-directory org-journal-dir)))
-                               (string-match org-journal-file-pattern (file-name-nondirectory f)))))
-                   org-agenda-files))
-                 (org-journal-agenda-files
-                  (seq-filter
-                   ;; skip files that are older than today
-                   (lambda (f)
-                     (not (time-less-p
-                           (org-journal-calendar-date->time
-                            (org-journal-file-name->calendar-date
-                             (file-name-nondirectory f)))
-                           (time-subtract (current-time) (days-to-time 1)))))
-                   (directory-files org-journal-dir t
-                                    org-journal-file-pattern))))
-             (setq org-agenda-files (append agenda-files-without-org-journal
-                                            org-journal-agenda-files)))))
+     ;;   ;; override default function as it prints out lots of messages
+     ;;   (defun org-journal-update-org-agenda-files ()
+     ;;     "Adds the current and future journal files to org-agenda-files.
+     ;; And cleans out past org-journal files."
+     ;;     (when org-journal-enable-agenda-integration
+     ;;       (let ((agenda-files-without-org-journal
+     ;;              (seq-filter
+     ;;               (lambda (f)
+     ;;                 ;; (message "DEBUG: %s %s"
+     ;;                 ;;          (expand-file-name (file-name-directory f))
+     ;;                 ;;          (expand-file-name (file-name-as-directory org-journal-dir)))
+     ;;                 (not (and (string= (expand-file-name (file-name-directory f))
+     ;;                                    (expand-file-name (file-name-as-directory org-journal-dir)))
+     ;;                           (string-match org-journal-file-pattern (file-name-nondirectory f)))))
+     ;;               org-agenda-files))
+     ;;             (org-journal-agenda-files
+     ;;              (seq-filter
+     ;;               ;; skip files that are older than today
+     ;;               (lambda (f)
+     ;;                 (not (time-less-p
+     ;;                       (org-journal-calendar-date->time
+     ;;                        (org-journal-file-name->calendar-date
+     ;;                         (file-name-nondirectory f)))
+     ;;                       (time-subtract (current-time) (days-to-time 1)))))
+     ;;               (directory-files org-journal-dir t
+     ;;                                org-journal-file-pattern))))
+     ;;         (setq org-agenda-files (append agenda-files-without-org-journal
+     ;;                                        org-journal-agenda-files)))))
        )
    #+END_SRC
 
@@ -1256,9 +1256,9 @@
              ("g" "Calendar" entry
               (file "~/Documents/org/gcal.org")
               "* %?\n  \n  %^T")
-             ;; ("j" "Journal entry" entry
-             ;;  (function org-journal-find-location)
-             ;;  "* %(format-time-string org-journal-time-format)%^{Title}\n  %i%?")
+             ("j" "Journal entry" entry
+              (function org-journal-find-location)
+              "* %(format-time-string org-journal-time-format)%^{Title}\n  %i%?")
              ("n" "Notes" entry
               (file+olp+datetree "~/Documents/org/Notes.org")
               "" :time-prompt t)

@@ -460,7 +460,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                org-enable-reveal-js-support t
                org-enable-github-support t
                org-enable-hugo-support t
-               ;; org-enable-org-journal-support t
+               org-enable-org-journal-support t
+               org-journal-dir "~/Documents/org/journal/"
+               org-journal-file-format "%Y-%m-%d"
+               org-journal-date-format "%x %A"
+               org-journal-time-format "%R "
                )
           (shell :variables
                  shell-default-height 30
