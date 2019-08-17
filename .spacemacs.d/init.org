@@ -1618,7 +1618,8 @@
            "Sheng Yang(杨圣), PhD student
      Computer Science Department
      University of Maryland, College Park
-     E-mail: yangsheng6810@gmail.com")
+     E-mail: styang@fastmail.com
+     E-mail(old): yangsheng6810@gmail.com")
 
      (add-hook 'message-mode-hook
                (lambda ()
