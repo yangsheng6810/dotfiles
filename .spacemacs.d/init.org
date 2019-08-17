@@ -1868,12 +1868,17 @@
      (add-to-list 'auto-mode-alist
                   '("\\.eml\\'" . (lambda ()
                                     ;; will add something special
-                                    (markdown-mode)
-                                    )))
+                                    (markdown-mode))))
      (with-eval-after-load 'markdown-mode
-       (dolist (key '("M-h" "M-j" "M-k" "M-l" "M-H" "M-J" "M-K" "M-L"))
-         (evil-define-key 'normal markdown-mode-map (kbd key) nil)
-         (evil-define-key 'insert markdown-mode-map (kbd key) nil)))
+       (evil-define-key '(normal insert motion visual) markdown-mode-map
+         (kbd "M-h") nil
+         (kbd "M-j") nil
+         (kbd "M-k") nil
+         (kbd "M-l") nil
+         (kbd "M-H") nil
+         (kbd "M-J") nil
+         (kbd "M-K") nil
+         (kbd "M-L") nil))
    #+END_SRC
 
 * Ranger & Dired  
