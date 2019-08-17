@@ -85,6 +85,12 @@ function disconnect()
 function after_hook()
 {
     displaycal-apply-profiles
+    if [ -n "$(pgrep -l compton)" ]; then
+        echo "compton running"
+    else
+        echo "compton not running"
+        compton -b --log-file /tmp/compton.log
+    fi
     # $XDG_CONFIG_HOME/polybar/launch.sh
 }
 
