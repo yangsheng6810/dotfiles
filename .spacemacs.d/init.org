@@ -23,6 +23,10 @@
     (global-set-key (kbd "M-SPC") 'set-mark-command)
 
     (setq delete-by-moving-to-trash t)
+
+    (setq langtool-java-classpath
+          "/usr/share/languagetool:/usr/share/java/languagetool/*")
+
   #+END_SRC
 ** Moving around
    #+begin_src emacs-lisp

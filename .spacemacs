@@ -587,7 +587,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           atomic-chrome
           org-pdfview ;; add pdfview link to org
           org-gcal    ;; sync calendar with google calendar
-          zeal-at-point)
+          zeal-at-point
+          langtool)
 
         yang/dotspacemacs-additional-packages-cli
         '(recursive-narrow)
