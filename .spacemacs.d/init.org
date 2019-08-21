@@ -305,6 +305,13 @@
      (yang/load-theme-according-to-gui)
      (add-hook 'before-make-frame-hook #'yang/load-theme-according-to-gui)
    #+end_src
+** Ellocate
+   #+begin_src emacs-lisp
+     (setq ellocate-scan-dirs
+           `(("~/" ,(concat dotspacemacs-directory ".cache/ellocate-home-db"))
+             ("/mnt/" nil)))
+
+   #+end_src
 * Display
   #+BEGIN_SRC emacs-lisp
     ;; initial window
