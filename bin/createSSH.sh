@@ -1,8 +1,7 @@
 #!/bin/bash
 HOSTNAME=`hostname`
 PORT=15522
-LOCAL_PORT=10022
-SSH_PORT=8022
+SSH_PORT=443
 LOCAL_SSH_PORT=8022
 USER=yangsheng
 echo $(date)
@@ -24,6 +23,7 @@ case "$HOSTNAME" in
     "HPE")
         PORT=15322
         echo "in HPE"
+        LOCAL_SSH_PORT=7022
         ;;
     *) PORT=15922
 esac
