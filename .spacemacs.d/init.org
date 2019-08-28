@@ -1035,6 +1035,8 @@
        ;; :init
        ;; (setq org-journal-dir "~/Documents/org/journal/"
        ;;       org-journal-date-format "%x %A")
+       :init
+       (setq org-journal-date-format "%Y 年 %m 月 %d 日 %A")
        :config
        (defun org-journal-find-location ()
          ;; Open today's journal, but specify a non-nil prefix argument in order to
