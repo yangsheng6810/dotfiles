@@ -35,12 +35,13 @@ floating_modifier $mod
 # delete or uncomment the following lines if you do not have it or do not
 # want it
 for_window [class="^.*"] border pixel 2
+# hide_edge_borders horizontal
 gaps inner 10
 gaps outer 0
 # Only enable gaps on a workspace when there is at least one container
 # smart_gaps on
 # Only enable outer gaps when there is exactly one container
-smart_gaps inverse_outer
+# smart_gaps inverse_outer
 # Activate smart borders (always)
 # smart_borders on
 
@@ -295,7 +296,7 @@ bindsym XF86AudioPrev exec playerctl previous
 exec --no-startup-id xset s 1200 120
 exec --no-startup-id xss-lock -- $Locker
 exec --no-startup-id nitrogen --restore
-exec --no-startup-id compton
+exec --no-startup-id compton -b --log-file /tmp/compton.log
 # load color profiles
 exec --no-startup-id xiccd
 exec --no-startup-id dispalcal-apply-profiles
