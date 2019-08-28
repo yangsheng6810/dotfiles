@@ -2087,6 +2087,8 @@
 * Chinese
 ** pangu-spacing
    #+begin_src emacs-lisp
+     (when (string= system-name "carbon")
+       (load "~/git/pangu-spacing/pangu-spacing.el"))
      (use-package pangu-spacing
        :config
        (global-pangu-spacing-mode -1)
