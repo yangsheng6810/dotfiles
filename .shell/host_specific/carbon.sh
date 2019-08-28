@@ -16,6 +16,7 @@ export npm_config_prefix="$HOME/.node_modules"
 PATH="$PATH:$HOME/.node_modules/bin"
 alias npm='npm -g'
 alias npm8gb='npm --max-old-space-size=8192 --prefix ~/.node_modules'
+PATH="$HOME/git/evm/bin:$PATH"
 
 export WINEARCH=win32
 
