@@ -1738,44 +1738,46 @@
    #+END_SRC
 ** notmuch
    #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load 'notmuch
-       (setq notmuch-search-oldest-first nil)
-       (setq notmuch-fcc-dirs '((".*" . "sent -inbox +sent -unread")))
-       (setq notmuch-message-deleted-tags '("+trash" "-inbox" "-unread"))
-       (define-key notmuch-show-mode-map "d"
-         (lambda ()
-           "toggle deleted tag for message"
-           (interactive)
-           (if (member "trash" (notmuch-show-get-tags))
-               (notmuch-show-tag (list "-trash"))
-             (notmuch-show-tag (list "+trash")))))
-
+     (use-package notmuch
+       :init
+       (setq notmuch-search-oldest-first nil
+             notmuch-fcc-dirs '((".*" . "sent -inbox +sent -unread"))
+             notmuch-message-deleted-tags '("+trash" "-inbox" "-unread"))
+       :bind (:map notmuch-show-mode-map
+                   ("d" . (lambda ()
+                            "toggle deleted tag for message"
+                            (interactive)
+                            (if (member "trash" (notmuch-show-get-tags))
+                                (notmuch-show-tag (list "-trash"))
+                              (notmuch-show-tag (list "+trash"))))))
+       :config
        (spacemacs/set-leader-keys-for-major-mode 'notmuch-show-mode
          "v" 'notmuch-show-reopen-in-browser)
        (add-hook 'notmuch-mua-send-hook #'notmuch-mua-attachment-check)
 
-       (defun notmuch-describe-key (actual-key binding prefix ua-keys tail)
-         "Prepend cons cells describing prefix-arg ACTUAL-KEY and ACTUAL-KEY to TAIL
+     ;;   ;; Fix notmuch-describe-key for evil and spacemacs
+     ;;   (defun notmuch-describe-key (actual-key binding prefix ua-keys tail)
+     ;;     "Prepend cons cells describing prefix-arg ACTUAL-KEY and ACTUAL-KEY to TAIL
 
-     It does not prepend if ACTUAL-KEY is already listed in TAIL."
-         (let ((key-string (concat prefix (key-description actual-key))))
-           ;; We don't include documentation if the key-binding is
-           ;; over-ridden. Note, over-riding a binding automatically hides the
-           ;; prefixed version too.
-           (unless (assoc key-string tail)
-             (when (and ua-keys (symbolp binding)
-                        (get binding 'notmuch-prefix-doc))
-               ;; Documentation for prefixed command
-               (let ((ua-desc (key-description ua-keys)))
-                 (push (cons (concat ua-desc " " prefix (format-kbd-macro actual-key))
-                             (get binding 'notmuch-prefix-doc))
-                       tail)))
-             ;; Documentation for command
-             (push (cons key-string
-                         (or (and (symbolp binding) (get binding 'notmuch-doc))
-                             (and (functionp binding) (notmuch-documentation-first-line binding))))
-                   tail)))
-         tail)
+     ;; It does not prepend if ACTUAL-KEY is already listed in TAIL."
+     ;;     (let ((key-string (concat prefix (key-description actual-key))))
+     ;;       ;; We don't include documentation if the key-binding is
+     ;;       ;; over-ridden. Note, over-riding a binding automatically hides the
+     ;;       ;; prefixed version too.
+     ;;       (unless (assoc key-string tail)
+     ;;         (when (and ua-keys (symbolp binding)
+     ;;                    (get binding 'notmuch-prefix-doc))
+     ;;           ;; Documentation for prefixed command
+     ;;           (let ((ua-desc (key-description ua-keys)))
+     ;;             (push (cons (concat ua-desc " " prefix (format-kbd-macro actual-key))
+     ;;                         (get binding 'notmuch-prefix-doc))
+     ;;                   tail)))
+     ;;         ;; Documentation for command
+     ;;         (push (cons key-string
+     ;;                     (or (and (symbolp binding) (get binding 'notmuch-doc))
+     ;;                         (and (functionp binding) (notmuch-documentation-first-line binding))))
+     ;;               tail)))
+     ;;     tail)
 
        (defun notmuch-show-exports-all-attachments (mm-handle directory)
          (let (attachments)
@@ -1785,10 +1787,14 @@
                     filename
                     cid
                     file-location)
-                (message "handle is: %S" p)
+                ;; (message "handle is: %S" p)
+                ;; (message "disposition is: %S" disposition)
+                ;; (message "mm-handle-id is: %S" (mm-handle-id p))
                 (and (listp disposition)
                      (string-equal "text/html" (mm-handle-media-type p))
-                     (message "handle inside is: %S" p)
+                     (progn
+                       (message "handle inside is: %S" p)
+                       t)
                      (mm-insert-part p)
                      (set-buffer-file-coding-system 'raw-text))
                 (and (listp disposition)
@@ -1796,9 +1802,12 @@
                      (or (equal (car disposition) "attachment")
                          (and (equal (car disposition) "inline")
                               (assq 'filename disposition))
-                         (mm-handle-id p))
+                         ;; (mm-handle-id p)
+                         )
                      (progn
                        (setq filename (mm-handle-filename p))
+                       (if (null filename)
+                           (message "filename is null, handle is %S" p))
                        (setq cid (mm-handle-id p))
                        (setq cid (s-chop-suffix ">" (s-chop-prefix "<" cid)))
                        ;; (message "adding: (%S, %S)" cid filename)
@@ -1813,7 +1822,7 @@
                          (run-at-time 2 nil
                                       (lambda ()
                                         (ignore-errors (delete-file file-name)))))))))
-           mm-handle)
+            mm-handle)
            attachments))
 
        (defun notmuch-make-temp-file (ext)
@@ -1870,8 +1879,7 @@
                     (start-process "mail-sync" "*mail-sync*" "mail-sync.py" "--do-gmi"))))))
 
        ;; sync gmi after tagging
-       (add-hook 'notmuch-after-tag-hook #'notmuch-refresh-func)
-     )
+       (add-hook 'notmuch-after-tag-hook #'notmuch-refresh-func))
 
      (with-eval-after-load 'org-mime
        ;; fix org-mime-htmlize with latex
