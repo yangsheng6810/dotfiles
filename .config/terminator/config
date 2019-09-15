@@ -1,0 +1,21 @@
+[global_config]
+  geometry_hinting = True
+  title_transmit_bg_color = "#3465a4"
+[keybindings]
+  layout_launcher = None
+[layouts]
+  [[default]]
+    [[[child1]]]
+      parent = window0
+      type = Terminal
+    [[[window0]]]
+      parent = ""
+      type = Window
+[plugins]
+[profiles]
+  [[default]]
+    copy_on_selection = True
+    cursor_color = "#aaaaaa"
+    palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
+    scrollback_infinite = True
+    show_titlebar = False
