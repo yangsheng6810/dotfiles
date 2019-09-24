@@ -12,6 +12,8 @@ for br in soup.find_all("br"):
     br.replace_with("\n")
 title_find = soup.find_all("h3")
 if not title_find:
+    title_find = soup.find_all("h2")
+if not title_find:
     title_find = soup.find_all("h1")
 title = title_find[0].text
 
