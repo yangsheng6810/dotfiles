@@ -592,7 +592,10 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           google-this
           ;; jump buffer
           frog-jump-buffer
-          ellocate)
+          ;; find file under current directory
+          ellocate
+          ;; easy keybindings
+          general)
 
         yang/dotspacemacs-additional-packages-gui
         '((recursive-narrow :location local)
