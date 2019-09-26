@@ -1,9 +1,33 @@
 #+PROPERTY: header-args
-* General Editing
+* Framework Compatibility
   #+BEGIN_SRC emacs-lisp
     ;;; -*- lexical-binding: t -*-
     (setq-default lexical-binding t)
+    (setq-default yang/dotemacs-framework nil
+                  yang/dotemacs-dir (expand-file-name "~/.emacs.d/")
+                  yang/config-dir "")
+    (defun yang/spacemacs-p () nil)
+    (defun yang/doom-p () nil)
+    (when (boundp 'dotspacemacs-directory)
+      (setq yang/dotemacs-framework 'spacemacs
+            yang/dotemacs-dir dotspacemacs-directory
+            yang/doom-p nil)
+      (defun yang/spacemacs-p () t))
+    (when (boundp 'doom-emacs-dir)
+      (setq yang/dotemacs-framework 'doom
+            yang/dotemacs-dir doom-private-dir)
+      (defun yang/doom-p () t))
 
+    (defmacro yang/set-leader-key (key func)
+      (pcase yang/dotemacs-framework
+        ('doom `(general-def
+                  :keymaps 'doom-leader-map
+                  ,key ,func))
+        ('spacemacs `(spacemacs/set-leader-keys
+                       ,key ,func))))
+#+END_SRC
+* General Editing
+  #+BEGIN_SRC emacs-lisp
     ;; commented out since it may cause undo-tree corruption
     ;; (setq undo-tree-auto-save-history t)
 
@@ -17,16 +41,24 @@
     (global-linum-mode -1)
 
     ;; turn on highlight-current-line-globally
-    (spacemacs/toggle-highlight-current-line-globally-off)
+    (when (yang/spacemacs-p)
+      (spacemacs/toggle-highlight-current-line-globally-off))
 
     (global-unset-key (kbd "M-SPC"))
     (global-set-key (kbd "M-SPC") 'set-mark-command)
+    (general-def
+      :keymaps 'general-override-mode-map
+      "M-;" 'comment-dwim)
 
     (setq delete-by-moving-to-trash t)
 
     (setq langtool-java-classpath
           "/usr/share/languagetool:/usr/share/java/languagetool/*")
 
+    (setq pangu-spacing-real-insert-separtor nil)
+
+    (tool-bar-mode -1)
+    (menu-bar-mode -1)
   #+END_SRC
 ** Moving around
    #+begin_src emacs-lisp
@@ -36,14 +68,13 @@
 ** ispell
    #+begin_src emacs-lisp
      (setq ispell-extra-args '("--sug-mode=ultra")
-           flyspell-issue-welcome-flag nil ;; fix flyspell problem
+           ;; flyspell-issue-welcome-flag nil ;; fix flyspell problem
            ispell-dictionary "american")
 
-     ;; to avoid lagging
-     (use-package flyspell-lazy
-       :ensure t
-       :init (setq flyspell-lazy-extra-lazy t)
-       :config (flyspell-lazy-mode 1))
+     ;; ;; to avoid lagging
+     ;; (use-package flyspell-lazy
+     ;;   :init (setq flyspell-lazy-extra-lazy t)
+     ;;   :config (flyspell-lazy-mode 1))
    #+end_src
 ** Search
    #+begin_src emacs-lisp
@@ -64,11 +95,12 @@
      (use-package swiper
        :config
        (progn
-         (spacemacs/set-leader-keys
-           "ss" 'swiper
-           "sS" 'spacemacs/swiper-region-or-symbol
-           "sb" 'swiper-all
-           "sB" 'spacemacs/swiper-all-region-or-symbol)
+         (when (yang/spacemacs-p)
+           (spacemacs/set-leader-keys
+             "ss" 'swiper
+             "sS" 'spacemacs/swiper-region-or-symbol
+             "sb" 'swiper-all
+             "sB" 'spacemacs/swiper-all-region-or-symbol))
          (global-set-key "\C-s" 'swiper-isearch)))
    #+end_src
 *** Allow ivy to select the content of prompt
@@ -270,7 +302,8 @@
          (er/expand-region arg)
          (yang/hydra-expand/body))
 
-       (spacemacs/set-leader-keys "v" 'yang/expand-region-wrap))
+       (yang/set-leader-key "v" 'yang/expand-region-wrap)
+       )
    #+end_src
 * General
   #+BEGIN_SRC emacs-lisp
@@ -289,10 +322,10 @@
       (setq request--url-options
             '("--proxy" "socks5://localhost:8883")))
   #+END_SRC
-** Purpose
+** COMMENT Purpose
    #+begin_src emacs-lisp
      (setq purpose-layout-dirs
-           (list (concat dotspacemacs-directory "layouts/")))
+           (list (concat yang/dotemacs-dir "layouts/")))
    #+end_src
 ** Terminal
    #+begin_src emacs-lisp
@@ -302,13 +335,14 @@
        (when (string-equal "terminal" server-name)
          (load-theme 'spacemacs-dark)))
 
-     (yang/load-theme-according-to-gui)
-     (add-hook 'before-make-frame-hook #'yang/load-theme-according-to-gui)
+     (when (yang/spacemacs-p)
+       (yang/load-theme-according-to-gui)
+       (add-hook 'before-make-frame-hook #'yang/load-theme-according-to-gui))
    #+end_src
 ** Ellocate
    #+begin_src emacs-lisp
      (setq ellocate-scan-dirs
-           `(("~/" ,(concat dotspacemacs-directory ".cache/ellocate-home-db"))
+           `(("~/" ,(concat yang/dotemacs-dir ".cache/ellocate-home-db"))
              ("/mnt/" nil)))
 
    #+end_src
@@ -360,49 +394,50 @@
     ;;   :init (spacemacs/diminish-undo 'which-key-mode)
     ;;   :diminish which-key-mode)
 
-    (use-package which-key
-      :after (core-fonts-support)
-      :config (spacemacs/diminish-undo 'which-key-mode)
-      :diminish which-key-mode)
+    (when (yang/spacemacs-p)
+     (use-package which-key
+       :after (core-fonts-support)
+       :config (spacemacs/diminish-undo 'which-key-mode)
+       :diminish which-key-mode)
 
-    (use-package smartparens
-      :after (core-fonts-support)
-      :config (spacemacs/diminish-undo 'smartparens-mode)
-      :diminish smartparens-mode)
+     (use-package smartparens
+       :after (core-fonts-support)
+       :config (spacemacs/diminish-undo 'smartparens-mode)
+       :diminish smartparens-mode)
 
-    (use-package company
-      :after (core-fonts-support)
-      :config (spacemacs/diminish-undo 'company-mode)
-      :diminish company-mode)
+     (use-package company
+       :after (core-fonts-support)
+       :config (spacemacs/diminish-undo 'company-mode)
+       :diminish company-mode)
 
-    (use-package importmagic
-      :after (core-fonts-support)
-      :config (spacemacs/diminish-undo 'importmagic-mode)
-      :diminish importmagic-mode)
+     (use-package importmagic
+       :after (core-fonts-support)
+       :config (spacemacs/diminish-undo 'importmagic-mode)
+       :diminish importmagic-mode)
 
-    (use-package beacon
-      :defer t
-      :diminish beacon-mode
-      :config
-      (defun beacon--visual-current-column ()
-        "Get the visual column we are at, takes long lines and visual line mode into account."
-        (save-excursion
-          (let ((current (point)))
-            (beginning-of-visual-line)
-            (- current (point)))))
+     (use-package beacon
+       :defer t
+       :diminish beacon-mode
+       :config
+       (defun beacon--visual-current-column ()
+         "Get the visual column we are at, takes long lines and visual line mode into account."
+         (save-excursion
+           (let ((current (point)))
+             (beginning-of-visual-line)
+             (- current (point)))))
 
-      (defun yang/beacon--after-string-overlay (colors)
-        "Put an overlay at point with an after-string property.
+       (defun yang/beacon--after-string-overlay (colors)
+         "Put an overlay at point with an after-string property.
     The property's value is a string of spaces with background
     COLORS applied to each one."
-        ;; The after-string must not be longer than the remaining columns
-        ;; from point to right window-end else it will be wrapped around.
-        (let ((colors (seq-take colors (- (window-width) (beacon--visual-current-column) 1))))
-          (beacon--ov-put-after-string (beacon--make-overlay 0) colors)))
-      (advice-add #'beacon--after-string-overlay :override #'yang/beacon--after-string-overlay)
-      )
+         ;; The after-string must not be longer than the remaining columns
+         ;; from point to right window-end else it will be wrapped around.
+         (let ((colors (seq-take colors (- (window-width) (beacon--visual-current-column) 1))))
+           (beacon--ov-put-after-string (beacon--make-overlay 0) colors)))
+       (advice-add #'beacon--after-string-overlay :override #'yang/beacon--after-string-overlay)
+       )
 
-    (beacon-mode 1)
+     (beacon-mode 1))
 
     (with-eval-after-load 'face-remap
       (diminish 'buffer-face-mode))
@@ -413,431 +448,442 @@
   
 ** varable-pitch-mode
    #+BEGIN_SRC emacs-lisp
-     (add-hook 'text-mode-hook
-               (lambda ()
-                 (variable-pitch-mode 1)))
-     (add-hook 'conf-mode-hook
-               (lambda ()
-                 (variable-pitch-mode -1)) t)
+               ;; (add-hook 'text-mode-hook
+               ;;           (lambda ()
+               ;;             (variable-pitch-mode 1)))
+               (add-hook 'conf-mode-hook
+                         (lambda ()
+                           (variable-pitch-mode -1)) t)
 
-     (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+     (defun yang/fix-line-number ()
+          ;; (set-face-attribute 'variable-pitch nil :family "EtBembo")
+          (set-face-attribute 'variable-pitch nil :family "Libre Baskerville")
+          (set-face-attribute 'fixed-pitch nil :family "Source Code Pro")
+          (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+          (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
+       )
 
+     (yang/fix-line-number)
+     (when (yang/doom-p)
+       (add-hook 'doom-load-theme-hook #'yang/fix-line-number))
 
-     (use-package theming
-       :defer t
-       :init
-      (defmacro set-pair-faces (themes consts faces-alist)
-        "Macro for pair setting of custom faces.
-     THEMES name the pair (theme-one theme-two). CONSTS sets the variables like
-       ((sans-font \"Some Sans Font\") ...). FACES-ALIST has the actual faces
-     like:
-       ((face1 theme-one-attr theme-two-atrr)
-        (face2 theme-one-attr nil           )
-        (face3 nil            theme-two-attr)
-        ...)"
-        (defmacro get-proper-faces ()
-          `(let* (,@consts)
-             (backquote ,faces-alist)))
+     (when (yang/spacemacs-p)
+       (use-package theming
+         :defer t
+         :init
+         (defmacro set-pair-faces (themes consts faces-alist)
+           "Macro for pair setting of custom faces.
+               THEMES name the pair (theme-one theme-two). CONSTS sets the variables like
+                 ((sans-font \"Some Sans Font\") ...). FACES-ALIST has the actual faces
+               like:
+                 ((face1 theme-one-attr theme-two-atrr)
+                  (face2 theme-one-attr nil           )
+                  (face3 nil            theme-two-attr)
+                  ...)"
+           (defmacro get-proper-faces ()
+             `(let* (,@consts)
+                (backquote ,faces-alist)))
 
-        `(setq theming-modifications
-               ',(mapcar (lambda (theme)
-                           `(,theme ,@(cl-remove-if
-                                       (lambda (x) (equal x "NA"))
-                                       (mapcar (lambda (face)
-                                                 (let ((face-name (car face))
-                                                       (face-attrs (nth (cl-position theme themes) (cdr face))))
-                                                   (if face-attrs
-                                                       `(,face-name ,@face-attrs)
-                                                     "NA"))) (get-proper-faces)))))
-                         themes)))
+           `(setq theming-modifications
+                  ',(mapcar (lambda (theme)
+                              `(,theme ,@(cl-remove-if
+                                          (lambda (x) (equal x "NA"))
+                                          (mapcar (lambda (face)
+                                                    (let ((face-name (car face))
+                                                          (face-attrs (nth (cl-position theme themes) (cdr face))))
+                                                      (if face-attrs
+                                                          `(,face-name ,@face-attrs)
+                                                        "NA"))) (get-proper-faces)))))
+                            themes)))
 
-      (set-pair-faces
-       ;; Themes to cycle in
-       (doom-molokai spacemacs-light spacemacs-dark)
+         (set-pair-faces
+          ;; Themes to cycle in
+          (doom-molokai spacemacs-light spacemacs-dark)
 
-       ;; Variables
-       ((bg-white           "#fbf8ef")
-        (bg-light           "#e3e1e0")
-        (bg-dark            "#1c1e1f")
-        (bg-darker          "#1c1c1c")
-        (fg-white           "#ffffff")
-        (shade-white        "#efeae9")
-        (fg-light           "#655370")
-        (dark-cyan          "#008b8b")
-        (region-dark        "#2d2e2e")
-        (region             "#39393d")
-        (slate              "#8FA1B3")
-        (keyword            "#f92672")
-        (comment            "#525254")
-        (builtin            "#fd971f")
-        (purple             "#9c91e4")
-        (doc                "#727280")
-        (type               "#66d9ef")
-        (string             "#b6e63e")
-        (gray-dark          "#999")
-        (gray               "#bbb")
-        (sans-font          "Source Sans Pro")
-        (serif-font         "Merriweather")
-        (et-font            "EtBembo")
-        (sans-mono-font     "Souce Code Pro")
-        (serif-mono-font "Verily Serif Mono"))
-       ;; Settings
-       ((variable-pitch
-         (:family ,sans-font)
-         (:family ,et-font
-                  :background nil
-                  :foreground ,bg-dark
-                  :height 1.2)
-         (:family ,et-font
-                  :background nil
-                  :foreground ,bg-light
-                  :height 1.2))
-        (org-document-title
-         (:inherit variable-pitch
-                   :height 1.3
-                   :weight normal
-                   :foreground ,gray)
-         (:inherit nil
-                   :family ,et-font
-                   :height 1.8
-                   :foreground ,bg-dark
-                   :underline nil)
-         (:inherit nil
-                   :family ,et-font
-                   :height 1.8
-                   :foreground ,bg-light
-                   :underline nil))
-        (org-document-info
-         (:foreground ,gray
-                      :slant italic)
-         (:height 1.2
-                  :slant italic)
-         (:height 1.2
-                  :slant italic))
-        (org-level-1
-         (:inherit variable-pitch
-                   :height 1.3
-                   :weight bold
-                   :foreground ,keyword
-                   :background ,bg-dark)
-         (:inherit nil
-                   :family ,et-font
-                   :height 1.6
-                   :weight normal
-                   :slant normal
-                   :foreground ,bg-dark)
-         (:inherit nil
-                   :family ,et-font
-                   :height 1.6
-                   :weight normal
-                   :slant normal
-                   :foreground ,bg-light))
-        (org-level-2
-         (:inherit variable-pitch
-                   :weight bold
-                   :height 1.2
-                   :foreground ,gray
-                   :background ,bg-dark)
-         (:inherit nil
-                   :family ,et-font
-                   :weight normal
-                   :height 1.3
-                   :slant italic
-                   :foreground ,bg-dark)
-         (:inherit nil
-                   :family ,et-font
-                   :weight normal
-                   :height 1.3
-                   :slant italic
-                   :foreground ,bg-light))
-        (org-level-3
-         (:inherit variable-pitch
-                   :weight bold
-                   :height 1.1
-                   :foreground ,slate
-                   :background ,bg-dark)
-         (:inherit nil
-                   :family ,et-font
-                   :weight normal
-                   :slant italic
-                   :height 1.2
-                   :foreground ,bg-dark)
-         (:inherit nil
-                   :family ,et-font
-                   :weight normal
-                   :slant italic
-                   :height 1.2
-                   :foreground ,bg-light))
-        (org-level-4
-         (:inherit variable-pitch
-                   :weight bold
-                   :height 1.1
-                   :foreground ,slate
-                   :background ,bg-dark)
-         (:inherit nil
-                   :family ,et-font
-                   :weight normal
-                   :slant italic
-                   :height 1.1
-                   :foreground ,bg-dark)
-         (:inherit nil
-                   :family ,et-font
-                   :weight normal
-                   :slant italic
-                   :height 1.1
-                   :foreground ,bg-light))
-        (org-level-5
-         (:inherit variable-pitch
-                   :weight bold
-                   :height 1.1
-                   :foreground ,slate
-                   :background ,bg-dark)
-         nil
-         nil)
-        (org-level-6
-         (:inherit variable-pitch
-                   :weight bold
-                   :height 1.1
-                   :foreground ,slate
-                   :background ,bg-dark)
-         nil
-         nil)
-        (org-level-7
-         (:inherit variable-pitch
-                   :weight bold
-                   :height 1.1
-                   :foreground ,slate
-                   :background ,bg-dark)
-         nil
-         nil)
-        (org-level-8
-         (:inherit variable-pitch
-                   :weight bold
-                   :height 1.1
-                   :foreground ,slate
-                   :background ,bg-dark)
-         nil
-         nil)
-        (org-headline-done
-         (:strike-through t)
-         (:family ,et-font
-                  :strike-through t)
-         (:family ,et-font
-                  :strike-through t))
-        (org-quote
-         (:background ,bg-dark)
-         nil
-         nil)
-        (org-block
-         (:background ,bg-dark
-                      :inhert fixed-pitch)
-         (:background nil
+          ;; Variables
+          ((bg-white           "#fbf8ef")
+           (bg-light           "#e3e1e0")
+           (bg-dark            "#1c1e1f")
+           (bg-darker          "#1c1c1c")
+           (fg-white           "#ffffff")
+           (shade-white        "#efeae9")
+           (fg-light           "#655370")
+           (dark-cyan          "#008b8b")
+           (region-dark        "#2d2e2e")
+           (region             "#39393d")
+           (slate              "#8FA1B3")
+           (keyword            "#f92672")
+           (comment            "#525254")
+           (builtin            "#fd971f")
+           (purple             "#9c91e4")
+           (doc                "#727280")
+           (type               "#66d9ef")
+           (string             "#b6e63e")
+           (gray-dark          "#999")
+           (gray               "#bbb")
+           (sans-font          "Source Sans Pro")
+           (serif-font         "Merriweather")
+           ;; (et-font            "EtBembo")
+           (et-font  "Libre Baskerville")
+           (sans-mono-font     "Souce Code Pro")
+           (serif-mono-font "Verily Serif Mono"))
+          ;; Settings
+          ((variable-pitch
+            (:family ,sans-font)
+            (:family ,et-font
+                     :background nil
+                     :foreground ,bg-dark
+                     :height 1.2)
+            (:family ,et-font
+                     :background nil
+                     :foreground ,bg-light
+                     :height 1.2))
+           (org-document-title
+            (:inherit variable-pitch
+                      :height 1.3
+                      :weight normal
+                      :foreground ,gray)
+            (:inherit nil
+                      :family ,et-font
+                      :height 1.8
                       :foreground ,bg-dark
-                      :inhert fixed-pitch)
-         (:background nil
+                      :underline nil)
+            (:inherit nil
+                      :family ,et-font
+                      :height 1.8
                       :foreground ,bg-light
-                      :inhert fixed-pitch))
-        (org-block-begin-line
-         (:background ,bg-dark)
-         (:background nil
-                      :height 0.8
-                      :family ,sans-mono-font
-                      :foreground ,slate)
-         (:background nil
-                      :height 0.8
-                      :family ,sans-mono-font
-                      :foreground ,slate))
-        (org-block-end-line
-         (:background ,bg-dark)
-         (:background nil
-                      :height 0.8
-                      :family ,sans-mono-font
-                      :foreground ,slate)
-         (:background nil
-                      :height 0.8
-                      :family ,sans-mono-font
-                      :foreground ,slate))
-        (org-document-info-keyword
-         (:foreground ,comment)
-         (:height 0.8
-                  :foreground ,gray)
-         (:height 0.8
-                  :foreground ,gray-dark))
-        (org-link
-         (:underline nil
-                     :weight normal
-                     :foreground ,slate)
-         (:foreground ,bg-dark)
-         (:foreground ,bg-light))
-        (org-special-keyword
-         (:height 0.9
-                  :foreground ,comment)
-         (:family ,sans-mono-font
-                  :height 0.8)
-         (:family ,sans-mono-font
-                  :height 0.8))
-        (org-todo
-         (:foreground ,builtin
+                      :underline nil))
+           (org-document-info
+            (:foreground ,gray
+                         :slant italic)
+            (:height 1.2
+                     :slant italic)
+            (:height 1.2
+                     :slant italic))
+           (org-level-1
+            (:inherit variable-pitch
+                      :height 1.3
+                      :weight bold
+                      :foreground ,keyword
                       :background ,bg-dark)
-         nil
-         nil)
-        (org-done
-         (:inherit variable-pitch
-                   :foreground ,dark-cyan
-                   :background ,bg-dark)
-         nil
-         nil)
-        (org-agenda-current-time
-         (:foreground ,slate)
-         nil
-         nil)
-        (org-hide
-         nil
-         (:foreground ,bg-white)
-         (:foreground ,bg-darker))
-        (org-indent
-         (:inherit org-hide)
-         (:inherit (org-hide fixed-pitch))
-         (:inherit (org-hide fixed-pitch)))
-        (org-time-grid
-         (:foreground ,comment)
-         nil
-         nil)
-        (org-warning
-         (:foreground ,builtin)
-         nil
-         nil)
-        (org-date
-         nil
-         (:family ,sans-mono-font
-                  :height 0.8)
-         (:family ,sans-mono-font
-                  :height 0.8))
-        (org-agenda-structure
-         (:height 1.3
-                  :foreground ,doc
-                  :weight normal
-                  :inherit variable-pitch)
-         nil
-         nil)
-        (org-agenda-date
-         (:foreground ,doc
-                      :inherit variable-pitch)
-         ;; (:inherit variable-pitch
-         ;;           :height 1.1)
-         nil
-         nil)
-        (org-agenda-date-today
-         (:height 1.5
-                  :foreground ,keyword
-                  :inherit variable-pitch)
-         nil
-         nil)
-        (org-agenda-date-weekend
-         (:inherit org-agenda-date)
-         nil
-         nil)
-        (org-scheduled
-         (:foreground ,gray)
-         nil
-         nil)
-        (org-upcoming-deadline
-         (:foreground ,keyword)
-         nil
-         nil)
-        (org-scheduled-today
-         (:foreground ,fg-white)
-         nil
-         nil)
-        (org-scheduled-previously
-         (:foreground ,slate)
-         nil
-         nil)
-        (org-agenda-done
-         (:inherit nil
-                   :strike-through t
-                   :foreground ,doc)
-         (:strike-through t
-                          :foreground ,doc)
-         (:strike-through t
-                          :foreground ,doc))
-        (org-ellipsis
-         (:underline nil
+            (:inherit nil
+                      :family ,et-font
+                      :height 1.6
+                      :weight normal
+                      :slant normal
+                      :foreground ,bg-dark)
+            (:inherit nil
+                      :family ,et-font
+                      :height 1.6
+                      :weight normal
+                      :slant normal
+                      :foreground ,bg-light))
+           (org-level-2
+            (:inherit variable-pitch
+                      :weight bold
+                      :height 1.2
+                      :foreground ,gray
+                      :background ,bg-dark)
+            (:inherit nil
+                      :family ,et-font
+                      :weight normal
+                      :height 1.3
+                      :slant italic
+                      :foreground ,bg-dark)
+            (:inherit nil
+                      :family ,et-font
+                      :weight normal
+                      :height 1.3
+                      :slant italic
+                      :foreground ,bg-light))
+           (org-level-3
+            (:inherit variable-pitch
+                      :weight bold
+                      :height 1.1
+                      :foreground ,slate
+                      :background ,bg-dark)
+            (:inherit nil
+                      :family ,et-font
+                      :weight normal
+                      :slant italic
+                      :height 1.2
+                      :foreground ,bg-dark)
+            (:inherit nil
+                      :family ,et-font
+                      :weight normal
+                      :slant italic
+                      :height 1.2
+                      :foreground ,bg-light))
+           (org-level-4
+            (:inherit variable-pitch
+                      :weight bold
+                      :height 1.1
+                      :foreground ,slate
+                      :background ,bg-dark)
+            (:inherit nil
+                      :family ,et-font
+                      :weight normal
+                      :slant italic
+                      :height 1.1
+                      :foreground ,bg-dark)
+            (:inherit nil
+                      :family ,et-font
+                      :weight normal
+                      :slant italic
+                      :height 1.1
+                      :foreground ,bg-light))
+           (org-level-5
+            (:inherit variable-pitch
+                      :weight bold
+                      :height 1.1
+                      :foreground ,slate
+                      :background ,bg-dark)
+            nil
+            nil)
+           (org-level-6
+            (:inherit variable-pitch
+                      :weight bold
+                      :height 1.1
+                      :foreground ,slate
+                      :background ,bg-dark)
+            nil
+            nil)
+           (org-level-7
+            (:inherit variable-pitch
+                      :weight bold
+                      :height 1.1
+                      :foreground ,slate
+                      :background ,bg-dark)
+            nil
+            nil)
+           (org-level-8
+            (:inherit variable-pitch
+                      :weight bold
+                      :height 1.1
+                      :foreground ,slate
+                      :background ,bg-dark)
+            nil
+            nil)
+           (org-headline-done
+            (:strike-through t)
+            (:family ,et-font
+                     :strike-through t)
+            (:family ,et-font
+                     :strike-through t))
+           (org-quote
+            (:background ,bg-dark)
+            nil
+            nil)
+           (org-block
+            (:background ,bg-dark
+                         :inhert fixed-pitch)
+            (:background nil
+                         :foreground ,bg-dark
+                         :inhert fixed-pitch)
+            (:background nil
+                         :foreground ,bg-light
+                         :inhert fixed-pitch))
+           (org-block-begin-line
+            (:background ,bg-dark)
+            (:background nil
+                         :height 0.8
+                         :family ,sans-mono-font
+                         :foreground ,slate)
+            (:background nil
+                         :height 0.8
+                         :family ,sans-mono-font
+                         :foreground ,slate))
+           (org-block-end-line
+            (:background ,bg-dark)
+            (:background nil
+                         :height 0.8
+                         :family ,sans-mono-font
+                         :foreground ,slate)
+            (:background nil
+                         :height 0.8
+                         :family ,sans-mono-font
+                         :foreground ,slate))
+           (org-document-info-keyword
+            (:foreground ,comment)
+            (:height 0.8
+                     :foreground ,gray)
+            (:height 0.8
+                     :foreground ,gray-dark))
+           (org-link
+            (:underline nil
+                        :weight normal
+                        :foreground ,slate)
+            (:foreground ,bg-dark)
+            (:foreground ,bg-light))
+           (org-special-keyword
+            (:height 0.9
                      :foreground ,comment)
-         (:underline nil
-                     :foreground ,comment)
-         (:underline nil
-                     :foreground ,comment))
-        (org-tag
-         (:foreground ,doc)
-         (:foreground ,doc)
-         (:foreground ,doc))
-        (org-table
-         (:background nil
-                      :inherit fixed-pitch)
-         (:family ,serif-mono-font
-                  :height 1.0
-                  :background ,bg-white
-                  :inherit fixed-pitch)
-         (:family ,serif-mono-font
-                  :height 1.0
-                  :background ,bg-darker
-                  :inherit fixed-pitch))
-        (org-formula
-         (:inherit font-lock-builtin-face)
-         (:inherit fixed-pitch
-                   :family ,serif-mono-font
-                   :foreground ,keyword
-                   :height 1.0)
-         (:inherit fixed-pitch
-                   :family ,serif-mono-font
-                   :foreground ,keyword
-                   :height 1.0))
-        (org-code
-         (:inherit font-lock-builtin-face)
-         (:inherit fixed-pitch
-                   :family ,serif-mono-font
-                   :foreground ,comment
-                   :height 1.0)
-         (:inherit fixed-pitch
-                   :family ,serif-mono-font
-                   :foreground ,comment
-                   :height 1.0))
-        (font-latex-sectioning-0-face
-         (:foreground ,type
-                      :height 1.2)
-         nil
-         nil)
-        (font-latex-sectioning-1-face
-         (:foreground ,type
-                      :height 1.1)
-         nil
-         nil)
-        (font-latex-sectioning-2-face
-         (:foreground ,type
-                      :height 1.1)
-         nil
-         nil)
-        (font-latex-sectioning-3-face
-         (:foreground ,type
+            (:family ,sans-mono-font
+                     :height 0.8)
+            (:family ,sans-mono-font
+                     :height 0.8))
+           (org-todo
+            (:foreground ,builtin
+                         :background ,bg-dark)
+            nil
+            nil)
+           (org-done
+            (:inherit variable-pitch
+                      :foreground ,dark-cyan
+                      :background ,bg-dark)
+            nil
+            nil)
+           (org-agenda-current-time
+            (:foreground ,slate)
+            nil
+            nil)
+           (org-hide
+            nil
+            (:foreground ,bg-white)
+            (:foreground ,bg-darker))
+           (org-indent
+            (:inherit org-hide)
+            (:inherit (org-hide fixed-pitch))
+            (:inherit (org-hide fixed-pitch)))
+           (org-time-grid
+            (:foreground ,comment)
+            nil
+            nil)
+           (org-warning
+            (:foreground ,builtin)
+            nil
+            nil)
+           (org-date
+            nil
+            (:family ,sans-mono-font
+                     :height 0.8)
+            (:family ,sans-mono-font
+                     :height 0.8))
+           (org-agenda-structure
+            (:height 1.3
+                     :foreground ,doc
+                     :weight normal
+                     :inherit variable-pitch)
+            nil
+            nil)
+           (org-agenda-date
+            (:foreground ,doc
+                         :inherit variable-pitch)
+            ;; (:inherit variable-pitch
+            ;;           :height 1.1)
+            nil
+            nil)
+           (org-agenda-date-today
+            (:height 1.5
+                     :foreground ,keyword
+                     :inherit variable-pitch)
+            nil
+            nil)
+           (org-agenda-date-weekend
+            (:inherit org-agenda-date)
+            nil
+            nil)
+           (org-scheduled
+            (:foreground ,gray)
+            nil
+            nil)
+           (org-upcoming-deadline
+            (:foreground ,keyword)
+            nil
+            nil)
+           (org-scheduled-today
+            (:foreground ,fg-white)
+            nil
+            nil)
+           (org-scheduled-previously
+            (:foreground ,slate)
+            nil
+            nil)
+           (org-agenda-done
+            (:inherit nil
+                      :strike-through t
+                      :foreground ,doc)
+            (:strike-through t
+                             :foreground ,doc)
+            (:strike-through t
+                             :foreground ,doc))
+           (org-ellipsis
+            (:underline nil
+                        :foreground ,comment)
+            (:underline nil
+                        :foreground ,comment)
+            (:underline nil
+                        :foreground ,comment))
+           (org-tag
+            (:foreground ,doc)
+            (:foreground ,doc)
+            (:foreground ,doc))
+           (org-table
+            (:background nil
+                         :inherit fixed-pitch)
+            (:family ,serif-mono-font
+                     :height 1.0
+                     :background ,bg-white
+                     :inherit fixed-pitch)
+            (:family ,serif-mono-font
+                     :height 1.0
+                     :background ,bg-darker
+                     :inherit fixed-pitch))
+           (org-formula
+            (:inherit font-lock-builtin-face)
+            (:inherit fixed-pitch
+                      :family ,serif-mono-font
+                      :foreground ,keyword
                       :height 1.0)
-         nil
-         nil)
-        (font-latex-sectioning-4-face
-         (:foreground ,type
+            (:inherit fixed-pitch
+                      :family ,serif-mono-font
+                      :foreground ,keyword
+                      :height 1.0))
+           (org-code
+            (:inherit font-lock-builtin-face)
+            (:inherit fixed-pitch
+                      :family ,serif-mono-font
+                      :foreground ,comment
                       :height 1.0)
-         nil
-         nil)
-        (font-latex-sectioning-5-face
-         (:foreground ,type
-                      :height 1.0)
-         nil
-         nil)
-        (font-latex-verbatim-face
-         (:foreground ,builtin)
-         nil
-         nil)))
-      )
+            (:inherit fixed-pitch
+                      :family ,serif-mono-font
+                      :foreground ,comment
+                      :height 1.0))
+           (font-latex-sectioning-0-face
+            (:foreground ,type
+                         :height 1.2)
+            nil
+            nil)
+           (font-latex-sectioning-1-face
+            (:foreground ,type
+                         :height 1.1)
+            nil
+            nil)
+           (font-latex-sectioning-2-face
+            (:foreground ,type
+                         :height 1.1)
+            nil
+            nil)
+           (font-latex-sectioning-3-face
+            (:foreground ,type
+                         :height 1.0)
+            nil
+            nil)
+           (font-latex-sectioning-4-face
+            (:foreground ,type
+                         :height 1.0)
+            nil
+            nil)
+           (font-latex-sectioning-5-face
+            (:foreground ,type
+                         :height 1.0)
+            nil
+            nil)
+           (font-latex-verbatim-face
+            (:foreground ,builtin)
+            nil
+            nil)))
+         ))
    #+END_SRC
 ** Posframe
    #+begin_src emacs-lisp
@@ -862,7 +908,67 @@
          (company-posframe-mode 1))
        (run-with-timer 10 nil #'yang/company-posframe-helper))
    #+end_src
+** Fix doom
+#+begin_src emacs-lisp
+  (when (yang/doom-p)
+    (remove-hook! 'text-mode-hook #'hl-fill-column-mode))
+#+end_src
+** Default keybindings
+#+BEGIN_SRC emacs-lisp
+  (when (yang/doom-p)
+    (map! :leader
+          :desc "Eval expression"       ";"    #'eval-expression
+          :desc "M-x"                   "SPC"    #'execute-extended-command
+  ;;; <leader> TAB --- workspace
+          (:when (featurep! :ui workspaces)
+                 (:prefix-map ("l" . "workspace")
+                              :desc "Display tab bar"           "TAB" #'+workspace/display
+                              :desc "Switch workspace"          "."   #'+workspace/switch-to
+                              :desc "Switch to last workspace"  "`"   #'+workspace/other
+                              :desc "New workspace"             "n"   #'+workspace/new
+                              :desc "Select workspace with ivy" "l"   #'spacemacs/ivy-spacemacs-layouts
+                              :desc "Load workspace from file"  "L"   #'+workspace/load
+                              :desc "Save workspace to file"    "s"   #'+workspace/save
+                              :desc "Delete session"            "x"   #'+workspace/kill-session
+                              :desc "Delete this workspace"     "d"   #'+workspace/delete
+                              :desc "Rename workspace"          "r"   #'+workspace/rename
+                              :desc "Restore last session"      "R"   #'+workspace/restore-last-session
+                              :desc "Next workspace"            "]"   #'+workspace/switch-right
+                              :desc "Previous workspace"        "["   #'+workspace/switch-left
+                              :desc "Switch to 1st workspace"   "1"   #'+workspace/switch-to-0
+                              :desc "Switch to 2nd workspace"   "2"   #'+workspace/switch-to-1
+                              :desc "Switch to 3rd workspace"   "3"   #'+workspace/switch-to-2
+                              :desc "Switch to 4th workspace"   "4"   #'+workspace/switch-to-3
+                              :desc "Switch to 5th workspace"   "5"   #'+workspace/switch-to-4
+                              :desc "Switch to 6th workspace"   "6"   #'+workspace/switch-to-5
+                              :desc "Switch to 7th workspace"   "7"   #'+workspace/switch-to-6
+                              :desc "Switch to 8th workspace"   "8"   #'+workspace/switch-to-7
+                              :desc "Switch to 9th workspace"   "9"   #'+workspace/switch-to-8
+                              :desc "Switch to final workspace" "0"   #'+workspace/switch-to-final))))
+#+END_SRC
 
+* Compatible Keyboard for Doom
+#+begin_src emacs-lisp
+  (when (yang/doom-p)
+    (defun spacemacs/ivy-spacemacs-layouts ()
+      (interactive)
+      (ivy-read "Layouts: "
+                (persp-names)
+                :caller 'spacemacs/ivy-spacemacs-layouts
+                :action #'+workspace-switch))
+    (general-def
+      :keymaps 'doom-leader-map
+      "SPC" '(counsel-M-x :which-key "M-x")
+      "w/"  #'evil-window-vsplit
+      "w-"  #'evil-window-split
+      "TAB l"  #'spacemacs/ivy-spacemacs-layouts
+      "TAB L"  #'+workspace/load
+      )
+    (general-def
+      :states '(normal visual)
+      :keymaps 'org-mode-map
+      "C-c C-a" '(org-agenda :which-key "org-agenda")))
+#+end_src
 * Ergonomic keybindings
   #+BEGIN_SRC emacs-lisp
     ;; Ergonomic keybinding M-<hjkl>
@@ -896,7 +1002,6 @@
       :defer t
       :bind (:map js2-mode-map
                   ("M-j" . nil)))
-
     (evil-define-key '(normal insert motion visual) evil-org-mode-map
       (kbd "M-h") nil
       (kbd "M-j") nil
@@ -916,6 +1021,50 @@
       ;; (kbd "M-K") 'org-shiftmetaup
       ;; (kbd "M-L") 'org-shiftmetaright
       )
+
+(general-def
+  :keymaps '(override global)
+  :states '(motion insert)
+  "M-h" 'evil-backward-char
+  "M-j" 'evil-next-visual-line
+  "M-k" 'evil-previous-visual-line
+  "M-l" 'evil-forward-char
+
+  "M-H" 'move-beginning-of-line
+  "M-L" 'move-end-of-line
+  "C-a" 'move-beginning-of-line
+  "C-e" 'move-end-of-line
+
+  "M-J" 'evil-scroll-down
+  "M-K" 'evil-scroll-up
+  "C-d" 'delete-char)
+
+(general-def
+  :keymaps 'visual-line-mode-map
+  [remap evil-next-line] #'evil-next-line
+  [remap evil-previous-line] #'evil-previous-line
+  [remap evil-next-visual-line] #'evil-next-visual-line
+  [remap evil-previous-visual-line] #'evil-previous-visual-line)
+
+
+(general-def
+  :keymaps '(override org-mode-map)
+  :states '(normal motion insert)
+  "M-h" 'evil-backward-char
+  "M-j" 'evil-next-visual-line
+  "M-k" 'evil-previous-visual-line
+  "M-l" 'evil-forward-char
+
+  "M-H" 'move-beginning-of-line
+  "M-L" 'move-end-of-line
+  "C-a" 'move-beginning-of-line
+  "C-e" 'move-end-of-line
+
+  "M-J" 'evil-scroll-down
+  "M-K" 'evil-scroll-up
+  "C-d" 'delete-char)
+
+
   #+END_SRC
   
 * Emacs-lisp
@@ -934,8 +1083,10 @@
       (add-hook 'minibuffer-setup-hook 'conditionally-enable-lispy)
       :diminish lispy-mode)
 
+    (when (yang/doom-p)
+      (setq doom-scratch-buffer-major-mode 'emacs-lisp-mode))
   #+end_src
-* org-mode
+* Org-mode
   #+BEGIN_SRC emacs-lisp
     ;; wrap in with-eval-after-load, see
     ;; http://spacemacs.org/layers/+emacs/org/README.html#important-note
@@ -958,20 +1109,43 @@
        org-extend-today-until 3 ;; before 3 a.m. is still considered "today"
        org-refile-targets '((nil :maxlevel . 3)
                             (org-agenda-files :maxlevel . 3))
-       )
+       ;; fontify code in code blocks
+       org-src-fontify-natively t
+       preview-scale-function 1.66)
+
+      (plist-put org-format-latex-options :scale 1.66)
+
+      (defun yang/org-mode-setup ()
+        (when (yang/doom-p)
+          (hl-fill-column-mode -1))
+        (visual-line-mode 1)
+        (variable-pitch-mode 1)
+        (display-line-numbers-mode -1)
+        (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+        (set-face-attribute 'org-table nil :inherit 'fixed-pitch))
+
+      (add-hook 'org-mode-hook #'yang/org-mode-setup)
+      (remove-hook 'org-mode-hook #'auto-fill-mode)
+
+      (set-face-attribute 'org-document-info nil :height 1.2)
+      (set-face-attribute 'org-level-1 nil :height 1.6)
+      (set-face-attribute 'org-level-2 nil :height 1.3)
+      (set-face-attribute 'org-level-3 nil :height 1.2)
+      (set-face-attribute 'org-level-4 nil :height 1.1)
 
       ;; restore easy templates, can also use =, i b= to insert
       (require 'org-tempo)
       (add-to-list 'org-structure-template-alist (cons "se" "src emacs-lisp"))
-
-      (org-add-link-type
-       "span" #'ignore ; not an 'openable' link
-       #'(lambda (class desc format)
-           (pcase format
-             (`html (format "<span class=\"%s\">%s</span>"
-                            (jw/html-escape-attribute class)
-                            (or desc "")))
-             (_ (or desc "")))))
+      (require 'org-protocol)
+      (with-eval-after-load 'ox-re-reveal
+        (org-add-link-type
+         "span" #'ignore                    ; not an 'openable' link
+         #'(lambda (class desc format)
+             (pcase format
+               (`html (format "<span class=\"%s\">%s</span>"
+                              (jw/html-escape-attribute class)
+                              (or desc "")))
+               (_ (or desc ""))))))
       ;; ;; actually insert space with pangu-spacing for org-mode, to fix indentation
       ;; ;; in table
       ;; (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
@@ -982,14 +1156,22 @@
         (let ((class-name (read-string "Enter the class for span: ")))
           (save-excursion
             (goto-char end) (insert ")}}}")
-            (goto-char beg) (insert (format "{{{SPAN(%s," class-name)))))
-      )
+            (goto-char beg) (insert (format "{{{SPAN(%s," class-name))))))
+    ;; (after! 'org-compat
+    ;;   (org-add-link-type
+    ;;    "span" #'ignore                  ; not an 'openable' link
+    ;;    #'(lambda (class desc format)
+    ;;        (pcase format
+    ;;          (`html (format "<span class=\"%s\">%s</span>"
+    ;;                         (jw/html-escape-attribute class)
+    ;;                         (or desc "")))
+    ;;          (_ (or desc ""))))))
   #+END_SRC
 
 ** org-pdfview
    #+BEGIN_SRC emacs-lisp
    (use-package org-pdfview
-     :ensure t
+       ;; :ensure t
      :after (org)
      :config
      (add-to-list 'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link))))
@@ -1007,7 +1189,7 @@
        (use-package org-gcal
          :defer t
          :init
-         (setq org-gcal-dir (concat dotspacemacs-directory
+         (setq org-gcal-dir (concat yang/dotemacs-dir
                                     "org-gcal/"))
          :config
          (setq
@@ -1033,10 +1215,10 @@
    #+BEGIN_SRC emacs-lisp
      (use-package org-journal
        ;; :init
-       ;; (setq org-journal-dir "~/Documents/org/journal/"
-       ;;       org-journal-date-format "%x %A")
        :init
-       (setq org-journal-date-format "%Y 年 %m 月 %d 日 %A")
+       (setq org-journal-dir "~/Documents/org/journal/"
+             org-journal-file-format "%Y-%m-%d"
+             org-journal-date-format "%Y 年 %m 月 %d 日 %A")
        :config
        (defun org-journal-find-location ()
          ;; Open today's journal, but specify a non-nil prefix argument in order to
@@ -1046,17 +1228,18 @@
          ;; will add the new entry as a child entry.
          (goto-char (point-min)))
 
-       (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
-       (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
-       (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map)
+       (when (yang/spacemacs-p)
+         (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
+         (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
+         (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map))
 
        (defun yang/switch-to-journal-today ()
          "Switch to today's org-journal file"
          (interactive)
          (org-journal-new-entry t))
 
-       (spacemacs/set-leader-keys "bj" 'yang/switch-to-journal-today)
-       (spacemacs/set-leader-keys "bJ" 'org-journal-new-entry)
+       (yang/set-leader-key "bj" 'yang/switch-to-journal-today)
+       (yang/set-leader-key "bJ" 'org-journal-new-entry)
 
      ;;   ;; override default function as it prints out lots of messages
      ;;   (defun org-journal-update-org-agenda-files ()
@@ -1177,11 +1360,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package org-timer
        :defer t
-       :commands (org-timer-pause-or-continue)
-       :init
-       (use-package org-timer
-         :defer t
-         :commands (org-clock-modify-effort-estimate org-info)
+  :commands (org-timer-pause-or-continue org-clock-modify-effort-estimate org-info)
          :init
          (message "Defining hydra for org-clock")
          (defhydra hydra-org-clock (:color blue :hint nil)
@@ -1213,7 +1392,7 @@
            ("m" org-timer)
            ("t" org-timer-item)
            ("z" (org-info "Timers")))
-         (bind-keys ("C-c w" . hydra-org-clock/body))))
+  (bind-keys ("C-c w" . hydra-org-clock/body)))
 
      (use-package org-agenda
        :defer t
@@ -1265,7 +1444,7 @@
               "* %?\n  %u")
              ("cw" "Windows" entry
               (file+headline "~/Documents/org/Computer.org" "Windows")
-               "* %? \n  %u")
+              "* %? \n  %u")
              ("g" "Calendar" entry
               (file "~/Documents/org/gcal.org")
               "* %?\n  \n  %^T")
@@ -1323,7 +1502,7 @@
                 ("L" org-insert-last-stored-link)
                 ("i" org-id-store-link)
        )
-     (spacemacs/set-leader-keys "o" 'yang/hydra-org-mode/body)
+     (yang/set-leader-key "o" 'yang/hydra-org-mode/body)
    #+END_SRC
 
 ** org-refile
@@ -1334,47 +1513,83 @@
            ;; creating new parent
            org-refile-allow-creating-parent-nodes t)
    #+END_SRC
-** org-reveal
+** COMMENT org-reveal
    #+begin_src emacs-lisp
      ;; (use-package ox-reveal)
    #+end_src
 
 ** org-ref
    #+BEGIN_SRC emacs-lisp
-     (setq reftex-default-bibliography '("~/Documents/org/bibliography/references.bib"))
+          (setq reftex-default-bibliography '("~/Documents/org/bibliography/references.bib"))
 
-     ;; see org-ref for use of these variables
-     (setq org-ref-bibliography-notes "~/Documents/org/bibliography/notes.org"
-           org-ref-default-bibliography '("~/Documents/org/bibliography/references.bib")
-           org-ref-pdf-directory "~/Documents/Library/bibtex-pdfs/")
-     (setq bibtex-completion-bibliography "~/Documents/org/bibliography/references.bib"
-           bibtex-completion-library-path "~/Documents/Library/bibtex-pdfs"
-           bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
+          ;; see org-ref for use of these variables
+          (setq org-ref-bibliography-notes "~/Documents/org/bibliography/notes.org"
+                org-ref-default-bibliography '("~/Documents/org/bibliography/references.bib")
+                org-ref-pdf-directory "~/Documents/Library/bibtex-pdfs/")
+          (setq bibtex-completion-bibliography "~/Documents/org/bibliography/references.bib"
+                bibtex-completion-library-path "~/Documents/Library/bibtex-pdfs"
+                bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
 
-     (use-package org-ref
-       :commands (org-ref-insert-link org-ref-get-bibtex-key-and-file org-ref-bibtex-hydra/body)
-       :bind (:map
-              org-mode-map
-              ("C-c ]" . org-ref-insert-link)
-              :map
-              bibtex-mode-map
-              ("C-c h" . org-ref-bibtex-hydra/body))
-       :config
-       (org-ref-ivy-cite-completion)
-       (defun yang/org-ref-open-pdf-at-point ()
-         "Open the pdf for bibtex key under point with xdg-open if it exists."
-         (interactive)
-         (let* ((results (org-ref-get-bibtex-key-and-file))
-                (key (car results))
-                (pdf-file (funcall org-ref-get-pdf-filename-function key)))
-           (if (file-exists-p pdf-file)
-               (call-process-shell-command (concat "xdg-open " pdf-file) nil 0 nil)
-             (message "no pdf found for %s" key))))
-       (defhydra+ org-ref-cite-hydra ()
-         ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open")))
+          (use-package org-ref
+            :commands (org-ref-insert-link
+                       org-ref-get-bibtex-key-and-file
+                       org-ref-bibtex-hydra/body
+                       org-ref-possible-bibfiles)
+            :bind (:map
+                   org-mode-map
+                    ("C-c ]" . org-ref-insert-link))
+            :config
+            (org-ref-ivy-cite-completion))
+     (when (yang/spacemacs-p)
+       (general-def
+         :keymaps 'bibtex-mode-map
+         "C-c h" #'org-ref-bibtex-hydra/body))
 
-     (use-package parsebib
-       :commands (parsebib-find-bibtex-dialect))
+          (use-package org-ref-bibtex
+            :after (org-ref)
+            :commands (org-ref-bibtex-hydra/body)
+            :config
+            (defun yang/org-ref-open-bibtex-pdf ()
+              "Open pdf for a bibtex entry, if it exists.
+          assumes point is in
+          the entry of interest in the bibfile.  but does not check that."
+              (interactive)
+              (save-excursion
+                (bibtex-beginning-of-entry)
+                (let* ((bibtex-expand-strings t)
+                       (entry (bibtex-parse-entry t))
+                       (key (reftex-get-bib-field "=key=" entry))
+                       (pdf (funcall org-ref-get-pdf-filename-function key)))
+                  (if (file-exists-p pdf)
+                      (call-process-shell-command (concat "xdg-open " pdf) nil 0 nil)
+                    (message "no pdf found for %s" key)))))
+
+            (defun yang/org-ref-bibtex-update-hydra ()
+              (defhydra+ org-ref-bibtex-hydra ()
+                ("P" yang/org-ref-open-bibtex-pdf "Open pdf with xdg-open")))
+
+            (yang/org-ref-bibtex-update-hydra))
+
+          (use-package org-ref-ivy-cite
+            :after (org-ref)
+            :commands (org-ref-cite-hydra/body org-ref-ivy-insert-cite-link)
+            :config
+            (defun yang/org-ref-open-pdf-at-point ()
+              "Open the pdf for bibtex key under point with xdg-open if it exists."
+              (interactive)
+              (let* ((results (org-ref-get-bibtex-key-and-file))
+                     (key (car results))
+                     (pdf-file (funcall org-ref-get-pdf-filename-function key)))
+                (if (file-exists-p pdf-file)
+                    (call-process-shell-command (concat "xdg-open " pdf-file) nil 0 nil)
+                  (message "no pdf found for %s" key))))
+
+            ;; (defhydra+ org-ref-cite-hydra ()
+            ;;   ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open"))
+            )
+
+          (use-package parsebib
+            :commands (parsebib-find-bibtex-dialect))
    #+END_SRC
 
 * LaTeX
@@ -1423,8 +1638,14 @@
       (olivetti-mode 1)
       ;; (define-key LaTeX-mode-map (kbd "C-s") #'yang/swiper)
 
-      (spacemacs/set-leader-keys-for-major-mode 'latex-mode
-        "zc" 'TeX-fold-comment)
+      (when (yang/spacemacs-p)
+        (spacemacs/set-leader-keys-for-major-mode 'latex-mode
+          "zc" 'TeX-fold-comment))
+
+      (when (yang/doom-p)
+        (hl-line-mode -1)
+        (hl-fill-column-mode -1)
+        (variable-pitch-mode 1))
 
       (defun yang/LaTeX-narrow-to-section ()
         (interactive)
@@ -1493,7 +1714,6 @@
     (setq python-shell-native-complete nil)
     (use-package company-jedi             ;;; company-mode completion back-end for Python JEDI
       :defer t
-      :ensure t
       :config
       (add-hook 'python-mode-hook 'jedi:setup)
       (setq jedi:complete-on-dot t)
@@ -1505,6 +1725,11 @@
     (use-package lsp-mode
       :hook (python-mode . lsp)
       :commands lsp)
+
+    (defun yang/python-setup ()
+      (set (make-local-variable 'company-idle-delay) 0.2))
+
+    (add-hook 'python-mode-hook #'yang/python-setup)
 
     ;; optionally
     (use-package lsp-ui :commands lsp-ui-mode)
@@ -1582,11 +1807,14 @@
   #+END_SRC
 
 * Search
+** Enable DictCn
   #+BEGIN_SRC emacs-lisp
     (defengine dictcn
       "http://dict.cn/%s"
       :docstring "Search Dict.cn")
-    ;; use ivy--regex-plus for ivy search
+  #+END_SRC
+** Use ivy--regex-plus for ivy search
+  #+BEGIN_SRC emacs-lisp
     (setq ivy-re-builders-alist
           '((t . ivy--regex-plus)))
 
@@ -1612,9 +1840,9 @@
                          (or (not ivy-rich-parse-remote-buffer)
                              (not yang-ivy-rich-parse-remote-project))))))))
   #+END_SRC
-** Jumb to buffer
+** COMMENT Jumb to buffer
    #+begin_src emacs-lisp
-     (spacemacs/set-leader-keys "bj" #'frog-jump-buffer)
+     (yang/set-leader-key "bj" #'frog-jump-buffer)
    #+end_src
   
 * Email
@@ -1736,48 +1964,128 @@
        (setq mu4e-headers-include-related nil)
      )
    #+END_SRC
+** notmuch by doom
+#+begin_src emacs-lisp
+  ;; FIXME This module is a WIP!
+
+  ;; (defvar +notmuch-sync-backend 'gmi
+  ;;   "Which backend to use. Can be either gmi, mbsync, offlineimap or nil (manual).")
+
+  ;; (defvar +notmuch-mail-folder "~/.mail/account.gmail"
+  ;;   "Where your email folder is located (for use with gmailieer).")
+
+  (when (yang/doom-p)
+    (after! notmuch
+            (set-company-backend! 'notmuch-message-mode
+                                  '(notmuch-company :with company-ispell company-yasnippet))
+
+            (set-popup-rule! "^\\*notmuch-hello" :side 'left :size 30 :ttl 0)
+
+            ;; (setq notmuch-fcc-dirs nil
+            ;;       notmuch-show-logo nil
+            ;;       notmuch-message-headers-visible nil
+            ;;       message-kill-buffer-on-exit t
+            ;;       message-send-mail-function 'message-send-mail-with-sendmail
+            ;;       notmuch-search-oldest-first nil
+            ;;       send-mail-function 'sendmail-send-it
+            ;;       ;; sendmail-program "/usr/local/bin/msmtp"
+            ;;       notmuch-search-result-format
+            ;;       '(("date" . "%12s ")
+            ;;         ("count" . "%-7s ")
+            ;;         ("authors" . "%-30s ")
+            ;;         ("subject" . "%-72s ")
+            ;;         ("tags" . "(%s)"))
+            ;;       notmuch-tag-formats
+            ;;       '(("unread" (propertize tag 'face 'notmuch-tag-unread)))
+            ;;       notmuch-hello-sections
+            ;;       '(notmuch-hello-insert-saved-searches
+            ;;         notmuch-hello-insert-alltags)
+            ;;       notmuch-saved-searches
+            ;;       '((:name "inbox"   :query "tag:inbox not tag:trash" :key "i")
+            ;;         (:name "flagged" :query "tag:flagged"             :key "f")
+            ;;         (:name "sent"    :query "tag:sent"                :key "s")
+            ;;         (:name "drafts"  :query "tag:draft"               :key "d"))
+            ;;       notmuch-archive-tags '("-inbox" "-unread"))
+
+            ;; (setq-hook! 'notmuch-show-mode-hook line-spacing 0)
+
+            (add-hook 'doom-real-buffer-functions #'notmuch-interesting-buffer)
+
+            ;; (advice-add #'notmuch-start-notmuch-sentinel :around #'+notmuch-dont-confirm-on-kill-process-a)
+
+            ;; modeline doesn't have much use in these modes
+            (add-hook! '(notmuch-show-mode-hook
+                         notmuch-tree-mode-hook
+                         notmuch-search-mode-hook)
+                       #'hide-mode-line-mode)))
+#+end_src
 ** notmuch
    #+BEGIN_SRC emacs-lisp
-     (use-package notmuch
-       :init
-       (setq notmuch-search-oldest-first nil
-             notmuch-fcc-dirs '((".*" . "sent -inbox +sent -unread"))
-             notmuch-message-deleted-tags '("+trash" "-inbox" "-unread"))
-       :bind (:map notmuch-show-mode-map
-                   ("d" . (lambda ()
-                            "toggle deleted tag for message"
-                            (interactive)
-                            (if (member "trash" (notmuch-show-get-tags))
-                                (notmuch-show-tag (list "-trash"))
-                              (notmuch-show-tag (list "+trash"))))))
-       :config
-       (spacemacs/set-leader-keys-for-major-mode 'notmuch-show-mode
-         "v" 'notmuch-show-reopen-in-browser)
+     (condition-case err
+         (use-package ol-notmuch
+           :after org)
+       (message "Require of ol-notmuch failed as expected."))
+     (with-eval-after-load 'notmuch
+       (setq notmuch-search-oldest-first nil)
+       (setq notmuch-fcc-dirs '((".*" . "sent -inbox +sent -unread")))
+       (setq notmuch-message-deleted-tags '("+trash" "-inbox" "-unread"))
+       (setq notmuch-always-prompt-for-sender t
+             notmuch-identities
+             '("yangsheng6810@gmail.com"
+               "styang@cs.umd.edu"
+               "styang@fastmail.com")
+             notmuch-saved-searches
+             '((:name "inbox" :query "tag:inbox" :key "i")
+               (:name "flagged" :query "tag:flagged" :key "f")
+               (:name "sent" :query "tag:sent" :key "s")
+               (:name "drafts" :query "tag:draft" :key "d")
+               (:name "all mail" :query "*" :key "a")
+               (:name "unread" :query "tag:inbox and tag:unread" :key "u")
+               (:name "unread lists" :query "tag:lists and tag:unread" :key "l" :count-query "100")
+               (:name "today" :query "date:today and tag:inbox and not tag:trash and not tag:as_record" :key "t")
+               (:name "last 24h" :query "date:24h.. and tag:inbox and not tag:trash and not tag:as_record" :key "T")))
+
+       (define-key notmuch-show-mode-map "d"
+         (lambda ()
+           "toggle deleted tag for message"
+           (interactive)
+           (if (member "trash" (notmuch-show-get-tags))
+               (notmuch-show-tag (list "-trash"))
+             (notmuch-show-tag (list "+trash")))))
+
+       (general-def
+         :keymaps 'notmuch-show-mode-map
+         :states '(normal)
+         "R" #'notmuch-show-reply
+         "r" #'notmuch-show-reply-sender
+         "m" #'notmuch-mua-new-mail
+         "v" #'notmuch-show-reopen-in-browser)
+
        (add-hook 'notmuch-mua-send-hook #'notmuch-mua-attachment-check)
 
-     ;;   ;; Fix notmuch-describe-key for evil and spacemacs
-     ;;   (defun notmuch-describe-key (actual-key binding prefix ua-keys tail)
-     ;;     "Prepend cons cells describing prefix-arg ACTUAL-KEY and ACTUAL-KEY to TAIL
+       ;;   ;; Fix notmuch-describe-key for evil and spacemacs
+       ;;   (defun notmuch-describe-key (actual-key binding prefix ua-keys tail)
+       ;;     "Prepend cons cells describing prefix-arg ACTUAL-KEY and ACTUAL-KEY to TAIL
 
-     ;; It does not prepend if ACTUAL-KEY is already listed in TAIL."
-     ;;     (let ((key-string (concat prefix (key-description actual-key))))
-     ;;       ;; We don't include documentation if the key-binding is
-     ;;       ;; over-ridden. Note, over-riding a binding automatically hides the
-     ;;       ;; prefixed version too.
-     ;;       (unless (assoc key-string tail)
-     ;;         (when (and ua-keys (symbolp binding)
-     ;;                    (get binding 'notmuch-prefix-doc))
-     ;;           ;; Documentation for prefixed command
-     ;;           (let ((ua-desc (key-description ua-keys)))
-     ;;             (push (cons (concat ua-desc " " prefix (format-kbd-macro actual-key))
-     ;;                         (get binding 'notmuch-prefix-doc))
-     ;;                   tail)))
-     ;;         ;; Documentation for command
-     ;;         (push (cons key-string
-     ;;                     (or (and (symbolp binding) (get binding 'notmuch-doc))
-     ;;                         (and (functionp binding) (notmuch-documentation-first-line binding))))
-     ;;               tail)))
-     ;;     tail)
+       ;; It does not prepend if ACTUAL-KEY is already listed in TAIL."
+       ;;     (let ((key-string (concat prefix (key-description actual-key))))
+       ;;       ;; We don't include documentation if the key-binding is
+       ;;       ;; over-ridden. Note, over-riding a binding automatically hides the
+       ;;       ;; prefixed version too.
+       ;;       (unless (assoc key-string tail)
+       ;;         (when (and ua-keys (symbolp binding)
+       ;;                    (get binding 'notmuch-prefix-doc))
+       ;;           ;; Documentation for prefixed command
+       ;;           (let ((ua-desc (key-description ua-keys)))
+       ;;             (push (cons (concat ua-desc " " prefix (format-kbd-macro actual-key))
+       ;;                         (get binding 'notmuch-prefix-doc))
+       ;;                   tail)))
+       ;;         ;; Documentation for command
+       ;;         (push (cons key-string
+       ;;                     (or (and (symbolp binding) (get binding 'notmuch-doc))
+       ;;                         (and (functionp binding) (notmuch-documentation-first-line binding))))
+       ;;               tail)))
+       ;;     tail)
 
        (defun notmuch-show-exports-all-attachments (mm-handle directory)
          (let (attachments)
@@ -1827,8 +2135,8 @@
 
        (defun notmuch-make-temp-file (ext)
          "Create a temporary file with extension EXT. The file will
-     self-destruct in a few seconds, enough to open it in another
-     program."
+               self-destruct in a few seconds, enough to open it in another
+               program."
          (let ((tmpfile (make-temp-file
                          "notmuch-" nil (concat "." ext))))
            (lexical-let ((filename tmpfile))
@@ -2013,6 +2321,14 @@
      (evil-define-key 'insert term-raw-map (kbd "C-e") 'term-send-end)
    #+END_SRC
 
+** vterm
+#+begin_src emacs-lisp
+  (when (yang/doom-p)
+    (general-def
+      :keymaps 'doom-leader-map
+      "'" #'+vterm/toggle))
+#+end_src
+
 * pdf-tools
   #+BEGIN_SRC emacs-lisp
     (defun yang/xdg-reopen ()
@@ -2023,7 +2339,7 @@
     ;; copied from http://pragmaticemacs.com/emacs/even-more-pdf-tools-tweaks/
     (use-package pdf-tools
       :defer t
-      :ensure t
+      ;; :ensure t
       :bind (:map pdf-view-mode-map
                   ("C-s" . isearch-forward))
       :config
@@ -2038,8 +2354,10 @@
            (color . "#ffff00")
            (label . "Sheng Yang")
            (popup-is-open)))
-      (spacemacs/set-leader-keys-for-major-mode
-        'pdf-view-mode
+      (general-def
+        :keymaps 'pdf-view-mode
+        :states 'normal
+        :prefix "SPC"
         "t b" 'pdf-history-backward
         "t f" 'pdf-history-forward))
   #+END_SRC
@@ -2059,18 +2377,18 @@
     (add-hook 'doc-view-mode-hook 'auto-revert-mode)
   #+END_SRC
 
-* HiDPI
+* COMMENT HiDPI
   #+BEGIN_SRC emacs-lisp
-   (cond ((string-equal system-name "carbon") ; thinkpad X1 carbon
-          (progn
-            (with-eval-after-load 'org
-              (plist-put org-format-latex-options :scale 2.5))
-            (setq
-             preview-scale-function 2.5)
-            ;; for GUI called by emacs
-            (setenv "GDK_SCALE" "2")
-            (setenv "GDK_DPI_SCALE" "0.5")
-            )))
+    (cond ((string-equal system-name "carbon") ; thinkpad X1 carbon
+           (progn
+             (with-eval-after-load 'org
+               (plist-put org-format-latex-options :scale 2.5))
+             (setq
+              preview-scale-function 2.5)
+             ;; for GUI called by emacs
+             (setenv "GDK_SCALE" "2")
+             (setenv "GDK_DPI_SCALE" "0.5")
+             )))
   #+END_SRC
  
 * Lunar Calendar
@@ -2115,7 +2433,7 @@
        :init
        (setq
         cnfonts--current-profile "Monaco"
-        cnfonts-directory (concat dotspacemacs-directory "chinese-fonts-setup/")
+        cnfonts-directory (concat yang/dotemacs-dir "chinese-fonts-setup/")
         cnfonts-use-face-font-rescale nil)
        (customize-set-variable 'cnfonts-profiles
                                '("Monaco" "Source Code Pro" "Fira Code"))
@@ -2201,7 +2519,8 @@
 *** Enable cnfonts
    #+BEGIN_SRC emacs-lisp
      (cnfonts-enable)
-     (cnfonts-set-spacemacs-fallback-fonts)
+     (when (yang/spacemacs-p)
+       (cnfonts-set-spacemacs-fallback-fonts))
      (defun yang-server-create-window-system-frame-advice (&rest _)
        (setq yang-cnfonts-has-started nil)
        (cnfonts-set-font-first-time))
@@ -2226,16 +2545,15 @@
 ** ace-pinyin
    #+BEGIN_SRC emacs-lisp
      (use-package ace-pinyin
-       :defer t
        :config
        (setq ace-pinyin--jump-word-timeout 0.3)
-       (spacemacs/set-leader-keys "j j" 'ace-pinyin-jump-char-2)
-       ;; (spacemacs/set-leader-keys "j j" (lambda () (interactive) (ace-pinyin-jump-word t)))
+       ;; (yang/set-leader-keys "jj" (lambda () (interactive) (ace-pinyin-jump-word t)))
        )
+     (yang/set-leader-key "jj" 'ace-pinyin-jump-char-2)
    #+END_SRC
 
 * Browser
-** Using emacs to edit text area
+** COMMENT Using emacs to edit text area
    #+BEGIN_SRC emacs-lisp
      ;; check if the port for atomic-chrome is used or not
      ;; copied from https://github.com/dakrone/atomic-chrome/commit/79a5c17eef37b1e41590fc366cd16f2c4f3d46e4
@@ -2278,35 +2596,38 @@
    #+END_SRC
 
 * Bug-fixes
+** Spacemacs modeline
   #+BEGIN_SRC emacs-lisp
-    ;; modeline optimization/workarounds
-    (when (fboundp 'spacemacs/toggle-mode-line-responsive-off)
-      (spacemacs/toggle-mode-line-responsive-off))
+    (when (yang/spacemacs-p)
+      ;; modeline optimization/workarounds
+      (when (fboundp 'spacemacs/toggle-mode-line-responsive-off)
+        (spacemacs/toggle-mode-line-responsive-off))
 
-     ;; ipython cannot find gurobi license
-     (setenv "GRB_LICENSE_FILE" (concat (getenv "HOME") "/.config/gurobi.lic"))
+      ;; ipython cannot find gurobi license
+      (setenv "GRB_LICENSE_FILE" (concat (getenv "HOME") "/.config/gurobi.lic"))
 
-    (defun spacemacs//layout-wait-for-modeline (&rest r)
-      "AAAssure the mode-line is loaded before restoring the layouts."
-      (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline)
-      (when (and (configuration-layer/package-used-p 'spaceline)
-                 (memq (spacemacs/get-mode-line-theme-name) '(spacemacs all-the-icons custom)))
-        (require 'spaceline-config)))
+      (defun spacemacs//layout-wait-for-modeline (&rest r)
+        "AAAssure the mode-line is loaded before restoring the layouts."
+        (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline)
+        (when (and (configuration-layer/package-used-p 'spaceline)
+                   (memq (spacemacs/get-mode-line-theme-name) '(spacemacs all-the-icons custom)))
+          (require 'spaceline-config)))
 
-    (defun my-reload-modeline (&rest _args)
-      (message "in my-reload-modeline")
-      (spacemacs-modeline/init-spaceline)
-      (advice-remove 'server-create-window-system-frame #'my-reload-modeline))
+      (defun my-reload-modeline (&rest _args)
+        (message "in my-reload-modeline")
+        (spacemacs-modeline/init-spaceline)
+        (advice-remove 'server-create-window-system-frame #'my-reload-modeline))
 
-    ;; (with-eval-after-load 'persp-mode
-    ;;   (require 'spaceline)
-    ;;   (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline))
+      ;; (with-eval-after-load 'persp-mode
+      ;;   (require 'spaceline)
+      ;;   (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline))
 
-    (advice-add 'server-create-window-system-frame :after #'my-reload-modeline)
+      (advice-add 'server-create-window-system-frame :after #'my-reload-modeline))
   #+END_SRC
 ** ad-Advice-popwin:create-popup-window: Symbol's function definition is void: purpose-window-purpose-dedicated-p
    #+BEGIN_SRC emacs-lisp
-  (require 'window-purpose-core)
+     (when (yang/spacemacs-p)
+       (require 'window-purpose-core))
    #+END_SRC
 ** git-gutter+
    #+BEGIN_SRC emacs-lisp
@@ -2379,7 +2700,7 @@
   #+BEGIN_SRC emacs-lisp
     (require 'tramp)
     (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-    (setq tramp-default-method "ssh")
+    ;; (setq tramp-default-method "ssh")
   #+END_SRC
 
 ** Temp fix
@@ -2483,7 +2804,7 @@
            undo-tree-enable-undo-in-region nil
            undo-tree-history-directory-alist
            `(("." .
-              ,(concat dotspacemacs-directory ".cache/undo-tree/")))
+              ,(concat yang/dotemacs-dir ".cache/undo-tree/")))
            )
 
      (when (string= system-name "carbon")
@@ -2559,7 +2880,7 @@
        :defer t
        :after ibuffer
        :config
-       (spacemacs/set-leader-keys "b l"
+       (yang/set-leader-key "b l"
          #'(lambda (arg)
              (interactive "P")
              (with-persp-buffer-list () (ibuffer arg)))))
@@ -2594,6 +2915,34 @@
        (advice-add 'persp-load-state-from-file :filter-return 'yang-persp-switch-to-persp-after-load))
    #+END_SRC
 
+* Ledger
+#+BEGIN_SRC emacs-lisp
+  (when (yang/doom-p)
+    (general-def
+      :keymaps 'ledger-mode-map
+      :states 'normal
+      :prefix "SPC m"
+      "hd" 'ledger-delete-current-transaction
+      "a" 'ledger-add-transaction
+      "b" 'ledger-post-edit-amount
+      "c" 'ledger-toggle-current
+      "C" 'ledger-mode-clean-buffer
+      "l" 'ledger-display-ledger-stats
+      "p" 'ledger-display-balance-at-point
+      "q" 'ledger-post-align-xact
+      "r" 'ledger-reconcile
+      "R" 'ledger-report
+      "t" 'ledger-insert-effective-date)
+    (general-def
+      :keymaps 'ledger-reconcile-mode-map
+      :states 'normal
+      "," 'ledger-reconcile-toggle-posting
+      "TAB" 'ledger-reconcile-toggle
+      "a" 'ledger-reconcile-add
+      "q" 'ledger-reconcile-quit
+      "t" 'ledger-reconcile-change-target
+      "RET" 'ledger-reconcile-finish))
+#+END_SRC
 * helpful
   #+BEGIN_SRC emacs-lisp
     ;; Note that the built-in `describe-function' includes both functions
@@ -3019,6 +3368,26 @@
            (insert (format ":author: %s" new-string)))))
    #+end_src
 
+** Ledger-mode
+   #+begin_src emacs-lisp
+     (use-package ledger-mode
+       :config
+       (add-hook 'ledger-mode (lambda () (variable-pitch-mode -1)))
+       (setq ledger-amount-regex
+        (concat "\\(  \\|\t\\| \t\\)[ \t]*-?"
+                "\\([A-Z$€£₹¥_(]+ *\\)?"
+                ;; We either match just a number after the commodity with no
+                ;; decimal or thousand separators or a number with thousand
+                ;; separators.  If we have a decimal part starting with `,'
+                ;; or `.', because the match is non-greedy, it must leave at
+                ;; least one of those symbols for the following capture
+                ;; group, which then finishes the decimal part.
+                "\\(-?\\(?:[0-9]+\\|[0-9,.]+?\\)\\)"
+                "\\([,.][0-9)]+\\)?"
+                "\\( *[[:word:]€£₹¥_\"]+\\)?"
+                "\\([ \t]*[@={]@?[^\n;]+?\\)?"
+                "\\([ \t]+;.+?\\|[ \t]*\\)?$")))
+   #+end_src
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
    ;; fix problem with open-junk-file
