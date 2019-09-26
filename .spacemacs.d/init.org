@@ -2788,7 +2788,9 @@
 
      (defun yadm-magit-status ()
        (interactive)
-       (magit-status "/yadm::"))
+       (push (lambda () (projectile-mode -1)) magit-mode-hook)
+       (magit-status "/yadm::")
+       (setq magit-mode-hook (cdr magit-mode-hook)))
    #+END_SRC
 
 * Projectile
