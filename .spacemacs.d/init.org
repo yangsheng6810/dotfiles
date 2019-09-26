@@ -31,7 +31,8 @@
     ;; commented out since it may cause undo-tree corruption
     ;; (setq undo-tree-auto-save-history t)
 
-    (setq word-wrap nil)
+    (setq word-wrap nil
+          require-final-newline 'visit-save)
 
     ;; set tab-width
     (setq-default tab-width 8
