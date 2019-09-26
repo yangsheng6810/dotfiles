@@ -184,3 +184,11 @@ interval=once
 signal=11
 COLOR_ON=#FF0000
 HIDE_WHEN_OFF=1
+
+[keyindicator]
+KEY=NUM
+markup=pango
+interval=once
+signal=11
+COLOR_ON=#FF0000
+HIDE_WHEN_OFF=1
