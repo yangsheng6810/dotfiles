@@ -526,6 +526,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                  ;; latex-build-command "XeLaTeX"
                  latex-enable-auto-fill nil
                  latex-enable-folding t)
+          bibtex
           (chinese :variables
                    chinese-enable-fcitx t
                    chinese-enable-youdao-dict t)
