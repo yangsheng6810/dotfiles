@@ -299,12 +299,23 @@
 
        (defun yang/expand-region-wrap (arg)
          (interactive "p")
-         (er/expand-region arg)
-         (yang/hydra-expand/body))
+         (save-excursion
+           (er/expand-region arg)
+           (yang/hydra-expand/body)))
 
        (yang/set-leader-key "v" 'yang/expand-region-wrap)
        )
    #+end_src
+*** Temp fix
+    #+begin_src emacs-lisp
+      (when (yang/spacemacs-p)
+        (defun yang/fix-expand-region ()
+          (interactive)
+          (let* ((file (symbol-file #'er/save-org-mode-excursion)))
+            ;; (byte-force-recompile dir)
+            (byte-recompile-file file t)
+            (load-file file))))
+    #+end_src
 * General
   #+BEGIN_SRC emacs-lisp
     (setq system-time-locale "zh_CN.utf-8"
