@@ -515,7 +515,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           ;; use ledger for accounting
           finance
           csv
-          systemd)
+          systemd
+          yaml)
 
         yang/dotspacemacs-configuration-layers-cli
         '((chinese :variables
@@ -580,6 +581,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           lispy
           ;; and its evil companion
           evil-lispy
+          lispyville
           ;; smart M-< and M->
           beginend
           ;; try out etags with counsel
@@ -604,7 +606,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           org-pdfview ;; add pdfview link to org
           org-gcal    ;; sync calendar with google calendar
           zeal-at-point
-          langtool)
+          langtool
+          telega)
 
         yang/dotspacemacs-additional-packages-cli
         '(recursive-narrow)
