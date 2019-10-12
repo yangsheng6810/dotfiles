@@ -2396,7 +2396,11 @@
         :states 'normal
         :prefix "SPC"
         "t b" 'pdf-history-backward
-        "t f" 'pdf-history-forward))
+        "t f" 'pdf-history-forward)
+      (add-hook 'pdf-view-mode-hook #'pdf-links-minor-mode)
+      (add-hook 'pdf-view-mode-hook #'pdf-sync-minor-mode)
+      (add-hook 'pdf-view-mode-hook #'pdf-annot-minor-mode)
+      )
   #+END_SRC
 
 * doc-view
