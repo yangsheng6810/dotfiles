@@ -1558,76 +1558,75 @@
 
 ** org-ref
    #+BEGIN_SRC emacs-lisp
-          (setq reftex-default-bibliography '("~/Documents/org/bibliography/references.bib"))
+(setq reftex-default-bibliography '("~/Documents/org/bibliography/references.bib"))
 
-          ;; see org-ref for use of these variables
-          (setq org-ref-bibliography-notes "~/Documents/org/bibliography/notes.org"
-                org-ref-default-bibliography '("~/Documents/org/bibliography/references.bib")
-                org-ref-pdf-directory "~/Documents/Library/bibtex-pdfs/")
-          (setq bibtex-completion-bibliography "~/Documents/org/bibliography/references.bib"
-                bibtex-completion-library-path "~/Documents/Library/bibtex-pdfs"
-                bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
+;; see org-ref for use of these variables
+(setq org-ref-bibliography-notes "~/Documents/org/bibliography/notes.org"
+      org-ref-default-bibliography '("~/Documents/org/bibliography/references.bib")
+      org-ref-pdf-directory "~/Documents/Library/bibtex-pdfs/")
+(setq bibtex-completion-bibliography "~/Documents/org/bibliography/references.bib"
+      bibtex-completion-library-path "~/Documents/Library/bibtex-pdfs"
+      bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
 
-          (use-package org-ref
-            :commands (org-ref-insert-link
-                       org-ref-get-bibtex-key-and-file
-                       org-ref-bibtex-hydra/body
-                       org-ref-possible-bibfiles)
-            :bind (:map
-                   org-mode-map
-                    ("C-c ]" . org-ref-insert-link))
-            :config
-            (org-ref-ivy-cite-completion))
-     (when (yang/spacemacs-p)
-       (general-def
-         :keymaps 'bibtex-mode-map
-         "C-c h" #'org-ref-bibtex-hydra/body))
+(use-package org-ref
+  :commands (org-ref-insert-link
+             org-ref-get-bibtex-key-and-file
+             org-ref-bibtex-hydra/body
+             org-ref-possible-bibfiles)
+  :bind (:map
+          org-mode-map
+          ("C-c ]" . org-ref-insert-link))
+  :config
+  (org-ref-ivy-cite-completion))
+(general-def
+  :keymaps 'bibtex-mode-map
+  "C-c h" #'org-ref-bibtex-hydra/body)
 
-          (use-package org-ref-bibtex
-            :after (org-ref)
-            :commands (org-ref-bibtex-hydra/body)
-            :config
-            (defun yang/org-ref-open-bibtex-pdf ()
-              "Open pdf for a bibtex entry, if it exists.
+(use-package org-ref-bibtex
+  :after (org-ref)
+  :commands (org-ref-bibtex-hydra/body)
+  :config
+  (defun yang/org-ref-open-bibtex-pdf ()
+    "Open pdf for a bibtex entry, if it exists.
           assumes point is in
           the entry of interest in the bibfile.  but does not check that."
-              (interactive)
-              (save-excursion
-                (bibtex-beginning-of-entry)
-                (let* ((bibtex-expand-strings t)
-                       (entry (bibtex-parse-entry t))
-                       (key (reftex-get-bib-field "=key=" entry))
-                       (pdf (funcall org-ref-get-pdf-filename-function key)))
-                  (if (file-exists-p pdf)
-                      (call-process-shell-command (concat "xdg-open " pdf) nil 0 nil)
-                    (message "no pdf found for %s" key)))))
+    (interactive)
+    (save-excursion
+      (bibtex-beginning-of-entry)
+      (let* ((bibtex-expand-strings t)
+             (entry (bibtex-parse-entry t))
+             (key (reftex-get-bib-field "=key=" entry))
+             (pdf (funcall org-ref-get-pdf-filename-function key)))
+        (if (file-exists-p pdf)
+            (call-process-shell-command (concat "xdg-open " pdf) nil 0 nil)
+          (message "no pdf found for %s" key)))))
 
-            (defun yang/org-ref-bibtex-update-hydra ()
-              (defhydra+ org-ref-bibtex-hydra ()
-                ("P" yang/org-ref-open-bibtex-pdf "Open pdf with xdg-open")))
+  (defun yang/org-ref-bibtex-update-hydra ()
+    (defhydra+ org-ref-bibtex-hydra ()
+      ("P" yang/org-ref-open-bibtex-pdf "Open pdf with xdg-open")))
 
-            (yang/org-ref-bibtex-update-hydra))
+  (yang/org-ref-bibtex-update-hydra))
 
-          (use-package org-ref-ivy-cite
-            :after (org-ref)
-            :commands (org-ref-cite-hydra/body org-ref-ivy-insert-cite-link)
-            :config
-            (defun yang/org-ref-open-pdf-at-point ()
-              "Open the pdf for bibtex key under point with xdg-open if it exists."
-              (interactive)
-              (let* ((results (org-ref-get-bibtex-key-and-file))
-                     (key (car results))
-                     (pdf-file (funcall org-ref-get-pdf-filename-function key)))
-                (if (file-exists-p pdf-file)
-                    (call-process-shell-command (concat "xdg-open " pdf-file) nil 0 nil)
-                  (message "no pdf found for %s" key))))
+(use-package org-ref-ivy-cite
+  :after (org-ref)
+  :commands (org-ref-cite-hydra/body org-ref-ivy-insert-cite-link)
+  :config
+  (defun yang/org-ref-open-pdf-at-point ()
+    "Open the pdf for bibtex key under point with xdg-open if it exists."
+    (interactive)
+    (let* ((results (org-ref-get-bibtex-key-and-file))
+           (key (car results))
+           (pdf-file (funcall org-ref-get-pdf-filename-function key)))
+      (if (file-exists-p pdf-file)
+          (call-process-shell-command (concat "xdg-open " pdf-file) nil 0 nil)
+        (message "no pdf found for %s" key))))
 
-            ;; (defhydra+ org-ref-cite-hydra ()
-            ;;   ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open"))
-            )
+  ;; (defhydra+ org-ref-cite-hydra ()
+  ;;   ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open"))
+  )
 
-          (use-package parsebib
-            :commands (parsebib-find-bibtex-dialect))
+(use-package parsebib
+  :commands (parsebib-find-bibtex-dialect))
    #+END_SRC
 
 * LaTeX
