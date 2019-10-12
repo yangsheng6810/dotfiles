@@ -287,6 +287,8 @@
        :diminish (beginend-global-mode
                   beginend-bs-mode
                   beginend-prog-mode
+                  beginend-org-mode
+                  beginend-outline-mode
                   beginend-compilation-mode))
 
      (beginend-global-mode)
