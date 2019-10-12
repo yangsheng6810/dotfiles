@@ -58,6 +58,17 @@ bindsym $mod+Shift+Return exec terminator -T floating
 for_window [class="Terminator" title="floating"] floating enable
 
 for_window [class="Eog"] floating enable
+for_window [class="Totem"] resize set width 35 ppt
+for_window [class="Pavucontrol"] resize set width 25 ppt, resize set height 50 ppt
+for_window [class="Slack"] move container to workspace $ws7
+
+# when opening history from firefox, open it as a vertical split
+for_window [class="firefox" instance="Places"] mark firefox_places, split vertical, [class="firefox" instance="Navigator" workspace=__focused__] focus, move window to mark firefox_places, move up, [class="firefox"] unmark
+
+# split current two window 65:35
+bindsym $mod+w mark my_current, focus left, resize set width 65 ppt, [con_mark="my_current"] focus, unmark "my_current"
+# split current two window 50:50
+bindsym $mod+equal mark my_current, focus left, resize set width 50 ppt, [con_mark="my_current"] focus, unmark "my_current"
 
 # kill focused window
 bindsym $mod+Shift+q kill
