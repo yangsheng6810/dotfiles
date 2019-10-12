@@ -35,7 +35,7 @@ floating_modifier $mod
 # delete or uncomment the following lines if you do not have it or do not
 # want it
 for_window [class="^.*"] border pixel 2
-# hide_edge_borders horizontal
+hide_edge_borders horizontal
 gaps inner 10
 gaps outer 0
 # Only enable gaps on a workspace when there is at least one container
