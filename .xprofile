@@ -13,5 +13,6 @@ fi
 # alias firefox='optirun --failsafe firefox'
 # alias smplayer='optirun --failsafe smplayer'
 if [ "$HOSTNAME" = "carbon" ]; then
-    xrandr --output eDP1 --scale 1.25x1.25
+# xrandr --output eDP1 --scale 1.25x1.25
+    xrandr --output eDP1 --scale 1x1 --mode 1920x1080
 fi
