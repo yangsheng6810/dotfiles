@@ -355,7 +355,7 @@
      (setq purpose-layout-dirs
            (list (concat yang/dotemacs-dir "layouts/")))
    #+end_src
-** Terminal
+** COMMENT Terminal
    #+begin_src emacs-lisp
      (defun yang/load-theme-according-to-gui ()
        (message "yang: load theme...")
