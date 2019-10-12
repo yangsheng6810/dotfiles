@@ -304,6 +304,29 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym Control+Print exec playerctl play-pause
 
+# For KDE
+# we use wmctrl to kill the Plasma desktop view:
+exec --no-startup-id wmctrl -c Plasma
+for_window [title="Desktop — Plasma"] kill; floating enable; border none
+# i3 Urgent workspace feature
+# A possible solution, in the i3 configuration:
+force_display_urgency_hint 0 ms
+focus_on_window_activation urgent
+
+# Don’t spawn an empty window for the Plasma Desktop
+for_window [title="Desktop — Plasma"] kill, floating enable, border none
+
+# Avoid tiling popups, dropdown windows from plasma
+# for the first time, manually resize them, i3 will remember the setting for floating windows
+for_window [class="plasmashell"] floating enable
+for_window [class="Plasma"] floating enable, border none
+for_window [title="plasma-desktop"] floating enable, border none
+for_window [title="win7"] floating enable, border none
+for_window [class="krunner"] floating enable, border none
+for_window [class="Kmix"] floating enable, border none
+for_window [class="Klipper"] floating enable, border none
+for_window [class="Plasmoidviewer"] floating enable, border none
+
 # lock screen after 20 mins
 exec --no-startup-id xset s 1200 120
 # exec --no-startup-id xss-lock -- $Locker
