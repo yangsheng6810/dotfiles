@@ -15,6 +15,8 @@ if not title_find:
     title_find = soup.find_all("h2")
 if not title_find:
     title_find = soup.find_all("h1")
+if not title_find:
+    title_find = soup.find_all("div", {"class": "title_page"})
 title = title_find[0].text
 
 body_find = soup.find_all("p", {"class":"articlecontent"})
@@ -26,6 +28,8 @@ if not body_find:
     body_find = soup.find_all("div", {"id":"htmlContent"})
 if not body_find:
     body_find = soup.find_all("div", {"id":"content"})
+if not body_find:
+    body_find = soup.find_all("div", {"class":"content"})
 body = body_find[0].text
 
 output_file = "out_" + input_file
