@@ -2,22 +2,36 @@
 * Framework Compatibility
   #+BEGIN_SRC emacs-lisp
     ;;; -*- lexical-binding: t -*-
+    ;; enable lexical binding
     (setq-default lexical-binding t)
     (setq-default yang/dotemacs-framework nil
                   yang/dotemacs-dir (expand-file-name "~/.emacs.d/")
                   yang/config-dir "")
-    (defun yang/spacemacs-p () nil)
-    (defun yang/doom-p () nil)
+    (defun yang/spacemacs-p ()
+      "Returns t if in spacemacs, nil otherwise"
+      nil)
+    (defun yang/doom-p ()
+      "Returns t if in doom emacs, nil otherwise"
+      nil)
+
+    ;; When we are in spacemacs
     (when (boundp 'dotspacemacs-directory)
       (setq yang/dotemacs-framework 'spacemacs
             yang/dotemacs-dir dotspacemacs-directory
             yang/doom-p nil)
-      (defun yang/spacemacs-p () t))
+      (defun yang/spacemacs-p ()
+        "Returns t if in spacemacs, nil otherwise"
+        t))
+
+    ;; When we are in doom emacs
     (when (boundp 'doom-emacs-dir)
       (setq yang/dotemacs-framework 'doom
             yang/dotemacs-dir doom-private-dir)
-      (defun yang/doom-p () t))
+      (defun yang/doom-p ()
+        "Returns t if in doom emacs, nil otherwise"
+        t))
 
+    ;; Uniform interface to edit leader key
     (defmacro yang/set-leader-key (key func)
       (pcase yang/dotemacs-framework
         ('doom `(general-def
