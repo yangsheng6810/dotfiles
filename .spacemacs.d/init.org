@@ -379,7 +379,7 @@
     (setq use-default-font-for-symbols nil)
 
     ;; Colorize strings that represent colors.
-    (add-hook 'prog-mode-hook 'rainbow-mode)
+    ;; (add-hook 'prog-mode-hook 'rainbow-mode)
 
     (unless (fboundp 'spacemacs/diminish-undo)
       (defun spacemacs/diminish-undo (mode)
