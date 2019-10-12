@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-import errno
-import sh
+# import errno
 import os,sys
 import json
+import sh
 
 notify_send = None
 notmuch = None
+
 
 def instance_already_running():
     try:
@@ -15,6 +16,7 @@ def instance_already_running():
     except sh.ErrorReturnCode_1:
         pass
 
+
 def sync_with_gmail():
     global notify_send
     try:
@@ -23,8 +25,20 @@ def sync_with_gmail():
         output = str(sh.Command("gmi")("sync"))
         print(output)
     except sh.ErrorReturnCode_1:
+        print("error syncing mbsync")
+        notify_send("Error syncing mbsync")
+
+
+def sync_with_fastmail():
+    global notify_send
+    try:
+        print("fastmail syncing")
+        output = str(sh.Command("mbsync")("-a"))
+        print(output)
+    except sh.ErrorReturnCode_1:
         print("error syncing gmi")
         notify_send("Error syncing gmi")
+
 
 def sync_with_muchsync():
     global notify_send
@@ -64,10 +78,12 @@ def init_tags():
     afew = sh.Command("afew")
     afew("-t", "-n")
 
+
 def finish_tags():
     global notmuch
     print("Finishing tagging...")
     notmuch("tag", "-new", "--", "tag:new")
+
 
 def main():
     global notify_send, notmuch
@@ -82,10 +98,12 @@ def main():
         do_gmi = True
 
     if do_gmi:
-        sync_with_gmail()
+        # sync_with_gmail()
+        sync_with_fastmail()
     init_tags()
     notify_new()
-    sync_with_muchsync()
+    finish_tags()
+    # sync_with_muchsync()
 
 if __name__ == '__main__':
     main()
