@@ -45,10 +45,10 @@ signal=10
 # Memory usage
 #
 # The type defaults to "mem" if the instance is not specified.
-[memory]
-label=
-# separator=false
-interval=30
+# [memory]
+# label=
+# # separator=false
+# interval=30
 
 # [memory]
 # label=SWAP
@@ -125,9 +125,9 @@ interval=10
 #T_CRIT=90
 #SENSOR_CHIP=""
 
-[load_average]
-label=:
-interval=10
+# [load_average]
+# label=:
+# interval=10
 
 # Battery indicator
 #
