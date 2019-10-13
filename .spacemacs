@@ -613,7 +613,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
         '(recursive-narrow)
 
         yang/dotspacemacs-additional-packages
-        (if (string= system-name "carbon")
+        (if (or (string= system-name "carbon")
+                (string= system-name "Desktop"))
             (append
              yang/dotspacemacs-additional-packages-base
              yang/dotspacemacs-additional-packages-gui)
