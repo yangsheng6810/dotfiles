@@ -15,12 +15,23 @@ fi
 # For use in multi-term in emacs
 # Allows emacs to get the current dir
 if [ -n "$INSIDE_EMACS" ]; then
-    chpwd() {
+    # For vterm in emacs
+    if [ "$INSIDE_EMACS" = "vterm" ]; then
+        # function chpwd() {
+        #     print -Pn "\e]51;A$(pwd)\e\\";
+        # }
+        function chpwd() {
+            print -Pn "\e]51A;$(whoami)@$(hostname):$(pwd)\e\\"
+        }
+    else
+        chpwd() {
+            print -P "\033AnSiTc %d"
+        }
+        print -P "\033AnSiTu %n"
         print -P "\033AnSiTc %d"
-    }
-    print -P "\033AnSiTu %n"
-    print -P "\033AnSiTc %d"
+    fi
 fi
+
 
 # Fix zsh-autosuggestion color scheme
 if [ -n "$INSIDE_EMACS" ]; then
