@@ -2830,9 +2830,12 @@
 
      (defun yadm-magit-status ()
        (interactive)
-       (push (lambda () (projectile-mode -1)) magit-mode-hook)
-       (magit-status "/yadm::")
-       (setq magit-mode-hook (cdr magit-mode-hook)))
+       (let ((magit-mode-hook
+              (-cons*
+               (lambda () (projectile-mode -1))
+               (lambda () (when (fboundp #'magit-todos-mode) (magit-todos-mode -1)))
+               magit-mode-hook)))
+         (magit-status "/yadm::")))
    #+END_SRC
 
 * Projectile
