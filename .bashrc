@@ -58,7 +58,8 @@ LANG="en_US.UTF-8"
 if [ -z ${HOSTNAME+x} ]; then
     HOSTNAME="`hostname`"
 fi
-if [ "$HOSTNAME" = "optimizer.cs.umd.edu" ] ;then
+if [ "$HOSTNAME" = "optimizer.cs.umd.edu" ] ||
+   [ "$HOSTNAME" = "osprey.cs.northwestern.edu" ] ;then
     if [ "$SHELL" == "/bin/bash" ] ;then
         export LC_ALL=""
         export LANG="en_US.UTF-8"
