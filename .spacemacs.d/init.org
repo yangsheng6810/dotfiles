@@ -2367,6 +2367,10 @@
     (general-def
       :keymaps 'doom-leader-map
       "'" #'+vterm/toggle))
+  (use-package vterm
+    :init
+    (setq vterm-term-environment-variable "eterm-color"
+          vterm-shell "/usr/bin/zsh"))
 #+end_src
 
 * pdf-tools
