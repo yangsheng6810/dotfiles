@@ -1697,6 +1697,8 @@
       :commands (LaTeX-math-mode))
     (add-hook 'LaTeX-mode-hook #'yang/LaTeX-setup)
     (add-hook 'org-mode-hook #'LaTeX-math-mode)
+(when (yang/doom-p)
+  (setq +latex-viewers '(pdf-tools skim evince sumatrapdf zathura okular)))
   #+END_SRC
 
 ** preview
