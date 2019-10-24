@@ -1649,8 +1649,6 @@
 
 * LaTeX
   #+BEGIN_SRC emacs-lisp
-      (setq TeX-output-view-style
-            (cons '("^pdf$" "." "evince  %o ") TeX-output-view-style))
         ;; LaTeX hook
         (defun yang/LaTeX-setup ()
           (turn-on-reftex)
@@ -1666,6 +1664,15 @@
           ;;     '(preview-fast-dvips-command "pdftops -origpagesizes %s.pdf %m/preview.ps"))
           (setq TeX-save-query nil)
           (setq TeX-parse-self t)
+          ;; Use pdf-tools to open PDF files
+          (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+                TeX-source-correlate-start-server t)
+
+          ;; Update PDF buffers after successful LaTeX runs
+          (add-hook 'TeX-after-compilation-finished-functions
+                    #'TeX-revert-document-buffer)
+          ;; (setq TeX-output-view-style
+          ;;       (cons '("^pdf$" "." "evince  %o ") TeX-output-view-style))
           ;; (set-default 'preview-default-document-pt 12)
           ;; (set-default 'preview-scale-function 1.2)
           ;; (setq preview-required-option-list
@@ -2405,6 +2412,10 @@
       :bind (:map pdf-view-mode-map
                   ("C-s" . isearch-forward))
       :config
+      ;; open LaTeX pdf file in split window
+      (setq pdf-sync-backward-display-action t)
+      (setq pdf-sync-forward-display-action t)
+
       (setq-default pdf-view-display-size 'fit-page)
       ;; automatically annotate highlights
       (setq pdf-annot-activate-created-annotations t)
