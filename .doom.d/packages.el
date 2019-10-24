@@ -49,3 +49,4 @@
 (package! org-gcal)
 (package! telega)
 (package! slack)
+(package! popwin)
