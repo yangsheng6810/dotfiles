@@ -39,6 +39,24 @@
                   ,key ,func))
         ('spacemacs `(spacemacs/set-leader-keys
                        ,key ,func))))
+
+    (defmacro yang/with-spacemacs (&rest body)
+      (declare (indent 0) (debug t))
+      (when (yang/spacemacs-p)
+        `(progn
+           ,@body)))
+
+    (defmacro yang/with-doom (&rest body)
+      (declare (indent 0) (debug t))
+      (when (yang/doom-p)
+        `(progn
+           ,@body)))
+
+    ;; (yang/with-spacemacs
+    ;;   (message "in spacemacs"))
+
+    ;; (yang/with-doom
+    ;;   (message "in doom"))
 #+END_SRC
 * General Editing
   #+BEGIN_SRC emacs-lisp
@@ -56,7 +74,7 @@
     (global-linum-mode -1)
 
     ;; turn on highlight-current-line-globally
-    (when (yang/spacemacs-p)
+    (yang/with-spacemacs
       (spacemacs/toggle-highlight-current-line-globally-off))
 
     (global-unset-key (kbd "M-SPC"))
@@ -110,7 +128,7 @@
      (use-package swiper
        :config
        (progn
-         (when (yang/spacemacs-p)
+         (yang/with-spacemacs
            (spacemacs/set-leader-keys
              "ss" 'swiper
              "sS" 'spacemacs/swiper-region-or-symbol
@@ -325,7 +343,7 @@
    #+end_src
 *** Temp fix
     #+begin_src emacs-lisp
-      (when (yang/spacemacs-p)
+      (yang/with-spacemacs
         (defun yang/fix-expand-region ()
           (interactive)
           (let* ((file (symbol-file #'er/save-org-mode-excursion)))
@@ -363,7 +381,7 @@
        (when (string-equal "terminal" server-name)
          (load-theme 'spacemacs-dark)))
 
-     (when (yang/spacemacs-p)
+     (yang/with-spacemacs
        (yang/load-theme-according-to-gui)
        (add-hook 'before-make-frame-hook #'yang/load-theme-according-to-gui))
    #+end_src
@@ -422,7 +440,7 @@
     ;;   :init (spacemacs/diminish-undo 'which-key-mode)
     ;;   :diminish which-key-mode)
 
-    (when (yang/spacemacs-p)
+    (yang/with-spacemacs
      (use-package which-key
        :after (core-fonts-support)
        :config (spacemacs/diminish-undo 'which-key-mode)
@@ -492,10 +510,10 @@
        )
 
      (yang/fix-line-number)
-     (when (yang/doom-p)
+     (yang/with-doom
        (add-hook 'doom-load-theme-hook #'yang/fix-line-number))
 
-     (when (yang/spacemacs-p)
+     (yang/with-spacemacs
        (use-package theming
          :defer t
          :init
@@ -938,12 +956,12 @@
    #+end_src
 ** Fix doom
 #+begin_src emacs-lisp
-  (when (yang/doom-p)
+  (yang/with-doom
     (remove-hook! 'text-mode-hook #'hl-fill-column-mode))
 #+end_src
 ** Default keybindings
 #+BEGIN_SRC emacs-lisp
-  (when (yang/doom-p)
+  (yang/with-doom
     (map! :leader
           :desc "Eval expression"       ";"    #'eval-expression
           :desc "M-x"                   "SPC"    #'execute-extended-command
@@ -977,7 +995,7 @@
 
 * Compatible Keyboard for Doom
 #+begin_src emacs-lisp
-  (when (yang/doom-p)
+  (yang/with-doom
     (defun spacemacs/ivy-spacemacs-layouts ()
       (interactive)
       (ivy-read "Layouts: "
@@ -1111,7 +1129,7 @@
       (add-hook 'minibuffer-setup-hook 'conditionally-enable-lispy)
       :diminish lispy-mode)
 
-    (when (yang/doom-p)
+    (yang/with-doom
       (setq doom-scratch-buffer-major-mode 'emacs-lisp-mode))
   #+end_src
 * Org-mode
@@ -1144,7 +1162,7 @@
       (plist-put org-format-latex-options :scale 1.66)
 
       (defun yang/org-mode-setup ()
-        (when (yang/doom-p)
+        (yang/with-doom
           (hl-fill-column-mode -1))
         (visual-line-mode 1)
         (variable-pitch-mode 1)
@@ -1257,7 +1275,7 @@
          ;; will add the new entry as a child entry.
          (goto-char (point-min)))
 
-       (when (yang/spacemacs-p)
+       (yang/with-spacemacs
          (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
          (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
          (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map))
@@ -1631,74 +1649,74 @@
 
 * LaTeX
   #+BEGIN_SRC emacs-lisp
-    ;; LaTeX hook
-    (defun yang/LaTeX-setup ()
-      (turn-on-reftex)
-      (add-to-list 'TeX-command-list '
-                   ("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
-      (setq TeX-auto-save t)
-      (LaTeX-math-mode)
-      (imenu-add-menubar-index)
-      ;; (setq LaTeX-command-style
-      ;;       (quote (("\\`fontspec\\'" "xelatex ")
-      ;;               ("" "%(PDF)%(latex) %S%(PDFout)"))))
-      ;; (custom-set-variables
-      ;;     '(preview-fast-dvips-command "pdftops -origpagesizes %s.pdf %m/preview.ps"))
-      (setq TeX-save-query nil)
-      (setq TeX-parse-self t)
       (setq TeX-output-view-style
             (cons '("^pdf$" "." "evince  %o ") TeX-output-view-style))
-      ;; (set-default 'preview-default-document-pt 12)
-      ;; (set-default 'preview-scale-function 1.2)
-      ;; (setq preview-required-option-list
-      ;; 	  (quote ("active" "tightpage" "auctex" "xetex" (preview-preserve-counters "counters"))))
-      (setq preview-default-option-list
-            (quote ("displaymath" "floats" "graphics" "textmath" "showlabels")))
-      (TeX-engine-set "default")
-      (LaTeX-add-environments
-       "definition"
-       "example"
-       "tikzpicture"
-       "corallary"
-       "align*"
-       "theorem"
-       "proof"
-       "lemma"
-       ;; '("tikzpicture" LaTeX-env-tikz)
-       )
-      ;; enable TeX-fold-buffer
-      (add-hook 'find-file-hook 'TeX-fold-buffer t t)
-      (setq preview-auto-cache-preamble t)
-      (rainbow-delimiters-mode-enable)
-      (setq fill-column 10000)
-      (setq company-idle-delay 0.2)
-      ;; (turn-off-auto-fill)
-      (olivetti-mode 1)
-      ;; (define-key LaTeX-mode-map (kbd "C-s") #'yang/swiper)
+        ;; LaTeX hook
+        (defun yang/LaTeX-setup ()
+          (turn-on-reftex)
+          (add-to-list 'TeX-command-list '
+                       ("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+          (setq TeX-auto-save t)
+          (LaTeX-math-mode)
+          (imenu-add-menubar-index)
+          ;; (setq LaTeX-command-style
+          ;;       (quote (("\\`fontspec\\'" "xelatex ")
+          ;;               ("" "%(PDF)%(latex) %S%(PDFout)"))))
+          ;; (custom-set-variables
+          ;;     '(preview-fast-dvips-command "pdftops -origpagesizes %s.pdf %m/preview.ps"))
+          (setq TeX-save-query nil)
+          (setq TeX-parse-self t)
+          ;; (set-default 'preview-default-document-pt 12)
+          ;; (set-default 'preview-scale-function 1.2)
+          ;; (setq preview-required-option-list
+          ;; 	  (quote ("active" "tightpage" "auctex" "xetex" (preview-preserve-counters "counters"))))
+          (setq preview-default-option-list
+                (quote ("displaymath" "floats" "graphics" "textmath" "showlabels")))
+          (TeX-engine-set "default")
+          (LaTeX-add-environments
+           "definition"
+           "example"
+           "tikzpicture"
+           "corallary"
+           "align*"
+           "theorem"
+           "proof"
+           "lemma"
+           ;; '("tikzpicture" LaTeX-env-tikz)
+           )
+          ;; enable TeX-fold-buffer
+          (add-hook 'find-file-hook 'TeX-fold-buffer t t)
+          (setq preview-auto-cache-preamble t)
+          (rainbow-delimiters-mode-enable)
+          (setq fill-column 10000)
+          (setq company-idle-delay 0.2)
+          ;; (turn-off-auto-fill)
+          (olivetti-mode 1)
+          ;; (define-key LaTeX-mode-map (kbd "C-s") #'yang/swiper)
 
-      (when (yang/spacemacs-p)
-        (spacemacs/set-leader-keys-for-major-mode 'latex-mode
-          "zc" 'TeX-fold-comment))
+          (yang/with-spacemacs
+            (spacemacs/set-leader-keys-for-major-mode 'latex-mode
+              "zc" 'TeX-fold-comment))
 
-      (when (yang/doom-p)
-        (hl-line-mode -1)
-        (hl-fill-column-mode -1)
-        (variable-pitch-mode 1))
+          (yang/with-doom
+            (hl-line-mode -1)
+            (hl-fill-column-mode -1)
+            (variable-pitch-mode 1))
 
-      (defun yang/LaTeX-narrow-to-section ()
-        (interactive)
-        (save-excursion
-          (LaTeX-mark-section)
-          (narrow-to-region (point) (mark))
-          (deactivate-mark)))
-      )
+          (defun yang/LaTeX-narrow-to-section ()
+            (interactive)
+            (save-excursion
+              (LaTeX-mark-section)
+              (narrow-to-region (point) (mark))
+              (deactivate-mark)))
+          )
 
-    (use-package latex
-      :commands (LaTeX-math-mode))
-    (add-hook 'LaTeX-mode-hook #'yang/LaTeX-setup)
-    (add-hook 'org-mode-hook #'LaTeX-math-mode)
-(when (yang/doom-p)
-  (setq +latex-viewers '(pdf-tools skim evince sumatrapdf zathura okular)))
+        (use-package latex
+          :commands (LaTeX-math-mode))
+        (add-hook 'LaTeX-mode-hook #'yang/LaTeX-setup)
+        (add-hook 'org-mode-hook #'LaTeX-math-mode)
+    (yang/with-doom
+      (setq +latex-viewers '(pdf-tools skim evince sumatrapdf zathura okular)))
   #+END_SRC
 
 ** preview
@@ -2014,7 +2032,7 @@
   ;; (defvar +notmuch-mail-folder "~/.mail/account.gmail"
   ;;   "Where your email folder is located (for use with gmailieer).")
 
-  (when (yang/doom-p)
+  (yang/with-doom
     (after! notmuch
             (set-company-backend! 'notmuch-message-mode
                                   '(notmuch-company :with company-ispell company-yasnippet))
@@ -2363,7 +2381,7 @@
 
 ** vterm
 #+begin_src emacs-lisp
-  (when (yang/doom-p)
+  (yang/with-doom
     (general-def
       :keymaps 'doom-leader-map
       "'" #'+vterm/toggle))
@@ -2408,7 +2426,7 @@
       (add-hook 'pdf-view-mode-hook #'pdf-sync-minor-mode)
       (add-hook 'pdf-view-mode-hook #'pdf-annot-minor-mode)
       (add-hook 'pdf-view-mode-hook #'pdf-misc-context-menu-minor-mode)
-      (when (yang/doom-p)
+      (yang/with-doom
         (general-def
           :keymaps 'pdf-view-mode-map
           :states '(override normal motion visual)
@@ -2596,7 +2614,7 @@
 *** Enable cnfonts
    #+BEGIN_SRC emacs-lisp
      (cnfonts-enable)
-     (when (yang/spacemacs-p)
+     (yang/with-spacemacs
        (cnfonts-set-spacemacs-fallback-fonts))
      (defun yang-server-create-window-system-frame-advice (&rest _)
        (setq yang-cnfonts-has-started nil)
@@ -2675,7 +2693,7 @@
 * Bug-fixes
 ** Spacemacs modeline
   #+BEGIN_SRC emacs-lisp
-    (when (yang/spacemacs-p)
+    (yang/with-spacemacs
       ;; modeline optimization/workarounds
       (when (fboundp 'spacemacs/toggle-mode-line-responsive-off)
         (spacemacs/toggle-mode-line-responsive-off))
@@ -2703,7 +2721,7 @@
   #+END_SRC
 ** ad-Advice-popwin:create-popup-window: Symbol's function definition is void: purpose-window-purpose-dedicated-p
    #+BEGIN_SRC emacs-lisp
-     (when (yang/spacemacs-p)
+     (yang/with-spacemacs
        (require 'window-purpose-core))
    #+END_SRC
 ** git-gutter+
@@ -2883,24 +2901,24 @@
 * Debug
 ** undo-tree
    #+BEGIN_SRC emacs-lisp
-(if (yang/doom-p)
-    (use-package undo-tree
-      :after-call doom-switch-buffer-hook after-find-file
-      :config
-      (setq undo-tree-auto-save-history t
-            undo-tree-enable-undo-in-region nil
-            undo-tree-history-directory-alist
-            `(("." .
-               ,(concat yang/dotemacs-dir ".cache/undo-tree/")))
-            ))
-  (setq undo-tree-auto-save-history t
-        undo-tree-enable-undo-in-region nil
-        undo-tree-history-directory-alist
-        `(("." .
-           ,(concat yang/dotemacs-dir ".cache/undo-tree/")))))
+     (yang/with-doom
+         (use-package undo-tree
+           :after-call doom-switch-buffer-hook after-find-file
+           :config
+           (setq undo-tree-auto-save-history t
+                 undo-tree-enable-undo-in-region nil
+                 undo-tree-history-directory-alist
+                 `(("." .
+                    ,(concat yang/dotemacs-dir ".cache/undo-tree/")))
+                 ))
+       (setq undo-tree-auto-save-history t
+             undo-tree-enable-undo-in-region nil
+             undo-tree-history-directory-alist
+             `(("." .
+                ,(concat yang/dotemacs-dir ".cache/undo-tree/")))))
 
-(when (string= system-name "carbon")
-  (load "~/git/undo-tree/undo-tree.el"))
+     (when (string= system-name "carbon")
+       (load "~/git/undo-tree/undo-tree.el"))
    #+END_SRC
 
 * Semantic
@@ -3008,7 +3026,7 @@
 
 * Ledger
 #+BEGIN_SRC emacs-lisp
-  (when (yang/doom-p)
+  (yang/with-doom
     (general-def
       :keymaps 'ledger-mode-map
       :states 'normal
