@@ -993,6 +993,21 @@
                               :desc "Switch to final workspace" "0"   #'+workspace/switch-to-final))))
 #+END_SRC
 
+** Popwin
+   #+begin_src emacs-lisp
+     (use-package popwin
+       :config
+       ;; M-x dired-jump-other-window
+       (push '(dired-mode :position top) popwin:special-display-config)
+       ;; calendar always as a popup
+       (push '(calendar-mode :height 15 :position bottom) popwin:special-display-config)
+       ;; ;; helpful
+       ;; ;; need :dedicated to be able to jump from there
+       ;; (push '(helpful-mode :position right :width 120 :dedicated t) popwin:special-display-config)
+       )
+
+     (popwin-mode 1)
+   #+end_src
 * Compatible Keyboard for Doom
 #+begin_src emacs-lisp
   (yang/with-doom
