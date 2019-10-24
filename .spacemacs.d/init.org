@@ -2783,10 +2783,11 @@
 ** Temp fix
    Already fixed upstream, but not in Arch official repo
    #+BEGIN_SRC emacs-lisp
-     (if (not (version< emacs-version "26.0" ))
+     (if (and (version<= "26.0" emacs-version)
+              (version< emacs-version "27.0"))
          (defun term-handle-ansi-terminal-messages (message)
            ;; Handle stored partial message
-           (when term-partial-ansi-terminal-message
+           (when (bound-and-true-p term-partial-ansi-terminal-message)
              (setq message (concat term-partial-ansi-terminal-message message))
              (setq term-partial-ansi-terminal-message nil))
 
