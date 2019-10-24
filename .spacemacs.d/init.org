@@ -1741,7 +1741,7 @@
       (setq +latex-viewers '(pdf-tools skim evince sumatrapdf zathura okular)))
   #+END_SRC
 
-** preview
+** COMMENT preview
    adapted from [[https://emacs.stackexchange.com/questions/406/see-latex-code-and-math-preview-at-the-same-time-with-preview-latex][keep old preview visible when editing]]
    #+begin_src emacs-lisp
      (with-eval-after-load 'preview
