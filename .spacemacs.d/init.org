@@ -2086,10 +2086,12 @@
 #+end_src
 ** notmuch
    #+BEGIN_SRC emacs-lisp
-     (condition-case err
-         (use-package ol-notmuch
-           :after org)
-       (message "Require of ol-notmuch failed as expected."))
+     (with-eval-after-load 'org
+       (condition-case err
+           (require 'org-notmuch)
+         (error (progn
+                  (message "Require of org-notmuch failed as expected.")
+                  (require 'ol-notmuch)))))
      (with-eval-after-load 'notmuch
        (setq notmuch-search-oldest-first nil)
        (setq notmuch-fcc-dirs '((".*" . "sent -inbox +sent -unread")))
