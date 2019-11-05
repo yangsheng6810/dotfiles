@@ -213,9 +213,9 @@ workspace $ws2 output primary
 workspace $ws3 output primary
 workspace $ws4 output primary
 workspace $ws5 output primary
-workspace $ws6 output eDP1
-workspace $ws7 output eDP1
-workspace $ws8 output eDP1
+workspace $ws6 output eDP1 primary
+workspace $ws7 output eDP1 primary
+workspace $ws8 output eDP1 primary
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
