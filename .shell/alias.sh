@@ -36,8 +36,6 @@ alias ....='cd ../../..'
 alias ...='cd ../..'
 alias -- -='cd -'
 
-alias l='ls'
-
 # rsync
 alias rsync-copy="rsync -avz --info=progress2 -h"
 alias rsync-move="rsync -avz --info=progress2 -h --remove-source-files"
