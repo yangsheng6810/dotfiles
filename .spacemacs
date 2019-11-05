@@ -488,7 +488,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                   python-enable-yapf-format-on-save t)
           (c-c++ :variables
                  c-c++-default-mode-for-headers 'c++-mode
-                 c-c++-backend 'rtags
+                 ;; c-c++-backend 'rtags
+                 c-c++-backend 'lsp-ccls
                  ;; c-c++-enable-clang-support t
                  )
           (cmake :variables cmake-enable-cmake-ide-support t)
