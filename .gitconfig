@@ -3,7 +3,7 @@
     email = yangsheng6810@gmail.com
     signingkey = 256ECEAAB5B918F3
 [credential]
-    helper = cache
+	helper = store
 [core]
     autocrlf = input
     excludesfile = ~/.gitignore_global
