@@ -1245,19 +1245,36 @@
 
 ** org-pdfview
    #+BEGIN_SRC emacs-lisp
-   (use-package org-pdfview
-       ;; :ensure t
-     :after (org)
-     :config
-     (add-to-list 'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link))))
-     (add-hook
-      'pdf-view-mode-hook
-      (lambda ()
-        (pdf-view-set-slice-from-bounding-box)
-        (pdf-view-fit-width-to-window)))
-     )
+     (use-package org-pdfview
+         ;; :ensure t
+       :after (org)
+       :config
+       (add-to-list 'org-file-apps '("\\.pdf\\'" . (lambda (file link) (org-pdfview-open link))))
+       ;; (add-hook
+       ;;  'pdf-view-mode-hook
+       ;;  (lambda ()
+       ;;    (pdf-view-set-slice-from-bounding-box)
+       ;;    (pdf-view-fit-width-to-window)))
+       )
    #+END_SRC
    
+** Fix org-docview
+   Fixing =(error "epdfinfo: No such page 0")=
+   #+begin_src emacs-lisp
+     (with-eval-after-load 'org-docview
+       (defun org-docview-open (link)
+         (string-match "\\(.*?\\)\\(?:::\\([0-9]+\\)\\)?$" link)
+         (let ((path (match-string 1 link))
+               (page (and (match-beginning 2)
+                          (string-to-number (match-string 2 link)))))
+           ;; Let Org mode open the file (in-emacs = 1) to ensure
+           ;; org-link-frame-setup is respected.
+           (org-open-file path 1)
+           (unless (derived-mode-p 'doc-view-mode)
+             (doc-view-mode))
+           (when page (doc-view-goto-page page)))))
+   #+end_src
+
 ** org-gcal
    #+BEGIN_SRC emacs-lisp
      (when (string= system-name "carbon")
