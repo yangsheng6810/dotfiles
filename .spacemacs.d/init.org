@@ -2172,7 +2172,7 @@
          "R" #'notmuch-show-reply
          "r" #'notmuch-show-reply-sender
          "m" #'notmuch-mua-new-mail
-         "v" #'notmuch-show-reopen-in-browser)
+         "v" nil)
 
        (add-hook 'notmuch-mua-send-hook #'notmuch-mua-attachment-check)
 
@@ -3097,7 +3097,7 @@
       "hd" 'ledger-delete-current-transaction
       "a" 'ledger-add-transaction
       "b" 'ledger-post-edit-amount
-      "c" 'ledger-toggle-current
+      "c" 'ledger-toggle-current-posting
       "C" 'ledger-mode-clean-buffer
       "l" 'ledger-display-ledger-stats
       "p" 'ledger-display-balance-at-point
