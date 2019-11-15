@@ -46,7 +46,7 @@ export GDK_SCALE=1
 export GDK_DPI_SCALE=1
 alias doom='~/.emacs.d/bin/doom'
 
-alias ls='lsd'
+alias ls='exa'
 alias l='ls -l'
 alias la='ls -a'
 alias lla='ls -la'
