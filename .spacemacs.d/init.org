@@ -2982,16 +2982,16 @@
 
 * Semantic
   #+BEGIN_SRC emacs-lisp
-    (cl-defun semanticdb-rescan-directory-1 (pathname &optional (file-regex ".*\\.\\(el\\|el.gz\\|h\\|hpp\\)$"))
+    (cl-defun semanticdb-rescan-directory-1 (pathname &optional (file-regex ".*\\.\\(el\\|el.gz\\|h\\|hpp\\|tcc\\)$"))
       (let* ((root (file-name-as-directory pathname))
              (files (directory-files root t ))
              (dotspacemacs-large-file-size 50))
+        (message "regex is %s" file-regex)
         (setq files (delete (format "%s." root) files))
         (setq files (delete (format "%s.." root) files))
         (while files
           (setq file (pop files))
-          (message "Parsing %s file." file)
-          (if (not(file-accessible-directory-p file))
+          (if (not (file-accessible-directory-p file))
               ;;if it's a file that matches the regex we seek
               (progn (when (string-match-p file-regex file)
                        (save-excursion
@@ -3003,7 +3003,7 @@
               ;;else if it's a directory
               (semanticdb-rescan-directory-1 file file-regex)))))
 
-    (defun yang/rescan-semantic-files ()
+    (defun yang/rescan-emacs-semantic-files ()
       (interactive)
       (mapc #'semantic-rescan-directory
             '("/usr/share/emacs/"
@@ -3011,10 +3011,14 @@
               "~/.emacs.d/elpa/"
               "~/.emacs.d/layers/")))
 
-    (defun semantic-rescan-directory (dir)
+    (defun yang/rescan-c++-semantic-files ()
+      (interactive)
+      (semantic-rescan-directory "/usr/include/c++/" ".*"))
+
+    (defun semantic-rescan-directory (dir &optional regex)
       (interactive "D")
       (message "Scanning directory %s." dir)
-      (semanticdb-rescan-directory-1 (expand-file-name dir)))
+      (semanticdb-rescan-directory-1 (expand-file-name dir)) regex)
 
     ;; (semantic-rescan-directory "/home/yangsheng/.emacs.d/elpa/26.1/develop/")
     ;; (semantic-rescan-directory "/usr/share/emacs/26.1/")
