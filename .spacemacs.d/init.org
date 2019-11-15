@@ -373,6 +373,16 @@
      (setq purpose-layout-dirs
            (list (concat yang/dotemacs-dir "layouts/")))
    #+end_src
+** Purpose
+   #+begin_src emacs-lisp
+(yang/with-spacemacs
+  (use-package window-purpose
+    :config
+    (add-to-list 'purpose-user-mode-purposes '(telega-root-mode . telega-menu))
+    (add-to-list 'purpose-user-mode-purposes '(telega-chat-mode . telega-chat))
+    (purpose-compile-user-configuration) ; activates your changes
+    ))
+   #+end_src
 ** COMMENT Terminal
    #+begin_src emacs-lisp
      (defun yang/load-theme-according-to-gui ()
@@ -995,18 +1005,21 @@
 
 ** Popwin
    #+begin_src emacs-lisp
-     (use-package popwin
-       :config
-       ;; M-x dired-jump-other-window
-       (push '(dired-mode :position top) popwin:special-display-config)
-       ;; calendar always as a popup
-       (push '(calendar-mode :height 15 :position bottom) popwin:special-display-config)
-       ;; ;; helpful
-       ;; ;; need :dedicated to be able to jump from there
-       ;; (push '(helpful-mode :position right :width 120 :dedicated t) popwin:special-display-config)
-       )
+     ;; (use-package pupo-mode
+     ;;   :config
+     ;;   ;; M-x dired-jump-other-window
+     ;;   (push '(dired-mode :position top) popwin:special-display-config)
+     ;;   ;; calendar always as a popup
+     ;;   (push '(calendar-mode :height 15 :position bottom) popwin:special-display-config)
+     ;;   ;; ;; helpful
+     ;;   ;; ;; need :dedicated to be able to jump from there
+     ;;   ;; (push '(helpful-mode :position right :width 120 :dedicated t) popwin:special-display-config)
+     ;;   (push '("\\*TeX Help\\*" :height 15 :position bottom) popwin:special-display-config)
+     ;;   (push '(helpful-mode :dedicated t :position bottom :stick t :noselect t :height 0.4) popwin:special-display-config)
+     ;;   (pupo/update-purpose-config)
+     ;;   )
 
-     (popwin-mode 1)
+     ;; (popwin-mode 1)
    #+end_src
 * Compatible Keyboard for Doom
 #+begin_src emacs-lisp
