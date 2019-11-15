@@ -517,7 +517,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           finance
           csv
           systemd
-          yaml)
+          yaml
+          nginx)
 
         yang/dotspacemacs-configuration-layers-cli
         '((chinese :variables
@@ -599,7 +600,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           ;; find file under current directory
           ellocate
           ;; easy keybindings
-          general)
+          general
+          crux
+          importmagic)
 
         yang/dotspacemacs-additional-packages-gui
         '((recursive-narrow :location local)
