@@ -608,7 +608,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           org-gcal    ;; sync calendar with google calendar
           zeal-at-point
           langtool
-          telega)
+          telega
+          ;; Add notes for pdfs
+          org-noter)
 
         yang/dotspacemacs-additional-packages-cli
         '(recursive-narrow)

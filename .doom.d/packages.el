@@ -50,3 +50,4 @@
 (package! telega)
 (package! slack)
 (package! popwin)
+(package! org-noter)
