@@ -217,6 +217,21 @@ workspace $ws6 output eDP1 primary
 workspace $ws7 output eDP1 primary
 workspace $ws8 output eDP1 primary
 
+# move window across workspace
+mode "workspace" {
+        bindsym h move workspace to output left
+        # bindsym j resize grow height 40 px or 5 ppt
+        # bindsym k resize shrink height 40 px or 5 ppt
+        bindsym l move workspace to output right
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+m mode "default"
+}
+
+bindsym $mod+m mode "workspace"
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
