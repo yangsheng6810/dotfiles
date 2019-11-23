@@ -1330,6 +1330,9 @@
          (interactive)
          (org-journal-new-entry t))
 
+       ;; make sure the file is saved
+       (add-hook 'org-journal-after-entry-create-hook #'save-buffer)
+
        (yang/set-leader-key "bj" 'yang/switch-to-journal-today)
        (yang/set-leader-key "bJ" 'org-journal-new-entry)
 
