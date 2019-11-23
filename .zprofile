@@ -5,4 +5,4 @@ fi
 export VDPAU_NVIDIA_NO_OVERLAY=1
 
 
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.cargo/bin:$PATH"

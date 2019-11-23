@@ -6,9 +6,11 @@ export LESS="-R"
 
 export XDG_CONFIG_HOME="$HOME/.config/"
 export EDITOR="vim"
+export VISUAL="vim"
+export SYSTEMD_EDITOR="vim"
 export ALTERNATE_EDITOR=""
 
-PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+# PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 if [ -z ${HOSTNAME+x} ]; then
     HOSTNAME=`hostname`;
