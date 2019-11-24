@@ -25,6 +25,11 @@ case "$HOSTNAME" in
         echo "in HPE"
         LOCAL_SSH_PORT=7022
         ;;
+    "Desktop")
+        PORT=15422
+        echo "in Desktop"
+        LOCAL_SSH_PORT=22
+        ;;
     *) PORT=15922
 esac
 createTunnel() {
