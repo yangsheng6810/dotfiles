@@ -60,6 +60,7 @@ for_window [class="Terminator" title="floating"] floating enable
 for_window [class="Eog"] floating enable
 for_window [class="Totem"] resize set width 35 ppt
 for_window [class="Pavucontrol"] resize set width 25 ppt, resize set height 50 ppt
+for_window [class="Blueman-manager"] resize set width 25 ppt, resize set height 50 ppt
 for_window [class="Slack"] move container to workspace $ws7
 
 # when opening history from firefox, open it as a vertical split
