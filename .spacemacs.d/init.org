@@ -1303,7 +1303,7 @@
          ))
    #+END_SRC
 
-** org-journal
+** COMMENT org-journal
    #+BEGIN_SRC emacs-lisp
      (use-package org-journal
        ;; :init
