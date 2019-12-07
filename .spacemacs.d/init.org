@@ -58,6 +58,7 @@
     ;; (yang/with-doom
     ;;   (message "in doom"))
 #+END_SRC
+
 * General Editing
   #+BEGIN_SRC emacs-lisp
     ;; commented out since it may cause undo-tree corruption
@@ -93,11 +94,13 @@
     (tool-bar-mode -1)
     (menu-bar-mode -1)
   #+END_SRC
+
 ** Moving around
    #+begin_src emacs-lisp
      ;; first recenter to top, then to half-top
      (setq recenter-positions '(0.15 top middle bottom))
    #+end_src
+
 ** ispell
    #+begin_src emacs-lisp
      (setq ispell-extra-args '("--sug-mode=ultra")
@@ -109,6 +112,7 @@
      ;;   :init (setq flyspell-lazy-extra-lazy t)
      ;;   :config (flyspell-lazy-mode 1))
    #+end_src
+
 ** Search
    #+begin_src emacs-lisp
      (setq isearch-lax-whitespace t
@@ -136,10 +140,12 @@
              "sB" 'spacemacs/swiper-all-region-or-symbol))
          (global-set-key "\C-s" 'swiper-isearch)))
    #+end_src
+
 *** Allow ivy to select the content of prompt
     #+BEGIN_SRC emacs-lisp
       (setq ivy-use-selectable-prompt t)
     #+END_SRC
+
 ** Evil
    #+begin_src emacs-lisp
      ;; to allow cursor move beyond eol, and do not move back.
@@ -179,6 +185,7 @@
      (evil-terminal-cursor-changer-activate)
 
    #+end_src
+
 ** Rectangle editing
    #+BEGIN_SRC emacs-lisp
      ;; hydra for rectangle editing
@@ -281,6 +288,7 @@
      (use-package recursive-narrow)
      (recursive-narrow-mode)
    #+end_src
+
 ** Narrow
    #+begin_src emacs-lisp
     ;; from https://demonastery.org/2013/04/emacs-narrow-to-region-indirect/
@@ -293,6 +301,7 @@
           (narrow-to-region start end))
         (switch-to-buffer buf)))
    #+end_src
+
 ** vlf
    deal with very large files
    #+begin_src emacs-lisp
@@ -311,6 +320,7 @@
 
      (beginend-global-mode)
    #+end_src
+
 ** Expand-region
    #+begin_src emacs-lisp
      (setq expand-region-fast-keys-enabled nil)
@@ -341,6 +351,7 @@
        (yang/set-leader-key "v" 'yang/expand-region-wrap)
        )
    #+end_src
+
 *** Temp fix
     #+begin_src emacs-lisp
       (yang/with-spacemacs
@@ -351,6 +362,7 @@
             (byte-recompile-file file t)
             (load-file file))))
     #+end_src
+
 * General
   #+BEGIN_SRC emacs-lisp
     (setq system-time-locale "zh_CN.utf-8"
@@ -368,11 +380,13 @@
       (setq request--url-options
             '("--proxy" "socks5://localhost:8883")))
   #+END_SRC
+
 ** COMMENT Purpose
    #+begin_src emacs-lisp
      (setq purpose-layout-dirs
            (list (concat yang/dotemacs-dir "layouts/")))
    #+end_src
+
 ** Purpose
    #+begin_src emacs-lisp
 (yang/with-spacemacs
@@ -383,6 +397,7 @@
     (purpose-compile-user-configuration) ; activates your changes
     ))
    #+end_src
+
 ** COMMENT Terminal
    #+begin_src emacs-lisp
      (defun yang/load-theme-according-to-gui ()
@@ -395,6 +410,7 @@
        (yang/load-theme-according-to-gui)
        (add-hook 'before-make-frame-hook #'yang/load-theme-according-to-gui))
    #+end_src
+
 ** Ellocate
    #+begin_src emacs-lisp
      (setq ellocate-scan-dirs
@@ -402,6 +418,7 @@
              ("/mnt/" nil)))
 
    #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
     ;; initial window
@@ -941,6 +958,7 @@
             nil)))
          ))
    #+END_SRC
+
 ** Posframe
    #+begin_src emacs-lisp
      ;; (use-package ivy-posframe
@@ -964,11 +982,13 @@
          (company-posframe-mode 1))
        (run-with-timer 10 nil #'yang/company-posframe-helper))
    #+end_src
+
 ** Fix doom
 #+begin_src emacs-lisp
   (yang/with-doom
     (remove-hook! 'text-mode-hook #'hl-fill-column-mode))
 #+end_src
+
 ** Default keybindings
 #+BEGIN_SRC emacs-lisp
   (yang/with-doom
@@ -1021,6 +1041,7 @@
 
      ;; (popwin-mode 1)
    #+end_src
+
 * Compatible Keyboard for Doom
 #+begin_src emacs-lisp
   (yang/with-doom
@@ -1043,6 +1064,7 @@
       :keymaps 'org-mode-map
       "C-c C-a" '(org-agenda :which-key "org-agenda")))
 #+end_src
+
 * Ergonomic keybindings
   #+BEGIN_SRC emacs-lisp
     ;; Ergonomic keybinding M-<hjkl>
@@ -1160,6 +1182,7 @@
     (yang/with-doom
       (setq doom-scratch-buffer-major-mode 'emacs-lisp-mode))
   #+end_src
+
 * Org-mode
   #+BEGIN_SRC emacs-lisp
     ;; wrap in with-eval-after-load, see
@@ -1617,6 +1640,7 @@
            ;; creating new parent
            org-refile-allow-creating-parent-nodes t)
    #+END_SRC
+
 ** COMMENT org-reveal
    #+begin_src emacs-lisp
      ;; (use-package ox-reveal)
@@ -1875,6 +1899,7 @@
     ;; "xv" (spacemacs|org-emphasize spacemacs/org-verbatim ?=)
     ))
 #+end_src
+
 * LaTeX
   #+BEGIN_SRC emacs-lisp
         ;; LaTeX hook
@@ -1974,6 +1999,7 @@
 
        (advice-add #'preview-disabled-string :around #'yang/preview-disable-string-adv))
    #+end_src
+
 ** bibtex
    #+BEGIN_SRC emacs-lisp
      (use-package reftex
@@ -2000,6 +2026,7 @@
                  (add-hook 'after-save-hook 'reftex-parse-all nil 'make-it-local)))
 
    #+END_SRC
+
 * Python
   #+BEGIN_SRC emacs-lisp
     (setq-default python-indent 4)
@@ -2061,6 +2088,7 @@
      (add-hook 'with-editor-pre-finish-hook #'yang-close-diff-after-commit)
      (add-hook 'with-editor-pre-cancel-hook #'yang-close-diff-after-commit)
    #+END_SRC
+
 * web-mode
   #+BEGIN_SRC emacs-lisp
     (with-eval-after-load 'web-mode
@@ -2106,6 +2134,7 @@
       "http://dict.cn/%s"
       :docstring "Search Dict.cn")
   #+END_SRC
+
 ** Use ivy--regex-plus for ivy search
   #+BEGIN_SRC emacs-lisp
     (setq ivy-re-builders-alist
@@ -2133,6 +2162,7 @@
                          (or (not ivy-rich-parse-remote-buffer)
                              (not yang-ivy-rich-parse-remote-project))))))))
   #+END_SRC
+
 ** COMMENT Jumb to buffer
    #+begin_src emacs-lisp
      (yang/set-leader-key "bj" #'frog-jump-buffer)
@@ -2160,6 +2190,7 @@
                  (auto-fill-mode -1)))
 
    #+end_src
+
 ** Mu4e
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'mu4e
@@ -2257,6 +2288,7 @@
        (setq mu4e-headers-include-related nil)
      )
    #+END_SRC
+
 ** notmuch by doom
 #+begin_src emacs-lisp
   ;; FIXME This module is a WIP!
@@ -2312,6 +2344,7 @@
                          notmuch-search-mode-hook)
                        #'hide-mode-line-mode)))
 #+end_src
+
 ** notmuch
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'org
@@ -2488,6 +2521,7 @@
        ;; fix org-mime-htmlize with latex
        (setq org-mime-export-options '(:with-latex dvipng)))
    #+END_SRC
+
 ** Sending
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'auto-mode-alist
@@ -2762,6 +2796,7 @@
        (add-hook 'org-mode-hook
                  #'yang/pangu-spacing-mode-on))
    #+end_src
+
 ** alignment
    #+BEGIN_SRC emacs-lisp
      ;; set up mono font for chinese
@@ -2791,6 +2826,7 @@
            "Hiragino Sans GB")
           ("HanaMinB" "SimSun-ExtB" "MingLiU-ExtB" "PMingLiU-ExtB" "MingLiU_HKSCS-ExtB"))))
    #+END_SRC
+
 *** Fix char width
    #+BEGIN_SRC emacs-lisp
      ;; set char width for certain characters
@@ -2827,6 +2863,7 @@
               ))))
 
    #+END_SRC
+
 *** Only reload when necessary   
    #+BEGIN_SRC emacs-lisp
      (setq yang-cnfonts-has-started nil)
@@ -2878,6 +2915,7 @@
 
      (add-to-list 'delete-frame-functions #'yang-check-last-client-frame)
    #+END_SRC
+
 ** ace-pinyin
    #+BEGIN_SRC emacs-lisp
      (use-package ace-pinyin
@@ -2912,6 +2950,7 @@
        (unless (yang-atomic-chrome-server-running-p)
          (atomic-chrome-start-server)))
    #+END_SRC
+
 ** Default use eww for browsing
    #+BEGIN_SRC emacs-lisp
      (setq browse-url-browser-function
@@ -2960,11 +2999,13 @@
 
       (advice-add 'server-create-window-system-frame :after #'my-reload-modeline))
   #+END_SRC
+
 ** ad-Advice-popwin:create-popup-window: Symbol's function definition is void: purpose-window-purpose-dedicated-p
    #+BEGIN_SRC emacs-lisp
      (yang/with-spacemacs
        (require 'window-purpose-core))
    #+END_SRC
+
 ** git-gutter+
    #+BEGIN_SRC emacs-lisp
      (with-eval-after-load 'git-gutter+
@@ -3139,6 +3180,7 @@
           projectile-enable-caching t
           projectile-file-exists-remote-cache-expire nil)
   #+END_SRC
+
 * Debug
 ** undo-tree
    #+BEGIN_SRC emacs-lisp
@@ -3256,6 +3298,7 @@
      (setq persp-emacsclient-init-frame-behaviour-override nil
            persp-init-new-frame-behaviour-override -1)
    #+END_SRC
+
 ** Switch to the first persp when loading from file
    #+BEGIN_SRC emacs-lisp
      (use-package persp-mode
@@ -3297,6 +3340,7 @@
       "t" 'ledger-reconcile-change-target
       "RET" 'ledger-reconcile-finish))
 #+END_SRC
+
 * helpful
   #+BEGIN_SRC emacs-lisp
     ;; Note that the built-in `describe-function' includes both functions
@@ -3796,6 +3840,7 @@
   :init
   (setq alert-default-style 'notifier))
 #+end_src
+
 * Helm (legacy)
   #+BEGIN_SRC emacs-lisp
    ;; fix problem with open-junk-file
