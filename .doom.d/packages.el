@@ -51,6 +51,7 @@
 (package! slack)
 (package! popwin)
 (package! org-noter)
+(package! recursive-narrow)
 
 (package! hl-line :disable t)
 (package! solaire-mode :disable t)
