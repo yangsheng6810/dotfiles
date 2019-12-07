@@ -279,14 +279,20 @@
          ("C-<right>" sp-backward-slurp-sexp)))
    #+END_SRC
 
-** COMMENT recursive-narrow
+** recursive-narrow
    #+begin_src emacs-lisp
-     ;; (use-package recursive-narrow
-     ;;   :commands
-     ;;   (recursive-narrow-or-widen-dwim recursive-widen recursive-narrow-to-region)
-     ;;   )
-     (use-package recursive-narrow)
-     (recursive-narrow-mode)
+(use-package recursive-narrow
+  :commands
+  (recursive-narrow-or-widen-dwim
+   recursive-widen
+   recursive-narrow-to-region)
+  :config
+  (defun yang/recursive-narrow (func)
+    (interactive)
+    (recursive-narrow-save-position (funcall func)))
+  (advice-add #'org-narrow-to-subtree :around #'yang/recursive-narrow)
+  (advice-add #'org-narrow-to-block :around #'yang/recursive-narrow)
+  (advice-add #'org-narrow-to-element :around #'yang/recursive-narrow))
    #+end_src
 
 ** Narrow
