@@ -986,7 +986,13 @@
 ** Fix doom
 #+begin_src emacs-lisp
   (yang/with-doom
-    (remove-hook! 'text-mode-hook #'hl-fill-column-mode))
+    (remove-hook! 'text-mode-hook #'hl-fill-column-mode)
+    (setq doom-theme 'spacemacs-light)
+    (with-eval-after-load 'solaire-mode
+      (turn-off-solaire-mode))
+    (with-eval-after-load 'hl-line
+      (global-hl-line-mode -1)
+      (hl-line-mode -1)))
 #+end_src
 
 ** Default keybindings
