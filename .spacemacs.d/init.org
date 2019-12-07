@@ -1748,11 +1748,11 @@
 #+begin_src emacs-lisp
 (yang/with-doom
   (general-def
-    :keymap 'org-mode-map
+    :keymaps 'org-mode-map
     :states '(normal motion)
     "," nil)
   (general-def
-    :keymap 'org-mode-map
+    :keymaps 'org-mode-map
     :prefix ","
     :states '(normal motion)
     "'" 'org-edit-special
