@@ -3190,9 +3190,13 @@
 
 * Projectile
   #+BEGIN_SRC emacs-lisp
-    (setq shell-file-name "/bin/sh"
-          projectile-enable-caching t
-          projectile-file-exists-remote-cache-expire nil)
+    (with-eval-after-load 'projectile
+      (setq projectile-mode-line
+            '(:eval (format " Projectile[%s(%s)]"
+                            (projectile-project-name)))
+            shell-file-name "/bin/sh"
+            projectile-enable-caching t
+            projectile-file-exists-remote-cache-expire nil))
   #+END_SRC
 
 * Debug
