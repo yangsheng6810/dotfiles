@@ -1196,6 +1196,7 @@
   #+end_src
 
 * Org-mode
+** General
   #+BEGIN_SRC emacs-lisp
     ;; wrap in with-eval-after-load, see
     ;; http://spacemacs.org/layers/+emacs/org/README.html#important-note
