@@ -3185,6 +3185,7 @@
                (lambda () (projectile-mode -1))
                (lambda () (when (fboundp #'magit-todos-mode) (magit-todos-mode -1)))
                magit-mode-hook)))
+         (setenv "SHELL" "/bin/bash")
          (magit-status "/yadm::")))
    #+END_SRC
 
