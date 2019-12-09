@@ -180,24 +180,28 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(cnfonts-profiles (quote ("Monaco" "Source Code Pro" "Fira Code")))
+ '(cnfonts-profiles '("Monaco" "Source Code Pro" "Fira Code"))
  '(custom-safe-themes
-   (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default)))
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
  '(fci-rule-color "#5B6268")
  '(jdee-db-active-breakpoint-face-colors (cons "#1B2229" "#51afef"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#1B2229" "#98be65"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#1B2229" "#3f444a"))
  '(ledger-post-amount-alignment-column 62)
- '(mail-envelope-from (quote header))
+ '(mail-envelope-from 'header)
  '(mail-specify-envelope-from t)
- '(message-sendmail-envelope-from (quote header))
+ '(message-sendmail-envelope-from 'header)
  '(objed-cursor-color "#ff6c6b")
+ '(olivetti-body-width 100)
+ '(org-agenda-files
+   '("~/Documents/org/Research.org" "~/Documents/org/papers.org" "~/Documents/org/Tasks.org" "~/Documents/org/Birthdays.org" "~/Documents/org/gcal.org" "~/Documents/org/Schedule.org"))
  '(org-directory "~/Documents/org/")
  '(org-format-latex-options
-   (quote
-    (:foreground default :background "#282c34" :scale 1.66 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
-                 ("begin" "$1" "$" "$$" "\\(" "\\["))))
+   '(:foreground default :background "#fbf8ef" :scale 1.25 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+                 ("begin" "$1" "$" "$$" "\\(" "\\[")))
+ '(safe-local-variable-values '((TeX-master . main\.tex)))
+ '(unicode-fonts-existence-checks 'first)
+ '(unicode-fonts-skip-font-groups '(chinese-nom decorative low-quality-glyphs multicolor))
  '(vc-annotate-background "#282c34")
  '(vc-annotate-color-map
    (list
@@ -228,6 +232,10 @@
  ;; If there is more than one, they won't work right.
  '(ledger-font-payee-cleared-face ((t (:foreground "#a9a1e1" :weight bold :height 1.0))))
  '(ledger-font-payee-uncleared-face ((t (:foreground "#5B6268" :weight bold :height 1.0))))
+ '(org-block ((t (:inherit fixed-pitch :background "linen" :foreground "#655370"))))
+ '(org-block-begin-line ((t (:extend t :background "unspecified" :foreground "unspecified"))))
+ '(org-block-end-line ((t (:extend t :background "unspecified" :foreground "unspecified
+"))))
  '(rainbow-delimiters-depth-1-face ((t (:foreground "green yellow"))))
  '(rainbow-delimiters-depth-2-face ((t (:foreground "green"))))
  '(rainbow-delimiters-depth-3-face ((t (:foreground "forest green"))))
