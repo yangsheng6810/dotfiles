@@ -1062,7 +1062,7 @@
       (ivy-read "Layouts: "
                 (persp-names)
                 :caller 'spacemacs/ivy-spacemacs-layouts
-                :action #'+workspace-switch))
+                :action (lambda (name) (funcall #'+workspace-switch name t))))
     (general-def
       :keymaps 'doom-leader-map
       "SPC" '(counsel-M-x :which-key "M-x")
