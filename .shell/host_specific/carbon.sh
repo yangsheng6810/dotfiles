@@ -4,7 +4,9 @@ alias tllocalmgr="tllocalmgr --mirror='http://mirrors.tuna.tsinghua.edu.cn/CTAN/
 export JPM_FIREFOX_BINARY=/usr/bin/firefox
 
 # for gurobi
+export GUROBI_HOME="$HOME/Downloads/gurobi900/linux64"
 export GRB_LICENSE_FILE="$XDG_CONFIG_HOME/gurobi.lic"
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
 # PATH="${PATH}:${GUROBI_HOME}/bin"
 
 DEFAULT_USER="yangsheng"
