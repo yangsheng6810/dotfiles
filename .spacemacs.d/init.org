@@ -1322,6 +1322,7 @@
          :config
          (setq
           org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
+         (load (concat yang/dotemacs-dir "credentials.el") 'noerror)
 
          ;; (defun org-gcal-capture-after-func ()
          ;;   (message "run org-gcal-post-at-point")
