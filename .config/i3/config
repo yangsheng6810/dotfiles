@@ -365,3 +365,6 @@ exec --no-startup-id udiskie --tray
 
 # notify when battery is really low
 exec --no-startup-id i3-battery-popup
+
+# start KeePassXC
+exec --no-startup-id keepassxc
