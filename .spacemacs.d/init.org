@@ -3334,6 +3334,9 @@
 * Ledger
 #+BEGIN_SRC emacs-lisp
   (yang/with-doom
+    (with-eval-after-load 'ledger-mode
+      (set-company-backend! 'ledger-mode
+        #'ledger-complete-at-point #'company-capf))
     (general-def
       :keymaps 'ledger-mode-map
       :states 'normal
