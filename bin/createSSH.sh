@@ -30,6 +30,11 @@ case "$HOSTNAME" in
         echo "in Desktop"
         LOCAL_SSH_PORT=22
         ;;
+    "osprey.cs.northwestern.edu")
+        PORT=15522
+        echo "in ospery"
+        LOCAL_SSH_PORT=22
+        ;;
     *) PORT=15922
 esac
 createTunnel() {
@@ -47,7 +52,7 @@ if ping -q -c 1 -W 1 8.8.8.8 > /dev/null; then
     echo "Internet connection is working"
     if ping -q -c 1 -W 1 dimlight.tk > /dev/null; then
         echo "linode server available"
-        # /usr/bin/ssh -p "$LOCAL_PORT" "$USER"@localhost ls > /dev/null
+        # /usr/bin/ssh -p "$LOCAL_SSH_PORT" "$USER"@localhost ls > /dev/null
         timeout 25 /usr/bin/ssh -o ConnectTimeout=20 -o ProxyCommand="ssh -p $SSH_PORT -q yangsheng@dimlight.tk nc -q0 localhost $PORT" localhost ls > /dev/null
         if [[ $? -ne 0 ]]; then
             echo Creating new tunnel connection to HostA
