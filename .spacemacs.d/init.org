@@ -3232,12 +3232,14 @@
                  undo-tree-history-directory-alist
                  `(("." .
                     ,(concat yang/dotemacs-dir ".cache/undo-tree/")))
-                 ))
-       (setq undo-tree-auto-save-history t
-             undo-tree-enable-undo-in-region nil
-             undo-tree-history-directory-alist
-             `(("." .
-                ,(concat yang/dotemacs-dir ".cache/undo-tree/")))))
+                 )))
+
+     (setq undo-tree-auto-save-history t
+           undo-tree-enable-undo-in-region nil
+           undo-tree-history-directory-alist
+           `(("." .
+              ,(concat yang/dotemacs-dir ".cache/undo-tree/")))
+           undo-tree--debug 30)
 
      (when (string= system-name "carbon")
        (load "~/git/undo-tree/undo-tree.el"))
