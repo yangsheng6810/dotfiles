@@ -465,7 +465,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
                ivy-enable-advanced-buffer-information t
                ivy-rich-path-style 'abbrev)
           git
-          github
+          ;; github
           (markdown :variables markdown-live-preview-engine 'vmd)
           (org :variables
                org-enable-bootstrap-support t
