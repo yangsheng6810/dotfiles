@@ -509,7 +509,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           search-engine
           ;; the layer for R
           ;; ess
-          ranger ;; replacement for dired
+          ;; replacement for dired
+          (ranger :variables ranger-show-preview t)
           nlinum ;; fast replacement for linum mode
           (colors :variables colors-colorize-identifiers 'variable) ;; include rainbow-mode
           theming
