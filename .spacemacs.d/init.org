@@ -1079,98 +1079,117 @@
 
 * Ergonomic keybindings
   #+BEGIN_SRC emacs-lisp
-    ;; Ergonomic keybinding M-<hjkl>
-    (with-eval-after-load 'evil-evilified-state
-      (mapc (lambda (keymap)
-              ;; Normal-mode, hjkl
-              (define-key keymap (kbd "M-h") 'evil-backward-char)
-              (define-key keymap (kbd "M-l") 'evil-forward-char)
-              (define-key keymap (kbd "M-k") 'evil-previous-visual-line)
-              (define-key keymap (kbd "M-j") 'evil-next-visual-line)
+        ;; Ergonomic keybinding M-<hjkl>
+        (with-eval-after-load 'evil-evilified-state
+          (mapc (lambda (keymap)
+                  ;; Normal-mode, hjkl
+                  (define-key keymap (kbd "M-h") 'evil-backward-char)
+                  (define-key keymap (kbd "M-l") 'evil-forward-char)
+                  (define-key keymap (kbd "M-k") 'evil-previous-visual-line)
+                  (define-key keymap (kbd "M-j") 'evil-next-visual-line)
 
-              ;; Move to beginning/ending of line
-              (define-key keymap (kbd "M-H") 'move-beginning-of-line)
-              (define-key keymap (kbd "M-L") 'move-end-of-line)
-              (define-key keymap (kbd "C-a") 'move-beginning-of-line)
-              (define-key keymap (kbd "C-e") 'move-end-of-line)
-              ;; Scroll up/down
-              (define-key keymap (kbd "M-J") 'evil-scroll-down)
-              (define-key keymap (kbd "M-K") 'evil-scroll-up)
-              ;; ;; delete-char
-              ;; (define-key keymap (kbd "C-d") 'delete-char)
-              )
-            `(,evil-insert-state-map
-              ,evil-motion-state-map
-              ,evil-visual-state-map
-              ,evil-evilified-state-map-original)))
+                  ;; Move to beginning/ending of line
+                  (define-key keymap (kbd "M-H") 'move-beginning-of-line)
+                  (define-key keymap (kbd "M-L") 'move-end-of-line)
+                  (define-key keymap (kbd "C-a") 'move-beginning-of-line)
+                  (define-key keymap (kbd "C-e") 'move-end-of-line)
+                  ;; Scroll up/down
+                  (define-key keymap (kbd "M-J") 'evil-scroll-down)
+                  (define-key keymap (kbd "M-K") 'evil-scroll-up)
+                  ;; ;; delete-char
+                  ;; (define-key keymap (kbd "C-d") 'delete-char)
+                  )
+                `(,evil-insert-state-map
+                  ,evil-motion-state-map
+                  ,evil-visual-state-map
+                  ,evil-evilified-state-map-original)))
 
-    ;; fix some keybinding problems
-    ;; fix for js2-mode
-    (use-package js2-mode
-      :defer t
-      :bind (:map js2-mode-map
-                  ("M-j" . nil)))
-    (evil-define-key '(normal insert motion visual) evil-org-mode-map
-      (kbd "M-h") nil
-      (kbd "M-j") nil
-      (kbd "M-k") nil
-      (kbd "M-l") nil
-      (kbd "M-H") nil
-      (kbd "M-J") nil
-      (kbd "M-K") nil
-      (kbd "M-L") nil
-      ;; actually unset all the following
-      ;; (kbd "M-h") 'org-metaleft
-      ;; (kbd "M-j") 'org-metadown
-      ;; (kbd "M-k") 'org-metaup
-      ;; (kbd "M-l") 'org-metaright
-      ;; (kbd "M-H") 'org-shiftmetaleft
-      ;; (kbd "M-J") 'org-shiftmetadown
-      ;; (kbd "M-K") 'org-shiftmetaup
-      ;; (kbd "M-L") 'org-shiftmetaright
+        ;; fix some keybinding problems
+        ;; fix for js2-mode
+        (use-package js2-mode
+          :defer t
+          :bind (:map js2-mode-map
+                      ("M-j" . nil)))
+
+    (general-def
+      :keymaps 'evil-org-mode-map
+      :states '(visual normal motion insert)
+      "M-h" nil
+      "M-j" nil
+      "M-k" nil
+      "M-l" nil
+
+      "M-H" nil
+      "M-L" nil
+      ;; "C-a" nil
+      ;; "C-e" nil
+
+      ;; "M-J" nil
+      ;; "M-K" nil
+      "C-d" nil
       )
 
-(general-def
-  :keymaps '(override global)
-  :states '(motion insert)
-  "M-h" 'evil-backward-char
-  "M-j" 'evil-next-visual-line
-  "M-k" 'evil-previous-visual-line
-  "M-l" 'evil-forward-char
+        ;; (evil-define-key '(normal insert motion visual) evil-org-mode-map
+        ;;   (kbd "M-h") nil
+        ;;   (kbd "M-j") nil
+        ;;   (kbd "M-k") nil
+        ;;   (kbd "M-l") nil
+        ;;   (kbd "M-H") nil
+        ;;   (kbd "M-J") nil
+        ;;   (kbd "M-K") nil
+        ;;   (kbd "M-L") nil
+        ;;   ;; actually unset all the following
+        ;;   ;; (kbd "M-h") 'org-metaleft
+        ;;   ;; (kbd "M-j") 'org-metadown
+        ;;   ;; (kbd "M-k") 'org-metaup
+        ;;   ;; (kbd "M-l") 'org-metaright
+        ;;   ;; (kbd "M-H") 'org-shiftmetaleft
+        ;;   ;; (kbd "M-J") 'org-shiftmetadown
+        ;;   ;; (kbd "M-K") 'org-shiftmetaup
+        ;;   ;; (kbd "M-L") 'org-shiftmetaright
+        ;;   )
 
-  "M-H" 'move-beginning-of-line
-  "M-L" 'move-end-of-line
-  "C-a" 'move-beginning-of-line
-  "C-e" 'move-end-of-line
+    (general-def
+      :keymaps '(override global)
+      :states '(motion insert)
+      "M-h" 'evil-backward-char
+      "M-j" 'evil-next-visual-line
+      "M-k" 'evil-previous-visual-line
+      "M-l" 'evil-forward-char
 
-  "M-J" 'evil-scroll-down
-  "M-K" 'evil-scroll-up
-  "C-d" 'delete-char)
+      "M-H" 'move-beginning-of-line
+      "M-L" 'move-end-of-line
+      "C-a" 'move-beginning-of-line
+      "C-e" 'move-end-of-line
 
-(general-def
-  :keymaps 'visual-line-mode-map
-  [remap evil-next-line] #'evil-next-line
-  [remap evil-previous-line] #'evil-previous-line
-  [remap evil-next-visual-line] #'evil-next-visual-line
-  [remap evil-previous-visual-line] #'evil-previous-visual-line)
+      "M-J" 'evil-scroll-down
+      "M-K" 'evil-scroll-up
+      "C-d" 'delete-char)
+
+    (general-def
+      :keymaps 'visual-line-mode-map
+      [remap evil-next-line] #'evil-next-line
+      [remap evil-previous-line] #'evil-previous-line
+      [remap evil-next-visual-line] #'evil-next-visual-line
+      [remap evil-previous-visual-line] #'evil-previous-visual-line)
 
 
-(general-def
-  :keymaps '(override org-mode-map)
-  :states '(normal motion insert)
-  "M-h" 'evil-backward-char
-  "M-j" 'evil-next-visual-line
-  "M-k" 'evil-previous-visual-line
-  "M-l" 'evil-forward-char
+    (general-def
+      :keymaps '(override org-mode-map)
+      :states '(normal motion insert)
+      "M-h" 'evil-backward-char
+      "M-j" 'evil-next-visual-line
+      "M-k" 'evil-previous-visual-line
+      "M-l" 'evil-forward-char
 
-  "M-H" 'move-beginning-of-line
-  "M-L" 'move-end-of-line
-  "C-a" 'move-beginning-of-line
-  "C-e" 'move-end-of-line
+      "M-H" 'move-beginning-of-line
+      "M-L" 'move-end-of-line
+      "C-a" 'move-beginning-of-line
+      "C-e" 'move-end-of-line
 
-  "M-J" 'evil-scroll-down
-  "M-K" 'evil-scroll-up
-  "C-d" 'delete-char)
+      "M-J" 'evil-scroll-down
+      "M-K" 'evil-scroll-up
+      "C-d" 'delete-char)
 
 
   #+END_SRC
