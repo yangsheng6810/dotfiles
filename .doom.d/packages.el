@@ -55,3 +55,5 @@
 
 (package! hl-line :disable t)
 (package! solaire-mode :disable t)
+;; Remove annoying indentation in org-mode
+(package! org-indent :disable t)
