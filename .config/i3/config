@@ -159,6 +159,10 @@ bindsym $mod+p focus parent
 # focus the child container
 bindsym $mod+c focus child
 
+# mark current container for swapping
+bindsym $mod+bracketleft mark --replace swap-mark
+bindsym $mod+bracketright swap container with mark swap-mark
+
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 # set $WS4 4:4 pdf
