@@ -2865,6 +2865,9 @@ universal prefix is provided, normal swiper otherwise"
    #+begin_src emacs-lisp
      (when (string= system-name "carbon")
        (load "~/git/pangu-spacing/pangu-spacing.el"))
+
+     (setq pangu-spacing-real-insert-separtor nil)
+
      (use-package pangu-spacing
        :config
        (global-pangu-spacing-mode -1)
