@@ -156,30 +156,33 @@ This is a wrapper around `eval-after-load' that:
 
 ** Search
    #+begin_src emacs-lisp
-     (setq isearch-lax-whitespace t
-           isearch-regexp-lax-whitespace t
-           search-whitespace-regexp "[ \t\r\n]+")
-     ;; (setq search-whitespace-regexp "\\s-+")
+(after! isearch
+  (setq isearch-lax-whitespace t
+        isearch-regexp-lax-whitespace t
+        search-whitespace-regexp "[ \t\r\n]+")
+  ;; (setq search-whitespace-regexp "\\s-+")
 
-     (setq-default search-invisible t)
+  (setq-default search-invisible t))
 
-     (defun yang/swiper ()
-       "In visual-line-mode, call swiper on visual line when universal prefix is provided, normal swiper otherwise"
-       (interactive)
-       (let ((visual-line-mode (and visual-line-mode
-                                    (not (null current-prefix-arg)))))
-         (swiper)))
+;; a better idea is to use :general
+(use-package swiper
+  :defer t
+  :bind ("C-s" . #'swiper-isearch)
+  :config
+  (defun yang/swiper ()
+    "In visual-line-mode, call swiper on visual line when
+universal prefix is provided, normal swiper otherwise"
+    (interactive)
+    (let ((visual-line-mode (and visual-line-mode
+                                 (not (null current-prefix-arg)))))
+      (swiper))))
 
-     (use-package swiper
-       :config
-       (progn
-         (yang/with-spacemacs
-           (spacemacs/set-leader-keys
-             "ss" 'swiper
-             "sS" 'spacemacs/swiper-region-or-symbol
-             "sb" 'swiper-all
-             "sB" 'spacemacs/swiper-all-region-or-symbol))
-         (global-set-key "\C-s" 'swiper-isearch)))
+(yang/with-spacemacs
+    (yang/set-leader-keys
+     "ss" #'swiper
+     "sS" #'spacemacs/swiper-region-or-symbol
+     "sb" #'swiper-all
+     "sB" #'spacemacs/swiper-all-region-or-symbol))
    #+end_src
 
 *** Allow ivy to select the content of prompt
