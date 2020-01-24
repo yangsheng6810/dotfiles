@@ -2,110 +2,151 @@
 * Framework Compatibility
   #+BEGIN_SRC emacs-lisp
     ;;; -*- lexical-binding: t -*-
-    ;; enable lexical binding
-    (setq-default lexical-binding t)
-    (setq-default yang/dotemacs-framework nil
-                  yang/dotemacs-dir (expand-file-name "~/.emacs.d/")
-                  yang/config-dir "")
-    (defun yang/spacemacs-p ()
-      "Returns t if in spacemacs, nil otherwise"
-      nil)
-    (defun yang/doom-p ()
-      "Returns t if in doom emacs, nil otherwise"
-      nil)
+;; enable lexical binding
+(setq-default lexical-binding t)
+;; In spacemacs, IS-SPACEMACS is t. In doom, IS-DOOM is t
+(cond ((boundp 'dotspacemacs-directory)
+       (defconst IS-SPACEMACS t "Returns t if in spacemacs, nil otherwise")
+       (defconst IS-DOOM nil "Returns t if in doom emacs, nil otherwise")
+       (setq yang/dotemacs-framework 'spacemacs
+             yang/dotemacs-dir dotspacemacs-directory))
+      ((boundp 'doom-emacs-dir)
+       (defconst IS-SPACEMACS nil "Returns t if in spacemacs, nil otherwise")
+       (defconst IS-DOOM t "Returns t if in doom emacs, nil otherwise")
+       (setq yang/dotemacs-framework 'doom
+             yang/dotemacs-dir doom-private-dir))
+      (t
+       (defconst IS-SPACEMACS nil "Returns t if in spacemacs, nil otherwise")
+       (defconst IS-DOOM nil "Returns t if in doom emacs, nil otherwise")
+       (setq yang/dotemacs-framework 'nil
+             yang/dotemacs-dir "~/.emacs.d/")))
 
-    ;; When we are in spacemacs
-    (when (boundp 'dotspacemacs-directory)
-      (setq yang/dotemacs-framework 'spacemacs
-            yang/dotemacs-dir dotspacemacs-directory
-            yang/doom-p nil)
-      (defun yang/spacemacs-p ()
-        "Returns t if in spacemacs, nil otherwise"
-        t))
+;; Uniform interface to edit leader key
+(defmacro yang/set-leader-key (key func)
+  (pcase yang/dotemacs-framework
+    ('doom `(general-def
+              :keymaps 'doom-leader-map
+              ,key ,func))
+    ('spacemacs `(spacemacs/set-leader-keys
+                  ,key ,func))))
 
-    ;; When we are in doom emacs
-    (when (boundp 'doom-emacs-dir)
-      (setq yang/dotemacs-framework 'doom
-            yang/dotemacs-dir doom-private-dir)
-      (defun yang/doom-p ()
-        "Returns t if in doom emacs, nil otherwise"
-        t))
+(defmacro yang/with-spacemacs (&rest body)
+  (declare (indent 0) (debug t))
+  (when IS-SPACEMACS
+    `(progn
+       ,@body)))
 
-    ;; Uniform interface to edit leader key
-    (defmacro yang/set-leader-key (key func)
-      (pcase yang/dotemacs-framework
-        ('doom `(general-def
-                  :keymaps 'doom-leader-map
-                  ,key ,func))
-        ('spacemacs `(spacemacs/set-leader-keys
-                       ,key ,func))))
+(defmacro yang/with-doom (&rest body)
+  (declare (indent 0) (debug t))
+  (when IS-DOOM
+    `(progn
+       ,@body)))
 
-    (defmacro yang/with-spacemacs (&rest body)
-      (declare (indent 0) (debug t))
-      (when (yang/spacemacs-p)
-        `(progn
-           ,@body)))
+(when (not IS-DOOM)
+  (defmacro after! (package &rest body)
+  "Evaluate BODY after PACKAGE have loaded.
 
-    (defmacro yang/with-doom (&rest body)
-      (declare (indent 0) (debug t))
-      (when (yang/doom-p)
-        `(progn
-           ,@body)))
+PACKAGE is a symbol or list of them. These are package names, not modes,
+functions or variables. It can be:
 
-    ;; (yang/with-spacemacs
-    ;;   (message "in spacemacs"))
+- An unquoted package symbol (the name of a package)
+    (after! helm BODY...)
+- An unquoted list of package symbols (i.e. BODY is evaluated once both magit
+  and git-gutter have loaded)
+    (after! (magit git-gutter) BODY...)
+- An unquoted, nested list of compound package lists, using any combination of
+  :or/:any and :and/:all
+    (after! (:or package-a package-b ...)  BODY...)
+    (after! (:and package-a package-b ...) BODY...)
+    (after! (:and package-a (:or package-b package-c) ...) BODY...)
+  Without :or/:any/:and/:all, :and/:all are implied.
 
-    ;; (yang/with-doom
-    ;;   (message "in doom"))
+This is a wrapper around `eval-after-load' that:
+
+1. Suppresses warnings for disabled packages at compile-time
+2. No-ops for package that are disabled by the user (via `package!')
+3. Supports compound package statements (see below)
+4. Prevents eager expansion pulling in autoloaded macros all at once"
+  (declare (indent defun) (debug t))
+  (if (symbolp package)
+      (unless (memq package (bound-and-true-p doom-disabled-packages))
+        (list (if (or (not (bound-and-true-p byte-compile-current-file))
+                      (require package nil 'noerror))
+                  #'progn
+                #'with-no-warnings)
+              (let ((body (macroexp-progn body)))
+                `(if (featurep ',package)
+                     ,body
+                   ;; We intentionally avoid `with-eval-after-load' to prevent
+                   ;; eager macro expansion from pulling (or failing to pull) in
+                   ;; autoloaded macros/packages.
+                   (eval-after-load ',package ',body)))))
+    (let ((p (car package)))
+      (cond ((not (keywordp p))
+             `(after! (:and ,@package) ,@body))
+            ((memq p '(:or :any))
+             (macroexp-progn
+              (cl-loop for next in (cdr package)
+                       collect `(after! ,next ,@body))))
+            ((memq p '(:and :all))
+             (dolist (next (cdr package))
+               (setq body `((after! ,next ,@body))))
+             (car body)))))))
 #+END_SRC
 
 * General Editing
   #+BEGIN_SRC emacs-lisp
-    ;; commented out since it may cause undo-tree corruption
-    ;; (setq undo-tree-auto-save-history t)
+;; commented out since it may cause undo-tree corruption
+;; (setq undo-tree-auto-save-history t)
 
-    (setq word-wrap nil
-          require-final-newline 'visit-save)
+(setq word-wrap nil
+      require-final-newline 'visit-save)
 
-    ;; set tab-width
-    (setq-default tab-width 8
-                  c-basic-offset 4)
+;; set tab-width
+(setq-default tab-width 8
+              c-basic-offset 4)
 
-    ;; turn off linum-mode for performance
-    (global-linum-mode -1)
+;; turn off linum-mode for performance
+;;
+(after! linum
+  (global-linum-mode -1))
 
-    ;; turn on highlight-current-line-globally
-    (yang/with-spacemacs
-      (spacemacs/toggle-highlight-current-line-globally-off))
+;; turn on highlight-current-line-globally
+(yang/with-spacemacs
+  (spacemacs/toggle-highlight-current-line-globally-off))
 
-    (global-unset-key (kbd "M-SPC"))
-    (global-set-key (kbd "M-SPC") 'set-mark-command)
-    (general-def
-      :keymaps 'general-override-mode-map
-      "M-;" 'comment-dwim)
+(global-unset-key (kbd "M-SPC"))
+(global-set-key (kbd "M-SPC") 'set-mark-command)
 
-    (setq delete-by-moving-to-trash t)
+;; M-; for comment/uncomment
+(after! (general newcomment)
+  (general-def
+    :keymaps 'general-override-mode-map
+    "M-;" 'comment-dwim))
 
-    (setq langtool-java-classpath
-          "/usr/share/languagetool:/usr/share/java/languagetool/*")
+(setq delete-by-moving-to-trash t)
 
-    (setq pangu-spacing-real-insert-separtor nil)
+(after! langtool
+  (setq langtool-java-classpath
+        "/usr/share/languagetool:/usr/share/java/languagetool/*"))
 
-    (tool-bar-mode -1)
-    (menu-bar-mode -1)
+(yang/with-spacemacs
+  (tool-bar-mode -1)
+  (menu-bar-mode -1))
   #+END_SRC
 
 ** Moving around
-   #+begin_src emacs-lisp
+    #+begin_src emacs-lisp
      ;; first recenter to top, then to half-top
      (setq recenter-positions '(0.15 top middle bottom))
    #+end_src
-
+   
 ** ispell
-   #+begin_src emacs-lisp
-     (setq ispell-extra-args '("--sug-mode=ultra")
-           ;; flyspell-issue-welcome-flag nil ;; fix flyspell problem
-           ispell-dictionary "american")
+    #+begin_src emacs-lisp
+(after! ispell
+  (setq ispell-extra-args '("--sug-mode=ultra")
+        ;; flyspell-issue-welcome-flag nil ;; fix flyspell problem
+        ispell-dictionary "american"))
 
      ;; ;; to avoid lagging
      ;; (use-package flyspell-lazy
