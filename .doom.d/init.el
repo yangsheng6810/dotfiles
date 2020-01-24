@@ -209,7 +209,6 @@
  '(org-format-latex-options
    '(:foreground default :background "#fbf8ef" :scale 1.25 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\[")))
- '(safe-local-variable-values '((TeX-master . main\.tex)))
  '(unicode-fonts-existence-checks 'first)
  '(unicode-fonts-skip-font-groups '(chinese-nom decorative low-quality-glyphs multicolor))
  '(vc-annotate-background "#282c34")
@@ -246,12 +245,12 @@
  '(org-block-begin-line ((t (:extend t :background "unspecified" :foreground "unspecified"))))
  '(org-block-end-line ((t (:extend t :background "unspecified" :foreground "unspecified
 "))))
- '(rainbow-delimiters-depth-1-face ((t (:foreground "green yellow"))))
- '(rainbow-delimiters-depth-2-face ((t (:foreground "green"))))
- '(rainbow-delimiters-depth-3-face ((t (:foreground "forest green"))))
- '(rainbow-delimiters-depth-4-face ((t (:foreground "light sea green"))))
- '(rainbow-delimiters-depth-5-face ((t (:foreground "steel blue"))))
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "DarkOrange4"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "DarkOrange3"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "DarkOrange"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "YellowGreen"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "LimeGreen"))))
  '(rainbow-delimiters-depth-6-face ((t (:foreground "dodger blue"))))
- '(rainbow-delimiters-depth-7-face ((t (:foreground "dark slate blue"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "MediumSlateBlue"))))
  '(rainbow-delimiters-depth-8-face ((t (:inherit rainbow-delimiters-base-face :foreground "blue violet"))))
  '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "hot pink")))))
