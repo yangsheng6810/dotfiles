@@ -187,7 +187,8 @@ universal prefix is provided, normal swiper otherwise"
 
 *** Allow ivy to select the content of prompt
     #+BEGIN_SRC emacs-lisp
-      (setq ivy-use-selectable-prompt t)
+(after! ivy
+  (setq ivy-use-selectable-prompt t))
     #+END_SRC
 
 ** Evil
