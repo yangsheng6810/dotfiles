@@ -473,6 +473,12 @@ universal prefix is provided, normal swiper otherwise"
           ("/mnt/" nil))))
    #+end_src
 
+** Recentf
+#+BEGIN_SRC emacs-lisp
+(after!
+  (setq recentf-keep '(file-remote-p file-readable-p)))
+#+END_SRC
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
