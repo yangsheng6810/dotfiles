@@ -1811,7 +1811,9 @@ universal prefix is provided, normal swiper otherwise"
 
      (use-package org-ref-bibtex
        :after (org-ref)
-       :commands (org-ref-bibtex-hydra/body)
+       :commands (org-ref-bibtex-hydra/body org-ref-generate-cite-links)
+       :init
+       (setq org-ref-cite-onclick-function #'org-ref-bibtex-hydra/body)
        :config
        (defun yang/org-ref-open-bibtex-pdf ()
          "Open pdf for a bibtex entry, if it exists.
@@ -1836,8 +1838,13 @@ universal prefix is provided, normal swiper otherwise"
 
      (use-package org-ref-ivy-cite
        :after (org-ref)
+       :init
+       (setq org-ref-cite-onclick-function
+             (lambda (-)
+               (org-ref-cite-hydra/body)))
        :commands (org-ref-cite-hydra/body org-ref-ivy-insert-cite-link)
        :config
+       (org-ref-ivy-cite-completion)
        (defun yang/org-ref-open-pdf-at-point ()
          "Open the pdf for bibtex key under point with xdg-open if it exists."
          (interactive)
@@ -1848,12 +1855,14 @@ universal prefix is provided, normal swiper otherwise"
                (call-process-shell-command (concat "xdg-open " pdf-file) nil 0 nil)
              (message "no pdf found for %s" key))))
 
-       ;; (defhydra+ org-ref-cite-hydra ()
-       ;;   ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open"))
+       (defhydra+ org-ref-cite-hydra ()
+         ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open"))
        )
 
      (use-package parsebib
        :commands (parsebib-find-bibtex-dialect))
+(use-package bibtex-completion
+  :commands (bibtex-completion-get-entry))
    #+END_SRC
 
 ** org-noter
@@ -3668,6 +3677,9 @@ universal prefix is provided, normal swiper otherwise"
             (kill-line)
             (insert name)))))))
 (after! bibtex
+  ;; fix doom force setting of bibtex-dialect to biblatex
+  (when (not (eq bibtex-dialect 'BibTeX))
+    (bibtex-set-dialect 'BibTeX))
   (defun yang/parse-authors ()
     (interactive)
     (save-excursion
