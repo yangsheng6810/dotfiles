@@ -2836,19 +2836,23 @@ universal prefix is provided, normal swiper otherwise"
 
 ** multi-term
    #+BEGIN_SRC emacs-lisp
-     (use-package eterm-256color
-       :defer t
-       :init
-       (add-hook 'term-mode-hook #'eterm-256color-mode)
-       (setq term-buffer-maximum-size 10000)
-       :general
-       (:keymaps
-        'term-raw-map
-        :states '(normal insert)
-        "<mouse-2>" #'term-mouse-paste
-        "C-a" #'term-send-home
-        "C-e" #'term-send-end))
+(use-package eterm-256color
+  :defer t
+  :init
+  (add-hook 'term-mode-hook #'eterm-256color-mode)
+  (setq term-buffer-maximum-size 10000)
+  :general
+  (:keymaps
+   'term-raw-map
+   :states '(normal insert)
+   "<mouse-2>" #'term-mouse-paste
+   "C-a" #'term-send-home
+   "C-e" #'term-send-end))
 
+(yang/with-doom
+  (general-def
+    :keymaps 'doom-leader-map
+    "'" #'+term/toggle))
    #+END_SRC
 
 ** vterm
@@ -2858,10 +2862,7 @@ universal prefix is provided, normal swiper otherwise"
     :init
     (setq vterm-term-environment-variable "eterm-color"
           vterm-shell "/usr/bin/zsh")
-    (yang/with-doom
-      (general-def
-        :keymaps 'doom-leader-map
-        "'" #'+vterm/toggle)))
+    )
 #+end_src
 
 * pdf-tools
