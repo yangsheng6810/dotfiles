@@ -1258,7 +1258,7 @@ universal prefix is provided, normal swiper otherwise"
 
     (general-def
       :keymaps '(override org-mode-map)
-      :states '(normal motion insert)
+      :states '(normal motion insert visual)
       "M-h" 'evil-backward-char
       "M-j" 'evil-next-visual-line
       "M-k" 'evil-previous-visual-line
@@ -1369,7 +1369,6 @@ universal prefix is provided, normal swiper otherwise"
       ;; restore easy templates, can also use =, i b= to insert
       (use-package org-tempo
         :after org
-        :defer t
         :config
         (add-to-list 'org-structure-template-alist (cons "se" "src emacs-lisp")))
 
@@ -1438,9 +1437,9 @@ universal prefix is provided, normal swiper otherwise"
          :init
          (setq org-gcal-dir (concat yang/dotemacs-dir
                                     "org-gcal/"))
-         :config
          (setq
           org-gcal-file-alist '(("yangsheng6810@gmail.com" .  "~/Documents/org/gcal.org")))
+         :config
          (load (concat yang/dotemacs-dir "credentials.el") 'noerror)
 
          ;; (defun org-gcal-capture-after-func ()
@@ -2374,8 +2373,8 @@ universal prefix is provided, normal swiper otherwise"
        :defer t
        :commands htmlize-and-send
        :init
-       (add-hook 'org-ctrl-c-ctrl-c-hook 'htmlize-and-send t)
        :config
+       (add-hook 'org-ctrl-c-ctrl-c-hook 'htmlize-and-send t)
        ;; fix C-h
        (evil-define-key 'evilified mu4e-view-mode-map (kbd "C-h") nil)
        (add-hook 'mu4e-headers-mode-hook
@@ -2465,6 +2464,7 @@ universal prefix is provided, normal swiper otherwise"
        (setq mu4e-headers-include-related nil))
 
 (use-package mu4e-alert
+  :defer t
   :after mu4e
   :config
   ;; notification using mu4e-alert
@@ -2757,7 +2757,7 @@ universal prefix is provided, normal swiper otherwise"
         (dired-hide-details-mode 1)
         (dired-omit-mode 1)
         )
-      (add-hook 'dired-mode-hook 'yang-dired-mode-setup)
+      (add-hook 'dired-mode-hook 'yang/dired-mode-setup)
 
 
       (setq dired-recursive-copies
@@ -3128,10 +3128,10 @@ universal prefix is provided, normal swiper otherwise"
      (use-package ace-pinyin
        :defer t
        :init
-       (yang/set-leader-key "jj" 'ace-pinyin-jump-char-2)
+       (yang/set-leader-key "jj" #'ace-pinyin-jump-char-2)
        :config
        (setq ace-pinyin--jump-word-timeout 0.3)
-       ;; (yang/set-leader-keys "jj" (lambda () (interactive) (ace-pinyin-jump-word t)))
+       ;; (yang/set-leader-key "jj" (lambda () (interactive) (ace-pinyin-jump-word t)))
        )
    #+END_SRC
 
@@ -3519,7 +3519,7 @@ universal prefix is provided, normal swiper otherwise"
        :after ibuffer
        :config
        (yang/set-leader-key "b l"
-         #'(lambda (arg)
+         (lambda (arg)
              (interactive "P")
              (with-persp-buffer-list () (ibuffer arg)))))
 
@@ -3576,9 +3576,8 @@ universal prefix is provided, normal swiper otherwise"
                 "\\([ \t]*[@={]@?[^\n;]+?\\)?"
                 "\\([ \t]+;.+?\\|[ \t]*\\)?$"))
   (yang/with-doom
-    (after!
-      (set-company-backend! 'ledger-mode
-        #'ledger-complete-at-point #'company-capf))
+    (set-company-backend! 'ledger-mode
+      #'ledger-complete-at-point #'company-capf)
     (general-def
       :keymaps 'ledger-mode-map
       :states 'normal
@@ -3597,7 +3596,7 @@ universal prefix is provided, normal swiper otherwise"
     (general-def
       :keymaps 'ledger-reconcile-mode-map
       :states 'normal
-      "," 'ledger-reconcile-toggle-posting
+      "," nil ;'ledger-reconcile-toggle-posting
       "TAB" 'ledger-reconcile-toggle
       "a" 'ledger-reconcile-add
       "q" 'ledger-reconcile-quit
