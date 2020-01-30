@@ -173,7 +173,7 @@ universal prefix is provided, normal swiper otherwise"
       (swiper))))
 
 (yang/with-spacemacs
-    (yang/set-leader-keys
+    (yang/set-leader-key
      "ss" #'swiper
      "sS" #'spacemacs/swiper-region-or-symbol
      "sb" #'swiper-all
@@ -1268,7 +1268,14 @@ universal prefix is provided, normal swiper otherwise"
   #+BEGIN_SRC emacs-lisp
     ;; wrap in with-eval-after-load, see
     ;; http://spacemacs.org/layers/+emacs/org/README.html#important-note
-    (after! org
+    (use-package org
+      :defer t
+      :init
+      (setq org-directory "~/Documents/org/"
+            ;; fix doom
+            org-id-locations-file (concat org-directory ".orgids")
+            org-id-locations-file-relative t)
+      :config
       (setq
        ;; place tags directly after headline text, with only one space in between
        org-tags-column 0
