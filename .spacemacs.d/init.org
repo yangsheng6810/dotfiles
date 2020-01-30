@@ -1,34 +1,29 @@
 #+PROPERTY: header-args
 * Framework Compatibility
   #+BEGIN_SRC emacs-lisp
-    ;;; -*- lexical-binding: t -*-
+;;; -*- lexical-binding: t -*-
 ;; enable lexical binding
 (setq-default lexical-binding t)
 ;; In spacemacs, IS-SPACEMACS is t. In doom, IS-DOOM is t
-(cond ((boundp 'dotspacemacs-directory)
-       (defconst IS-SPACEMACS t "Returns t if in spacemacs, nil otherwise")
-       (defconst IS-DOOM nil "Returns t if in doom emacs, nil otherwise")
-       (setq yang/dotemacs-framework 'spacemacs
-             yang/dotemacs-dir dotspacemacs-directory))
-      ((boundp 'doom-emacs-dir)
-       (defconst IS-SPACEMACS nil "Returns t if in spacemacs, nil otherwise")
-       (defconst IS-DOOM t "Returns t if in doom emacs, nil otherwise")
-       (setq yang/dotemacs-framework 'doom
-             yang/dotemacs-dir doom-private-dir))
-      (t
-       (defconst IS-SPACEMACS nil "Returns t if in spacemacs, nil otherwise")
-       (defconst IS-DOOM nil "Returns t if in doom emacs, nil otherwise")
-       (setq yang/dotemacs-framework 'nil
-             yang/dotemacs-dir "~/.emacs.d/")))
+(defconst IS-SPACEMACS (boundp 'dotspacemacs-directory) "Returns t if in spacemacs, nil otherwise")
+(defconst IS-DOOM (boundp 'doom-emacs-dir) "Returns t if in doom emacs, nil otherwise")
+(defvar yang/dotemacs-framework 'nil)
+(defvar yang/dotemacs-dir "~/.emacs.d/")
+(when IS-SPACEMACS
+  (setq yang/dotemacs-framework 'spacemacs
+        yang/dotemacs-dir dotspacemacs-directory))
+(when IS-DOOM
+  (setq yang/dotemacs-framework 'doom
+        yang/dotemacs-dir doom-private-dir))
 
 ;; Uniform interface to edit leader key
-(defmacro yang/set-leader-key (key func)
+(defmacro yang/set-leader-key (&rest args)
   (pcase yang/dotemacs-framework
     ('doom `(general-def
               :keymaps 'doom-leader-map
-              ,key ,func))
+              ,@args))
     ('spacemacs `(spacemacs/set-leader-keys
-                  ,key ,func))))
+                  ,@args))))
 
 (defmacro yang/with-spacemacs (&rest body)
   (declare (indent 0) (debug t))
