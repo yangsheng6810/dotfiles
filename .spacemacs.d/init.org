@@ -3318,7 +3318,11 @@ universal prefix is provided, normal swiper otherwise"
 (use-package tramp
   :defer t
   :config
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  (setq tramp-use-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=yes"
+        tramp-default-method "scp"
+        remote-file-name-inhibit-cache 120))
   #+END_SRC
 
 ** Temp fix
