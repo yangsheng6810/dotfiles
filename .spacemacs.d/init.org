@@ -612,7 +612,7 @@ universal prefix is provided, normal swiper otherwise"
      (defun yang/fix-line-number ()
        ;; (set-face-attribute 'variable-pitch nil :family "EtBembo")
        (set-face-attribute 'variable-pitch nil :family "Libre Baskerville")
-       (set-face-attribute 'fixed-pitch nil :family "Source Code Pro")
+       (set-face-attribute 'fixed-pitch nil :family "等距更纱黑体 SC")
        (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
        (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
        )
@@ -2992,7 +2992,7 @@ universal prefix is provided, normal swiper otherwise"
                  #'yang/pangu-spacing-mode-on))
    #+end_src
 
-** alignment
+** COMMENT alignment
    #+BEGIN_SRC emacs-lisp
      ;; set up mono font for chinese
      (use-package cnfonts
@@ -3060,7 +3060,7 @@ universal prefix is provided, normal swiper otherwise"
            )))))
    #+END_SRC
 
-*** Only reload when necessary
+*** COMMENT Only reload when necessary
    #+BEGIN_SRC emacs-lisp
 (use-package cnfonts
   :commands yang-cnfonts-set-font-first-time
