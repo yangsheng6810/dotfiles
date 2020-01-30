@@ -6,5 +6,7 @@ export GDK_DPI_SCALE=1
 #     eval $(gnome-keyring-daemon --start)
 #     export SSH_AUTH_SOCK
 # fi
+export LC_CTYPE=zh_CN.UTF-8
+export XMODIFIERS="@im=fcitx"
 export PATH="$HOME/bin:$PATH"
-/usr/bin/emacsclient -c -a ""
+emacsclient -c -a "emacs --daemon"
