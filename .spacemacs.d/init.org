@@ -128,6 +128,9 @@ This is a wrapper around `eval-after-load' that:
 (yang/with-spacemacs
   (tool-bar-mode -1)
   (menu-bar-mode -1))
+
+(yang/with-doom
+  (remove-hook 'text-mode-hook #'auto-fill-mode))
   #+END_SRC
 
 ** Moving around
@@ -210,15 +213,34 @@ universal prefix is provided, normal swiper otherwise"
 
   (general-def
     :states '(insert)
-    "C-d" nil                      ; evil-shift-left-line
-    "C-k" nil                      ; evil-insert-digraph
-    "C-o" nil                      ; evil-execute-in-normal-mode
-    "C-p" nil                      ; hippie-expand
-    "C-z" nil                      ; evil-emacs-state
-    "C-v" nil                      ; quoted-insert
-    "C-w" nil                      ; evil-delete-backward-word
-    "<delete>" nil                 ; delete-char (delete char before cursor)
-    ))
+    "C-d" nil                          ; evil-shift-left-line
+    "C-k" nil                          ; evil-insert-digraph
+    "C-o" nil                          ; evil-execute-in-normal-mode
+    "C-p" nil                          ; hippie-expand
+    "C-z" nil                          ; evil-emacs-state
+    "C-v" nil                          ; quoted-insert
+    "C-w" nil                          ; evil-delete-backward-word
+    "<delete>" nil                     ; delete-char (delete char before cursor)
+    )
+  (general-def
+    :keymaps 'evil-surround-mode-map
+    :states '(operator visual)
+    "s" #'evil-surround-edit
+    "S" #'evil-Surround-edit)
+  ;; fix doom inconsistent behavior
+  (general-def
+    :prefix "C-x"
+    :states '(insert)
+    "C-l" nil
+    "C-k" nil
+    "C-f" nil
+    "C-]" nil
+    "s" nil
+    "C-s" nil
+    "C-o" nil
+    "C-n" nil
+    "C-p" nil)
+  )
 
 ;; Show different cursor for different evil mode in terminal
 (after! evil-terminal-cursor-changer
@@ -395,7 +417,11 @@ universal prefix is provided, normal swiper otherwise"
                (google-this-string nil str t))
              (er/expand-region 0)))
      "Browse/search" :color blue)
-    ("r" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue)))
+    ("r" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue))
+  (yang/with-doom
+    (general-def
+      :keymaps 'doom-leader-map
+      "v" #'yang/hydra-expand/body)))
    #+end_src
 
 *** Temp fix
@@ -1103,6 +1129,13 @@ universal prefix is provided, normal swiper otherwise"
      ;; (popwin-mode 1)
    #+end_src
 
+** Fill-indicator
+#+begin_src emacs-lisp
+(use-package sh-mode
+  :init
+  (add-hook 'sh-mode-hook (lambda () (hl-fill-column-mode -1))))
+#+end_src
+
 * Compatible Keyboard for Doom
 #+begin_src emacs-lisp
   (yang/with-doom
@@ -1733,7 +1766,7 @@ universal prefix is provided, normal swiper otherwise"
                 ("L" org-insert-last-stored-link)
                 ("i" org-id-store-link)
        )
-     (yang/set-leader-key "o" 'yang/hydra-org-mode/body)
+     (yang/set-leader-key "o" #'yang/hydra-org-mode/body)
    #+END_SRC
 
 ** org-refile
@@ -1845,6 +1878,19 @@ universal prefix is provided, normal swiper otherwise"
 ** doom keybindings
 #+begin_src emacs-lisp
   (yang/with-doom
+    ;; revert doom's weird behavior when in insert mode,
+    ;; which prevents C-h to call help
+    (use-package evil-org
+      :defer t
+      :config
+      (general-def
+        :keymaps 'evil-org-mode-map
+        :states '(insert)
+        "C-l" nil
+        "C-h" nil
+        "C-k" nil
+        "C-j" nil))
+
     (general-def
       :keymaps 'org-mode-map
       :states '(normal motion)
