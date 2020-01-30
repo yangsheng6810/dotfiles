@@ -52,6 +52,7 @@
 (package! popwin)
 (package! org-noter)
 (package! recursive-narrow)
+(package! ranger)
 
 (package! hl-line :disable t)
 (package! solaire-mode :disable t)
