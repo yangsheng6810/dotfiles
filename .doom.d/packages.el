@@ -53,6 +53,7 @@
 (package! org-noter)
 (package! recursive-narrow)
 (package! ranger)
+(package! langtool)
 (package! hydra-posframe :recipe (:host github :repo "Ladicle/hydra-posframe"))
 
 (package! hl-line :disable t)

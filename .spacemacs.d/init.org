@@ -91,46 +91,48 @@ This is a wrapper around `eval-after-load' that:
 
 * General Editing
   #+BEGIN_SRC emacs-lisp
-;; commented out since it may cause undo-tree corruption
-;; (setq undo-tree-auto-save-history t)
+    ;; commented out since it may cause undo-tree corruption
+    ;; (setq undo-tree-auto-save-history t)
 
-(setq word-wrap nil
-      require-final-newline 'visit-save)
+    (setq word-wrap nil
+          require-final-newline 'visit-save)
 
-;; set tab-width
-(setq-default tab-width 8
-              c-basic-offset 4)
+    ;; set tab-width
+    (setq-default tab-width 8
+                  c-basic-offset 4)
 
-;; turn off linum-mode for performance
-;;
-(after! linum
-  (global-linum-mode -1))
+    ;; turn off linum-mode for performance
+    ;;
+    (after! linum
+      (global-linum-mode -1))
 
-;; turn on highlight-current-line-globally
-(yang/with-spacemacs
-  (spacemacs/toggle-highlight-current-line-globally-off))
+    ;; turn on highlight-current-line-globally
+    (yang/with-spacemacs
+      (spacemacs/toggle-highlight-current-line-globally-off))
 
-(global-unset-key (kbd "M-SPC"))
-(global-set-key (kbd "M-SPC") 'set-mark-command)
+    (global-unset-key (kbd "M-SPC"))
+    (global-set-key (kbd "M-SPC") 'set-mark-command)
 
-;; M-; for comment/uncomment
-(after! (general newcomment)
-  (general-def
-    :keymaps 'general-override-mode-map
-    "M-;" 'comment-dwim))
+    ;; M-; for comment/uncomment
+    (after! (general newcomment)
+      (general-def
+        :keymaps 'general-override-mode-map
+        "M-;" 'comment-dwim))
 
-(setq delete-by-moving-to-trash t)
+    (setq delete-by-moving-to-trash t)
 
-(after! langtool
-  (setq langtool-java-classpath
-        "/usr/share/languagetool:/usr/share/java/languagetool/*"))
+    (use-package langtool
+      :defer t
+      :init
+      (setq langtool-java-classpath
+            "/usr/share/languagetool:/usr/share/java/languagetool/*"))
 
-(yang/with-spacemacs
-  (tool-bar-mode -1)
-  (menu-bar-mode -1))
+    (yang/with-spacemacs
+      (tool-bar-mode -1)
+      (menu-bar-mode -1))
 
-(yang/with-doom
-  (remove-hook 'text-mode-hook #'auto-fill-mode))
+    (yang/with-doom
+      (remove-hook 'text-mode-hook #'auto-fill-mode))
   #+END_SRC
 
 ** Moving around
