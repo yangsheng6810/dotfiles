@@ -1042,26 +1042,34 @@ universal prefix is provided, normal swiper otherwise"
 
 ** Posframe
    #+begin_src emacs-lisp
-     ;; (use-package ivy-posframe
-     ;;   ;; (push '(spacemacs/ivy-spacemacs-layouts . ivy-posframe-display-at-window-bottom-left) ivy-display-functions-alist)
-     ;;   ;; (push '(complete-symbol . ivy-posframe-display-at-point) ivy-display-functions-alist)
-     ;;   ;; ;; not enable in swiper since it cause trouble for long lines
-     ;;   ;; (push '(swiper . ivy-posframe-display-at-point) ivy-display-functions-alist)
-     ;;   ;; (setq ivy-display-function #'ivy-posframe-display)
-     ;;   :diminish (ivy-posframe)
-     ;;   :config
-     ;;   (push '(counsel-M-x . ivy-posframe-display-at-window-bottom-left) ivy-display-functions-alist)
-     ;;   (ivy-posframe-enable))
+(use-package ivy-posframe
+  ;; (push '(spacemacs/ivy-spacemacs-layouts . ivy-posframe-display-at-window-bottom-left) ivy-display-functions-alist)
+  ;; (push '(complete-symbol . ivy-posframe-display-at-point) ivy-display-functions-alist)
+  ;; ;; not enable in swiper since it cause trouble for long lines
+  ;; (push '(swiper . ivy-posframe-display-at-point) ivy-display-functions-alist)
+  ;; (setq ivy-display-function #'ivy-posframe-display)
+  :diminish (ivy-posframe)
+  :defer t
+  :config
+  ;; (push '(counsel-M-x . ivy-posframe-display-at-window-bottom-left) ivy-display-functions-alist)
+  (ivy-posframe-enable))
 
-     (use-package company-posframe
-       :commands (company-posframe-mode yang/company-posframe-helper)
-       :after (company)
-       :diminish company-posframe-mode
-       :init
-       (defun yang/company-posframe-helper (&optional frame)
-         (message "Helper for company-posframe called")
-         (company-posframe-mode 1))
-       (run-with-timer 10 nil #'yang/company-posframe-helper))
+(use-package company-posframe
+  :commands (company-posframe-mode yang/company-posframe-helper)
+  :after (company)
+  :diminish company-posframe-mode
+  :init
+  (defun yang/company-posframe-helper (&optional frame)
+    (message "Helper for company-posframe called")
+    (company-posframe-mode 1))
+  (run-with-timer 10 nil #'yang/company-posframe-helper))
+
+;; NOTE: required hydra and posframe
+(use-package hydra-posframe
+  :defer t
+  :hook (after-init . hydra-posframe-enable)
+  :config
+  (setq hydra-posframe-poshandler #'posframe-poshandler-window-bottom-center))
    #+end_src
 
 ** Fix doom

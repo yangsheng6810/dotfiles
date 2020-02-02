@@ -615,7 +615,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           langtool
           telega
           ;; Add notes for pdfs
-          org-noter)
+          org-noter
+          (hydra-posframe
+           :location (recipe
+                      :fetcher github
+                      :repo "Ladicle/hydra-posframe")))
 
         yang/dotspacemacs-additional-packages-cli
         '(recursive-narrow)
