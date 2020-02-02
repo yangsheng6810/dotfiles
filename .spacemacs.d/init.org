@@ -154,33 +154,34 @@ This is a wrapper around `eval-after-load' that:
 
 ** Search
    #+begin_src emacs-lisp
-(after! isearch
-  (setq isearch-lax-whitespace t
-        isearch-regexp-lax-whitespace t
-        search-whitespace-regexp "[ \t\r\n]+")
-  ;; (setq search-whitespace-regexp "\\s-+")
+     (use-package isearch
+       :init
+       (setq isearch-lax-whitespace t
+             isearch-regexp-lax-whitespace t
+             search-whitespace-regexp "[ \t\r\n]+")
+       ;; (setq search-whitespace-regexp "\\s-+")
 
-  (setq-default search-invisible t))
+       (setq-default search-invisible t))
 
-;; a better idea is to use :general
-(use-package swiper
-  :defer t
-  :general ("C-s"  #'swiper-isearch)
-  :config
-  (defun yang/swiper ()
-    "In visual-line-mode, call swiper on visual line when
-universal prefix is provided, normal swiper otherwise"
-    (interactive)
-    (let ((visual-line-mode (and visual-line-mode
-                                 (not (null current-prefix-arg)))))
-      (swiper))))
+     ;; a better idea is to use :general
+     (use-package swiper
+       :defer t
+       :general ("C-s"  #'swiper-isearch)
+       :config
+       (defun yang/swiper ()
+         "In visual-line-mode, call swiper on visual line when
+     universal prefix is provided, normal swiper otherwise"
+         (interactive)
+         (let ((visual-line-mode (and visual-line-mode
+                                      (not (null current-prefix-arg)))))
+           (swiper))))
 
-(yang/with-spacemacs
-    (yang/set-leader-key
-     "ss" #'swiper
-     "sS" #'spacemacs/swiper-region-or-symbol
-     "sb" #'swiper-all
-     "sB" #'spacemacs/swiper-all-region-or-symbol))
+     (yang/with-spacemacs
+         (yang/set-leader-key
+          "ss" #'swiper
+          "sS" #'spacemacs/swiper-region-or-symbol
+          "sb" #'swiper-all
+          "sB" #'spacemacs/swiper-all-region-or-symbol))
    #+end_src
 
 *** Allow ivy to select the content of prompt
@@ -191,62 +192,64 @@ universal prefix is provided, normal swiper otherwise"
 
 ** Evil
    #+begin_src emacs-lisp
-(after! evil
-  ;; to allow cursor move beyond eol, and do not move back.
-  (setq evil-move-beyond-eol t
-        evil-move-cursor-back nil
-        evil-want-fine-undo t
-        evil-ex-interactive-search-highlight nil
-        ;; when mouse paste, paste at (point) regardless of where you click
-        evil-want-Y-yank-to-eol t
-        mouse-yank-at-point t
-        ;; move past eol when pressing l at eol
-        evil-cross-lines t
-        ;; when pasting over some text, the replaced text does not go to clipboard
-        evil-kill-on-visual-paste nil)
+     (use-package evil
+       :init
+       ;; to allow cursor move beyond eol, and do not move back.
+       (setq evil-move-beyond-eol t
+             evil-move-cursor-back nil
+             evil-want-fine-undo t
+             evil-ex-interactive-search-highlight nil
+             ;; when mouse paste, paste at (point) regardless of where you click
+             evil-want-Y-yank-to-eol t
+             mouse-yank-at-point t
+             ;; move past eol when pressing l at eol
+             evil-cross-lines t
+             ;; when pasting over some text, the replaced text does not go to clipboard
+             evil-kill-on-visual-paste nil)
 
-  ;; stop the behavior that evil consider all inputs done when in insert mode
-  ;; as one insertion.
+       ;; stop the behavior that evil consider all inputs done when in insert mode
+       ;; as one insertion.
 
-  ;; use isearch instead evil search
-  (setq-default evil-search-module "isearch")
+       ;; use isearch instead evil search
+       (setq-default evil-search-module "isearch")
 
-  (general-def
-    :states '(insert)
-    "C-d" nil                          ; evil-shift-left-line
-    "C-k" nil                          ; evil-insert-digraph
-    "C-o" nil                          ; evil-execute-in-normal-mode
-    "C-p" nil                          ; hippie-expand
-    "C-z" nil                          ; evil-emacs-state
-    "C-v" nil                          ; quoted-insert
-    "C-w" nil                          ; evil-delete-backward-word
-    "<delete>" nil                     ; delete-char (delete char before cursor)
-    )
-  (general-def
-    :keymaps 'evil-surround-mode-map
-    :states '(operator visual)
-    "s" #'evil-surround-edit
-    "S" #'evil-Surround-edit)
-  ;; fix doom inconsistent behavior
-  (general-def
-    :prefix "C-x"
-    :states '(insert)
-    "C-l" nil
-    "C-k" nil
-    "C-f" nil
-    "C-]" nil
-    "s" nil
-    "C-s" nil
-    "C-o" nil
-    "C-n" nil
-    "C-p" nil)
-  )
+       (general-def
+         :states '(insert)
+         "C-d" nil                          ; evil-shift-left-line
+         "C-k" nil                          ; evil-insert-digraph
+         "C-o" nil                          ; evil-execute-in-normal-mode
+         "C-p" nil                          ; hippie-expand
+         "C-z" nil                          ; evil-emacs-state
+         "C-v" nil                          ; quoted-insert
+         "C-w" nil                          ; evil-delete-backward-word
+         "<delete>" nil                     ; delete-char (delete char before cursor)
+         )
+       (general-def
+         :keymaps 'evil-surround-mode-map
+         :states '(operator visual)
+         "s" #'evil-surround-edit
+         "S" #'evil-Surround-edit)
+       ;; fix doom inconsistent behavior
+       (general-def
+         :prefix "C-x"
+         :states '(insert)
+         "C-l" nil
+         "C-k" nil
+         "C-f" nil
+         "C-]" nil
+         "s" nil
+         "C-s" nil
+         "C-o" nil
+         "C-n" nil
+         "C-p" nil)
+       )
 
-;; Show different cursor for different evil mode in terminal
-(after! evil-terminal-cursor-changer
-  (evil-terminal-cursor-changer-activate))
+     ;; Show different cursor for different evil mode in terminal
+     (use-package evil-terminal-cursor-changer
+       :config
+       (evil-terminal-cursor-changer-activate))
 
-     (setq mouse-yank-at-point t)
+          (setq mouse-yank-at-point t)
    #+end_src
 
 ** Rectangle editing
@@ -1139,7 +1142,7 @@ universal prefix is provided, normal swiper otherwise"
 
 ** Fill-indicator
 #+begin_src emacs-lisp
-(use-package sh-mode
+(use-package sh-script
   :init
   (add-hook 'sh-mode-hook (lambda () (hl-fill-column-mode -1))))
 #+end_src
@@ -1170,7 +1173,9 @@ universal prefix is provided, normal swiper otherwise"
 * Ergonomic keybindings
   #+BEGIN_SRC emacs-lisp
     ;; Ergonomic keybinding M-<hjkl>
-    (after! evil-evilified-state
+    (use-package evil-evilified-state
+      :defer t
+      :config
       (mapc (lambda (keymap)
               ;; Normal-mode, hjkl
               (define-key keymap (kbd "M-h") 'evil-backward-char)
