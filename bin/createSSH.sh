@@ -1,7 +1,7 @@
 #!/bin/bash
 HOSTNAME=`hostname`
 PORT=15522
-SSH_PORT=443
+SSH_PORT=8022
 LOCAL_SSH_PORT=8022
 USER=yangsheng
 echo $(date)
