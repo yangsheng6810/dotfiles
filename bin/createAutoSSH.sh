@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Add the following using `crontab -e`
-# */5 * * * * $HOME/bin/createAutoSSH.sh >> /tmp/createSSH.log 2>&1
+# */1 * * * * $HOME/bin/createAutoSSH.sh >> /tmp/createAutoSSH.log 2>&1
 
 HOSTNAME=`hostname`
 PORT=15522
