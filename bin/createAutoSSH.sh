@@ -8,6 +8,7 @@ PORT=15522
 SSH_PORT=8022
 LOCAL_SSH_PORT=8022
 USER=yangsheng
+AUTOSSH=autossh
 echo $(date)
 # echo "$HOSTNAME"
 case "$HOSTNAME" in
@@ -38,11 +39,16 @@ case "$HOSTNAME" in
         PORT=15523
         echo "in ospery"
         LOCAL_SSH_PORT=22
+        AUTOSSH=/home/syi3741/gentoo/usr/bin/autossh
         ;;
     *) PORT=15923
 esac
-autossh -M 0 \
+if [[ $(pgrep -l autossh) == *"autossh"* ]]; then
+    echo "Autossh already running"
+else
+    ${AUTOSSH} -M 0 \
         -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" \
         -p "$SSH_PORT" -f -N \
         -R "$PORT":localhost:"$LOCAL_SSH_PORT" \
         yangsheng@dimlight.tk
+fi
