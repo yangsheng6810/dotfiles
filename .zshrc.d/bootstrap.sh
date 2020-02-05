@@ -40,6 +40,7 @@ if ! zgen saved; then
       archlinux systemd
       battery
       colored-man-pages
+      cargo
   )
 
   for plugin in ${my_oh_my_zsh_plugins};do
