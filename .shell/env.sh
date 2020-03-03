@@ -10,7 +10,7 @@ export VISUAL="vim"
 export SYSTEMD_EDITOR="vim"
 export ALTERNATE_EDITOR=""
 
-# PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 if [ -z ${HOSTNAME+x} ]; then
     HOSTNAME=`hostname`;
