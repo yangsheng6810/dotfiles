@@ -1095,6 +1095,8 @@ This is a wrapper around `eval-after-load' that:
     (with-eval-after-load 'hl-line
       (global-hl-line-mode -1)
       (hl-line-mode -1)))
+(yang/with-doom
+  (add-hook 'org-agenda-mode-hook (lambda () (setq doom-real-buffer-p t))))
 #+end_src
 
 ** Default keybindings
