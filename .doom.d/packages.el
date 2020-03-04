@@ -54,6 +54,8 @@
 (package! recursive-narrow)
 (package! ranger)
 (package! langtool)
+(package! ox-reveal)
+(package! org-re-reveal :disable t)
 (package! hydra-posframe :recipe (:host github :repo "Ladicle/hydra-posframe"))
 
 (package! hl-line :disable t)
