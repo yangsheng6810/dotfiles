@@ -88,6 +88,14 @@ This is a wrapper around `eval-after-load' that:
                (setq body `((after! ,next ,@body))))
              (car body)))))))
 #+END_SRC
+** Disable tool-bar and menu-bar
+#+BEGIN_SRC emacs-lisp
+(when (version< emacs-version "27.0")
+  (when tool-bar-mode
+    (tool-bar-mode -1))
+  (when menu-bar-mode
+    (menu-bar-mode -1)))
+#+END_SRC
 
 * General Editing
   #+BEGIN_SRC emacs-lisp
