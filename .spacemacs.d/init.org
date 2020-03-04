@@ -2092,7 +2092,7 @@ This is a wrapper around `eval-after-load' that:
 ;; LaTeX hook
 (use-package latex
   :defer t
-  :mode "\\.tex\\'"
+  ; :mode "\\.tex\\'"
   :commands (LaTeX-math-mode)
   :config
   (defun yang/LaTeX-setup ()
