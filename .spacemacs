@@ -604,7 +604,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
           ;; easy keybindings
           general
           crux
-          importmagic)
+          importmagic
+          org-roam
+          company-org-roam)
 
         yang/dotspacemacs-additional-packages-gui
         '((recursive-narrow :location local)
