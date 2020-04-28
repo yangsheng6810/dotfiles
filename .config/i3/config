@@ -287,7 +287,7 @@ bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
 # exec_always --no-startup-id /home/yangsheng/.config/polybar/launch.sh
 
-set $Locker i3lock -c 222222 && sleep 1
+set $Locker i3lock -n -c 222222 && sleep 1
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
