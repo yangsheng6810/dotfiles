@@ -2873,11 +2873,6 @@ This is a wrapper around `eval-after-load' that:
    "<mouse-2>" #'term-mouse-paste
    "C-a" #'term-send-home
    "C-e" #'term-send-end))
-
-(yang/with-doom
-  (general-def
-    :keymaps 'doom-leader-map
-    "'" #'+term/toggle))
    #+END_SRC
 
 ** vterm
@@ -2889,6 +2884,16 @@ This is a wrapper around `eval-after-load' that:
           vterm-shell "/usr/bin/zsh")
     )
 #+end_src
+
+** toggle shell
+#+BEGIN_SRC emacs-lisp
+(yang/with-doom
+  (general-def
+    :keymaps 'doom-leader-map
+    "'" (if (eq system-type 'windows-nt)
+            #'+eshell/toggle
+          #'+term/toggle)))
+#+END_SRC
 
 * pdf-tools
   #+BEGIN_SRC emacs-lisp
