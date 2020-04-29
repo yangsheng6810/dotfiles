@@ -3444,6 +3444,14 @@ This is a wrapper around `eval-after-load' that:
                    (tramp-remote-shell "/bin/sh")
                    (tramp-remote-shell-args ("-c"))
                    (tramp-connection-timeout 10))))
+  (defconst yadm-original-shell-name
+    (getenv "SHELL")
+    "Original environment variable SHELL")
+
+  (defun yadm-fix-env (&rest _)
+    (setenv "SHELL" yadm-original-shell-name)
+    (advice-remove #'+term/toggle #'yadm-fix-env)
+    (advice-remove #'+eshell/toggle #'yadm-fix-env))
 
   (defun yadm-magit-status ()
     (interactive)
@@ -3452,7 +3460,10 @@ This is a wrapper around `eval-after-load' that:
             (lambda () (projectile-mode -1))
             (lambda () (when (fboundp #'magit-todos-mode) (magit-todos-mode -1)))
             magit-mode-hook)))
+      ;; to fix zsh incompatibility with yadm and tramp
       (setenv "SHELL" "/bin/bash")
+      (advice-add #'+term/toggle :before #'yadm-fix-env)
+      (advice-add #'+term/shell :before #'yadm-fix-env)
       (magit-status "/yadm::"))))
    #+END_SRC
 
