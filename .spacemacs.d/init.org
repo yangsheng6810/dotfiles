@@ -1483,7 +1483,7 @@ This is a wrapper around `eval-after-load' that:
          ))
    #+END_SRC
 
-** COMMENT org-journal
+** org-journal
    #+BEGIN_SRC emacs-lisp
      (use-package org-journal
        ;; :init
