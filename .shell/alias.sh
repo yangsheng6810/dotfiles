@@ -53,3 +53,5 @@ alias magit='emacsclient -c -nw -e "(progn (magit-status) (delete-other-windows)
 # create an alias to run yadm for system files
 # run `sysdm init -w /` to init
 alias sysdm="sudo yadm -Y /etc/yadm"
+# doom emacs
+alias doom='~/.emacs.d/bin/doom'
