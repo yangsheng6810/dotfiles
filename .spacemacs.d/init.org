@@ -1304,6 +1304,7 @@ This is a wrapper around `eval-after-load' that:
 * Emacs-lisp
   #+begin_src emacs-lisp
     (use-package lispy
+      :defer t
       :init
       (defun yang/enable-lispy-mode ()
         (lispy-mode 1))
@@ -2089,6 +2090,12 @@ This is a wrapper around `eval-after-load' that:
   (add-hook 'org-mode-hook #'LaTeX-math-mode)
 #+END_SRC
 
+** org-roam
+#+BEGIN_SRC emacs-lisp
+;; This is only a workaround
+(setq org-roam-directory (concat org-directory "/roam")
+      org-roam-db-location "/tmp/org-roam.db")
+#+END_SRC
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook
