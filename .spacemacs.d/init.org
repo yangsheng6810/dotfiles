@@ -1617,7 +1617,7 @@ This is a wrapper around `eval-after-load' that:
                   ((org-agenda-overriding-header "Scheduled and finished in the last week")
                    (org-agenda-repeating-timestamp-show-all t)   ;; ensures that repeating events appear on all relevant dates
                    ))
-            (tags "SCHEDULED>=\"<-9d>\"+SCHEDULED<=\"<today>\""
+            (tags "SCHEDULED>=\"<-9d>\"+SCHEDULED<\"<today>\""
                   ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                    (org-agenda-overriding-header "Scheduled but didn't finished in the last week")))))
           ("c" "Weekly schedule" agenda ""
