@@ -1764,13 +1764,16 @@ This is a wrapper around `eval-after-load' that:
                ("tn" "Not grouped" entry
                 (file+headline "~/Documents/org/Tasks.org" "Not grouped")
                 "* TODO %^{Subject}\n%u\n%a\n" :clock-in t :clock-resume t)
+               ("w" "Web site"
+                entry (file+olp "~/Documents/org/inbox.org" "Web")
+                "* %c :website:\n%U %?%:initial")
                ("x" "Exercise" entry
                 (file+olp+datetree "~/Documents/org/Exercise.org")
                 "* %?\n  %u" :time-prompt t)
                ("p" "Protocol" entry (file+headline "~/Documents/org/Notes.org" "Inbox")
                 "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
                ("L" "Protocol Link" entry (file+headline "~/Documents/org/Notes.org" "Inbox")
-                "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n"))))
+                "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n %u"))))
    #+END_SRC
 
 ** hydra for org
