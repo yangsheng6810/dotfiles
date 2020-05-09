@@ -3711,6 +3711,14 @@ This is a wrapper around `eval-after-load' that:
              ("C-h C" . helpful-command)))
   #+END_SRC
 
+* telega
+#+BEGIN_SRC emacs-lisp
+(general-def
+        :keymaps 'telega-msg-button-map
+        "k" nil
+        "n" nil)
+#+END_SRC
+
 * auto-highlight-symbol (ahs)
   #+BEGIN_SRC emacs-lisp
 (after! ahs
