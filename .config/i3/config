@@ -62,6 +62,7 @@ for_window [class="Totem"] resize set width 35 ppt
 for_window [class="Pavucontrol"] resize set width 25 ppt, resize set height 50 ppt
 for_window [class="Blueman-manager"] resize set width 25 ppt, resize set height 50 ppt
 for_window [class="Slack"] move container to workspace $ws7
+for_window [class="zoom"] move container to workspace $ws8
 for_window [class="KeePassXC"] floating enable
 
 # when opening history from firefox, open it as a vertical split
