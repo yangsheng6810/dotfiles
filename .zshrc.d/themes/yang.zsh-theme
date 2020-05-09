@@ -39,3 +39,7 @@ else
     RPROMPT='%{$reset_color%}';
 fi
 
+if [ "$INSIDE_EMACS" = "vterm" ]; then
+    setopt PROMPT_SUBST
+    PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
+fi
