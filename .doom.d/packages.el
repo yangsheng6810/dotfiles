@@ -60,5 +60,9 @@
 
 (package! hl-line :disable t)
 (package! solaire-mode :disable t)
+(package! beancount
+  :recipe (:host github
+                 :repo "beancount/beancount"
+                 :files ("edtiors/emacs/beancount.el")))
 ;; Remove annoying indentation in org-mode
 ;; (package! org-indent :disable t)

@@ -3676,6 +3676,15 @@ This is a wrapper around `eval-after-load' that:
       "RET" 'ledger-reconcile-finish)))
 #+END_SRC
 
+* Beancount
+#+BEGIN_SRC emacs-lisp
+(yang/with-doom
+  (add-to-list 'load-path "~/.emacs.d/.local/straight/repos/beancount/editors/emacs")
+  (use-package beancount
+    :mode ("\\.beancount\\'" . beancount-mode)
+    :defer t))
+#+END_SRC
+
 * helpful
   #+BEGIN_SRC emacs-lisp
     ;; Note that the built-in `describe-function' includes both functions
