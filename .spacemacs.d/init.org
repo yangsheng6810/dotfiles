@@ -1355,7 +1355,9 @@ This is a wrapper around `eval-after-load' that:
                             (org-agenda-files :maxlevel . 3))
        ;; fontify code in code blocks
        org-src-fontify-natively t
-       preview-scale-function 1.66)
+       preview-scale-function 1.66
+       org-return-follows-link t
+       )
 
       (plist-put org-format-latex-options :scale 1.66)
 
@@ -1931,7 +1933,8 @@ This is a wrapper around `eval-after-load' that:
     (general-def
       :keymaps 'org-mode-map
       :states '(normal motion)
-      "," nil)
+      "," nil
+      "<return>" 'org-return)
     (general-def
       :keymaps 'org-mode-map
       :prefix ","
