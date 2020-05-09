@@ -26,6 +26,10 @@ function vterm_printf(){
     fi
 }
 
+# directory tracking
+vterm_prompt_end() {
+    vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
+}
 # For use in multi-term in emacs
 # Allows emacs to get the current dir
 if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm-256color" ]; then
@@ -34,13 +38,13 @@ if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm-256color" ]; then
         # function chpwd() {
         #     print -Pn "\e]51;A$(pwd)\e\\";
         # }
-        function chpwd() {
-            if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-                print -Pn "\e]51A;$(whoami)@$(hostname):$(pwd)\e\\"
-            else
-                print -Pn "\e]51;A$(pwd)\e\\";
-            fi
-        }
+        # function chpwd() {
+        #     if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+        #         print -Pn "\e]51A;$(whoami)@$(hostname):$(pwd)\e\\"
+        #     else
+        #         print -Pn "\e]51;A$(pwd)\e\\";
+        #     fi
+        # }
         # for clear
         if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
             alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
@@ -48,10 +52,6 @@ if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm-256color" ]; then
         # for changing buffer name
         autoload -U add-zsh-hook
         add-zsh-hook -Uz chpwd (){ print -Pn "\e]2;%m:%2~\a" }
-        # directory tracking
-        vterm_prompt_end() {
-            vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
-        }
     else
         function precmd() {
             echo -e "\033AnSiTc" "$(pwd)"
