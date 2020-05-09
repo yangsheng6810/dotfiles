@@ -2152,6 +2152,8 @@ This is a wrapper around `eval-after-load' that:
      ;; '("tikzpicture" LaTeX-env-tikz)
      )
     ;; enable TeX-fold-buffer
+    (use-package tex-fold
+      :commands (TeX-fold-buffer))
     (add-hook 'find-file-hook 'TeX-fold-buffer t t)
     (setq preview-auto-cache-preamble t)
     (setq fill-column 10000)
