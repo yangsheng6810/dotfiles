@@ -2221,14 +2221,19 @@ This is a wrapper around `eval-after-load' that:
                  (lambda ()
                    (add-hook 'after-save-hook 'reftex-parse-all nil 'make-it-local)))
        :config
+       (setq reftex-cite-punctuation '(", " ", and " " {\\it et al.}"))
        (defun yang/reftex-get-bib-names (func field entry)
          "Return a list with the full author or editor names in ENTRY.
      If FIELD is empty try \"editor\" field."
          (if (eq #'org-ref-open-bibtex-notes this-command)
              (let ((names (reftex-get-bib-field field entry)))
-               (message "This command is %s" this-command)
-               (if (equal "" names)
-                   (setq names (reftex-get-bib-field "editor" entry)))
+               (when (equal "" names)
+                 (setq names (reftex-get-bib-field "editor" entry)))
+               (when (and (s-starts-with? "{" names)
+                          (s-ends-with? "}" names))
+                 (setq names (s-with names
+                               (s-chop-prefix "{")
+                               (s-chop-suffix "}"))))
                (cl-loop for name in (s-split "[ \t]*\\band\\b[ \t]*" names) collect
                         (let ((name-list (s-split "[ \t]*,[ \t]*" name)))
                           (s-join " " (-concat (-take-last 1 name-list) (-drop-last 1 name-list))))))
