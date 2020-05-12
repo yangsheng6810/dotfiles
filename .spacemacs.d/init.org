@@ -430,7 +430,8 @@ This is a wrapper around `eval-after-load' that:
                (google-this-string nil str t))
              (er/expand-region 0)))
      "Browse/search" :color blue)
-    ("r" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue))
+    ("r" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue)
+    ("C-g" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue))
   (yang/with-doom
     (general-def
       :keymaps 'doom-leader-map
