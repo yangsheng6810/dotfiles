@@ -1712,6 +1712,7 @@ This is a wrapper around `eval-after-load' that:
 ** org-capture
    #+BEGIN_SRC emacs-lisp
      (use-package org-capture
+       :defer t
        :config
        (defun transform-square-brackets-to-round-ones(string-to-transform)
          "Transforms [ into ( and ] into ), other chars left unchanged."
@@ -1768,7 +1769,7 @@ This is a wrapper around `eval-after-load' that:
                 (file+headline "~/Documents/org/Tasks.org" "Not grouped")
                 "* TODO %^{Subject}\n%u\n%a\n" :clock-in t :clock-resume t)
                ("w" "Web site"
-                entry (file+olp "~/Documents/org/inbox.org" "Web")
+                entry (file+headline "~/Documents/org/Notes.org" "Inbox")
                 "* %c :website:\n%U %?%:initial")
                ("x" "Exercise" entry
                 (file+olp+datetree "~/Documents/org/Exercise.org")
@@ -1777,6 +1778,23 @@ This is a wrapper around `eval-after-load' that:
                 "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
                ("L" "Protocol Link" entry (file+headline "~/Documents/org/Notes.org" "Inbox")
                 "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n %u"))))
+
+(use-package org-protocol-capture-html
+  :after org-protocol
+  :commands (org-protocol-capture-html--with-pandoc
+             org-protocol-capture-html--capture-eww-readable)
+  :init
+  (add-to-list 'org-protocol-protocol-alist
+               '("capture-html"
+                 :protocol "capture-html"
+                 :function org-protocol-capture-html--with-pandoc
+                 :kill-client t))
+
+  (add-to-list 'org-protocol-protocol-alist
+               '("capture-eww-readable"
+                 :protocol "capture-eww-readable"
+                 :function org-protocol-capture-html--capture-eww-readable
+                 :kill-client t)))
    #+END_SRC
 
 ** hydra for org

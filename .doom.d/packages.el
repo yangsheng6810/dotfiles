@@ -64,5 +64,8 @@
   :recipe (:host github
                  :repo "beancount/beancount"
                  :files ("edtiors/emacs/beancount.el")))
+(package! org-protocol-capture-html
+  :recipe (:host github
+                 :repo "alphapapa/org-protocol-capture-html"))
 ;; Remove annoying indentation in org-mode
 ;; (package! org-indent :disable t)
