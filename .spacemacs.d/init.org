@@ -274,14 +274,15 @@ This is a wrapper around `eval-after-load' that:
                                             :post (deactivate-mark))
          "
        ^_k_^       _w_ copy      _o_pen       _N_umber-lines            |\\     -,,,--,,_
-     _h_   _l_     _p_aste       _t_ype       _e_xchange-point          /,`.-'`'   ..  \-;;,_
-       ^_j_^       _d_ kill      _c_lear      _r_eset-region-mark      |,4-  ) )_   .;.(  `'-'
-     ^^^^          _u_ndo        _q_uit       ^ ^                     '---''(./..)-'(_\_)
+     _h_   _l_     _p_aste       _t_ype       _i_sert-sring             /,`.-'`'   ..  \-;;,_
+       ^_j_^       _d_ kill      _c_lear      _e_xchange-point         |,4-  ) )_   .;.(  `'-'
+     ^^^^          _u_ndo        _q_uit       _r_eset-region-mark     '---''(./..)-'(_\_)
      "
          ("k" rectangle-previous-line)
          ("j" rectangle-next-line)
          ("h" rectangle-backward-char)
          ("l" rectangle-forward-char)
+         ("i" string-insert-rectangle)
          ("d" kill-rectangle)                  ;; C-x r k
          ("p" yank-rectangle)                  ;; C-x r y
          ("w" copy-rectangle-as-kill)          ;; C-x r M-w
