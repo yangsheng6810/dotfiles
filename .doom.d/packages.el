@@ -67,5 +67,6 @@
 (package! org-protocol-capture-html
   :recipe (:host github
                  :repo "alphapapa/org-protocol-capture-html"))
+(package! doct)
 ;; Remove annoying indentation in org-mode
 ;; (package! org-indent :disable t)

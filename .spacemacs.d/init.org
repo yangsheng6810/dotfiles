@@ -1711,6 +1711,13 @@ This is a wrapper around `eval-after-load' that:
            )
    #+END_SRC
 
+** doct
+For generating org-capture templates
+#+BEGIN_SRC emacs-lisp
+(use-package doct
+  ;;recommended: defer until calling doct
+  :commands (doct))
+#+END_SRC
 ** org-capture
    #+BEGIN_SRC emacs-lisp
      (use-package org-capture
@@ -1722,64 +1729,149 @@ This is a wrapper around `eval-after-load' that:
           (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
 
        (setq org-capture-templates
-             '(
-               ("c" "Computer")
-               ("ce" "Emacs" entry
-                (file+headline "~/Documents/org/Computer.org" "Emacs")
-                "* %? \n  %u")
-               ("cl" "Linux" entry
-                (file+headline "~/Documents/org/Computer.org" "Linux")
-                "* %? \n  %u")
-               ("cp" "Python" entry
-                (file+headline "~/Documents/org/Computer.org" "Python")
-                "* %?\n  %u")
-               ("cw" "Windows" entry
-                (file+headline "~/Documents/org/Computer.org" "Windows")
-                "* %? \n  %u")
-               ("g" "Calendar" entry
-                (file "~/Documents/org/gcal.org")
-                "* %?\n  \n  %^T")
-               ("j" "Journal entry" entry
-                (function org-journal-find-location)
-                "* %(format-time-string org-journal-time-format)%^{Title}\n  %i%?")
-               ("n" "Notes" entry
-                (file+olp+datetree "~/Documents/org/Notes.org")
-                "" :time-prompt t)
-               ("r" "Research" entry
-                (file+olp+datetree "~/Documents/org/Research.org")
-                "* %?\n  %u" :prepend t :clock-in t :clock-resume t)
-               ("s" "Schedule" entry
-                (file+olp+datetree "~/Documents/org/Schedule.org")
-                "")
-               ("t" "Tasks")
-               ("tb" "Book" entry
-                (file+headline "~/Documents/org/Tasks.org" "Book")
-                "* TODO %^{Book title}\n%u\n%a\n" :clock-in t :clock-resume t)
-               ("tc" "Computer" entry
-                (file+headline "~/Documents/org/Tasks.org" "Computer")
-                "* TODO %^{Topic} :computer:\n %u\n %a\n" :clock-in t :clock-resume t)
-               ("tf" "Food" entry
-                (file+headline "~/Documents/org/Tasks.org" "Food")
-                "* TODO %^{Food} :food:\n %u\n %a\n" :clock-in t :clock-resume t)
-               ("tr" "Research" entry
-                (file+headline "~/Documents/org/Tasks.org" "Research")
-                "* TODO %^{Title} :research:\n%u\n%a\n" :clock-in t :clock-resume t)
-               ("ti" "Idea" entry
-                (file+headline "~/Documents/org/Tasks.org" "Idea")
-                "* TODO %^{Idea} :idea:\n%u\n%a\n" :clock-in t :clock-resume t)
-               ("tn" "Not grouped" entry
-                (file+headline "~/Documents/org/Tasks.org" "Not grouped")
-                "* TODO %^{Subject}\n%u\n%a\n" :clock-in t :clock-resume t)
-               ("w" "Web site"
-                entry (file+headline "~/Documents/org/Notes.org" "Inbox")
-                "* %c :website:\n%U %?%:initial")
-               ("x" "Exercise" entry
-                (file+olp+datetree "~/Documents/org/Exercise.org")
-                "* %?\n  %u" :time-prompt t)
-               ("p" "Protocol" entry (file+headline "~/Documents/org/Notes.org" "Inbox")
-                "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-               ("L" "Protocol Link" entry (file+headline "~/Documents/org/Notes.org" "Inbox")
-                "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n %u"))))
+             (doct
+              '(
+                ("Calendar" :keys "g" :file "~/Documents/org/gcal.org"
+                 :prepend t
+                 :template ("* %^{Description}"
+                            ":PROPERTIES:"
+                            ":Created: %U"
+                            ":END:"
+                            "  %^T"
+                            "  %?"))
+                ("Journal entry" :keys "j"
+                 :function (lambda () (org-journal-find-location))
+                 :clock-in t :clock-resume t
+                 :template
+                 ("* %(format-time-string org-journal-time-format)%^{Title}"
+                  "  %i%?"))
+                (:group "All Notes"
+                        :file "~/Documents/org/Notes.org"
+                        :template ("* %^{Description}"
+                                   ":PROPERTIES:"
+                                   ":Created: %U"
+                                   ":END:"
+                                   "%?")
+                        :children
+                        (("Notes" :keys "n" :olp ("Notes")
+                          :datetree t)
+                         ("Exercise" :keys "e" :olp ("Exercise"))
+                         ("Research" :keys "n" :olp ("Research")
+                          :clock-in t :clock-resume t :prepend t)
+                         ("Computer" :keys "c"
+                          :prepend t
+                          :children
+                          (("Emacs" :keys "e" :olp ("Computer" "Emacs"))
+                           ("Linux" :keys "l" :olp ("Computer" "Linux"))
+                           ("Python" :keys "p" :olp ("Computer" "Python"))
+                           ("Windows" :keys "w" :olp ("Computer" "Windows"))))))
+                ("Schedule" :keys "s" :file "~/Documents/org/Schedule.org"
+                 :datetree t
+                 :template ("* %^{Description}"
+                            ":PROPERTIES:"
+                            ":Created: %U"
+                            ":END:"
+                            "%?"))
+                ("Tasks" :keys "t" :file "~/Documents/org/Tasks.org"
+                 :template ("* %^{Description}"
+                            ":PROPERTIES:"
+                            ":Created: %U"
+                            ":END:"
+                            "%a")
+                 :children
+                 (("Computer"
+                   :keys "c" :headline "Computer")
+                  ("Food"
+                   :keys "f" :headline "Food")
+                  ("Research"
+                   :keys "r" :headline "Research")
+                  ("Idea"
+                   :keys "i" :headline "Idea")
+                  ("Not grouped"
+                   :keys "n" :headline "Not grouped")
+                  ("Books"
+                   :keys "b" :headline "Book")))
+                ("Web site" :keys "w" :file "~/Documents/org/Notes.org"
+                 :headline "Inbox"
+                 :template ("* %c :website:"
+                            ":PROPERTIES:"
+                            ":Created: %U"
+                            ":END:"
+                            "%?%:initial"))
+                ("Protocol" :keys "p" :file "~/Documents/org/Notes.org"
+                 :headline "Inbox"
+                 :template ("* %^{Title}"
+                            "Source: %u, [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
+                            " #+BEGIN_QUOTE"
+                            "%i"
+                            "#+END_QUOTE"
+                            "%?"))
+                ("Protocol Link" :keys "L" :file "~/Documents/org/Notes.org"
+                 :headline "Inbox"
+                 :template ("* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
+                            ":PROPERTIES:"
+                            ":Created: %U"
+                            ":END:")))))
+       ;; (setq org-capture-templates
+       ;;       '(
+       ;;         ("c" "Computer")
+       ;;         ("ce" "Emacs" entry
+       ;;          (file+headline "~/Documents/org/Computer.org" "Emacs")
+       ;;          "* %? \n  %u")
+       ;;         ("cl" "Linux" entry
+       ;;          (file+headline "~/Documents/org/Computer.org" "Linux")
+       ;;          "* %? \n  %u")
+       ;;         ("cp" "Python" entry
+       ;;          (file+headline "~/Documents/org/Computer.org" "Python")
+       ;;          "* %?\n  %u")
+       ;;         ("cw" "Windows" entry
+       ;;          (file+headline "~/Documents/org/Computer.org" "Windows")
+       ;;          "* %? \n  %u")
+       ;;         ("g" "Calendar" entry
+       ;;          (file "~/Documents/org/gcal.org")
+       ;;          "* %?\n  \n  %^T")
+       ;;         ("j" "Journal entry" entry
+       ;;          (function org-journal-find-location)
+       ;;          "* %(format-time-string org-journal-time-format)%^{Title}\n  %i%?")
+       ;;         ("n" "Notes" entry
+       ;;          (file+olp+datetree "~/Documents/org/Notes.org")
+       ;;          "" :time-prompt t)
+       ;;         ("r" "Research" entry
+       ;;          (file+olp+datetree "~/Documents/org/Research.org")
+       ;;          "* %?\n  %u" :prepend t :clock-in t :clock-resume t)
+       ;;         ("s" "Schedule" entry
+       ;;          (file+olp+datetree "~/Documents/org/Schedule.org")
+       ;;          "")
+       ;;         ("t" "Tasks")
+       ;;         ("tb" "Book" entry
+       ;;          (file+headline "~/Documents/org/Tasks.org" "Book")
+       ;;          "* TODO %^{Book title}\n%u\n%a\n" :clock-in t :clock-resume t)
+       ;;         ("tc" "Computer" entry
+       ;;          (file+headline "~/Documents/org/Tasks.org" "Computer")
+       ;;          "* TODO %^{Topic}\n %u\n %a\n" :clock-in t :clock-resume t)
+       ;;         ("tf" "Food" entry
+       ;;          (file+headline "~/Documents/org/Tasks.org" "Food")
+       ;;          "* TODO %^{Food} :food:\n %u\n %a\n" :clock-in t :clock-resume t)
+       ;;         ("tr" "Research" entry
+       ;;          (file+headline "~/Documents/org/Tasks.org" "Research")
+       ;;          "* TODO %^{Title} :research:\n%u\n%a\n" :clock-in t :clock-resume t)
+       ;;         ("ti" "Idea" entry
+       ;;          (file+headline "~/Documents/org/Tasks.org" "Idea")
+       ;;          "* TODO %^{Idea} :idea:\n%u\n%a\n" :clock-in t :clock-resume t)
+       ;;         ("tn" "Not grouped" entry
+       ;;          (file+headline "~/Documents/org/Tasks.org" "Not grouped")
+       ;;          "* TODO %^{Subject}\n%u\n%a\n" :clock-in t :clock-resume t)
+       ;;         ("w" "Web site"
+       ;;          entry (file+headline "~/Documents/org/Notes.org" "Inbox")
+       ;;          "* %c :website:\n%U %?%:initial")
+       ;;         ("x" "Exercise" entry
+       ;;          (file+olp+datetree "~/Documents/org/Exercise.org")
+       ;;          "* %?\n  %u" :time-prompt t)
+       ;;         ("p" "Protocol" entry (file+headline "~/Documents/org/Notes.org" "Inbox")
+       ;;          "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+       ;;         ("L" "Protocol Link" entry (file+headline "~/Documents/org/Notes.org" "Inbox")
+       ;;          "* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]\n %u")))
+       )
 
 (use-package org-protocol-capture-html
   :after org-protocol
