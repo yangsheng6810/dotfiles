@@ -10,9 +10,9 @@
 ;
 ;
 ;   To learn more about how to configure Polybar
-;   go to https://github.com/jaagr/polybar
+;   go to https://github.com/polybar/polybar
 ;
-;   The README contains alot of information
+;   The README contains a lot of information
 ;
 ;==========================================================
 
@@ -27,32 +27,14 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/eDP1]
-inherit = bar/example
-
-monitor = eDP1
-
-[bar/DP]
-inherit = bar/example
-
-monitor = DP1
-
-[bar/HDMI]
-inherit = bar/example
-
-monitor = HDMI2
-
 [bar/example]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 38
-dpi = 192
-; tray-scale = 2.0
-tray-maxsize = 38
+height = 27
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 6.0
-fixed-center = false
+fixed-center = true
 bottom = true
 
 background = ${colors.background}
@@ -70,20 +52,21 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = fixed:pixelsize=11;1
+font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=11;1
+font-2 = siji:pixelsize=10;1
+font-3 = FontAwesome:style=Regular:pixelsize=10;1
 
-modules-left = i3
-modules-center = 
-modules-right = filesystem xbacklight xkeyboard memory cpu wlan eth eth-usb battery temperature date powermenu
+modules-left = bspwm i3
+modules-center = date
+modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature powermenu
 
 tray-position = right
 tray-padding = 2
 ;tray-background = #0063ff
 
 ;wm-restack = bspwm
-; wm-restack = i3
+;wm-restack = i3
 
 ;override-redirect = true
 
@@ -96,13 +79,35 @@ scroll-down = i3wm-wsprev
 cursor-click = pointer
 cursor-scroll = ns-resize
 
+[bar/vm]
+inherit = bar/example
+modules-left = i3
+modules-center = 
+modules-right = filesystem pulseaudio xkeyboard memory cpu date powermenu
+
+[bar/eDP1]
+inherit = bar/example
+
+monitor = eDP1
+
+[bar/DP]
+inherit = bar/example
+
+monitor = DP1
+
+[bar/HDMI]
+inherit = bar/example
+
+monitor = HDMI2
+
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:30:...%
 
 [module/xkeyboard]
 type = internal/xkeyboard
-blacklist-0 = num lock
+blacklist-0 = scroll lock
+blacklist-1 = num lock
 
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
@@ -115,6 +120,10 @@ label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
 label-indicator-underline = ${colors.secondary}
+# label-indicator-on = %icon%
+
+indicator-icon-0 = caps lock;;A
+indicator-icon-1 = num lock;;⇭
 
 [module/filesystem]
 type = internal/fs
@@ -151,40 +160,49 @@ label-empty-padding = 2
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
+; Sort the workspaces by index instead of the default
+; sorting that groups the workspaces by output
+; Default: false
 index-sort = true
 wrapping-scroll = false
-pin-workspaces = true
 
 ; Only show workspaces on the same output as the bar
-;pin-workspaces = true
+pin-workspaces = true
+; This will split the workspace name on ':'
+; Default: false
+strip-wsnumbers = true
 
 label-mode-padding = 2
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %name%
-label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${module/bspwm.label-focused-underline}
-label-focused-padding = ${module/bspwm.label-focused-padding}
+label-focused = %index%:%name%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %name%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+label-unfocused = %index%:%name%
+label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %name%
+label-visible = %index%:%name%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %name%
-label-urgent-background = ${module/bspwm.label-urgent-background}
-label-urgent-padding = ${module/bspwm.label-urgent-padding}
+label-urgent = %index%:%name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
 
 ; Separator in between workspaces
 ; label-separator = |
+ws-icon-0 = 1:default
+ws-icon-1 = 2:www
+ws-icon-2 = 3:emacs
+ws-icon-default = ♟
 
 
 [module/mpd]
@@ -225,7 +243,7 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = "CPU: "
+format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
 label = %percentage:2%%
@@ -233,23 +251,22 @@ label = %percentage:2%%
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = "MEM: "
+format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
 label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = wlp4s0
+interface = net1
 interval = 3.0
 
-format-connected-prefix = "WiFi: "
 format-connected = <ramp-signal> <label-connected>
 format-connected-underline = #9f78e1
 label-connected = %essid%
 
-format-disconnected-prefix = "WiFi: "
-format-disconnected = <label-disconnected>
+format-disconnected =
+;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
@@ -261,22 +278,9 @@ ramp-signal-3 = 
 ramp-signal-4 = 
 ramp-signal-foreground = ${colors.foreground-alt}
 
-
 [module/eth]
 type = internal/network
-interface = enp0s31f6
-interval = 3.0
-
-format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
-
-format-disconnected =
-
-[module/eth-usb]
-type = internal/network
-interface = enp0s20f0u1u4
+interface = sit0
 interval = 3.0
 
 format-connected-underline = #55aa55
@@ -294,13 +298,13 @@ format-disconnected =
 type = internal/date
 interval = 5
 
-date = " %m-%d %a"
-date-alt = " %Y-%m-%d %a"
+date = " %A, %m-%d"
+date-alt = " %A, %Y-%m-%d"
 
 time = %H:%M
 time-alt = %H:%M:%S
 
-format-prefix = 
+format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
