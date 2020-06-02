@@ -924,11 +924,13 @@ This is a wrapper around `eval-after-load' that:
    (:height 0.8
     :foreground ,gray-dark))
   (org-link
-   (:underline nil
+   (:underline t
     :weight normal
     :foreground ,slate)
-   (:foreground ,bg-dark)
-   (:foreground ,bg-light))
+   (:foreground ,bg-dark
+    :underline t)
+   (:foreground ,bg-light
+    :underline t))
   (org-special-keyword
    (:height 0.9
     :foreground ,comment)
