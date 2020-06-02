@@ -70,3 +70,6 @@
 (package! doct)
 ;; Remove annoying indentation in org-mode
 ;; (package! org-indent :disable t)
+(package! wucuo)
+(package! valign
+  :recipe (:host github :repo "casouri/valign"))
