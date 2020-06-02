@@ -717,8 +717,8 @@ This is a wrapper around `eval-after-load' that:
   (gray               "#bbb")
   (sans-font          "Source Sans Pro")
   (serif-font         "Merriweather")
-  (et-font            "EtBembo")
-  ;; (et-font  "Libre Baskerville")
+  ;; (et-font            "EtBembo")
+  (et-font  "Libre Baskerville")
   (sans-mono-font     "Souce Code Pro")
   (serif-mono-font "Verily Serif Mono"))
  ;; Settings
