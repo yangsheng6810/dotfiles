@@ -1797,6 +1797,7 @@ This is a wrapper around `eval-after-load' that:
        org-src-fontify-natively t
        preview-scale-function 1.66
        org-return-follows-link t
+       org-startup-indented nil
        )
 
       (plist-put org-format-latex-options :scale 1.66)
