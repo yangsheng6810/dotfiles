@@ -2004,7 +2004,8 @@ This is a wrapper around `eval-after-load' that:
                "~/Documents/org/Tasks.org"
                "~/Documents/org/Birthdays.org"
                "~/Documents/org/gcal.org"
-               "~/Documents/org/Schedule.org"))
+               "~/Documents/org/Schedule.org"
+               "~/Documents/org/Notes.org"))
        :config
        (mapc
         (lambda (value)
