@@ -1813,6 +1813,8 @@ This is a wrapper around `eval-after-load' that:
         (set-face-attribute 'org-table nil :inherit 'fixed-pitch))
 
       (add-hook 'org-mode-hook #'yang/org-mode-setup)
+      ;;; currently still not mature enough
+      ;; (add-hook 'org-mode-hook #'valign-mode)
       (remove-hook 'org-mode-hook #'auto-fill-mode)
 
 
@@ -3724,6 +3726,13 @@ For generating org-capture templates
       (setq yang-cnfonts-has-started nil)))
 
   (add-to-list 'delete-frame-functions #'yang-check-last-client-frame))
+   #+END_SRC
+
+** Valign
+   #+BEGIN_SRC emacs-lisp
+(use-package valign
+  :defer t
+  :commands (valign-table valign-mode))
    #+END_SRC
 
 ** ace-pinyin
