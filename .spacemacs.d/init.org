@@ -2770,12 +2770,13 @@ For generating org-capture templates
 ** bibtex
    #+BEGIN_SRC emacs-lisp
      (use-package reftex
-       :commands (reftex-parse-all)
+       :commands (reftex-parse-all yang/reftex-get-bib-names)
        :after (dash s)
        :init
        (add-hook 'bibtex-mode-hook
                  (lambda ()
                    (add-hook 'after-save-hook 'reftex-parse-all nil 'make-it-local)))
+       (advice-add #'reftex-get-bib-names :around #'yang/reftex-get-bib-names)
        :config
        (setq reftex-cite-punctuation '(", " ", and " " {\\it et al.}"))
        (defun yang/reftex-get-bib-names (func field entry)
@@ -2793,9 +2794,7 @@ For generating org-capture templates
                (cl-loop for name in (s-split "[ \t]*\\band\\b[ \t]*" names) collect
                         (let ((name-list (s-split "[ \t]*,[ \t]*" name)))
                           (s-join " " (-concat (-take-last 1 name-list) (-drop-last 1 name-list))))))
-           (funcall func field entry)))
-
-       (advice-add #'reftex-get-bib-names :around #'yang/reftex-get-bib-names))
+           (funcall func field entry))))
 
    #+END_SRC
 
