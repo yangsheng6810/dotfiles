@@ -897,6 +897,24 @@ This is a wrapper around `eval-after-load' that:
    (:background nil
     :foreground ,bg-light
     :inhert fixed-pitch))
+  (org-special-keyword
+   (:background ,bg-dark
+    :inhert fixed-pitch)
+   (:background nil
+    :foreground ,keyword
+    :inhert fixed-pitch)
+   (:background nil
+    :foreground ,keyword
+    :inhert fixed-pitch))
+  (org-drawer
+   (:background ,bg-dark
+    :inhert fixed-pitch)
+   (:background nil
+    :foreground ,keyword
+    :inhert fixed-pitch)
+   (:background nil
+    :foreground ,keyword
+    :inhert fixed-pitch))
   (org-block-begin-line
    (:background ,bg-dark)
    (:background nil
