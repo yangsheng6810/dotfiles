@@ -734,17 +734,17 @@ This is a wrapper around `eval-after-load' that:
     :height 1.2))
   (org-document-title
    (:inherit variable-pitch
-    :height 3
+    :height 3.0
     :weight normal
     :foreground ,gray)
    (:inherit nil
     :family ,et-font
-    :height 3
+    :height 3.0
     :foreground ,bg-dark
     :underline nil)
    (:inherit nil
     :family ,et-font
-    :height 3
+    :height 3.0
     :foreground ,bg-light
     :underline nil))
   (org-document-info
