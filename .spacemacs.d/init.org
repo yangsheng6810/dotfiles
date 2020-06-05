@@ -127,7 +127,11 @@ This is a wrapper around `eval-after-load' that:
         :keymaps 'general-override-mode-map
         "M-;" 'comment-dwim))
 
-    (setq delete-by-moving-to-trash t)
+(after! counsel
+  (yang/set-leader-key
+   "/" #'counsel-descbinds))
+
+(setq delete-by-moving-to-trash t)
 
     (use-package langtool
       :defer t
