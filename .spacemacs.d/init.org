@@ -3371,18 +3371,21 @@ For generating org-capture templates
 
 ** fcitx.el
    #+begin_src emacs-lisp
-     (use-package fcitx
-       :defer t
-       :init
-       (setq fcitx-use-dbus t)
-       (setenv "LC_CTYPE" "zh_CN.UTF-8")
-       (setenv "LANG" "zh_CN.UTF-8")
-       (setenv "XIM_PROGRAM" "fcitx")
-       (setenv "XIM" "fcitx")
-       (setenv "XMODIFIERS" "@im=fcitx")
-       (setenv "QT_IM_MODULE" "fcitx")
-       (setenv "GTK_IM_MODULE" "fcitx"))
-
+(use-package fcitx
+  :defer t
+  :init
+  ;; (setq fcitx-use-dbus t)
+  (setq fcitx-use-dbus nil)
+  (setenv "LC_CTYPE" "zh_CN.UTF-8")
+  (setenv "LANG" "zh_CN.UTF-8")
+  (setenv "XIM_PROGRAM" "fcitx")
+  (setenv "XIM" "fcitx")
+  (setenv "XMODIFIERS" "@im=fcitx")
+  (setenv "QT_IM_MODULE" "fcitx")
+  (setenv "GTK_IM_MODULE" "fcitx")
+  :config
+  (unless (executable-find fcitx-remote-command)
+    (setq fcitx-remote-command "fcitx5-remote")))
    #+end_src
 
 * Browser
