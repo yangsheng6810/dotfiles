@@ -3410,6 +3410,11 @@ For generating org-capture templates
     (setq fcitx-remote-command "fcitx5-remote")))
    #+end_src
 
+** Line wrap
+   [[https://emacs-china.org/t/topic/13254][link]]
+#+BEGIN_SRC emacs-lisp
+(load "kinsoku.el")
+#+END_SRC
 * Browser
 ** COMMENT Using emacs to edit text area
    #+BEGIN_SRC emacs-lisp
