@@ -74,6 +74,7 @@
 (package! wucuo)
 (package! valign
   :recipe (:host github :repo "casouri/valign"))
+(package! package-lint)
 (package! org-latex-instant-preview
   :recipe (:host github :repo "yangsheng6810/org-latex-instant-preview"))
 (package! cdlatex)
