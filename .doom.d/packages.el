@@ -39,7 +39,8 @@
 (package! counsel-etags)
 (package! google-this)
 (package! zeal-at-point)
-(package! engine-mode)
+(package! engine-mode
+  :recipe (:host github :repo "hrs/engine-mode" :branch "main"))
 (package! youdao-dictionary)
 (package! notmuch)
 (package! org-mime)
