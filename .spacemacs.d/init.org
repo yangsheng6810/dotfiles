@@ -2278,7 +2278,8 @@ For generating org-capture templates
 
 ** math
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook #'LaTeX-math-mode)
+(add-hook 'org-mode-hook #'LaTeX-math-mode)
+(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
 #+END_SRC
 
 ** org-roam
