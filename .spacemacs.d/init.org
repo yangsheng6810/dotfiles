@@ -2288,6 +2288,19 @@ For generating org-capture templates
 (setq org-roam-directory (concat org-directory "/roam")
       org-roam-db-location "/tmp/org-roam.db")
 #+END_SRC
+
+** org-latex-instant-preview
+   #+begin_src emacs-lisp
+(when (or (equal (system-name) "Desktop")
+          (equal (system-name) "carbon"))
+  (use-package org-latex-instant-preview
+    :defer t
+    :hook (org-mode . org-latex-instant-preview-mode)
+    :init
+    (setq org-latex-instant-preview-tex2svg-bin
+          ;; location of tex2svg executable
+          "~/node_modules/mathjax-node-cli/bin/tex2svg")))
+   #+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook
