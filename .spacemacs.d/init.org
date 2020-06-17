@@ -361,7 +361,15 @@ This is a wrapper around `eval-after-load' that:
          ("<right>" sp-forward-slurp-sexp)
          ("<left>" sp-forward-barf-sexp)
          ("C-<left>" sp-backward-barf-sexp)
-         ("C-<right>" sp-backward-slurp-sexp)))
+         ("C-<right>" sp-backward-slurp-sexp))
+       :config
+       ;; unset doom settings so that pair also auto pairs before a word
+       (dolist (brace '("(" "{" "["))
+         (sp-with-modes 'org-mode
+           (sp-local-pair brace nil
+                          :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))
+                          ;; I likely don't want a new pair if adjacent to a word or opening brace
+                          :unless '(sp-point-before-same-p)))))
    #+END_SRC
 
 ** recursive-narrow
