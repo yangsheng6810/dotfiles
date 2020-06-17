@@ -144,7 +144,7 @@ label=
 #
 [time]
 # command=date '+%Y-%m-%d %H:%M:%S'
-command=date '+%m月%d日 %H:%M'
+command=date '+%m月%d日 %a %H:%M'
 interval=5
 
 # [rofi-calendar]
