@@ -3557,20 +3557,52 @@ For generating org-capture templates
 
 * elfeed
   #+BEGIN_SRC emacs-lisp
-(use-package elfeed-search
+;; needed for setf to work with elfeed-entry-content
+(eval-when-compile (require 'elfeed))
+(use-package elfeed
   :defer t
-  :commands yang/elfeed-show-visit-gui
+  :commands (yang/elfeed-show-visit-gui
+             yang/elfeed-search-browse-url-gui
+             yang/elfeed-new-entry-parse
+             elfeed-view-mpv
+             elfeed-v-mpv)
   :general
-  (:keymaps
-   'elfeed-search-mode-map
-   "m" #'elfeed-toggle-star)
+  (:keymaps 'elfeed-show-mode-map
+   "B" #'yang/elfeed-show-visit-gui
+   :keymaps 'elfeed-search-mode-map
+   "B" #'yang/elfeed-search-browse-url-gui
+   "m" #'elfeed-toggle-star
+   "v" #'elfeed-view-mpv)
+  :init
+  (setq-default elfeed-search-filter "@2-weeks-ago +unread")
   :config
-  ;; use =B= to call gui browser
+  (elfeed-org)
+(defun yang/elfeed-new-entry-parse (type xml entry)
+  ;; (message "entry is %s" entry)
+  (setq yang/xml xml)
+  (setq yang/entry entry)
+  (let ((link (car (xml-query-all '(link *) xml)))
+        (authors (car(xml-query-all '(creator *) xml)))
+        updated-content)
+    ;; (message "link is %s" link)
+    ;; (message "authors is %s" authors)
+    (when (and link
+               (s-contains? "arxiv.org" link))
+      (setq updated-content (concat "<p>Authors: " authors "</p>
+"
+                                    (elfeed-entry-content entry)))
+      ;; (message "updated-content is %s" updated-content)
+      (setf (elfeed-entry-content entry)
+            updated-content))))
+
+(add-hook 'elfeed-new-entry-parse-hook #'yang/elfeed-new-entry-parse)
+
   (defun yang/elfeed-show-visit-gui ()
     "Wrapper for elfeed-show-visit to use gui browser instead of eww"
     (interactive)
     (let ((browse-url-generic-program "/usr/bin/xdg-open"))
       (elfeed-show-visit t)))
+
   (defun yang/elfeed-search-browse-url-gui ()
     "Visit the current entry in your browser using `browse-url'.
     If there is a prefix argument, visit the current entry in the
@@ -3578,15 +3610,33 @@ For generating org-capture templates
     (interactive)
     (let ((browse-url-generic-program "/usr/bin/xdg-open"))
       (elfeed-search-browse-url t)))
-  (defalias 'elfeed-toggle-star
-    (elfeed-expose #'elfeed-search-toggle-all 'star)))
 
-(after! elfeed
-  (general-def
-    :keymaps 'elfeed-show-mode-map
-    "B" #'yang/elfeed-show-visit-gui
-    :keymaps 'elfeed-search-mode-map
-    "B" #'yang/elfeed-search-browse-url-gui))
+  (defalias 'elfeed-toggle-star
+    (elfeed-expose #'elfeed-search-toggle-all 'star))
+
+  ;; the following from:
+  ;; https://joshrollinswrites.com/help-desk-head-desk/20200611/
+  (defun elfeed-v-mpv (url)
+    "Watch a video from URL in MPV"
+    (async-shell-command (format "mpv %s" url)))
+
+  (defun elfeed-view-mpv (&optional use-generic-p)
+    "Youtube-feed link"
+    (interactive "P")
+    (let ((entries (elfeed-search-selected)))
+      (cl-loop for entry in entries
+	             do (elfeed-untag entry 'unread)
+	             when (elfeed-entry-link entry)
+	             do (elfeed-v-mpv it))
+      (mapc #'elfeed-search-update-entry entries)
+      (unless (use-region-p) (forward-line)))))
+
+(use-package elfeed-org
+  :defer t
+  :after (org)
+  :config
+  ;; (message "org-directory is %s" org-directory)
+  (setq rmh-elfeed-org-files (list "~/.spacemacs.d/elfeed.org")))
   #+END_SRC
 
 * Tramp
