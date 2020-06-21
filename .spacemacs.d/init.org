@@ -133,12 +133,6 @@ This is a wrapper around `eval-after-load' that:
 
 (setq delete-by-moving-to-trash t)
 
-    (use-package langtool
-      :defer t
-      :init
-      (setq langtool-java-classpath
-            "/usr/share/languagetool:/usr/share/java/languagetool/*"))
-
     (yang/with-spacemacs
       (tool-bar-mode -1)
       (menu-bar-mode -1))
@@ -461,6 +455,25 @@ This is a wrapper around `eval-after-load' that:
             (byte-recompile-file file t)
             (load-file file))))
     #+end_src
+
+** Grammar check
+   #+begin_src emacs-lisp
+(use-package langtool
+  :defer t
+  :config
+  (setq
+   langtool-bin
+   "languagetool"
+   langtool-java-classpath
+   "/usr/share/languagetool:/usr/share/java/languagetool/*"
+   ;; need to set default language for ngram and word2vec to work
+   langtool-default-language "en"
+   langtool-mother-tongue "en")
+  (when (string= (system-name) "Desktop")
+    (setq langtool-user-arguments
+          '("--languagemodel" "/usr/share/ngrams"
+            "--word2vecmodel" "/usr/share/word2vec"))))
+   #+end_src
 
 * General
   #+BEGIN_SRC emacs-lisp
