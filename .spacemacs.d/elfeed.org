@@ -1,9 +1,16 @@
 * Blogs :elfeed:
-** Research
-*** http://cstheory-feed.org/atom.xml :research:
+** Research :research:
+*** [[http://cstheory-feed.org/atom.xml][CS Theory]]
+*** [[http://export.arxiv.org/rss/cs.DS][ArXiv Algorithms]]
 ** Emacs
-*** [[http://planet.emacslife.com/atom.xml]] :emacs:
+*** [[https://planet.emacslife.com/atom.xml][Emacs Planet]] :emacs:
 ** Friends
-*** https://bigeagle.me/index.xml
-*** http://scateu.me/feed.xml
-    
+*** [[https://bigeagle.me/index.xml][Big Eagle]]
+*** [[http://scateu.me/feed.xml][Scateu]]
+** Food :food:
+*** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCg0m_Ah8P_MQbnn77-vYnYw][美食作家王刚]]
+*** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCBJmYv3Vf_tKcQr5_qmayXg][老饭骨]]
+*** [[https://rsshub.app/bilibili/user/video/580315930][三叔来盘道]]
+** Anime :anime:
+*** [[https://rsshub.app/bilibili/user/video/411462][拉面套餐]]
+*** [[https://rsshub.app/bilibili/user/video/3907165][DY-爱衣单推]]
