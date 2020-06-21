@@ -104,7 +104,6 @@ bindsym $mod+Shift+d exec --no-startup-id "rofi -show-icons -modi combi -show co
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 # exec --no-startup-id /usr/lib/gsd-xsettings
 # exec --no-startup-id xrdb -emerge ~/.Xresources
-exec --no-startup-id fcitx
 
 # change focus
 bindsym $mod+h focus left
@@ -374,5 +373,7 @@ exec --no-startup-id udiskie --tray
 # notify when battery is really low
 exec --no-startup-id i3-battery-popup
 
+# run startup script
+exec --no-startup-id $HOME/bin/fix_startup.sh
 # start KeePassXC
 exec --no-startup-id keepassxc
