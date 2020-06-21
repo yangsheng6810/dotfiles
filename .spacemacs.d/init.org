@@ -231,6 +231,7 @@ This is a wrapper around `eval-after-load' that:
          "C-v" nil                          ; quoted-insert
          "C-w" nil                          ; evil-delete-backward-word
          "<delete>" nil                     ; delete-char (delete char before cursor)
+         "C-u" nil                          ; evil-scroll-up
          )
        (general-def
          :keymaps 'evil-surround-mode-map
