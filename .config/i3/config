@@ -52,9 +52,11 @@ smart_gaps on
 # bindsym $mod+Shift+Return exec gnome-terminal -t floating
 # for_window [class="Gnome-terminal" title="floating"] floating enable
 
-bindsym $mod+Return exec terminator
+set $term terminator
+
+bindsym $mod+Return exec $term
 # bindsym $mod+Shift+Return exec urxvt -name floating
-bindsym $mod+Shift+Return exec terminator -T floating
+bindsym $mod+Shift+Return exec $term -T floating
 for_window [class="Terminator" title="floating"] floating enable
 
 for_window [class="Eog"] floating enable
@@ -278,6 +280,19 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+
+mode "exec" {
+     bindsym h exec $term -e "htop", mode "default"
+     bindsym v exec $term -e "vim", mode "default"
+     bindsym t exec $term -e "tmux", mode "default"
+     bindsym e exec emacs, mode "default"
+     bindsym s exec gnome-screenshot -d 1, mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+o mode "exec"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
