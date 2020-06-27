@@ -1443,6 +1443,8 @@ This is a wrapper around `eval-after-load' that:
        preview-scale-function 1.66
        org-return-follows-link t
        org-startup-indented nil
+       ;; hide markup for =monospace=, ~code~, /italic/, *bold* etc.
+       org-hide-emphasis-markers t
        )
 
       (plist-put org-format-latex-options :scale 1.66)
