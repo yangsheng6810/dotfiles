@@ -55,3 +55,6 @@ alias magit='emacsclient -c -nw -e "(progn (magit-status) (delete-other-windows)
 alias sysdm="sudo yadm -Y /etc/yadm"
 # doom emacs
 alias doom='~/.emacs.d/bin/doom'
+
+# curl
+alias my-curl="curl -L -O -C -"
