@@ -54,27 +54,9 @@ smart_gaps on
 
 set $term terminator
 
-bindsym $mod+Return exec $term
-# bindsym $mod+Shift+Return exec urxvt -name floating
-bindsym $mod+Shift+Return exec $term -T floating
-for_window [class="Terminator" title="floating"] floating enable
-
-for_window [class="Eog"] floating enable
-for_window [class="Totem"] resize set width 35 ppt
-for_window [class="Pavucontrol"] resize set width 25 ppt, resize set height 50 ppt
-for_window [class="Blueman-manager"] resize set width 25 ppt, resize set height 50 ppt
-for_window [class="Slack"] move container to workspace $ws7
-for_window [class="KeePassXC"] floating enable
-
-# zoom
-for_window [class="zoom"] move container to workspace $ws8
-for_window [class="zoom" title="Question and Answer"] resize set width 25 ppt, resize set height 50 ppt
-for_window [class="zoom" title="Zoom Cloud Meeting"] floating disable
-for_window [class="zoom" title="Leave meeting"] floating disable
-
 
 # when opening history from firefox, open it as a vertical split
-for_window [class="firefox" instance="Places"] mark firefox_places, split vertical, [class="firefox" instance="Navigator" workspace=__focused__] focus, move window to mark firefox_places, move up, [class="firefox"] unmark
+# for_window [class="firefox" instance="Places"] mark firefox_places, split vertical, [class="firefox" instance="Navigator" workspace=__focused__] focus, move window to mark firefox_places, move up, [class="firefox"] unmark
 
 # split current two window 65:35
 bindsym $mod+w mark my_current, focus left, resize set width 65 ppt, [con_mark="my_current"] focus, unmark "my_current"
@@ -187,13 +169,13 @@ set $ws1 1:default
 set $ws2 2:www
 # set $ws3 "3"
 set $ws3 3:emacs
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7:Social"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7:Social
+set $ws8 8:Meeting
+set $ws9 9
+set $ws10 10
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -355,10 +337,31 @@ bindsym Control+Print exec playerctl play-pause
 # we use wmctrl to kill the Plasma desktop view:
 exec --no-startup-id wmctrl -c Plasma
 for_window [title="Desktop — Plasma"] kill; floating enable; border none
+
 # i3 Urgent workspace feature
 # A possible solution, in the i3 configuration:
 force_display_urgency_hint 0 ms
 focus_on_window_activation urgent
+
+bindsym $mod+Return exec $term
+# bindsym $mod+Shift+Return exec urxvt -name floating
+bindsym $mod+Shift+Return exec $term -T floating
+for_window [class="Terminator" title="floating"] floating enable
+
+for_window [class="Eog"] floating enable
+for_window [class="Totem"] resize set width 35 ppt
+for_window [class="Pavucontrol"] resize set width 25 ppt, resize set height 50 ppt
+for_window [class="Blueman-manager"] resize set width 25 ppt, resize set height 50 ppt
+for_window [class="Slack"] move container to workspace $ws7
+for_window [class="KeePassXC"] floating enable
+
+# zoom
+for_window [class="zoom"] move container to workspace $ws8
+for_window [class="zoom" title="Question and Answer"] resize set width 25 ppt, resize set height 50 ppt
+for_window [class="zoom" title="Zoom Cloud Meeting"] floating disable
+for_window [class="zoom" title="Leave meeting"] floating disable
+# for_window [class="zoom" title="zoom"] floating disable
+
 
 # Don’t spawn an empty window for the Plasma Desktop
 for_window [title="Desktop — Plasma"] kill, floating enable, border none
@@ -400,3 +403,5 @@ exec --no-startup-id i3-battery-popup
 exec --no-startup-id $HOME/bin/fix_startup.sh
 # start KeePassXC
 exec --no-startup-id keepassxc
+# auto tiling
+exec_always --no-startup-id autotiling
