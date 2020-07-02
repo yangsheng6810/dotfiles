@@ -3595,30 +3595,30 @@ For generating org-capture templates
    "m" #'elfeed-toggle-star
    "v" #'elfeed-view-mpv)
   :init
-  (setq-default elfeed-search-filter "@2-weeks-ago +unread")
+  (setq-default elfeed-search-filter "@2-weeks-ago +unread -news")
   :config
   (elfeed-org)
-(defun yang/elfeed-new-entry-parse (type xml entry)
-  ;; (message "entry is %s" entry)
-  (setq yang/xml xml)
-  (setq yang/entry entry)
-  (let ((link (car (xml-query-all '(link *) xml)))
-        (authors (car(xml-query-all '(creator *) xml)))
-        updated-content)
-    ;; (message "link is %s" link)
-    ;; (message "authors is %s" authors)
-    (when (and link
-               (s-contains? "arxiv.org" link))
-      (setq updated-content (concat "<p>Authors: " authors "</p>
 
   (set-face-attribute 'elfeed-search-title-face nil :font "fontset--fixed-pitch")
+  (defun yang/elfeed-new-entry-parse (type xml entry)
+    ;; (message "entry is %s" entry)
+    (setq yang/xml xml)
+    (setq yang/entry entry)
+    (let ((link (car (xml-query-all '(link *) xml)))
+          (authors (car(xml-query-all '(creator *) xml)))
+          updated-content)
+      ;; (message "link is %s" link)
+      ;; (message "authors is %s" authors)
+      (when (and link
+                 (s-contains? "arxiv.org" link))
+        (setq updated-content (concat "<p>Authors: " authors "</p>
 "
-                                    (elfeed-entry-content entry)))
-      ;; (message "updated-content is %s" updated-content)
-      (setf (elfeed-entry-content entry)
-            updated-content))))
+                                      (elfeed-entry-content entry)))
+        ;; (message "updated-content is %s" updated-content)
+        (setf (elfeed-entry-content entry)
+              updated-content))))
 
-(add-hook 'elfeed-new-entry-parse-hook #'yang/elfeed-new-entry-parse)
+  (add-hook 'elfeed-new-entry-parse-hook #'yang/elfeed-new-entry-parse)
 
   (defun yang/elfeed-show-visit-gui ()
     "Wrapper for elfeed-show-visit to use gui browser instead of eww"
