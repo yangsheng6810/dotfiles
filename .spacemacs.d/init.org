@@ -541,6 +541,14 @@ This is a wrapper around `eval-after-load' that:
   (setq recentf-keep '(file-remote-p file-readable-p)))
 #+END_SRC
 
+** Ace-window
+   #+begin_src emacs-lisp
+(use-package ace-window
+  :defer t
+  :init
+  (yang/set-leader-key "jw" #'ace-window))
+   #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
