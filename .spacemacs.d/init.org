@@ -651,28 +651,38 @@ This is a wrapper around `eval-after-load' that:
 
 ** varable-pitch-mode
    #+BEGIN_SRC emacs-lisp
-     ;; (add-hook 'text-mode-hook
-     ;;           (lambda ()
-     ;;             (variable-pitch-mode 1)))
-     (add-hook 'conf-mode-hook
-               (lambda ()
-                 (variable-pitch-mode -1)) t)
+;; (add-hook 'text-mode-hook
+;;           (lambda ()
+;;             (variable-pitch-mode 1)))
+(add-hook 'conf-mode-hook
+          (lambda ()
+            (variable-pitch-mode -1)) t)
 
-     (defun yang/fix-line-number ()
-       (interactive)
-       (message "In yang/fix-line-number")
-       ;; (set-face-attribute 'variable-pitch nil :family "EtBembo")
-       (set-face-attribute 'variable-pitch nil :family "Libre Baskerville")
-       ;; (set-face-attribute 'fixed-pitch nil :family "等距更纱黑体 SC" :height 'unspecified)
-       (set-face-attribute 'fixed-pitch nil :height 'unspecified)
-       (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
-       (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
-       )
+(defun yang/fix-line-number ()
+  (interactive)
+  (message "In yang/fix-line-number")
+  ;; (set-face-attribute 'variable-pitch nil :family "EtBembo")
+  (set-face-attribute 'variable-pitch nil :family "Libre Baskerville")
+  ;; (set-face-attribute 'fixed-pitch nil :family "等距更纱黑体 SC" :height 'unspecified)
+  (set-face-attribute 'fixed-pitch nil :height 'unspecified)
+  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
+  )
 
+(setq doom-font (font-spec :family "Source Code Pro" :size 16 :weight 'semi-light)
+      doom-variable-pitch-font (font-spec :family "Libre Baskerville") ; inherits `doom-font''s :size
+      doom-unicode-font nil
+      ;; doom-unicode-font (font-spec :family "Sarasa Mono SC")
+      ;; doom-big-font (font-spec :family "Fira Mono" :size 19)
+      )
+
+;; prepare a fontset that handles fixed pitch correctly
+(new-fontset "-*-*-*-*-*-*-*-*-*-*-*-*-fontset--fixed-pitch" '((ascii . "Sarasa Mono SC")
+                                                               (unicode . "Sarasa Mono SC")))
 
 (yang/with-spacemacs
   (defmacro set-pair-faces (themes consts faces-alist)
-      "Macro for pair setting of custom faces.
+    "Macro for pair setting of custom faces.
                THEMES name the pair (theme-one theme-two). CONSTS sets the variables like
                  ((sans-font \"Some Sans Font\") ...). FACES-ALIST has the actual faces
                like:
@@ -751,8 +761,8 @@ This is a wrapper around `eval-after-load' that:
   (gray               "#bbb")
   (sans-font          "Source Sans Pro")
   (serif-font         "Merriweather")
-  ;; (et-font            "EtBembo")
-  (et-font  "Libre Baskerville")
+  (et-font            "EtBembo")
+  ;; (et-font  "Libre Baskerville")
   (sans-mono-font     "Souce Code Pro")
   (serif-mono-font "Verily Serif Mono"))
  ;; Settings
@@ -3600,6 +3610,8 @@ For generating org-capture templates
     (when (and link
                (s-contains? "arxiv.org" link))
       (setq updated-content (concat "<p>Authors: " authors "</p>
+
+  (set-face-attribute 'elfeed-search-title-face nil :font "fontset--fixed-pitch")
 "
                                     (elfeed-entry-content entry)))
       ;; (message "updated-content is %s" updated-content)
