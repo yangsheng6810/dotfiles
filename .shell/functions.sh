@@ -45,3 +45,7 @@ function myip_legacy () {
 function jpeg2pdf () {
     convert -background white -page a4 $@
 }
+
+function clean_packages (){
+    pacman -Qtdq | ifne sudo pacman -Rcs -
+}
