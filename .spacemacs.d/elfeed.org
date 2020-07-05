@@ -32,11 +32,11 @@
 ** News :leisure:news:
 # *** [[https://rsshub.app/cnbeta][cnBeta]] :tech:
 *** [[https://rsshub.app/engadget-cn][Engadget]] :tech:
-*** [[https://rsshub.app/ft/chinese/hotstoryby7day][FT 中文网]]
+# *** [[https://rsshub.app/ft/chinese/hotstoryby7day][FT 中文网]]
 *** [[https://rsshub.app/zaobao/realtime/china][Zaobao 中国]]
 *** [[https://rsshub.app/zaobao/realtime/world][Zaobao 世界]]
 *** [[https://rsshub.app/zaobao/znews/china][Zaobao 新闻 中国]]
 *** [[https://rsshub.app/zaobao/znews/world][Zaobao 新闻 世界]]
-*** [[https://rsshub.app/nytimes/en][纽约时报]]
+# *** [[https://rsshub.app/nytimes/en][纽约时报]]
 *** [[https://rsshub.app/natgeo/dailyphoto][国家地理 每日一图]]
 *** [[https://rsshub.app/natgeo/environment/article][国家地理]]

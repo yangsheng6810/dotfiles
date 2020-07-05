@@ -3599,8 +3599,16 @@ For generating org-capture templates
   :config
   (elfeed-org)
 
-  (set-face-attribute 'elfeed-search-title-face nil :font "fontset--fixed-pitch")
+  (defun yang/elfeed-set-face ()
+    (when (equal 'unspecified
+                 (face-attribute 'elfeed-search-title-face :font))
+      (set-face-attribute 'elfeed-search-title-face nil
+                          :font "fontset--fixed-pitch")))
+
+  (add-hook 'elfeed-search-mode-hook #'yang/elfeed-set-face)
+
   (defun yang/elfeed-new-entry-parse (type xml entry)
+    "Add author to ArXiv entries."
     ;; (message "entry is %s" entry)
     (setq yang/xml xml)
     (setq yang/entry entry)
