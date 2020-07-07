@@ -36,6 +36,12 @@ alias ....='cd ../../..'
 alias ...='cd ../..'
 alias -- -='cd -'
 
+# ls
+alias l='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls --tree'
+
 # rsync
 alias rsync-copy="rsync -avz --info=progress2 -h"
 alias rsync-move="rsync -avz --info=progress2 -h --remove-source-files"
@@ -58,3 +64,6 @@ alias doom='~/.emacs.d/bin/doom'
 
 # curl
 alias my-curl="curl -L -O -C -"
+
+# htop
+alias htop='TERM=screen-256color htop'
