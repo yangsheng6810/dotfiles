@@ -6,7 +6,7 @@
 ;; (package! another-package :recipe (:host github :repo "username/repo"))
 ;; (package! builtin-package :disable t)
 
-(package! cnfonts)
+;; (package! cnfonts)
 (package! eterm-256color)
 (package! olivetti)
 (package! helm-bibtex)
@@ -78,3 +78,6 @@
 (package! org-latex-instant-preview
   :recipe (:host github :repo "yangsheng6810/org-latex-instant-preview"))
 (package! cdlatex)
+;; show latex in eww
+(package! texfrag)
+(package! auto-dim-other-buffers)
