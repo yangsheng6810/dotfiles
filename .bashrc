@@ -71,5 +71,18 @@ if [ "$HOSTNAME" = "optimizer.cs.umd.edu" ] ||
     fi
 fi
 
+# append to history file, don't overwrite it
+shopt -s histappend
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=100000
+HISTFILESIZE=10000000
+
+# ignore certain commands from the history
+HISTIGNORE="ls:ll:cd:pwd:bg:fg:history"
+
 LOAD_FILE="${HOME}/.shell/load.sh"
 [[ -f $LOAD_FILE ]] && . $LOAD_FILE
