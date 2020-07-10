@@ -478,21 +478,25 @@ This is a wrapper around `eval-after-load' that:
 
 * General
   #+BEGIN_SRC emacs-lisp
-    (setq system-time-locale "zh_CN.utf-8"
-          user-mail-address "yangsheng6810@gmail.com")
-    (setq exec-path (cons (expand-file-name "~/.pyenv/shims") exec-path))
-    (defconst yang/at-china nil)
-    (when yang/at-china
-      (after! url-vars
-        (setq url-gateway-method 'socks)
-        (setq url-proxy-services
-              '(
-                ;; ("no_proxy" . "^\\(localhost\\|192\\.168\\..*\\)")
-                ("http"     . "127.0.0.1:8123")
-                ("https"    . "127.0.0.1:8123"))))
-      (setq socks-server '("Default server" "127.0.0.1" 8883 5))
-      (setq request--url-options
-            '("--proxy" "socks5://localhost:8883")))
+(setq system-time-locale "zh_CN.utf-8"
+      user-mail-address "yangsheng6810@gmail.com")
+(setq exec-path (cons (expand-file-name "~/.pyenv/shims") exec-path))
+(defconst yang/at-china nil)
+(when yang/at-china
+  (after! url-vars
+    (setq url-gateway-method 'socks)
+    (setq url-proxy-services
+          '(
+            ;; ("no_proxy" . "^\\(localhost\\|192\\.168\\..*\\)")
+            ("http"     . "127.0.0.1:8123")
+            ("https"    . "127.0.0.1:8123"))))
+  (setq socks-server '("Default server" "127.0.0.1" 8883 5))
+  (setq request--url-options
+        '("--proxy" "socks5://localhost:8883")))
+
+;; for native comp
+(setq comp-deferred-compilation t
+      comp-async-jobs-number 8)
   #+END_SRC
 
 ** COMMENT Purpose
