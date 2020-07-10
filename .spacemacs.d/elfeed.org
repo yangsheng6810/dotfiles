@@ -2,6 +2,7 @@
 ** Research :research:
 *** [[http://cstheory-feed.org/atom.xml][CS Theory]]
 *** [[http://export.arxiv.org/rss/cs.DS][ArXiv Algorithms]]
+*** [[http://export.arxiv.org/rss/cs.CC][ArXiv Computation Complexity]]
 ** Emacs
 *** [[https://planet.emacslife.com/atom.xml][Emacs Planet]] :emacs:
 ** Friends
@@ -9,7 +10,9 @@
 *** [[http://scateu.me/feed.xml][Scateu]]
 ** Food :food:leisure:
 *** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCg0m_Ah8P_MQbnn77-vYnYw][美食作家王刚]]
-*** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCBJmYv3Vf_tKcQr5_qmayXg][老饭骨]]
+# *** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCBJmYv3Vf_tKcQr5_qmayXg][老饭骨]]
+# *** [[https://rsshub.app/bilibili/user/video/580315930][三叔来盘道]]
+*** [[https://rsshub.app/bilibili/user/video/419872064][老饭骨]]
 *** [[https://rsshub.app/bilibili/user/video/580315930][三叔来盘道]]
 ** Anime :anime:leisure:
 *** [[https://rsshub.app/bilibili/user/video/411462][拉面套餐]]
@@ -17,7 +20,7 @@
 *** [[https://rsshub.app/pixiv/ranking/week][Pixiv]]
 *** [[https://rsshub.app/konachan.net/post/popular_recent/1d][Konachan]]
 # *** [[https://rsshub.app/yande.re/post/popular_recent/1d][Yande.re]]
-*** [[https://rsshub.app/jdlingyu/tuji][绝对领域]]
+# *** [[https://rsshub.app/jdlingyu/tuji][绝对领域]]
 ** 知乎 :zhihu:leisure:
 *** [[https://rsshub.app/zhihu/collection/427264591][山高县]]
 *** [[https://rsshub.app/zhihu/collection/40631599][军队，武器，战争]]
