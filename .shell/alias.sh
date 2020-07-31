@@ -56,14 +56,11 @@ alias rsync-synchronize-local="rsync -avWu --no-compress --delete --info=progres
 # magit
 alias magit='emacsclient -c -nw -e "(progn (magit-status) (delete-other-windows))"'
 
-# create an alias to run yadm for system files
-# run `sysdm init -w /` to init
-alias sysdm="sudo yadm -Y /etc/yadm"
 # doom emacs
 alias doom='~/.emacs.d/bin/doom'
 
 # curl
-alias my-curl="curl -L -O -C -"
+alias curl-download="curl -L -O -C -"
 
 # htop
 alias htop='TERM=screen-256color htop'
