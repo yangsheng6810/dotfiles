@@ -39,7 +39,7 @@ alias -- -='cd -'
 # ls
 alias l='ls -l'
 alias la='ls -a'
-alias lla='ls -la'
+alias lla='ls -lah'
 alias lt='ls --tree'
 
 # rsync
