@@ -3968,7 +3968,8 @@ For generating org-capture templates
                 "\\( *[[:word:]€£₹¥_\"]+\\)?"
                 "\\([ \t]*[@={]@?[^\n;]+?\\)?"
                 "\\([ \t]+;.+?\\|[ \t]*\\)?$")
-        ledger-reconcile-insert-effective-date t)
+        ledger-reconcile-insert-effective-date nil
+        ledger-reconcile-sort-key "(0)")
   (yang/with-doom
     (set-company-backend! 'ledger-mode
       #'ledger-complete-at-point #'company-capf)
