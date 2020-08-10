@@ -13,7 +13,7 @@
 # *** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCBJmYv3Vf_tKcQr5_qmayXg][老饭骨]]
 # *** [[https://rsshub.app/bilibili/user/video/580315930][三叔来盘道]]
 *** [[https://rsshub.app/bilibili/user/video/419872064][老饭骨]]
-*** [[https://rsshub.app/bilibili/user/video/580315930][三叔来盘道]]
+# *** [[https://rsshub.app/bilibili/user/video/580315930][三叔来盘道]]
 ** Anime :anime:leisure:
 *** [[https://rsshub.app/bilibili/user/video/411462][拉面套餐]]
 *** [[https://rsshub.app/bilibili/user/video/3907165][DY-爱衣单推]]
