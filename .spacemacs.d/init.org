@@ -3419,14 +3419,15 @@ For generating org-capture templates
 
 ** ace-pinyin
    #+BEGIN_SRC emacs-lisp
-     (use-package ace-pinyin
-       :defer t
-       :init
-       (yang/set-leader-key "jj" #'ace-pinyin-jump-char-2)
-       :config
-       (setq ace-pinyin--jump-word-timeout 0.3)
-       ;; (yang/set-leader-key "jj" (lambda () (interactive) (ace-pinyin-jump-word t)))
-       )
+(use-package ace-pinyin
+  :defer t
+  :commands (ace-pinyin-jump-char-2)
+  :init
+  (yang/set-leader-key "jj" #'ace-pinyin-jump-char-2)
+  :config
+  (setq ace-pinyin--jump-word-timeout 0.3)
+  ;; (yang/set-leader-key "jj" (lambda () (interactive) (ace-pinyin-jump-word t)))
+  )
    #+END_SRC
 
 ** fcitx.el
