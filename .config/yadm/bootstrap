@@ -1,12 +1,14 @@
 #!/bin/zsh
 umask 022
 NEED_ROOTLESS_MANAGER=1
+echo "Update zgen"
 if [ ! -d "${HOME}/.zgen" ]; then
     echo "Setting zgen..."
     mkdir "${HOME}/.zgen"
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
     zsh -i -c exit
 fi
+echo "Update tmux"
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ];then
     echo "Installing tmux plugin manager"
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -21,3 +23,11 @@ else
         NEED_ROOTLESS_MANAGER=0
     fi
 fi
+cd "$HOME"
+
+echo "Init submodules"
+yadm submodule update --recursive --init
+
+echo "Prepare i3blocks-contrib"
+cd "~/.config/i3blocks-contrib" && make 2>/dev/null
+cd "$HOME"
