@@ -17,6 +17,7 @@ source $HOME/.xprofile
 # xrandr --setprovideroutputsource modesetting NVIDIA-0
 # xrandr --auto
 # exec openbox-session
-exec gnome-session
+# exec gnome-session
+exec i3
 # exec startkde
 # exec enlightenment_start
