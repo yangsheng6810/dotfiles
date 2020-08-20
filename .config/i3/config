@@ -52,7 +52,8 @@ smart_gaps on
 # bindsym $mod+Shift+Return exec gnome-terminal -t floating
 # for_window [class="Gnome-terminal" title="floating"] floating enable
 
-set $term terminator
+# set $term terminator
+set $term alacritty
 
 
 # when opening history from firefox, open it as a vertical split
@@ -349,8 +350,10 @@ focus_on_window_activation urgent
 
 bindsym $mod+Return exec $term
 # bindsym $mod+Shift+Return exec urxvt -name floating
-bindsym $mod+Shift+Return exec $term -T floating
+# bindsym $mod+Shift+Return exec $term -T floating
+bindsym $mod+Shift+Return exec $term -t floating
 for_window [class="Terminator" title="floating"] floating enable
+for_window [class="Alacritty" title="floating"] floating enable
 
 for_window [class="Eog"] floating enable
 for_window [class="Totem"] resize set width 35 ppt
