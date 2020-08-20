@@ -1,9 +1,9 @@
-[submodule ".yadm-project"]
-	path = .yadm-project
-	url = https://github.com/TheLocehiliosan/yadm.git
 [submodule ".config/i3blocks"]
 	path = .config/i3blocks
 	url = https://github.com/vivien/i3blocks-contrib.git
 [submodule "bin/.pia"]
 	path = bin/.pia
 	url = https://github.com/d4rkcat/pia.git
+[submodule ".config/i3blocks-contrib"]
+	path = .config/i3blocks-contrib
+	url = https://github.com/vivien/i3blocks-contrib.git
