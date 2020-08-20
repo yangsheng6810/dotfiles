@@ -35,6 +35,7 @@ if ! zgen saved; then
       history-substring-search # implementation of fish history substring search
       colorize # Plugin highlights file content based on the filename extension.
       mosh
+      fzf
       cp gnu-utils extract
       urltools
       archlinux systemd

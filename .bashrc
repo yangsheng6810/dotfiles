@@ -27,30 +27,24 @@ PS1="\[\e[1;32m\][\u@\h \W] \$ \[\e[0m\]"
 PATH="$PATH:$HOME/bin"
 ### chsdir finish. ###
 export GREP_COLOR="1;33"
-alias grep='grep --color=auto'
 export LESS="-R"
 export EDITOR="vim"
 eval $(dircolors -b)
 man() {
-	env \
-		LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-		LESS_TERMCAP_md=$(printf "\e[1;31m") \
-		LESS_TERMCAP_me=$(printf "\e[0m") \
-		LESS_TERMCAP_se=$(printf "\e[0m") \
-		LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-		LESS_TERMCAP_ue=$(printf "\e[0m") \
-		LESS_TERMCAP_us=$(printf "\e[1;32m") \
-			man "$@"
+        env \
+                LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+                LESS_TERMCAP_md=$(printf "\e[1;31m") \
+                LESS_TERMCAP_me=$(printf "\e[0m") \
+                LESS_TERMCAP_se=$(printf "\e[0m") \
+                LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+                LESS_TERMCAP_ue=$(printf "\e[0m") \
+                LESS_TERMCAP_us=$(printf "\e[1;32m") \
+                        man "$@"
 }
-alias pacman='pacman-color'
 TEXMFMAIN="/usr/share/texmf-dist/"
-alias nvidia-settings='optirun nvidia-settings -c :8'
-#[ -n "$WINDOWID" ] && transset-df -i $WINDOWID >/dev/null
+# alias nvidia-settings='optirun nvidia-settings -c :8'
 alias fbv='fbv -f'
-[ -n "$WINDOWID" ] && transset-df -i $WINDOWID >/dev/null
-alias gmplayer='gnome-mplayer'
-# force tmux to use utf-8
-alias tmux='tmux -u'
+# [ -n "$WINDOWID" ] && transset-df -i $WINDOWID >/dev/null
 
 # list all completions if there are more than one
 set show-all-if-ambiguous on

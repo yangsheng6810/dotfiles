@@ -10,3 +10,5 @@ source "$HOME/.shell/alias.sh"
 
 MACHINE_SPECIFIC="${HOME}/.shell/host_specific/${HOSTNAME}.sh"
 [[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
+
+# source "$HOME/.shell/fzf.sh"
