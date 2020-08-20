@@ -13,5 +13,4 @@ if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
 fi
 # alias emacs='~/git/emacs/src/emacs'
 
-PATH="$HOME/bin/.evm/bin:$PATH"
 export WINEARCH=win32
