@@ -13,9 +13,9 @@ CASE_SENSITIVE="true"
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.zshrc.d}
 ZSH_THEME="yang"
 
+source "$HOME/.shell/load.sh"
 source "${HOME}/.zgen/zgen.zsh"
 source $ZSH_CUSTOM/bootstrap.sh
-source "$HOME/.shell/load.sh"
 
 if [ -f "$HOME/.dir_colors" ]; then
     eval $(dircolors -b $HOME/.dir_colors)
