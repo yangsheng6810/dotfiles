@@ -58,8 +58,8 @@ if [ "$HOSTNAME" = "optimizer.cs.umd.edu" ] ||
         export LC_ALL=""
         export LANG="en_US.UTF-8"
         export LC_COLLATE="C"
-        # exec env SHELL="zsh" ~/gentoo/startprefix
-        exec ~/gentoo/startprefix
+        exec env SHELL="$(which zsh)" ~/gentoo/startprefix
+        # exec ~/gentoo/startprefix
     else
         exec zsh
     fi
