@@ -3709,9 +3709,11 @@ For generating org-capture templates
 
   (defun yang/elfeed-set-face ()
     (when (equal 'unspecified
-                 (face-attribute 'elfeed-search-title-face :font))
+                 (face-attribute 'elfeed-search-title-face :inherit))
       (set-face-attribute 'elfeed-search-title-face nil
-                          :font "fontset-fixed-pitch")))
+                          :inherit 'fixed-pitch)
+      (set-face-attribute 'elfeed-search-unread-title-face nil
+                          :inherit 'fixed-pitch)))
 
   (add-hook 'elfeed-search-mode-hook #'yang/elfeed-set-face)
 
