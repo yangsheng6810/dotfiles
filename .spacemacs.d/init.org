@@ -667,8 +667,9 @@ This is a wrapper around `eval-after-load' that:
   (message "In yang/fix-line-number")
   ;; (set-face-attribute 'variable-pitch nil :family "EtBembo")
   (set-face-attribute 'variable-pitch nil :family "Libre Baskerville")
-  ;; (set-face-attribute 'fixed-pitch nil :family "等距更纱黑体 SC" :height 'unspecified)
-  (set-face-attribute 'fixed-pitch nil :height 'unspecified)
+  (set-face-attribute 'fixed-pitch nil
+                      :font "fontset-fixed"
+                      :height 'unspecified)
   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
   )
@@ -681,8 +682,9 @@ This is a wrapper around `eval-after-load' that:
       )
 
 ;; prepare a fontset that handles fixed pitch correctly
-(new-fontset "-*-*-*-*-*-*-*-*-*-*-*-*-fontset--fixed-pitch" '((ascii . "Sarasa Mono SC")
-                                                               (unicode . "Sarasa Mono SC")))
+(create-fontset-from-ascii-font "-*-Sarasa Mono SC-normal-normal-*" nil "fixed")
+(set-fontset-font "fontset-fixed" 'han "Sarasa Mono SC" nil 'append)
+(set-fontset-font "fontset-fixed" 'unicode "Symbola" nil 'append)
 
 (yang/with-spacemacs
   (defmacro set-pair-faces (themes consts faces-alist)
@@ -3709,7 +3711,7 @@ For generating org-capture templates
     (when (equal 'unspecified
                  (face-attribute 'elfeed-search-title-face :font))
       (set-face-attribute 'elfeed-search-title-face nil
-                          :font "fontset--fixed-pitch")))
+                          :font "fontset-fixed-pitch")))
 
   (add-hook 'elfeed-search-mode-hook #'yang/elfeed-set-face)
 
