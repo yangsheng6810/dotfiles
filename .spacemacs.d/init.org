@@ -1480,7 +1480,8 @@ This is a wrapper around `eval-after-load' that:
 
         (visual-line-mode 1)
         (variable-pitch-mode 1)
-        (display-line-numbers-mode -1)
+        (remove-hook 'text-mode-hook #'display-line-numbers-mode t)
+        ;; (display-line-numbers-mode -1)
         (smartparens-mode 1)
         (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
         (set-face-attribute 'org-table nil :inherit 'fixed-pitch))
