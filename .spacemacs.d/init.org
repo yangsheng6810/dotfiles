@@ -3131,6 +3131,7 @@ For generating org-capture templates
              (interactive) (find-alternate-file "..")) ; was dired-up-directory
        )
       :config
+      (remove-hook 'dired-mode-hook 'diredfl-mode)
       (defun yang/dired-mode-setup ()
         "to be run as hook for `dired-mode'."
         (dired-hide-details-mode 1)
