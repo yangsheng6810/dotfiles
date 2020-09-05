@@ -687,6 +687,17 @@ This is a wrapper around `eval-after-load' that:
 (set-fontset-font "fontset-fixed" 'han "Sarasa Mono SC" nil 'append)
 (set-fontset-font "fontset-fixed" 'unicode "Symbola" nil 'append)
 
+
+(after! unicode-fonts
+  (dolist (unicode-block '("Hiragana"
+                           "Katakana"
+                           "Katakana Phonetic Extensions"))
+    (push "-PfEd-HanaMinA-*" (cadr (assoc unicode-block unicode-fonts-block-font-mapping))))
+  (add-to-list 'unicode-fonts-fontset-names "fontset-fixed")
+  ;; (unicode-fonts-setup '("fontset-fixed pitch"))
+  ;; (set-fontset-font "fontset-fixed pitch" 'unicode "Sarasa Mono SC" nil 'prepend)
+  )
+
 (yang/with-spacemacs
   (defmacro set-pair-faces (themes consts faces-alist)
     "Macro for pair setting of custom faces.
