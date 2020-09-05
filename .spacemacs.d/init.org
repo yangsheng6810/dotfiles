@@ -1209,6 +1209,7 @@ This is a wrapper around `eval-after-load' that:
 #+begin_src emacs-lisp
   (yang/with-doom
     (remove-hook! 'text-mode-hook #'hl-fill-column-mode)
+    (remove-hook! 'prog-mode-hook #'hl-fill-column-mode)
     (setq doom-theme 'spacemacs-light)
     (with-eval-after-load 'solaire-mode
       (turn-off-solaire-mode))
@@ -1492,9 +1493,9 @@ This is a wrapper around `eval-after-load' that:
         ;; (yang/with-doom
         ;;   (hl-fill-column-mode -1))
 
+        (remove-hook 'text-mode-hook #'display-line-numbers-mode t)
         (visual-line-mode 1)
         (variable-pitch-mode 1)
-        (remove-hook 'text-mode-hook #'display-line-numbers-mode t)
         ;; (display-line-numbers-mode -1)
         (smartparens-mode 1)
         (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
