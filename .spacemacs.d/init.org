@@ -674,12 +674,13 @@ This is a wrapper around `eval-after-load' that:
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
   )
 
-(setq doom-font (font-spec :family "Source Code Pro" :size 16 :weight 'semi-light)
-      doom-variable-pitch-font (font-spec :family "Libre Baskerville") ; inherits `doom-font''s :size
-      doom-unicode-font nil
-      ;; doom-unicode-font (font-spec :family "Sarasa Mono SC")
-      ;; doom-big-font (font-spec :family "Fira Mono" :size 19)
-      )
+(yang/with-doom
+  (setq doom-font (font-spec :family "Source Code Pro" :size 16 :weight 'semi-light)
+        doom-variable-pitch-font (font-spec :family "Libre Baskerville") ; inherits `doom-font''s :size
+        doom-unicode-font (font-spec :family "Symbola")
+        ;; doom-big-font (font-spec :family "Fira Mono" :size 19)
+        ))
+
 
 ;; prepare a fontset that handles fixed pitch correctly
 (create-fontset-from-ascii-font "-*-Sarasa Mono SC-normal-normal-*" nil "fixed")
