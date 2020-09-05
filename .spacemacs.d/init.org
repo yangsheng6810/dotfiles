@@ -4073,7 +4073,8 @@ For generating org-capture templates
   :mode "\\.ledger\\'"
   :defer t
   :config
-  (add-hook 'ledger-mode (lambda () (variable-pitch-mode -1)))
+  (add-hook 'ledger-mode-hook (lambda () (variable-pitch-mode -1)))
+  (add-hook 'ledger-reconcile-mode-hook #'hl-line-mode)
   (setq ledger-amount-regex
         (concat "\\(  \\|\t\\| \t\\)[ \t]*-?"
                 "\\([A-Z$€£₹¥_(]+ *\\)?"
