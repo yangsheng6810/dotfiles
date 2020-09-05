@@ -1202,8 +1202,11 @@ This is a wrapper around `eval-after-load' that:
       (global-hl-line-mode -1)
       (hl-line-mode -1)))
 (yang/with-doom
-  (add-hook 'org-agenda-finalize-hook
-            (lambda () (setq doom-real-buffer-p t)) -10))
+  ;; (add-hook 'org-agenda-finalize-hook
+  ;;           (lambda () (setq doom-real-buffer-p t)) 10)
+  ;; (add-hook 'org-src-mode-hook
+  ;;           (lambda () (setq doom-real-buffer-p t)) 10)
+  (assq-delete-all #'buffer-predicate default-frame-alist))
 #+end_src
 
 ** Default keybindings
