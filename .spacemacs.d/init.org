@@ -1967,24 +1967,25 @@ For generating org-capture templates
                             ":END:"
                             "%?"))
                 ("Tasks" :keys "t" :file "~/Documents/org/Tasks.org"
-                 :template ("* %^{Description}"
+                 :template ("* %{todo-state} %^{Description}"
                             ":PROPERTIES:"
                             ":Created: %U"
                             ":END:"
-                            "%a")
+                            ;; "%a"
+                            )
                  :children
                  (("Computer"
-                   :keys "c" :headline "Computer")
+                   :keys "c" :headline "Computer" :todo-state "TODO")
                   ("Food"
-                   :keys "f" :headline "Food")
+                   :keys "f" :headline "Food" :todo-state "TODO")
                   ("Research"
-                   :keys "r" :headline "Research")
+                   :keys "r" :headline "Research" :todo-state "TODO")
                   ("Idea"
-                   :keys "i" :headline "Idea")
+                   :keys "i" :headline "Idea" :todo-state "TODO")
                   ("Not grouped"
-                   :keys "n" :headline "Not grouped")
+                   :keys "n" :headline "Not grouped" :todo-state "TODO")
                   ("Books"
-                   :keys "b" :headline "Book")))
+                   :keys "b" :headline "Book" :todo-state "TODO")))
                 ("Web site" :keys "w" :file "~/Documents/org/Notes.org"
                  :headline "Inbox"
                  :template ("* %c :website:"
@@ -2002,7 +2003,7 @@ For generating org-capture templates
                             "%?"))
                 ("Protocol Link" :keys "L" :file "~/Documents/org/Notes.org"
                  :headline "Inbox"
-                 :template ("* %? [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
+                 :template ("* %?[[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
                             ":PROPERTIES:"
                             ":Created: %U"
                             ":END:")))))
