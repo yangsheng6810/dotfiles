@@ -1475,8 +1475,9 @@ This is a wrapper around `eval-after-load' that:
       (plist-put org-format-latex-options :scale 1.66)
 
       (defun yang/org-mode-setup ()
-        (yang/with-doom
-          (hl-fill-column-mode -1))
+        ;; (yang/with-doom
+        ;;   (hl-fill-column-mode -1))
+
         (visual-line-mode 1)
         (variable-pitch-mode 1)
         (display-line-numbers-mode -1)
