@@ -4119,6 +4119,16 @@ For generating org-capture templates
              ("C-h C" . helpful-command)))
   #+END_SRC
 
+* Deft
+  #+BEGIN_SRC emacs-lisp
+(use-package deft
+  :defer t
+  :commands (deft)
+  :config
+  (setq deft-recursive t
+        deft-directory org-directory))
+  #+END_SRC
+
 * telega
 #+BEGIN_SRC emacs-lisp
 (general-def

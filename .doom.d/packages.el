@@ -81,5 +81,6 @@
 ;; show latex in eww
 (package! texfrag)
 (package! auto-dim-other-buffers)
+(package! deft)
 
 (package! org-super-agenda)
