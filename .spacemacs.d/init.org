@@ -3550,7 +3550,8 @@ For generating org-capture templates
 ** Line wrap
    [[https://emacs-china.org/t/topic/13254][link]]
 #+BEGIN_SRC emacs-lisp
-;; (load "kinsoku.el")
+(cl-eval-when (load)
+  (load "kinsoku.el"))
 #+END_SRC
 * Browser
 ** COMMENT Using emacs to edit text area
