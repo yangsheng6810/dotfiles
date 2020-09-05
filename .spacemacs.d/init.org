@@ -1419,7 +1419,7 @@ This is a wrapper around `eval-after-load' that:
       (defun yang/enable-lispy-mode ()
         (lispy-mode 1))
       ;; enable lispy-mode in emacs-lisp-mode
-      (add-hook 'emacs-lisp-mode-hook #'yang/enable-lispy-mode)
+      ;; (add-hook 'emacs-lisp-mode-hook #'yang/enable-lispy-mode)
 
       ;; enable lispy-mode in minibuffer
       (defun conditionally-enable-lispy ()
