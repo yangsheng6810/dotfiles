@@ -1,8 +1,8 @@
 * Blogs :elfeed:
 ** Research :research:
 *** [[http://cstheory-feed.org/atom.xml][CS Theory]]
-*** [[http://export.arxiv.org/rss/cs.DS][ArXiv Algorithms]]
-*** [[http://export.arxiv.org/rss/cs.CC][ArXiv Computation Complexity]]
+*** [[http://export.arxiv.org/api/query?search_query=cat:cs.DS&start=0&max_results=300&sortBy=submittedDate&sortOrder=descending][ArXiv Algorithms]]
+*** [[http://export.arxiv.org/api/query?search_query=cat:cs.CC&start=0&max_results=300&sortBy=submittedDate&sortOrder=descending][ArXiv Computation Complexity]]
 ** Emacs
 *** [[https://planet.emacslife.com/atom.xml][Emacs Planet]] :emacs:
 ** Friends
@@ -42,4 +42,5 @@
 *** [[https://rsshub.app/zaobao/znews/world][Zaobao 新闻 世界]]
 # *** [[https://rsshub.app/nytimes/en][纽约时报]]
 *** [[https://rsshub.app/natgeo/dailyphoto][国家地理 每日一图]]
-*** [[https://rsshub.app/natgeo/environment/article][国家地理]]
+# *** [[https://rsshub.app/natgeo/environment/article][国家地理]]
+*** [[https://rsshub.app/smzdm/ranking/haowen/yc/48][什么值得买]] :buy:
