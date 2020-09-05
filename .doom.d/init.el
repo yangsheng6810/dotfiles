@@ -235,7 +235,7 @@
  '(objed-cursor-color "#ff6c6b")
  '(olivetti-body-width 100)
  '(org-agenda-files
-   '("~/Documents/org/Research.org" "~/Documents/org/papers.org" "~/Documents/org/Tasks.org" "~/Documents/org/Birthdays.org" "~/Documents/org/gcal.org" "~/Documents/org/Schedule.org"))
+   '("~/Documents/org/Research.org" "~/Documents/org/papers.org" "~/Documents/org/Tasks.org" "~/Documents/org/Birthdays.org" "~/Documents/org/gcal.org" "~/Documents/org/Schedule.org" "~/Documents/org/Notes.org"))
  '(org-directory "~/Documents/org/")
  '(org-format-latex-options
    '(:foreground default :background "#fbf8ef" :scale 1.25 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
