@@ -11,9 +11,6 @@ export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
 
 DEFAULT_USER="yangsheng"
 
-export GOPATH="$HOME/.go"
-PATH="$PATH:$HOME/.go/bin"
-
 export npm_config_prefix="$HOME/.node_modules"
 PATH="$PATH:$HOME/.node_modules/bin"
 alias npm='npm -g'
