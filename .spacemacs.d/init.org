@@ -1812,14 +1812,14 @@ This is a wrapper around `eval-after-load' that:
                  (org-super-agenda-groups
                   '((:name "Inbox"
                      :category "Inbox"
-                     :order 0)
+                     :order 2)
                     (:discard (:date t
                                :scheduled t
                                :deadline t)
                      :order 1)
                     (:name "Next"
                      :todo "NEXT"
-                     :order 2)
+                     :order 0)
                     (:auto-category t
                      :order 9)))))))
      ("r" . "Weekly review")
