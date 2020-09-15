@@ -86,3 +86,4 @@
 
 (package! org-super-agenda)
 (package! el-search)
+(package! git-messenger)
