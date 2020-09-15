@@ -669,7 +669,9 @@ This is a wrapper around `eval-after-load' that:
   ;; (set-face-attribute 'variable-pitch nil :family "EtBembo")
   (set-face-attribute 'variable-pitch nil :family "Libre Baskerville")
   (set-face-attribute 'fixed-pitch nil
+                      :family 'unspecified
                       :font "fontset-fixed"
+                      ; :fontset "fontset-fixed"
                       :height 'unspecified)
   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
@@ -678,7 +680,7 @@ This is a wrapper around `eval-after-load' that:
 (yang/with-doom
   (setq doom-font (font-spec :family "Source Code Pro" :size 16 :weight 'semi-light)
         doom-variable-pitch-font (font-spec :family "Libre Baskerville") ; inherits `doom-font''s :size
-        doom-unicode-font (font-spec :family "Symbola")
+        doom-unicode-font (font-spec :family "Sarasa Mono SC")
         ;; doom-big-font (font-spec :family "Fira Mono" :size 19)
         ))
 
@@ -687,6 +689,7 @@ This is a wrapper around `eval-after-load' that:
 (create-fontset-from-ascii-font "-*-Sarasa Mono SC-normal-normal-*" nil "fixed")
 (set-fontset-font "fontset-fixed" 'han "Sarasa Mono SC" nil 'append)
 (set-fontset-font "fontset-fixed" 'unicode "Symbola" nil 'append)
+(set-fontset-font "fontset-fixed" 'symbol "Symbola" nil 'prepend)
 
 
 (after! unicode-fonts
@@ -3736,8 +3739,10 @@ For generating org-capture templates
     (when (equal 'unspecified
                  (face-attribute 'elfeed-search-title-face :inherit))
       (set-face-attribute 'elfeed-search-title-face nil
+                          :fontset "fontset-fixed"
                           :inherit 'fixed-pitch)
       (set-face-attribute 'elfeed-search-unread-title-face nil
+                          :fontset "fontset-fixed"
                           :inherit 'fixed-pitch)))
 
   (add-hook 'elfeed-search-mode-hook #'yang/elfeed-set-face)
