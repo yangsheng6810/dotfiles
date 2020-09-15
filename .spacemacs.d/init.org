@@ -4283,6 +4283,52 @@ For generating org-capture templates
         (insert (format ":author: %s" new-string))))))
    #+end_src
 
+** Clean up Wikipedia
+   #+begin_src emacs-lisp
+(defun yang/clean-wiki ()
+  "Clean up formats specific for Wikipedia."
+  (interactive)
+  (save-excursion
+    ;; clean up &nbsp;
+    (goto-char (point-min))
+    (while (re-search-forward "&nbsp;" nil t)
+      (replace-match " "))
+    ;; clean up <math>...</math>
+    (goto-char (point-min))
+    (while (re-search-forward "<math>\\(.*?\\)</math>" nil t)
+      (replace-match "\\\\(\\1\\\\)"))
+    ;; clean up <sub>...</sub>
+    (goto-char (point-min))
+    (while (re-search-forward "<sub>\\(.*?\\)</sub>" nil t)
+      (replace-match "_{\\1}"))
+    ;; replace '''...''' with "..."
+    (goto-char (point-min))
+    (while (re-search-forward "'''\\(.*?\\)'''" nil t)
+      (replace-match "\"\\1\""))
+    ;; replace ''...'' with \(...\)
+    (goto-char (point-min))
+    (while (re-search-forward "''\\(.*?\\)''" nil t)
+      (replace-match "\\\\(\\1\\\\)"))
+    ;; remove reference
+    (goto-char (point-min))
+    (while (re-search-forward "<ref.*?>\\(.*?\\)</ref>" nil t)
+      (replace-match ""))
+    ;; remove links, either [[link]], or [[Unique link|link]], replace with
+    ;; "link"
+    (goto-char (point-min))
+    (while (re-search-forward
+            (rx "[["
+                (minimal-match
+                 (optional (zero-or-more (not (any "|"))) "|")
+                 (group (zero-or-more (not (any "|")))))
+                "]]")
+            nil t)
+      (replace-match "\\1"))
+    ;; clean up some headings
+    (goto-char (point-min))
+    (while (re-search-forward "^#" nil t)
+      (replace-match "-"))))
+   #+end_src
 * COMMENT Slack
 #+begin_src emacs-lisp
 (use-package slack
