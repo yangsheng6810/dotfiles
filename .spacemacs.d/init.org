@@ -1212,8 +1212,9 @@ This is a wrapper around `eval-after-load' that:
 ** Fix doom
 #+begin_src emacs-lisp
   (yang/with-doom
-    (remove-hook! 'text-mode-hook #'hl-fill-column-mode)
-    (remove-hook! 'prog-mode-hook #'hl-fill-column-mode)
+    (after! hl-fill-column
+      (remove-hook! 'text-mode-hook #'hl-fill-column-mode)
+      (remove-hook! 'prog-mode-hook #'hl-fill-column-mode))
     (setq doom-theme 'spacemacs-light)
     (with-eval-after-load 'solaire-mode
       (turn-off-solaire-mode))
