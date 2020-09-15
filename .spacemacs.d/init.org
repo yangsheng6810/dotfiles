@@ -4292,7 +4292,31 @@ For generating org-capture templates
         (message "new-string %s" new-string)
         (insert (format ":author: %s" new-string))))))
    #+end_src
-
+** Fix adaptive-wrap
+   #+begin_src emacs-lisp
+(use-package adaptive-wrap
+  :commands (adaptive-wrap--prefix-face)
+  :defer t
+  :config
+  ;; fix the bug in adaptive-wrap that assumes (get-text-property (1- end)
+  ;; 'face) will return a single face
+  ;;
+  (defun adaptive-wrap--prefix-face (fcp beg end)
+    (cond ((get-text-property 0 'face fcp))
+          ;; If the last character is a newline and has a face that
+          ;; extends beyond EOL, assume that this face spans the whole
+          ;; line and apply it to the prefix to preserve the "block"
+          ;; visual effect.
+          ;; NB: the face might not actually span the whole line: see for
+          ;; example removed lines in diff-mode, where the first character
+          ;; has the diff-indicator-removed face, while the rest of the
+          ;; line has the diff-removed face.
+          ((= (char-before end) ?\n)
+           (let ((eol-face (get-text-property (1- end) 'face)))
+             (if (listp eol-face)
+                 (remove nil (mapcar #'adaptive-wrap--face-extends eol-face))
+               (and eol-face (adaptive-wrap--face-extends eol-face) eol-face)))))))
+   #+end_src
 ** Clean up Wikipedia
    #+begin_src emacs-lisp
 (defun yang/clean-wiki ()
