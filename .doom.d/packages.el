@@ -85,3 +85,4 @@
 (package! deft)
 
 (package! org-super-agenda)
+(package! el-search)
