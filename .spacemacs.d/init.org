@@ -3745,6 +3745,7 @@ For generating org-capture templates
   (elfeed-org)
   ;; do update every 1 hours
   (run-at-time nil (* 1 60 60) #'elfeed-update)
+  (setq elfeed-search-filter "@2-weeks-ago +unread -news")
 
   (defun yang/elfeed-set-face ()
     (when (equal 'unspecified
