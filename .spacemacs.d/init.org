@@ -3351,6 +3351,7 @@ For generating org-capture templates
           "O" #'pdf-outline
           "n" #'pdf-view-midnight-minor-mode))
       )
+(setq pdf-view-use-unicode-ligther nil)
   #+END_SRC
 
 * doc-view
