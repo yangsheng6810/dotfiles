@@ -2548,11 +2548,13 @@ For generating org-capture templates
   (yang/with-doom
     (setq +latex-viewers '(pdf-tools skim evince sumatrapdf zathura okular))))
 
-(use-package rainbow-delimeters
-  :defer t
-  :init
-  (setq rainbow-delimiters-max-face-count 7)
-  :hook latex-mode)
+(yang/with-spacemacs
+  ;; already handled by doom
+  (use-package rainbow-delimiters
+    :defer t
+    :init
+    (setq rainbow-delimiters-max-face-count 7)
+    :hook latex-mode))
   #+END_SRC
 
 ** COMMENT preview
