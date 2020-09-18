@@ -140,6 +140,9 @@ This is a wrapper around `eval-after-load' that:
 
     (yang/with-doom
       (remove-hook 'text-mode-hook #'auto-fill-mode))
+
+(remove-hook! '(prog-mode-hook text-mode-hook conf-mode-hook)
+              #'display-line-numbers-mode)
   #+END_SRC
 
 ** Moving around
