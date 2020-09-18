@@ -3718,7 +3718,10 @@ For generating org-capture templates
 * elfeed
   #+BEGIN_SRC emacs-lisp
 ;; needed for setf to work with elfeed-entry-content
-(eval-when-compile (require 'elfeed))
+(eval-when-compile
+  (cl-defstruct (elfeed-entry (:constructor elfeed-entry--create))
+    "A single entry from a feed, normalized towards Atom."
+    id title link date content content-type enclosures tags feed-id meta))
 (use-package elfeed
   :defer t
   :commands (yang/elfeed-show-visit-gui
