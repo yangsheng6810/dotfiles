@@ -104,7 +104,7 @@ This is a wrapper around `eval-after-load' that:
 
     (setq word-wrap t
           word-wrap-by-category t
-          require-final-newline 'visit-save)
+          require-final-newline t)
 
     ;; set tab-width
     (setq-default tab-width 8
