@@ -126,7 +126,9 @@ This is a wrapper around `eval-after-load' that:
     (after! (general newcomment)
       (general-def
         :keymaps 'general-override-mode-map
-        "M-;" 'comment-dwim))
+        "M-;" 'comment-line
+        :keymaps 'global-map
+        [remap comment-dwim] #'comment-line))
 
 (after! counsel
   (yang/set-leader-key
