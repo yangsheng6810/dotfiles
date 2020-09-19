@@ -559,6 +559,17 @@ This is a wrapper around `eval-after-load' that:
   (yang/set-leader-key "jw" #'ace-window))
    #+end_src
 
+** Window-size
+   #+begin_src emacs-lisp
+(defhydra hydra-window-size (:color red)
+  "Windows size"
+  ("h" shrink-window-horizontally "shrink horizontal")
+  ("j" shrink-window "shrink vertical")
+  ("k" enlarge-window "enlarge vertical")
+  ("l" enlarge-window-horizontally "enlarge horizontal")
+  ("q" nil "quit"))
+   #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
