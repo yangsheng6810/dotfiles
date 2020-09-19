@@ -2564,6 +2564,8 @@ For generating org-capture templates
   (yang/with-doom
     (setq +latex-viewers '(pdf-tools skim evince sumatrapdf zathura okular))))
 
+(setq texmathp-tex-commands '(("align" env-on) ("align*" env-on)))
+
 (yang/with-spacemacs
   ;; already handled by doom
   (use-package rainbow-delimiters
