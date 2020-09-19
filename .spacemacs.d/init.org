@@ -3550,7 +3550,8 @@ For generating org-capture templates
    #+BEGIN_SRC emacs-lisp
 (use-package valign
   :defer t
-  :commands (valign-table valign-mode))
+  :commands (valign-table valign-mode)
+  :hook (org-mode . valign-mode))
    #+END_SRC
 
 ** ace-pinyin
