@@ -1641,66 +1641,51 @@ This is a wrapper around `eval-after-load' that:
 
 ** org-journal
    #+BEGIN_SRC emacs-lisp
-     (use-package org-journal
-       ;; :init
-       :init
-       (setq org-journal-dir "~/Documents/org/journal/"
-             org-journal-file-format "%Y-%m-%d"
-             org-journal-date-format "%Y 年 %m 月 %d 日 %A")
-       :config
-       (defun org-journal-find-location ()
-         ;; Open today's journal, but specify a non-nil prefix argument in order to
-         ;; inhibit inserting the heading; org-capture will insert the heading.
-         (org-journal-new-entry t)
-         ;; Position point on the journal's top-level heading so that org-capture
-         ;; will add the new entry as a child entry.
-         (goto-char (point-min)))
+(use-package org-journal
+  ;; :init
+  :init
+  (setq org-journal-dir "~/Documents/org/journal/"
+        org-journal-file-format "%Y-%m-%d"
+        org-journal-date-format "%Y 年 %m 月 %d 日 %A")
+  :config
+  ;; fix bug in outline that conflicts with valign
+  (define-advice outline-show-entry (:override nil)
+    "Show the body directly following this heading.
+how the heading too, if it is currently invisible."
+    (interactive)
+    (save-excursion
+      (outline-back-to-heading t)
+      (outline-flag-region (max (point-min) (1- (point)))
+                           (progn
+                             (outline-next-preface)
+                             (if (= 1 (- (point-max) (point)))
+                                 (point-max)
+                               (point)))
+                           nil)))
 
-       (yang/with-spacemacs
-         (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
-         (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
-         (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map))
+  (defun org-journal-find-location ()
+    ;; Open today's journal, but specify a non-nil prefix argument in order to
+    ;; inhibit inserting the heading; org-capture will insert the heading.
+    (org-journal-new-entry t)
+    ;; Position point on the journal's top-level heading so that org-capture
+    ;; will add the new entry as a child entry.
+    (goto-char (point-min)))
 
-       (defun yang/switch-to-journal-today ()
-         "Switch to today's org-journal file"
-         (interactive)
-         (org-journal-new-entry t))
+  (yang/with-spacemacs
+    (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
+    (set-keymap-parent spacemacs-org-journal-mode-map-prefix spacemacs-org-mode-map-prefix)
+    (set-keymap-parent spacemacs-org-journal-mode-map-root-map spacemacs-org-mode-map-root-map))
 
-       ;; make sure the file is saved
-       (add-hook 'org-journal-after-entry-create-hook #'save-buffer)
+  (defun yang/switch-to-journal-today ()
+    "Switch to today's org-journal file"
+    (interactive)
+    (org-journal-new-entry t))
 
-       (yang/set-leader-key "bj" 'yang/switch-to-journal-today)
-       (yang/set-leader-key "bJ" 'org-journal-new-entry)
+  ;; make sure the file is saved
+  (add-hook 'org-journal-after-entry-create-hook #'save-buffer)
 
-     ;;   ;; override default function as it prints out lots of messages
-     ;;   (defun org-journal-update-org-agenda-files ()
-     ;;     "Adds the current and future journal files to org-agenda-files.
-     ;; And cleans out past org-journal files."
-     ;;     (when org-journal-enable-agenda-integration
-     ;;       (let ((agenda-files-without-org-journal
-     ;;              (seq-filter
-     ;;               (lambda (f)
-     ;;                 ;; (message "DEBUG: %s %s"
-     ;;                 ;;          (expand-file-name (file-name-directory f))
-     ;;                 ;;          (expand-file-name (file-name-as-directory org-journal-dir)))
-     ;;                 (not (and (string= (expand-file-name (file-name-directory f))
-     ;;                                    (expand-file-name (file-name-as-directory org-journal-dir)))
-     ;;                           (string-match org-journal-file-pattern (file-name-nondirectory f)))))
-     ;;               org-agenda-files))
-     ;;             (org-journal-agenda-files
-     ;;              (seq-filter
-     ;;               ;; skip files that are older than today
-     ;;               (lambda (f)
-     ;;                 (not (time-less-p
-     ;;                       (org-journal-calendar-date->time
-     ;;                        (org-journal-file-name->calendar-date
-     ;;                         (file-name-nondirectory f)))
-     ;;                       (time-subtract (current-time) (days-to-time 1)))))
-     ;;               (directory-files org-journal-dir t
-     ;;                                org-journal-file-pattern))))
-     ;;         (setq org-agenda-files (append agenda-files-without-org-journal
-     ;;                                        org-journal-agenda-files)))))
-       )
+  (yang/set-leader-key "bj" 'yang/switch-to-journal-today)
+  (yang/set-leader-key "bJ" 'org-journal-new-entry))
    #+END_SRC
 
 ** org-agenda
