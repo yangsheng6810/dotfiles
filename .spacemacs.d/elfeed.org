@@ -44,3 +44,5 @@
 *** [[https://rsshub.app/natgeo/dailyphoto][国家地理 每日一图]]
 # *** [[https://rsshub.app/natgeo/environment/article][国家地理]]
 *** [[https://rsshub.app/smzdm/ranking/haowen/yc/48][什么值得买]] :buy:
+** Blog
+*** [[https://archive.casouri.cat/note/rss.xml][casouri]]
