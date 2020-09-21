@@ -14,3 +14,5 @@ fi
 # alias emacs='~/git/emacs/src/emacs'
 
 export WINEARCH=win32
+unalias z
+eval "$(zoxide init zsh)"
