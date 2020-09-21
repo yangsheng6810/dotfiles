@@ -3175,6 +3175,11 @@ For generating org-capture templates
         )
       (add-hook 'dired-mode-hook 'yang/dired-mode-setup)
 
+      (defun dired-open-file ()
+        "In dired, open the file named on this line."
+        (interactive)
+        (let* ((file (dired-get-filename nil t)))
+          (call-process "xdg-open" nil 0 nil file)))
 
       (setq dired-recursive-copies
             'always
