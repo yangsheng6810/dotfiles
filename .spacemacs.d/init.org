@@ -1645,6 +1645,7 @@ This is a wrapper around `eval-after-load' that:
 ** org-journal
    #+BEGIN_SRC emacs-lisp
 (use-package org-journal
+  :defer t
   ;; :init
   :init
   (setq org-journal-dir "~/Documents/org/journal/"
@@ -2235,6 +2236,7 @@ For generating org-capture templates
 ** org-noter
    #+begin_src emacs-lisp
      (use-package org-noter
+       :defer t
        :config
        (setq org-noter-always-create-frame nil
              org-noter-insert-note-no-questions t
