@@ -219,7 +219,9 @@ This is a wrapper around `eval-after-load' that:
              ;; move past eol when pressing l at eol
              evil-cross-lines t
              ;; when pasting over some text, the replaced text does not go to clipboard
-             evil-kill-on-visual-paste nil)
+             evil-kill-on-visual-paste nil
+             ;; use fd instead of jk as escaping sequence
+             evil-escape-key-sequence "fd")
 
        ;; stop the behavior that evil consider all inputs done when in insert mode
        ;; as one insertion.
