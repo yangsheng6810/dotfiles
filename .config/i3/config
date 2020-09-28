@@ -413,3 +413,5 @@ exec --no-startup-id $HOME/bin/fix_startup.sh
 exec --no-startup-id keepassxc
 # auto tiling
 exec_always --no-startup-id autotiling
+
+exec --no-startup-id /usr/lib/notify-osd/notify-osd
