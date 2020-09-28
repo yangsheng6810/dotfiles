@@ -1305,7 +1305,10 @@ This is a wrapper around `eval-after-load' that:
 #+begin_src emacs-lisp
 (use-package sh-script
   :init
-  (add-hook 'sh-mode-hook (lambda () (hl-fill-column-mode -1))))
+  (add-hook 'sh-mode-hook
+            (lambda ()
+              (when (feqturep 'hl-fill-column)
+                (hl-fill-column-mode -1)))))
 #+end_src
 
 * Compatible Keyboard for Doom
@@ -2534,7 +2537,8 @@ For generating org-capture templates
 
     (yang/with-doom
       (hl-line-mode -1)
-      (hl-fill-column-mode -1)
+      (when (featurep 'hl-fill-column)
+        (hl-fill-column-mode -1))
       (variable-pitch-mode 1))
 
     (defun yang/LaTeX-narrow-to-section ()
