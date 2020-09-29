@@ -2471,6 +2471,32 @@ For generating org-capture templates
           ;; location of tex2svg executable
           "~/node_modules/mathjax-node-cli/bin/tex2svg")))
    #+end_src
+
+** LaTeX in org-mode
+   Handles LaTeX header in both TeX and html export
+   #+begin_src emacs-lisp
+(define-advice org-font-lock-add-priority-faces (:override (&rest _))
+  nil)
+
+(add-to-list 'org-src-lang-modes '("latex-macros" . latex))
+
+(defvar org-babel-default-header-args:latex-macros
+  '((:results . "raw")
+    (:exports . "results")))
+
+(defun prefix-all-lines (pre body)
+  (with-temp-buffer
+    (insert body)
+    (string-insert-rectangle (point-min) (point-max) pre)
+    (buffer-string)))
+
+(defun org-babel-execute:latex-macros (body _params)
+  (concat
+   (prefix-all-lines "#+LATEX_HEADER: " body)
+   "\n#+HTML_HEAD_EXTRA: <div style=\"display: none\"> \\(\n"
+   (prefix-all-lines "#+HTML_HEAD_EXTRA: " body)
+   "\n#+HTML_HEAD_EXTRA: \\)</div>\n"))
+   #+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook
