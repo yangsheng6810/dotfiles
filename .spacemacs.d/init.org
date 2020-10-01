@@ -2648,6 +2648,15 @@ For generating org-capture templates
 
    #+END_SRC
 
+** xenops
+   #+begin_src emacs-lisp
+(use-package xenops
+  :defer t
+  :hook (org-mode . xenops-mode)
+  :config
+  (setq xenops-math-image-scale-factor 1.5))
+   #+end_src
+
 * Python
   #+BEGIN_SRC emacs-lisp
 (use-package company-jedi             ;;; company-mode completion back-end for Python JEDI
