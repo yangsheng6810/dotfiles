@@ -2763,9 +2763,12 @@ For generating org-capture templates
 
 ** Use ivy--regex-plus for ivy search
   #+BEGIN_SRC emacs-lisp
-(after! ivy
+(use-package ivy
+  :defer t
+  :config
   (setq ivy-re-builders-alist
-        '((t . ivy--regex-plus))))
+        '((t . ivy--regex-plus)))
+  (ivy-configure 'counsel-M-x :initial-input "^"))
 
   #+END_SRC
 
