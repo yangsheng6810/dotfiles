@@ -149,8 +149,13 @@ This is a wrapper around `eval-after-load' that:
 
 ** Moving around
     #+begin_src emacs-lisp
-     ;; first recenter to top, then to half-top
-     (setq recenter-positions '(0.15 top middle bottom))
+;; first recenter to top, then to half-top
+(setq recenter-positions '(0.15 top middle bottom))
+
+(defun pop-mark-ring ()
+  "Pop mark ring."
+  (interactive)
+  (set-mark-command t))
    #+end_src
    
 ** ispell
