@@ -4256,7 +4256,7 @@ For generating org-capture templates
              ;;
              ;; By default, C-h F is bound to `Info-goto-emacs-command-node'. Helpful
              ;; already links to the manual, if a function is referenced there.
-             ("C-h F" . helpful-function)
+             ;; ("C-h F" . helpful-function)
              ;; Look up *C*ommands.
              ;;
              ;; By default, C-h C is bound to describe `describe-coding-system'. I
