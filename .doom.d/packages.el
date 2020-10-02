@@ -89,3 +89,15 @@
 (package! git-messenger)
 
 (package! xenops)
+
+;; Install cutting-edge version of org-mode, and from a mirror, because
+;; code.orgmode.org runs on a potato.
+(package! org-mode
+  :recipe (:type git
+           :repo "https://code.orgmode.org/bzg/org-mode"
+           :files ("*.el" "lisp/*.el" "contrib/lisp/*.el"))
+  :pin "220f2b0d93a6927eb673978c0042a1d4673e86aa"
+  ;; Prevents built-in Org from sneaking into the byte-compilation of
+  ;; `org-plus-contrib', and inform other packages that `org-mode' satisfies the
+  ;; `org' dependency: https://github.com/raxod502/straight.el/issues/352
+  :shadow 'org)
