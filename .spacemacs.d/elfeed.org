@@ -8,6 +8,7 @@
 ** Friends
 *** [[https://bigeagle.me/index.xml][Big Eagle]]
 *** [[http://scateu.me/feed.xml][Scateu]]
+*** [[https://farseerfc.me/feeds/atom.xml][Farseerfc]]
 ** Food :food:leisure:
 # *** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCg0m_Ah8P_MQbnn77-vYnYw][美食作家王刚]]
 *** [[https://rsshub.app/bilibili/user/video/419872064][老饭骨]]
