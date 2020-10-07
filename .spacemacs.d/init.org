@@ -1313,7 +1313,7 @@ This is a wrapper around `eval-after-load' that:
   :init
   (add-hook 'sh-mode-hook
             (lambda ()
-              (when (feqturep 'hl-fill-column)
+              (when (featurep 'hl-fill-column)
                 (hl-fill-column-mode -1)))))
 #+end_src
 
