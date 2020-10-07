@@ -90,3 +90,4 @@
 
 (package! xenops)
 
+(package! flycheck-package)
