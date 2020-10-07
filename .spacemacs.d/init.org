@@ -2655,8 +2655,8 @@ For generating org-capture templates
    #+begin_src emacs-lisp
 (use-package xenops
   :defer t
-  :hook (org-mode . xenops-mode)
-  :config
+  ;; :hook (org-mode . xenops-mode)
+  :init
   (setq xenops-math-image-scale-factor 1.5))
    #+end_src
 
