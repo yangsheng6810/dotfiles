@@ -696,7 +696,7 @@ This is a wrapper around `eval-after-load' that:
                       :font "fontset-fixed"
                       ; :fontset "fontset-fixed"
                       :height 'unspecified)
-  (set-face-attribute 'fixed-pitch-serif nil :family "Source Serif Pro")
+  (set-face-attribute 'fixed-pitch-serif nil :family "Latin Modern Mono")
   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
   )
