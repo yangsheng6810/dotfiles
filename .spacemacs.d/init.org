@@ -1520,6 +1520,8 @@ This is a wrapper around `eval-after-load' that:
    org-hide-emphasis-markers t
    ;; state change will be logged in LOGBOOK drawer
    org-log-into-drawer t
+   ;; encrypt/decrypt with my key
+   org-crypt-key "ECCD533E14EE93B0B419B26D9A6550BD2C9A101A"
    )
 
   (plist-put org-format-latex-options :scale 1.66)
