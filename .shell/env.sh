@@ -25,3 +25,5 @@ if [ -x "$(command -v pyenv)" ]; then
     eval "$(pyenv init -)"
 fi
 export PYTHONSTARTUP="${HOME}/.pythonrc.py"
+# for startdict
+export XDG_DATA_HOME="${HOME}/.local/share"
