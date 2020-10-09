@@ -49,3 +49,7 @@ function jpeg2pdf () {
 function clean_packages (){
     pacman -Qtdq | ifne sudo pacman -Rcs -
 }
+
+function video2gif (){
+    ffmpeg -i "$1" -filter_complex "[0:v] fps=12,scale=2560:-1,split [a][b];[a] palettegen [p];[b][p] paletteuse=new=1" "${1%.*}.gif"
+}
