@@ -91,3 +91,4 @@
 (package! xenops)
 
 (package! flycheck-package)
+(package! chinese-yasdcv)

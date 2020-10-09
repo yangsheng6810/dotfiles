@@ -4485,6 +4485,21 @@ can be found in docstring of `posframe-show'."
                      (- y-top (or posframe-height 0))
                    y-bottom)))))
    #+end_src
+** yasdcv
+   #+begin_src emacs-lisp
+(use-package yasdcv
+  :defer t
+  :config
+  (add-to-list 'yasdcv-sdcv-dicts
+               '("" "Webster's Revised Unabridged Dictionary (1913)" nil t))
+  (define-advice yasdcv--buffer-output-translation (:override (translate-text))
+    (let ((buffer-name "*Stardict Output*"))
+      (with-output-to-temp-buffer buffer-name
+        (set-buffer buffer-name)
+        (when (featurep 'org)
+          (org-mode))
+        (insert translate-text)))))
+   #+end_src
 
 * COMMENT Slack
 #+begin_src emacs-lisp
