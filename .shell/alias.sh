@@ -64,3 +64,6 @@ alias curl-download="curl -L -O -C -"
 
 # htop
 alias htop='TERM=screen-256color htop'
+
+# sdcv
+alias sdcv='sdcv --utf8-output --color'
