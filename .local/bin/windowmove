@@ -1,0 +1,35 @@
+#!/bin/bash
+# Author: Aeghn
+# Jump between Emacs and i3wm
+
+WM_CLASS_STRING=$(xprop -id $(xdotool getwindowfocus) WM_CLASS)
+WM_CLASS_STRING=${WM_CLASS_STRING##* }
+echo "$WM_CLASS_STRING"
+
+emacsclient=$(which emacsclient)
+
+# get_side_window() {
+#     echo "(select-window (let ((window nil))
+#   (while (window-in-direction '${1} window)
+#     (setq window (window-in-direction '${1} window)))
+#   window))"
+# }
+
+case $1 in
+    left) [ "${WM_CLASS_STRING}" == '"Emacs"' ] &&\
+           $emacsclient -e "(windmove-left)"  ||\
+               i3-msg 'focus left'
+       ;;
+    right) [ "${WM_CLASS_STRING}" == '"Emacs"' ] &&\
+           $emacsclient -e "(windmove-right)" ||\
+               i3-msg 'focus right'
+       ;;
+    up) [ "${WM_CLASS_STRING}" == '"Emacs"' ] &&\
+           $emacsclient -e "(windmove-up)"    ||\
+               i3-msg 'focus up'
+       ;;
+    down) [ "${WM_CLASS_STRING}" == '"Emacs"' ] &&\
+           $emacsclient -e "(windmove-down)"  ||\
+               i3-msg 'focus down'
+       ;;
+esac

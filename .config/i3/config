@@ -97,10 +97,14 @@ bindsym $mod+Shift+d exec --no-startup-id "rofi -show-icons -modi combi -show co
 # exec --no-startup-id xrdb -emerge ~/.Xresources
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+# bindsym $mod+h focus left
+# bindsym $mod+j focus down
+# bindsym $mod+k focus up
+# bindsym $mod+l focus right
+bindsym $mod+h exec --no-startup-id "$HOME/.local/bin/windowmove left"
+bindsym $mod+j exec --no-startup-id "$HOME/.local/bin/windowmove down"
+bindsym $mod+k exec --no-startup-id "$HOME/.local/bin/windowmove up"
+bindsym $mod+l exec --no-startup-id "$HOME/.local/bin/windowmove right"
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
