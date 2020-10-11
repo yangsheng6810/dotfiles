@@ -92,6 +92,8 @@
 
 (package! flycheck-package)
 (package! chinese-yasdcv)
+;; for query org files
+(package! org-ql)
 ;; org-roam-bibtex
 (package! org-roam-bibtex
   :recipe (:host github :repo "org-roam/org-roam-bibtex"))
