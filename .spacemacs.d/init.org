@@ -2929,7 +2929,8 @@ This function is used internally by `orb-autokey-generate-key'."
   :config
   (setq ivy-re-builders-alist
         '((t . ivy--regex-plus)))
-  (ivy-configure 'counsel-M-x :initial-input "^"))
+  (ivy-configure 'counsel-M-x :initial-input "^")
+  (ivy-configure 'counsel-describe-function :initial-input "^"))
 
   #+END_SRC
 
