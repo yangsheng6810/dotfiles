@@ -2982,7 +2982,7 @@ This function is used internally by `orb-autokey-generate-key'."
 
    #+end_src
 
-** Mu4e
+** COMMENT Mu4e
    #+BEGIN_SRC emacs-lisp
      (use-package mu4e
        :defer t
@@ -3142,7 +3142,7 @@ This function is used internally by `orb-autokey-generate-key'."
                        #'hide-mode-line-mode)))
 #+end_src
 
-** notmuch
+** COMMENT notmuch
    #+BEGIN_SRC emacs-lisp
      (after! org
        (condition-case err
