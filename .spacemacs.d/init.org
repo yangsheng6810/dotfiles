@@ -575,6 +575,9 @@ This is a wrapper around `eval-after-load' that:
   ("k" enlarge-window "enlarge vertical")
   ("l" enlarge-window-horizontally "enlarge horizontal")
   ("q" nil "quit"))
+
+(yang/set-leader-key
+ "ws" #'hydra-window-size/body)
    #+end_src
 
 * Display
