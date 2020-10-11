@@ -2509,6 +2509,152 @@ For generating org-capture templates
      (prefix-all-lines "#+HTML_HEAD_EXTRA: " body)
      "\n#+HTML_HEAD_EXTRA: \\)</div>\n")))
    #+end_src
+** org-roam-bibtex
+   #+begin_src emacs-lisp
+(use-package org-roam-bibtex
+  :defer t
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :bind (:map org-mode-map
+         (("C-c n a" . orb-note-actions)))
+  :config
+  (setq orb-preformat-keywords
+        '("citekey" "title" "url" "author-or-editor" "keywords" "file" "date" "author" "year" "booktitle" "journal")
+        orb-process-file-field t
+        orb-file-field-extensions "pdf"
+        ;; use hydra
+        orb-note-actions-frontend 'hydra
+        ;; be consistent with existing ones
+        orb-autokey-format "%a%y_%t[5][6][_]"
+        ;; do not exclude non-capitalized words in a title
+        orb-autokey-titlewords-ignore '("A" "An" "On" "The" "Eine?" "Der" "Die" "Das" "a" "an" "on" "the" ".*[^[:upper:][:lower:]0-9].*")
+        ;; set default template
+        orb-templates
+        '(("r" "ref" plain (function org-roam-capture--get-point)
+           ""
+           :file-name "${citekey}"
+           :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}
+
+- tags ::
+- keywords :: ${keywords}
+
+,* ${title}
+:PROPERTIES:
+:Custom_ID: ${citekey}
+:URL: ${url}
+:AUTHOR: ${author}
+:YEAR: ${year}
+:WHERE: ${journal} ${booktitle}
+:END:")))
+
+  ;; fix typo in orb--autokey-format-field
+  (defun orb--autokey-format-field (field &rest specs)
+    "Return BibTeX FIELD formatted according to plist SPECS.
+
+Recognized keys:
+==========
+:entry       - BibTeX entry to use
+:value       - Value of BibTeX field to use
+               instead retrieving it from :entry
+:capital     - capitalized version
+:starred     - starred version
+:words       - first optional parameter (number of words)
+:characters  - second optional parameter (number of characters)
+:delimiter   - third optional parameter (delimiter)
+
+All values should be strings, including those representing numbers.
+
+This function is used internally by `orb-autokey-generate-key'."
+    (declare (indent 1))
+    (-let* (((&plist :entry entry
+                     :value value
+                     :capital capital
+                     :starred starred
+                     :words words
+                     :characters chars
+                     :delimiter delim) specs)
+            ;; field values will be split into a list of words. `separator' is a
+            ;; regexp for word separators: either a whitespace, one or more
+            ;; dashes, or en dash, or em dash
+            (separator "\\([ \n\t]\\|[-]+\\|[—–]\\)")
+            (invalid-chars-rx
+             (rx-to-string `(any ,orb-autokey-invalid-symbols) t))
+            (delim (or delim ""))
+            result)
+      ;; 0. virtual field "=name=" is used internally here and in
+      ;; `orb-autokey-generate-key'; it stands for author or editor
+      (if (string= field "=name=")
+          ;; in name fields, logical words are full names consisting of several
+          ;; words and containing spaces and punctuation, separated by a logical
+          ;; separator, the word "and"
+          (setq separator " and "
+                value (or value
+                          (bibtex-completion-get-value "author" entry)
+                          (bibtex-completion-get-value "editor" entry)))
+        ;; otherwise proceed with value or get it from entry
+        (setq value (or value
+                        (bibtex-completion-get-value field entry))))
+      (if (or (not value)
+              (string-empty-p value))
+          (setq result orb-autokey-empty-field-token)
+        (when (> (length value) 0)
+          (save-match-data
+            ;; 1. split field into words
+            (setq result (split-string value separator t "[ ,.;:-]+"))
+            ;; 1a) only for title;
+            ;; STARRED = include words from `orb-autokey-titlewords-ignore
+            ;; unstarred version filters the keywords, starred ignores this block
+            (when (and (string= field "title")
+                       (not starred))
+              (let ((ignore-rx (concat "\\`\\(:?"
+                                       (mapconcat #'identity
+                                                  orb-autokey-titlewords-ignore
+                                                  "\\|") "\\)\\'"))
+                    (words ()))
+                (setq result (dolist (word result (nreverse words))
+                               (unless (string-match-p ignore-rx word)
+                                 (push word words))))))
+            ;; 2. take number of words equal to WORDS if that is set
+            ;; or just the first word; also 0 = 1.
+            (if words
+                (setq words (string-to-number words)
+                      result (-take (if (> words (length result))
+                                        (length result)
+                                      words)
+                                    result))
+              (setq result (list (car result))))
+            ;; 2a) only for "=name=" field, i.e. author or editor
+            ;; STARRED = include initials
+            (when (string= field "=name=")
+              ;; NOTE: here we expect name field 'Doe, J. B.'
+              ;; should ideally be able to handle 'Doe, John M. Longname, Jr'
+              (let ((r-x (if starred
+                             "[ ,.\t\n]"
+                           "\\`\\(.*?\\),.*\\'"))
+                    (rep (if starred "" "\\1"))
+                    (words ()))
+                (setq result
+                      (dolist (name result (nreverse words))
+                        (push (s-replace-regexp r-x rep name) words)))))
+            ;; 3. take at most CHARS number of characters from every word
+            (when chars
+              (let ((words ()))
+                (setq chars (string-to-number chars)
+                      result (dolist (word result (nreverse words))
+                               (push
+                                (substring word 0
+                                           (if (< chars (length word))
+                                               chars
+                                             (length word)))
+                                words)))))
+            ;; 4. almost there: concatenate words, include DELIMiter
+            (setq result (mapconcat #'identity result delim))
+            ;; 5. CAPITAL = preserve case
+            (unless capital
+              (setq result (downcase result))))))
+      ;; return result stripped of the invalid characters
+      (s-replace-regexp invalid-chars-rx "" result t))))
+   #+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook
