@@ -2212,7 +2212,7 @@ For generating org-capture templates
           (message "no pdf found for %s" key)))))
 
   (defhydra+ org-ref-bibtex-hydra ()
-      ("P" yang/org-ref-open-bibtex-pdf "Open pdf with xdg-open"))
+    ("P" yang/org-ref-open-bibtex-pdf "Open pdf with xdg-open"))
 
   (defun yang/org-ref-open-pdf-at-point ()
     "Open the pdf for bibtex key under point with xdg-open if it exists."
@@ -3705,8 +3705,7 @@ This function is used internally by `orb-autokey-generate-key'."
       (when (display-graphic-p)
         ;; (fontset-name-p "fontset-default")
         ;; (set-face-font 'fixed-pitch "fontset-default")
-        (set-face-attribute 'fixed-pitch nil :font "fontset-default" :family "Monaco"))
-      )))
+        (set-face-attribute 'fixed-pitch nil :font "fontset-default" :family "Monaco")))))
    #+END_SRC
 
 *** Enable cnfonts
