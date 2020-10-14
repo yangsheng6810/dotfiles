@@ -4012,29 +4012,32 @@ Return the result as a string."
   (defun yang/elfeed-deduplicate ()
     "Remove duplicate of CS Theory and ArXiv."
     (interactive)
-    (save-excursion
-      (goto-char (point-min))
-      (let ((cs-theory-list))
-        (while (re-search-forward (rx bol
-                                      (repeat 4 digit) "-" (repeat 2 digit) "-" (repeat 2 digit) " "
-                                      (group (one-or-more print))
-                                      " ArXiv"
-                                      (zero-or-more print)
-                                      eol) nil t)
-          (add-to-list 'cs-theory-list (buffer-substring (match-beginning 1) (match-end 1))))
-        (dolist (title cs-theory-list)
-          (goto-char (point-min))
-          (when (re-search-forward (rx bol
-                                       (repeat 4 digit) "-" (repeat 2 digit) "-" (repeat 2 digit) " "
-                                       (literal title)
-                                       " CS Theory"
-                                       (zero-or-more print)
-                                       eol) nil t)
-            (goto-char (match-beginning 0))
-            (elfeed-search-tag-all 'duplicate)
-            ;; elfeed-search-tag-all automatically move cursor to the next line
-            (previous-line)
-            (elfeed-search-untag-all 'unread))))))
+    (let ((old-filter elfeed-search-filter))
+      (elfeed-search-set-filter "@2-weeks-ago -news +research")
+      (save-excursion
+        (goto-char (point-min))
+        (let ((cs-theory-list))
+          (while (re-search-forward (rx bol
+                                        (repeat 4 digit) "-" (repeat 2 digit) "-" (repeat 2 digit) " "
+                                        (group (one-or-more print))
+                                        " ArXiv"
+                                        (zero-or-more print)
+                                        eol) nil t)
+            (add-to-list 'cs-theory-list (buffer-substring (match-beginning 1) (match-end 1))))
+          (dolist (title cs-theory-list)
+            (goto-char (point-min))
+            (when (re-search-forward (rx bol
+                                         (repeat 4 digit) "-" (repeat 2 digit) "-" (repeat 2 digit) " "
+                                         (literal title)
+                                         " CS Theory"
+                                         (zero-or-more print)
+                                         eol) nil t)
+              (goto-char (match-beginning 0))
+              (elfeed-search-tag-all 'duplicate)
+              ;; elfeed-search-tag-all automatically move cursor to the next line
+              (previous-line)
+              (elfeed-search-untag-all 'unread)))))
+      (elfeed-search-set-filter old-filter)))
 
   ;; the following from:
   ;; https://joshrollinswrites.com/help-desk-head-desk/20200611/
