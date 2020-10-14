@@ -2189,6 +2189,21 @@ For generating org-capture templates
          ("C-c ]" . org-ref-insert-link))
   :init
   (add-hook 'org-mode-hook 'org-ref-setup-label-finders t)
+  (setq org-ref-title-case-types '("article" "book" "inproceedings" "incollection")
+        org-ref-clean-bibtex-entry-hook
+        '(org-ref-bibtex-format-url-if-doi
+          orcb-key-comma
+          org-ref-replace-nonascii
+          orcb-&
+          orcb-%
+          org-ref-title-case
+          orcb-clean-year
+          orcb-key
+          orcb-clean-doi
+          orcb-clean-pages
+          orcb-check-journal
+          org-ref-sort-bibtex-entry
+          orcb-fix-spacing))
   :config
   (org-ref-ivy-cite-completion)
 
@@ -2520,12 +2535,14 @@ For generating org-capture templates
         ;; use hydra
         orb-note-actions-frontend 'hydra
         ;; be consistent with existing ones
-        orb-autokey-format "%a%y_%t[5][6][_]"
+        orb-autokey-format "%e{(yang/orb-generate-key)}"
         ;; do not exclude non-capitalized words in a title
         orb-autokey-titlewords-ignore '("A" "An" "On" "The" "Eine?" "Der" "Die" "Das" "a" "an" "on" "the" ".*[^[:upper:][:lower:]0-9].*")
+        ;; include cite-number in scraper export
+        orb-pdf-scrapper-export-fields '("citation-number" "author" "title" "date")
         ;; set default template
         orb-templates
-        '(("r" "ref" plain (function org-roam-capture--get-point)
+        '(("r" "ref" plain #'org-roam-capture--get-point
            ""
            :file-name "${citekey}"
            :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}
@@ -2542,113 +2559,35 @@ For generating org-capture templates
 :WHERE: ${journal} ${booktitle}
 :END:")))
 
-  ;; fix typo in orb--autokey-format-field
-  (defun orb--autokey-format-field (field &rest specs)
-    "Return BibTeX FIELD formatted according to plist SPECS.
+  ;; need to reset CASE-FOLD-SEARCH and -COMPARE-FN, which was set in
+  ;; `orb-autokey-generate-key' and `orb-pdf-scrapper--get-entry-info'
+  (defun yang/orb-generate-key (&rest _)
+    (interactive)
+    (let ((case-fold-search t)
+          (-compare-fn nil)
+          (ss (buffer-substring-no-properties
+               (bibtex-beginning-of-entry)
+               (bibtex-end-of-entry))))
+      ;; use temp buffer to prepare the key
+      (with-temp-buffer
+        (insert ss)
+        (when (string= "" (bibtex-autokey-get-field "year"))
+          (bibtex-set-field "year" (bibtex-autokey-get-field "date")))
+        (org-ref-clean-bibtex-entry)
+        ;; return the key
+        (save-excursion
+          (re-search-forward
+           bibtex-entry-maybe-empty-head)
+          (bibtex-key-in-head)))))
 
-Recognized keys:
-==========
-:entry       - BibTeX entry to use
-:value       - Value of BibTeX field to use
-               instead retrieving it from :entry
-:capital     - capitalized version
-:starred     - starred version
-:words       - first optional parameter (number of words)
-:characters  - second optional parameter (number of characters)
-:delimiter   - third optional parameter (delimiter)
-
-All values should be strings, including those representing numbers.
-
-This function is used internally by `orb-autokey-generate-key'."
-    (declare (indent 1))
-    (-let* (((&plist :entry entry
-                     :value value
-                     :capital capital
-                     :starred starred
-                     :words words
-                     :characters chars
-                     :delimiter delim) specs)
-            ;; field values will be split into a list of words. `separator' is a
-            ;; regexp for word separators: either a whitespace, one or more
-            ;; dashes, or en dash, or em dash
-            (separator "\\([ \n\t]\\|[-]+\\|[—–]\\)")
-            (invalid-chars-rx
-             (rx-to-string `(any ,orb-autokey-invalid-symbols) t))
-            (delim (or delim ""))
-            result)
-      ;; 0. virtual field "=name=" is used internally here and in
-      ;; `orb-autokey-generate-key'; it stands for author or editor
-      (if (string= field "=name=")
-          ;; in name fields, logical words are full names consisting of several
-          ;; words and containing spaces and punctuation, separated by a logical
-          ;; separator, the word "and"
-          (setq separator " and "
-                value (or value
-                          (bibtex-completion-get-value "author" entry)
-                          (bibtex-completion-get-value "editor" entry)))
-        ;; otherwise proceed with value or get it from entry
-        (setq value (or value
-                        (bibtex-completion-get-value field entry))))
-      (if (or (not value)
-              (string-empty-p value))
-          (setq result orb-autokey-empty-field-token)
-        (when (> (length value) 0)
-          (save-match-data
-            ;; 1. split field into words
-            (setq result (split-string value separator t "[ ,.;:-]+"))
-            ;; 1a) only for title;
-            ;; STARRED = include words from `orb-autokey-titlewords-ignore
-            ;; unstarred version filters the keywords, starred ignores this block
-            (when (and (string= field "title")
-                       (not starred))
-              (let ((ignore-rx (concat "\\`\\(:?"
-                                       (mapconcat #'identity
-                                                  orb-autokey-titlewords-ignore
-                                                  "\\|") "\\)\\'"))
-                    (words ()))
-                (setq result (dolist (word result (nreverse words))
-                               (unless (string-match-p ignore-rx word)
-                                 (push word words))))))
-            ;; 2. take number of words equal to WORDS if that is set
-            ;; or just the first word; also 0 = 1.
-            (if words
-                (setq words (string-to-number words)
-                      result (-take (if (> words (length result))
-                                        (length result)
-                                      words)
-                                    result))
-              (setq result (list (car result))))
-            ;; 2a) only for "=name=" field, i.e. author or editor
-            ;; STARRED = include initials
-            (when (string= field "=name=")
-              ;; NOTE: here we expect name field 'Doe, J. B.'
-              ;; should ideally be able to handle 'Doe, John M. Longname, Jr'
-              (let ((r-x (if starred
-                             "[ ,.\t\n]"
-                           "\\`\\(.*?\\),.*\\'"))
-                    (rep (if starred "" "\\1"))
-                    (words ()))
-                (setq result
-                      (dolist (name result (nreverse words))
-                        (push (s-replace-regexp r-x rep name) words)))))
-            ;; 3. take at most CHARS number of characters from every word
-            (when chars
-              (let ((words ()))
-                (setq chars (string-to-number chars)
-                      result (dolist (word result (nreverse words))
-                               (push
-                                (substring word 0
-                                           (if (< chars (length word))
-                                               chars
-                                             (length word)))
-                                words)))))
-            ;; 4. almost there: concatenate words, include DELIMiter
-            (setq result (mapconcat #'identity result delim))
-            ;; 5. CAPITAL = preserve case
-            (unless capital
-              (setq result (downcase result))))))
-      ;; return result stripped of the invalid characters
-      (s-replace-regexp invalid-chars-rx "" result t))))
+  ;; allow using date for year field (date is used in `anystyle')
+  (define-advice bibtex-autokey-get-year (:override ())
+    (let ((yearfield (bibtex-autokey-get-field "year"))
+          (datefield (bibtex-autokey-get-field "date")))
+      (when (string= "" yearfield)
+        (setq yearfield datefield))
+      (substring yearfield (max 0 (- (length yearfield)
+                                     bibtex-autokey-year-length))))))
    #+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
@@ -2785,6 +2724,92 @@ This function is used internally by `orb-autokey-generate-key'."
   :config
   (setq reftex-cite-punctuation '(", " ", and " " {\\it et al.}")))
 
+(use-package bibtex
+  :defer t
+  :init
+  (setq
+   ;; use 4 digits for year
+   bibtex-autokey-year-length 4
+   ;; use only the first author
+   bibtex-autokey-names 1
+   ;; use infinite length of names
+   bibtex-autokey-name-length 'infty
+   ;; use infinite length of title words
+   bibtex-autokey-titleword-length 'infty
+   ;; use 1 word
+   bibtex-autokey-titlewords 1
+   ;; use no more workds
+   bibtex-autokey-titlewords-stretch 0
+   ;; no separator between year and title
+   bibtex-autokey-year-title-separator ""
+   ;; do not ignore a word like `low-stretch' and `1.23-approximation'
+   bibtex-autokey-titleword-ignore '("A" "An" "On" "The" "Eine?" "Der" "Die" "Das" "[^[:upper:]].*" ".*[^-.[:upper:][:lower:]0-9].*"))
+
+  ;; handle hyphen words correctly
+  (defun bibtex-autokey-get-title ()
+    "Get title field contents up to a terminator.
+Return the result as a string."
+    (let ((case-fold-search t)
+          (titlestring
+           (bibtex-autokey-get-field "title"
+                                     bibtex-autokey-titleword-change-strings)))
+      ;; ignore everything past a terminator
+      (if (string-match bibtex-autokey-title-terminators titlestring)
+          (setq titlestring (substring titlestring 0 (match-beginning 0))))
+      ;; gather words from titlestring into a list.  Ignore
+      ;; specific words and use only a specific amount of words.
+      (let ((counter 0)
+	    (ignore-re (concat "\\`\\(?:"
+                               (mapconcat #'identity
+                                          bibtex-autokey-titleword-ignore "\\|")
+                               "\\)\\'"))
+            titlewords titlewords-extra word)
+        (while (and (or (not (numberp bibtex-autokey-titlewords))
+                        (< counter (+ bibtex-autokey-titlewords
+                                      bibtex-autokey-titlewords-stretch)))
+                    (string-match "\\b\\(\\w\\|-\\|\\.\\)+" titlestring))
+          (setq word (match-string 0 titlestring)
+                titlestring (substring titlestring (match-end 0)))
+          ;; Ignore words matched by one of the elements of
+          ;; `bibtex-autokey-titleword-ignore'.  Case is significant.
+          (unless (let (case-fold-search)
+		    (string-match ignore-re word))
+            (setq counter (1+ counter))
+            (if (or (not (numberp bibtex-autokey-titlewords))
+                    (<= counter bibtex-autokey-titlewords))
+                (push word titlewords)
+              (push word titlewords-extra))))
+        ;; Obey `bibtex-autokey-titlewords-stretch':
+        ;; If by now we have processed all words in titlestring, we include
+        ;; titlewords-extra in titlewords.  Otherwise, we ignore titlewords-extra.
+        (unless (string-match "\\b\\w+" titlestring)
+          (setq titlewords (append titlewords-extra titlewords)))
+        (mapconcat #'bibtex-autokey-demangle-title (nreverse titlewords)
+                   bibtex-autokey-titleword-separator))))
+
+  (defun yang/bibtex-update-key ()
+    (interactive)
+    (save-excursion
+      (save-restriction
+        (bibtex-narrow-to-entry)
+        (bibtex-beginning-of-entry)
+        (let* ((bibtex-expand-strings t)
+               (entry (bibtex-parse-entry t))
+               (old-key (reftex-get-bib-field "=key=" entry))
+               (old-pdf (org-ref-get-pdf-filename old-key))
+               (new-key)
+               (new-pdf))
+          (when (re-search-forward "{[a-zA-Z0-9_]+," nil t)
+            (replace-match "{,"))
+          (org-ref-clean-bibtex-entry)
+          (setq entry (bibtex-parse-entry t)
+                new-key (reftex-get-bib-field "=key=" entry)
+                new-pdf (org-ref-get-pdf-filename new-key))
+          (when (f-exists-p old-pdf)
+            (f-move old-pdf new-pdf)))))
+    (org-ref-bibtex-next-entry))
+
+)
    #+END_SRC
 
 ** xenops
