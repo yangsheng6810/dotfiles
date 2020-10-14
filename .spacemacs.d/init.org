@@ -123,12 +123,12 @@ This is a wrapper around `eval-after-load' that:
     (global-set-key (kbd "M-SPC") 'set-mark-command)
 
     ;; M-; for comment/uncomment
-    (after! (general newcomment)
-      (general-def
-        ;; :keymaps 'general-override-mode-map
-        ;; "M-;" 'comment-line
-        :keymaps 'global-map
-        [remap comment-dwim] #'comment-line))
+    ;; (after! (general newcomment)
+    ;;   (general-def
+    ;;     ;; :keymaps 'general-override-mode-map
+    ;;     ;; "M-;" 'comment-line
+    ;;     :keymaps 'global-map
+    ;;     [remap comment-dwim] #'comment-line))
 
 (after! counsel
   (yang/set-leader-key
