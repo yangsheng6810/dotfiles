@@ -660,16 +660,11 @@ This is a wrapper around `eval-after-load' that:
              (beginning-of-visual-line)
              (- current (point)))))
 
-       (defun yang/beacon--after-string-overlay (colors)
-         "Put an overlay at point with an after-string property.
-    The property's value is a string of spaces with background
-    COLORS applied to each one."
+       (define-advice beacon--after-string-overlay (:override (colors))
          ;; The after-string must not be longer than the remaining columns
          ;; from point to right window-end else it will be wrapped around.
          (let ((colors (seq-take colors (- (window-width) (beacon--visual-current-column) 1))))
-           (beacon--ov-put-after-string (beacon--make-overlay 0) colors)))
-       (advice-add #'beacon--after-string-overlay :override #'yang/beacon--after-string-overlay)
-       )
+           (beacon--ov-put-after-string (beacon--make-overlay 0) colors))))
 
      (beacon-mode 1))
 
@@ -2752,51 +2747,43 @@ This function is used internally by `orb-autokey-generate-key'."
    adapted from [[https://emacs.stackexchange.com/questions/406/see-latex-code-and-math-preview-at-the-same-time-with-preview-latex][keep old preview visible when editing]]
    #+begin_src emacs-lisp
      (with-eval-after-load 'preview
-       (defun yang/preview-inactive-string-adv (func ov)
-         "Show old preview when editing source code."
+       (define-advice preview-inactive-string (:around (func ov))
          (when (overlay-get ov 'preview-state)
            (let ((preview-icon (or (car-safe (overlay-get ov 'preview-image)) preview-icon)))
              (overlay-put ov 'preview-old-image preview-icon)
              (funcall func ov))))
 
-       (advice-add #'preview-inactive-string :around #'yang/preview-inactive-string-adv)
-
-       (defun yang/preview-disabled-string-adv (func ov)
+       (define-advice preview-disabled-string (:around (func ov))
          (when (overlay-get ov 'preview-state)
            (let ((preview-icon (or (overlay-get ov 'preview-old-image) preview-icon)))
-             (funcall func ov))))
-
-       (advice-add #'preview-disabled-string :around #'yang/preview-disable-string-adv))
+             (funcall func ov)))))
    #+end_src
 
 ** bibtex
    #+BEGIN_SRC emacs-lisp
-     (use-package reftex
-       :commands (reftex-parse-all yang/reftex-get-bib-names)
-       :after (dash s)
-       :init
-       (add-hook 'bibtex-mode-hook
-                 (lambda ()
-                   (add-hook 'after-save-hook 'reftex-parse-all nil 'make-it-local)))
-       (advice-add #'reftex-get-bib-names :around #'yang/reftex-get-bib-names)
-       :config
-       (setq reftex-cite-punctuation '(", " ", and " " {\\it et al.}"))
-       (defun yang/reftex-get-bib-names (func field entry)
-         "Return a list with the full author or editor names in ENTRY.
-     If FIELD is empty try \"editor\" field."
-         (if (eq #'org-ref-open-bibtex-notes this-command)
-             (let ((names (reftex-get-bib-field field entry)))
-               (when (equal "" names)
-                 (setq names (reftex-get-bib-field "editor" entry)))
-               (when (and (s-starts-with? "{" names)
-                          (s-ends-with? "}" names))
-                 (setq names (s-with names
-                               (s-chop-prefix "{")
-                               (s-chop-suffix "}"))))
-               (cl-loop for name in (s-split "[ \t]*\\band\\b[ \t]*" names) collect
-                        (let ((name-list (s-split "[ \t]*,[ \t]*" name)))
-                          (s-join " " (-concat (-take-last 1 name-list) (-drop-last 1 name-list))))))
-           (funcall func field entry))))
+(use-package reftex
+  :commands (reftex-parse-all yang/reftex-get-bib-names)
+  :after (dash s)
+  :init
+  (add-hook 'bibtex-mode-hook
+            (lambda ()
+              (add-hook 'after-save-hook 'reftex-parse-all nil 'make-it-local)))
+  (define-advice reftex-get-bib-names (:around (func field entry))
+    (if (eq #'org-ref-open-bibtex-notes this-command)
+        (let ((names (reftex-get-bib-field field entry)))
+          (when (equal "" names)
+            (setq names (reftex-get-bib-field "editor" entry)))
+          (when (and (s-starts-with? "{" names)
+                     (s-ends-with? "}" names))
+            (setq names (s-with names
+                          (s-chop-prefix "{")
+                          (s-chop-suffix "}"))))
+          (cl-loop for name in (s-split "[ \t]*\\band\\b[ \t]*" names) collect
+                   (let ((name-list (s-split "[ \t]*,[ \t]*" name)))
+                     (s-join " " (-concat (-take-last 1 name-list) (-drop-last 1 name-list))))))
+      (funcall func field entry)))
+  :config
+  (setq reftex-cite-punctuation '(", " ", and " " {\\it et al.}")))
 
    #+END_SRC
 
@@ -3708,10 +3695,7 @@ This function is used internally by `orb-autokey-generate-key'."
             (lambda ()
               ;; (message "in before-make-frame-hook")
               (setq yang-cnfonts-has-started nil)))
-  (advice-add 'cnfonts-set-font-first-time
-              :around #'yang-cnfonts-set-font-first-time)
-  :config
-  (defun yang-cnfonts-set-font-first-time (func &rest _args)
+  (define-advice cnfonts-set-font-first-time (:around (func &rest _args))
     ;; (message "in yang-cnfonts-set-font-first-time")
     (when (or (not (boundp 'yang-cnfonts-has-started))
               (null yang-cnfonts-has-started))
@@ -3728,13 +3712,12 @@ This function is used internally by `orb-autokey-generate-key'."
 *** Enable cnfonts
    #+BEGIN_SRC emacs-lisp
 (cnfonts-enable)
-  (yang/with-spacemacs
-    (cnfonts-set-spacemacs-fallback-fonts))
-  (defun yang-server-create-window-system-frame-advice (&rest _)
-    (setq yang-cnfonts-has-started nil)
-    (cnfonts-set-font-first-time))
-  (advice-add 'server-create-window-system-frame
-              :after #'yang-server-create-window-system-frame-advice)
+(yang/with-spacemacs
+  (cnfonts-set-spacemacs-fallback-fonts))
+
+(define-advice server-create-window-system-frame (:after (&rest _))
+  (setq yang-cnfonts-has-started nil)
+  (cnfonts-set-font-first-time))
    #+END_SRC
 
 *** Fix client problems
@@ -3852,31 +3835,29 @@ This function is used internally by `orb-autokey-generate-key'."
 * Bug-fixes
 ** Spacemacs modeline
   #+BEGIN_SRC emacs-lisp
-    (yang/with-spacemacs
-      ;; modeline optimization/workarounds
-      (when (fboundp 'spacemacs/toggle-mode-line-responsive-off)
-        (spacemacs/toggle-mode-line-responsive-off))
+(yang/with-spacemacs
+  ;; modeline optimization/workarounds
+  (when (fboundp 'spacemacs/toggle-mode-line-responsive-off)
+    (spacemacs/toggle-mode-line-responsive-off))
 
-      ;; ipython cannot find gurobi license
-      (setenv "GRB_LICENSE_FILE" (concat (getenv "HOME") "/.config/gurobi.lic"))
+  ;; ipython cannot find gurobi license
+  (setenv "GRB_LICENSE_FILE" (concat (getenv "HOME") "/.config/gurobi.lic"))
 
-      (defun spacemacs//layout-wait-for-modeline (&rest r)
-        "AAAssure the mode-line is loaded before restoring the layouts."
-        (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline)
-        (when (and (configuration-layer/package-used-p 'spaceline)
-                   (memq (spacemacs/get-mode-line-theme-name) '(spacemacs all-the-icons custom)))
-          (require 'spaceline-config)))
+  (defun spacemacs//layout-wait-for-modeline (&rest r)
+    "AAAssure the mode-line is loaded before restoring the layouts."
+    (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline)
+    (when (and (configuration-layer/package-used-p 'spaceline)
+               (memq (spacemacs/get-mode-line-theme-name) '(spacemacs all-the-icons custom)))
+      (require 'spaceline-config)))
 
-      (defun my-reload-modeline (&rest _args)
-        (message "in my-reload-modeline")
-        (spacemacs-modeline/init-spaceline)
-        (advice-remove 'server-create-window-system-frame #'my-reload-modeline))
+  ;; (with-eval-after-load 'persp-mode
+  ;;   (require 'spaceline)
+  ;;   (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline))
 
-      ;; (with-eval-after-load 'persp-mode
-      ;;   (require 'spaceline)
-      ;;   (advice-remove 'persp-load-state-from-file 'spacemacs//layout-wait-for-modeline))
-
-      (advice-add 'server-create-window-system-frame :after #'my-reload-modeline))
+  (define-advice server-create-window-system-frame (:after (&rest _args))
+    (message "in my-reload-modeline")
+    (spacemacs-modeline/init-spaceline)
+    (advice-remove 'server-create-window-system-frame #'my-reload-modeline)))
   #+END_SRC
 
 ** ad-Advice-popwin:create-popup-window: Symbol's function definition is void: purpose-window-purpose-dedicated-p
@@ -4318,15 +4299,14 @@ This function is used internally by `orb-autokey-generate-key'."
 
 ** Switch to the first persp when loading from file
    #+BEGIN_SRC emacs-lisp
-     (use-package persp-mode
-       :defer t
-       :config
-       (defun yang-persp-switch-to-persp-after-load (persp-list)
-         (message "come to my switch to persp")
-         (let ((persp-name (car persp-list)))
-           (when persp-name
-             (persp-switch persp-name))))
-       (advice-add 'persp-load-state-from-file :filter-return 'yang-persp-switch-to-persp-after-load))
+(use-package persp-mode
+  :defer t
+  :config
+  (define-advice persp-load-state-from-file (:filter-return (persp-list))
+    (message "come to my switch to persp")
+    (let ((persp-name (car persp-list)))
+      (when persp-name
+        (persp-switch persp-name)))))
    #+END_SRC
 
 * Ledger
