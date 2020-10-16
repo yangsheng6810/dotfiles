@@ -2250,6 +2250,16 @@ For generating org-capture templates
   :commands (parsebib-find-bibtex-dialect))
 (use-package bibtex-completion
   :commands (bibtex-completion-get-entry))
+
+(define-advice arxiv-get-pdf-add-bibtex-entry (:after (arxiv-number bibfile pdfdir) yang)
+  "Save BIBFILE after modification."
+  (find-file bibfile)
+  (save-buffer))
+
+(define-advice arxiv-add-bibtex-entry (:after (arxiv-number bibfile) yang)
+  "Save BIBFILE after modification."
+  (find-file bibfile)
+  (save-buffer))
    #+END_SRC
 
 ** org-noter
