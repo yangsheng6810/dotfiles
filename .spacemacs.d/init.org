@@ -2834,8 +2834,13 @@ Return the result as a string."
 (use-package xenops
   :defer t
   ;; :hook (org-mode . xenops-mode)
+  :commands (xenops-dwim)
   :init
-  (setq xenops-math-image-scale-factor 1.5))
+  (setq xenops-math-image-scale-factor 1.5)
+  (define-advice xenops-dwim (:before (&rest _) yang)
+    "Load `xenops-mode' if it is not loaded."
+    (when (not xenops-mode)
+      (xenops-mode))))
    #+end_src
 
 * Python
