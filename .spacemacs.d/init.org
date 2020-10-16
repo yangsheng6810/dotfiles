@@ -2500,7 +2500,8 @@ For generating org-capture templates
     :init
     (setq org-latex-instant-preview-tex2svg-bin
           ;; location of tex2svg executable
-          "~/node_modules/mathjax-node-cli/bin/tex2svg")))
+          "~/node_modules/mathjax-node-cli/bin/tex2svg"
+          org-latex-instant-preview-scale 1.5)))
    #+end_src
 
 ** LaTeX in org-mode
