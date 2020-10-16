@@ -2006,7 +2006,7 @@ For generating org-capture templates
                             ":PROPERTIES:"
                             ":Created: %U"
                             ":END:"
-                            "%?"))
+                            "%a%?"))
                 ("Tasks" :keys "t" :file "~/Documents/org/Tasks.org"
                  :template ("* %{todo-state} %^{Description}"
                             ":PROPERTIES:"
