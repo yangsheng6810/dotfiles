@@ -2583,9 +2583,11 @@ For generating org-capture templates
       ;; use temp buffer to prepare the key
       (with-temp-buffer
         (insert ss)
+        (bibtex-beginning-of-entry)
         (when (string= "" (bibtex-autokey-get-field "year"))
           (bibtex-set-field "year" (bibtex-autokey-get-field "date")))
         (org-ref-clean-bibtex-entry)
+        (bibtex-beginning-of-entry)
         ;; return the key
         (save-excursion
           (re-search-forward
