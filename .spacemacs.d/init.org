@@ -2202,7 +2202,7 @@ For generating org-capture templates
           orcb-clean-doi
           orcb-clean-pages
           orcb-check-journal
-          org-ref-sort-bibtex-entry
+          ;; org-ref-sort-bibtex-entry
           orcb-fix-spacing))
   :config
   (org-ref-ivy-cite-completion)
