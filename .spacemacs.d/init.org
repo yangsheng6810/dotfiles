@@ -711,8 +711,10 @@ This is a wrapper around `eval-after-load' that:
 (when (display-graphic-p)
   (create-fontset-from-ascii-font "-*-Sarasa Mono SC-normal-normal-*" nil "fixed")
   (set-fontset-font "fontset-fixed" 'han "Sarasa Mono SC" nil 'append)
+  (set-fontset-font "fontset-fixed" 'latin "Sarasa Mono SC" nil 'prepend)
+  (set-fontset-font "fontset-fixed" 'unicode "Sarasa Mono SC" nil 'prepend)
   (set-fontset-font "fontset-fixed" 'unicode "Symbola" nil 'append)
-  (set-fontset-font "fontset-fixed" 'symbol "Symbola" nil 'prepend))
+  (set-fontset-font "fontset-fixed" 'symbol "Symbola" nil 'append))
 
 
 (after! unicode-fonts
