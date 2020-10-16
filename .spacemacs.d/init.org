@@ -4671,6 +4671,16 @@ can be found in docstring of `posframe-show'."
   :defer t
   :config
   (add-to-list 'yasdcv-sdcv-dicts
+               '("" "小学馆-日中词典" nil t))
+  (add-to-list 'yasdcv-sdcv-dicts
+               '("" "小学馆-中日词典" nil t))
+  (add-to-list 'yasdcv-sdcv-dicts
+               '("" "汉语辞海" nil t))
+  (add-to-list 'yasdcv-sdcv-dicts
+               '("" "Merriam-Webster's Advanced Learner's Dictionary (En-En)" nil t))
+  (add-to-list 'yasdcv-sdcv-dicts
+               '("niujing" "牛津高阶英汉双解" "oald" t))
+  (add-to-list 'yasdcv-sdcv-dicts
                '("" "Webster's Revised Unabridged Dictionary (1913)" nil t))
   (define-advice yasdcv--buffer-output-translation (:override (translate-text))
     (let ((buffer-name "*Stardict Output*"))
