@@ -5,6 +5,7 @@
 *** [[http://export.arxiv.org/api/query?search_query=cat:cs.CC&start=0&max_results=300&sortBy=submittedDate&sortOrder=descending][ArXiv Computation Complexity]]
 ** Emacs
 *** [[https://planet.emacslife.com/atom.xml][Emacs Planet]] :emacs:
+*** [[https://jherrlin.github.io/index.xml][jherrlin]]
 ** Friends
 *** [[https://bigeagle.me/index.xml][Big Eagle]]
 *** [[http://scateu.me/feed.xml][Scateu]]
@@ -42,6 +43,7 @@
 *** [[https://rsshub.app/zaobao/znews/china][Zaobao 新闻 中国]]
 *** [[https://rsshub.app/zaobao/znews/world][Zaobao 新闻 世界]]
 # *** [[https://rsshub.app/nytimes/en][纽约时报]]
+*** [[https://medium.com/feed/boox-content-hub][Boox]]
 *** [[https://rsshub.app/natgeo/dailyphoto][国家地理 每日一图]]
 # *** [[https://rsshub.app/natgeo/environment/article][国家地理]]
 *** [[https://rsshub.app/smzdm/ranking/haowen/yc/48][什么值得买]] :buy:
