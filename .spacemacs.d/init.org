@@ -2595,7 +2595,8 @@ For generating org-capture templates
           (bibtex-key-in-head)))))
 
   ;; allow using date for year field (date is used in `anystyle')
-  (define-advice bibtex-autokey-get-year (:override ())
+  (define-advice bibtex-autokey-get-year (:override () yang)
+    "Allow data used as year."
     (let ((yearfield (bibtex-autokey-get-field "year"))
           (datefield (bibtex-autokey-get-field "date")))
       (when (string= "" yearfield)
@@ -2721,7 +2722,9 @@ For generating org-capture templates
   (add-hook 'bibtex-mode-hook
             (lambda ()
               (add-hook 'after-save-hook 'reftex-parse-all nil 'make-it-local)))
-  (define-advice reftex-get-bib-names (:around (func field entry))
+  (define-advice reftex-get-bib-names (:around (func field entry) yang)
+    "Show full names when called by `org-ref-open-bibtex-notes'."
+    (message "this-command is %s" this-command)
     (if (eq #'org-ref-open-bibtex-notes this-command)
         (let ((names (reftex-get-bib-field field entry)))
           (when (equal "" names)
@@ -3734,7 +3737,8 @@ Return the result as a string."
             (lambda ()
               ;; (message "in before-make-frame-hook")
               (setq yang-cnfonts-has-started nil)))
-  (define-advice cnfonts-set-font-first-time (:around (func &rest _args))
+  (define-advice cnfonts-set-font-first-time (:around (func &rest _args) yang)
+    "Ensure we only start once."
     ;; (message "in yang-cnfonts-set-font-first-time")
     (when (or (not (boundp 'yang-cnfonts-has-started))
               (null yang-cnfonts-has-started))
