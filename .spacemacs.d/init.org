@@ -2557,6 +2557,7 @@ For generating org-capture templates
            ""
            :file-name "${citekey}"
            :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}
+,#+ROAM_TAGS: paper
 
 - tags ::
 - keywords :: ${keywords}
