@@ -3813,42 +3813,43 @@ Return the result as a string."
   :defer t
   :commands (pinyinlib-build-regexp-string))
 
-(defun re-builder-pinyin (str)
-  (or (pinyin-to-utf8 str)
-      (ivy--regex-plus str)
-      (ivy--regex-ignore-order)
-      ))
-
-(setq ivy-re-builders-alist
-      '(
-        (t . re-builder-pinyin)
+(after! ivy
+  (defun re-builder-pinyin (str)
+    (or (pinyin-to-utf8 str)
+        (ivy--regex-plus str)
+        (ivy--regex-ignore-order)
         ))
 
-(defun my-pinyinlib-build-regexp-string (str)
-  (progn
-    (cond ((equal str ".*")
+  (setq ivy-re-builders-alist
+        '(
+          (t . re-builder-pinyin)
+          ))
+
+  (defun my-pinyinlib-build-regexp-string (str)
+    (progn
+      (cond ((equal str ".*")
+             ".*")
+            (t
+             (pinyinlib-build-regexp-string str t))))
+    )
+
+  (defun my-pinyin-regexp-helper (str)
+    (cond ((equal str " ")
            ".*")
+          ((equal str "")
+           nil)
           (t
-           (pinyinlib-build-regexp-string str t))))
-  )
+           str)))
 
-(defun my-pinyin-regexp-helper (str)
-  (cond ((equal str " ")
-         ".*")
-        ((equal str "")
-         nil)
-        (t
-         str)))
-
-(defun pinyin-to-utf8 (str)
-  (cond ((equal 0 (length str))
-         nil)
-        ((equal (substring str 0 1) "!")
-         (mapconcat 'my-pinyinlib-build-regexp-string
-                    (remove nil (mapcar 'my-pinyin-regexp-helper (split-string
-                                                                  (replace-regexp-in-string "!" "" str) "")))
-                    ""))
-        nil))
+  (defun pinyin-to-utf8 (str)
+    (cond ((equal 0 (length str))
+           nil)
+          ((equal (substring str 0 1) "!")
+           (mapconcat 'my-pinyinlib-build-regexp-string
+                      (remove nil (mapcar 'my-pinyin-regexp-helper (split-string
+                                                                    (replace-regexp-in-string "!" "" str) "")))
+                      ""))
+          nil)))
    #+end_src
 
 ** fcitx.el
