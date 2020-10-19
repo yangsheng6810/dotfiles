@@ -246,7 +246,8 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
-mode "resize" {
+set $mode_resize (g)row horizontally, (s)hrink horizontally, (G) grow vertically, (S) shrink vertically
+mode "$mode_resize" {
         # These bindings trigger as soon as you enter the resize mode
 
         # Pressing left will shrink the window’s width.
@@ -258,6 +259,11 @@ mode "resize" {
         bindsym k resize shrink height 40 px or 5 ppt
         bindsym l resize grow width 40 px or 5 ppt
 
+        bindsym s resize shrink width 40 px or 5 ppt
+        bindsym g resize grow width 40 px or 5 ppt
+        bindsym Shift+s resize shrink height 40 px or 5 ppt
+        bindsym Shift+g resize grow height 40 px or 5 ppt
+
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 40 px or 5 ppt
         bindsym Down resize grow height 40 px or 5 ppt
@@ -268,12 +274,14 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym $mod+r mode "default"
+        bindsym Ctrl+g mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "$mode_resize"
 
 
-mode "exec" {
+set $mode_exec (h)top, (v)im, (t)mux, (e)macs, (n)autilus, (d)olphin, (s) flameshot
+mode "$mode_exec" {
      bindsym h exec $term -e "htop", mode "default"
      bindsym v exec $term -e "vim", mode "default"
      bindsym t exec $term -e "tmux", mode "default"
@@ -281,11 +289,12 @@ mode "exec" {
      bindsym n exec nautilus, mode "default"
      bindsym d exec dolphin, mode "default"
      bindsym s exec flameshot gui, mode "default"
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+     # back to normal: Enter or Escape
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+     bindsym Ctrl+g mode "default"
 }
-bindsym $mod+o mode "exec"
+bindsym $mod+o mode "$mode_exec"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
