@@ -1,14 +1,14 @@
 #!/bin/zsh
 umask 022
 NEED_ROOTLESS_MANAGER=1
-echo "Update zgen"
+echo "Installing zgen"
 if [ ! -d "${HOME}/.zgen" ]; then
     echo "Setting zgen..."
     mkdir "${HOME}/.zgen"
     git clone https://github.com/tarjoilija/zgen.git "${HOME}/.zgen"
     zsh -i -c exit
 fi
-echo "Update tmux"
+echo "Installing tmux packages"
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ];then
     echo "Installing tmux plugin manager"
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -29,5 +29,13 @@ echo "Init submodules"
 yadm submodule update --recursive --init
 
 echo "Prepare i3blocks-contrib"
-cd "~/.config/i3blocks-contrib" && make 2>/dev/null
+cd "${HOME}/.config/i3blocks-contrib" && make 2>/dev/null
 cd "$HOME"
+
+echo "Installing packages"
+if [ -f "/etc/arch-release" ]; then
+    yay -S rofi alacritty i3blocks i3lock-color \
+        libpulse alsa-utils playerctl xorg-xset \
+        nitrogen picom xss-lock volctl nm-applet \
+        udiskie autotiling flameshot xfce4-notifyd
+fi
