@@ -27,3 +27,5 @@ fi
 export PYTHONSTARTUP="${HOME}/.pythonrc.py"
 # for startdict
 export XDG_DATA_HOME="${HOME}/.local/share"
+# parallel make
+export MAKEFLAGS="-j$(nproc)"
