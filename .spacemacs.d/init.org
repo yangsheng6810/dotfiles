@@ -2039,18 +2039,21 @@ For generating org-capture templates
                             "%?%:initial"))
                 ("Protocol" :keys "p" :file "~/Documents/org/Notes.org"
                  :headline "Inbox"
-                 :template ("* %^{Title}"
+                 :template ("* %{todo-state} %^{Title}"
                             "Source: %u, [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
                             " #+BEGIN_QUOTE"
                             "%i"
                             "#+END_QUOTE"
-                            "%?"))
+                            "%?")
+                 :todo-state "TODO")
                 ("Protocol Link" :keys "L" :file "~/Documents/org/Notes.org"
                  :headline "Inbox"
-                 :template ("* %?[[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
+                 :template ("* %{todo-state} [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
                             ":PROPERTIES:"
                             ":Created: %U"
-                            ":END:")))))
+                            ":END:"
+                            "%?")
+                 :todo-state "TODO"))))
        ;; (setq org-capture-templates
        ;;       '(
        ;;         ("c" "Computer")
