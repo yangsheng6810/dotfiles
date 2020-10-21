@@ -6,6 +6,6 @@ X-KDE-AuthorizeAction=shell_access
 
 [Desktop Action openTerminalHere]
 Name=Open Terminal here
-Name[zh_CN]=在此处打开终端
+Name[zh_CN]=在此处打开终端[Y]
 Icon=utilities-terminal
-Exec=/usr/bin/alacritty --working-directory %f
+Exec=/usr/bin/alacritty -t floating --working-directory %f
