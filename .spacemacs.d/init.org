@@ -446,7 +446,7 @@ This is a wrapper around `eval-after-load' that:
     ("e" evil-iedit-state/iedit-mode-from-expand-region "Edit")
     ("b" (lambda (beg end)
            (interactive "r")
-           (let ((str (buffer-substring beg end)))
+           (let ((str (buffer-substring-no-properties beg end)))
              (when (browse-url str)     ; return non-nil when fail
                (google-this-string nil str t))
              (er/expand-region 0)))
@@ -4095,7 +4095,7 @@ Return the result as a string."
                                         " ArXiv"
                                         (zero-or-more print)
                                         eol) nil t)
-            (add-to-list 'cs-theory-list (buffer-substring (match-beginning 1) (match-end 1))))
+            (add-to-list 'cs-theory-list (buffer-substring-no-properties (match-beginning 1) (match-end 1))))
           (dolist (title cs-theory-list)
             (goto-char (point-min))
             (when (re-search-forward (rx bol
@@ -4541,7 +4541,7 @@ Return the result as a string."
           (forward-char))
         (let* ((ele (org-element-context))
                (path (org-element-property :path ele))
-               (name (buffer-substring (org-element-property :contents-begin ele)
+               (name (buffer-substring-no-properties (org-element-property :contents-begin ele)
                                        (org-element-property :contents-end ele)))
                (dest-dir org-ref-pdf-directory)
                filename
@@ -4552,7 +4552,7 @@ Return the result as a string."
             (setq beg (point))
             (end-of-line)
             (setq end (point))
-            (setq filename (buffer-substring beg end))
+            (setq filename (buffer-substring-no-properties beg end))
             )
           (message "path is -%s-, name is -%s-, filename is -%s-" path name filename)
           (when (f-exists-p path)
@@ -4570,7 +4570,7 @@ Return the result as a string."
                          (point)))
              (end (progn (move-end-of-line 1)
                          (point)))
-             (line-string (buffer-substring beg end))
+             (line-string (buffer-substring-no-properties beg end))
              (new-string (s-join
                           ", "
                           (mapcar (lambda (ss)
