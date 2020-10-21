@@ -4637,7 +4637,13 @@ Return the result as a string."
     (goto-char (point-min))
     ;; (while (re-search-forward "<math>\\(.*?\\)</math>" nil t)
     ;;   (replace-match "\\\\(\\1\\\\)" nil))
-    (while (re-search-forward (rx (seq "<math>\\(" (*\? nonl) "\\)</math>")) nil t)
+    (while (re-search-forward (rx (seq (optional ":")
+                                       "<math>"
+                                       (group (or (seq  "\\("
+                                                        (*\? nonl)
+                                                        "\\)")
+                                                  (*\? nonl)))
+                                       "</math>")) nil t)
       (replace-match (rx (seq "\\(" (backref 1) "\\)"))
        nil))
     ;; clean up <sub>...</sub>
