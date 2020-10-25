@@ -2969,9 +2969,11 @@ Return the result as a string."
   :defer t
   :config
   (setq ivy-re-builders-alist
-        '((t . ivy--regex-plus)))
-  (ivy-configure 'counsel-M-x :initial-input "^")
-  (ivy-configure 'counsel-describe-function :initial-input "^"))
+        '((t . ivy--regex-plus))
+        ivy-initial-inputs-alist
+        '((counsel-M-x . "^")
+          (counsel-describe-function . "^")
+          (counsel-describe-variable . "^"))))
 
   #+END_SRC
 
