@@ -2620,6 +2620,7 @@ For generating org-capture templates
   :config
   (defun yang/LaTeX-setup ()
     (turn-on-reftex)
+    (remove-hook 'TeX-update-style-hook #'rainbow-delimiters-mode)
     (add-to-list 'TeX-command-list '
                  ("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
     (setq TeX-auto-save t)
