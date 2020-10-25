@@ -374,6 +374,7 @@ for_window [class="Pavucontrol"] resize set width 25 ppt, resize set height 50 p
 for_window [class="Blueman-manager"] resize set width 25 ppt, resize set height 50 ppt
 for_window [class="Slack"] move container to workspace $ws7
 for_window [class="KeePassXC"] floating enable
+for_window [class="Yubico Authenticator"] floating enable
 for_window [class="flameshot"] floating enable
 for_window [class="Kazam"] floating enable
 
