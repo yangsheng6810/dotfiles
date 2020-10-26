@@ -116,3 +116,4 @@
   ;; `org-plus-contrib', and inform other packages that `org-mode' satisfies the
   ;; `org' dependency: https://github.com/raxod502/straight.el/issues/352
   :shadow 'org)
+(package! org-download)
