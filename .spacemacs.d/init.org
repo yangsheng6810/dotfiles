@@ -1251,7 +1251,12 @@ This is a wrapper around `eval-after-load' that:
   ;;           (lambda () (setq doom-real-buffer-p t)) 10)
   ;; (add-hook 'org-src-mode-hook
   ;;           (lambda () (setq doom-real-buffer-p t)) 10)
-  (assq-delete-all #'buffer-predicate default-frame-alist))
+
+
+  ;; override doom-real-buffer-p, so all buffers are real
+  (define-advice doom-real-buffer-p (:override (buffer-or-name) yang)
+    "Always answer t"
+    t))
 #+end_src
 
 ** Default keybindings
