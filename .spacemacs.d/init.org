@@ -2498,7 +2498,9 @@ For generating org-capture templates
            #'org-roam-capture--get-point "%?"
            :file-name "${slug}"
            :head "#+title: ${title}\n#+roam_key: ${ref}\n[[${ref}][${title}]]\n"
-           :unnarrowed t))))
+           :unnarrowed t))
+        org-roam-capture-templates
+        '(("d" "default" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n#+roam_tags:" :unnarrowed t))))
 #+END_SRC
 
 ** org-latex-instant-preview
