@@ -2617,6 +2617,15 @@ For generating org-capture templates
       (substring yearfield (max 0 (- (length yearfield)
                                      bibtex-autokey-year-length))))))
    #+end_src
+
+** org-download
+   #+begin_src emacs-lisp
+(use-package org-download
+  :defer t
+  :commands (org-download-clipboard
+             org-download-yank
+             org-download-screenshot))
+   #+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook
