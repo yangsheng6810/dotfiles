@@ -406,7 +406,7 @@ exec --no-startup-id xset s 1200 120
 exec --no-startup-id xss-lock -n /usr/lib/xsecurelock/dimmer -l -- $Locker
 exec --no-startup-id nitrogen --restore
 # compton was renamed to picom
-exec --no-startup-id picom -b --log-file /tmp/picom.log
+exec --no-startup-id picom -b --log-file /tmp/picom.log -c --experimental-backends
 # load color profiles
 exec --no-startup-id xiccd
 exec --no-startup-id dispalcal-apply-profiles
