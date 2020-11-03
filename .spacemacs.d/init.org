@@ -157,7 +157,50 @@ This is a wrapper around `eval-after-load' that:
   (interactive)
   (set-mark-command t))
    #+end_src
-   
+
+** iscroll
+   #+begin_src emacs-lisp
+(use-package iscroll
+  :defer t
+  :commands (iscroll-mode)
+  :config
+  (evil-define-motion iscroll-evil-next-line (count)
+    "Move the cursor COUNT lines down."
+    :type line
+    (cl-letf (((symbol-function 'next-line) 'iscroll-next-line))
+      (evil-next-line count)))
+
+  (evil-define-motion iscroll-evil-previous-line (count)
+    "Move the cursor COUNT lines up."
+    :type line
+    (cl-letf (((symbol-function 'previous-line) 'iscroll-previous-line))
+      (evil-previous-line count)))
+
+  (evil-define-motion iscroll-evil-next-visual-line (count)
+    "Move the cursor COUNT screen lines down."
+    :type exclusive
+    (cl-letf (((symbol-function 'next-line) 'iscroll-next-line))
+      (evil-next-visual-line count)))
+
+  (evil-define-motion iscroll-evil-previous-visual-line (count)
+    "Move the cursor COUNT screen lines up."
+    :type exclusive
+    (cl-letf (((symbol-function 'previous-line) 'iscroll-previous-line))
+      (evil-previous-visual-line count)))
+
+  (define-advice iscroll-mode (:after (&optional arg) yang)
+    "Add evil keybinings for iscroll."
+    (if iscroll-mode
+        (progn
+          (global-set-key [remap evil-next-line] #'iscroll-evil-next-line)
+          (global-set-key [remap evil-previous-line] #'iscroll-evil-previous-line)
+          (global-set-key [remap evil-next-visual-line] #'iscroll-evil-next-visual-line)
+          (global-set-key [remap evil-previous-visual-line] #'iscroll-evil-previous-visual-line))
+      (global-set-key [remap evil-next-line] nil)
+      (global-set-key [remap evil-previous-line] nil)
+      (global-set-key [remap evil-next-visual-line] nil)
+      (global-set-key [remap evil-previous-visual-line] nil))))
+   #+end_src
 ** ispell
     #+begin_src emacs-lisp
 (after! ispell

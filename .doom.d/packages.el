@@ -117,3 +117,7 @@
   ;; `org' dependency: https://github.com/raxod502/straight.el/issues/352
   :shadow 'org)
 (package! org-download)
+(package! iscroll
+  :recipe (:type git
+           :repo "https://github.com/casouri/lunarymacs"
+           :files ("site-lisp/iscroll.el")))
