@@ -45,6 +45,8 @@ USE_ALSA_NAME=1
 signal=10
 STEP=2%
 AUDIO_DELTA=2
+DEFAULT_COLOR="#000000"
+MUTED_COLOR="#a0a0a0"
 
 # Memory usage
 #
