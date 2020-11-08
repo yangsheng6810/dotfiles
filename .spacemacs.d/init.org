@@ -625,7 +625,8 @@ This is a wrapper around `eval-after-load' that:
 
 ** Show page break
    #+begin_src emacs-lisp
-(global-page-break-lines-mode)
+(after! page-break-lines
+  (global-page-break-lines-mode))
    #+end_src
 
 * Display
