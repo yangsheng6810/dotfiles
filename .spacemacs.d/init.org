@@ -4815,6 +4815,25 @@ can be found in docstring of `posframe-show'."
           (org-mode))
         (insert translate-text)))))
    #+end_src
+** Save Firefox Session
+   [[https://acidwords.com/posts/2019-12-04-handle-chromium-and-firefox-sessions-with-org-mode.html][original idea]], [[https://emacs-china.org/t/org-firefox/15100][src]]
+   #+begin_src emacs-lisp
+(defun save-firefox-session ()
+  "Reads firefox current session and generate org-mode heading with items."
+  (interactive)
+  (save-excursion
+    (let* ((path "~/.mozilla/firefox/i49ukbsa.default-release/sessionstore-backups/recovery.jsonlz4")
+           (cmd (concat "lz4jsoncat " path " | jq '[.windows[].tabs[] | .entries[-1] | {url, title} ]'"))
+           (ret (shell-command-to-string cmd)))
+      (insert
+       (concat "* " (format-time-string "[%Y-%m-%d %H:%M:%S]") "\n"))
+      (-map (lambda (x)
+              (let* ((url (gethash "url" x))
+                     (title (gethash "title" x ""))
+                     (ss (org-link-make-string url title)))
+                (insert "  - " ss "\n")))
+            (json-parse-string ret :array-type 'list)))))
+   #+end_src
 
 * COMMENT Slack
 #+begin_src emacs-lisp
