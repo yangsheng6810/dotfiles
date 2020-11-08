@@ -121,5 +121,7 @@
   :recipe (:type git
            :repo "https://github.com/casouri/lunarymacs"
            :files ("site-lisp/iscroll.el")))
+;; for common-lisp
+(package! slime)
 ;; turning ^L visual
 (package! page-break-lines)
