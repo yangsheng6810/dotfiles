@@ -299,22 +299,10 @@ bindsym $mod+o mode "$mode_exec"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    # i3bar_command i3bar --transparency
-    # status_command i3status
-    status_command i3blocks
-    font pango:DejaVu Sans Mono, awesome 14
-    tray_output primary
-    colors {
-        background #fefefe
-        statusline #22222
-        separator #999999
-
-        focused_workspace  #fefefe #c0c0c0 #000000
-        active_workspace   #fefefe #ffffff #000000
-        inactive_workspace #fefefe #dddddd #000000
-        urgent_workspace   #2f343a #e04000 #000000
-        binding_mode       #fefefe #888888 #000000
-    }
+        # status_command i3status
+        status_command i3blocks
+        font pango:DejaVu Sans Mono, awesome 14
+        tray_output primary
 }
 
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
