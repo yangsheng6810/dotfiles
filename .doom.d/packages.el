@@ -127,5 +127,7 @@
 (package! dired-narrow)
 ;; for common-lisp
 (package! slime)
+;; for rx explanation
+(package! pcre2el)
 ;; turning ^L visual
 (package! page-break-lines)
