@@ -59,7 +59,7 @@ if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm-256color" ]; then
             ## "farm" is the name of the server in my .ssh/config
             ## replace it with your server's name, or with $(hostname -f)
             ## you may also want to add 'echo -e "\033AnSiTu" "$LOGNAME"'
-            echo -e "\033AnSiTh" $(hostname)
+            echo -e "\033AnSiTh" $(hostname -f)
             echo -e "\033AnSiTu" "$LOGNAME"
         }
         # function chpwd() {
