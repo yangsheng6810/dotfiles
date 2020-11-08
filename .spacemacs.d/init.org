@@ -1588,6 +1588,9 @@ This is a wrapper around `eval-after-load' that:
     (variable-pitch-mode 1)
     ;; (display-line-numbers-mode -1)
     (smartparens-mode 1)
+    ;; do not delete trailing white space, as white space is necessary for an
+    ;; empty heading. I use empty heading for ox-reveal
+    (doom-disable-delete-trailing-whitespace-h)
     (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
     (set-face-attribute 'org-table nil :inherit 'fixed-pitch))
 
