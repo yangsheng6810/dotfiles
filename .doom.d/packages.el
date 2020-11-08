@@ -124,6 +124,7 @@
 
 ;; to use commit https://github.com/Wilfred/helpful/commit/584ecc887bb92133119f93a6716cdf7af0b51dca
 (unpin! helpful)
+(package! dired-narrow)
 ;; for common-lisp
 (package! slime)
 ;; turning ^L visual
