@@ -623,6 +623,11 @@ This is a wrapper around `eval-after-load' that:
  "ws" #'hydra-window-size/body)
    #+end_src
 
+** Show page break
+   #+begin_src emacs-lisp
+(global-page-break-lines-mode)
+   #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame

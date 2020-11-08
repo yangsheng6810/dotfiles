@@ -121,3 +121,5 @@
   :recipe (:type git
            :repo "https://github.com/casouri/lunarymacs"
            :files ("site-lisp/iscroll.el")))
+;; turning ^L visual
+(package! page-break-lines)
