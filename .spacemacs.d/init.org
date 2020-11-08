@@ -1604,7 +1604,7 @@ This is a wrapper around `eval-after-load' that:
 
   (defun yang/org-wrap-span (beg end)
     (interactive "r")
-    (let ((class-name (read-string "Enter the class for span: ")))
+    (let ((class-name (read-string "Enter the class for span (default emph): " nil nil "emph")))
       (save-excursion
         (goto-char end) (insert ")}}}")
         (goto-char beg) (insert (format "{{{SPAN(%s," class-name))))))
