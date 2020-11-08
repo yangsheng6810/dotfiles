@@ -3599,7 +3599,9 @@ Return the result as a string."
     :keymaps 'doom-leader-map
     "'" (if (eq system-type 'windows-nt)
             #'+eshell/toggle
-          #'+vterm/toggle)))
+          ;; #'+vterm/toggle
+          #'+term/toggle
+          )))
 #+END_SRC
 
 * pdf-tools
