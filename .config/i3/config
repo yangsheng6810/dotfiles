@@ -208,6 +208,7 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 # switch between the current and the previously focused one
 bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+grave workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth
 
 workspace $ws1 output primary
