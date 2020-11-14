@@ -532,6 +532,14 @@ This is a wrapper around `eval-after-load' that:
             "--word2vecmodel" "/usr/share/word2vec"))))
    #+end_src
 
+** Olivetti
+   #+begin_src emacs-lisp
+(use-package
+  :defer t
+  :custom
+  (olivetti-body-width 80))
+   #+end_src
+
 * General
   #+BEGIN_SRC emacs-lisp
 (setq system-time-locale "zh_CN.utf-8"
@@ -1777,14 +1785,14 @@ how the heading too, if it is currently invisible."
 
 (use-package org-agenda
   :defer t
-  :init
-  (setq org-agenda-files
-        '("~/Documents/org/papers.org"
-          "~/Documents/org/Tasks.org"
-          "~/Documents/org/Birthdays.org"
-          "~/Documents/org/gcal.org"
-          "~/Documents/org/Schedule.org"
-          "~/Documents/org/Notes.org"))
+  :custom
+  (org-agenda-files '("~/Documents/org/Research.org"
+                      "~/Documents/org/papers.org"
+                      "~/Documents/org/Tasks.org"
+                      "~/Documents/org/Birthdays.org"
+                      "~/Documents/org/gcal.org"
+                      "~/Documents/org/Schedule.org"
+                      "~/Documents/org/Notes.org"))
   :config
   (org-super-agenda-mode)
   (mapc
@@ -2676,7 +2684,9 @@ For generating org-capture templates
   :defer t
   :commands (org-download-clipboard
              org-download-yank
-             org-download-screenshot))
+             org-download-screenshot)
+  :custom
+  (org-download-screenshot-method "flameshot gui --raw > %s"))
    #+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
@@ -3588,9 +3598,8 @@ Return the result as a string."
   (use-package vterm
     :defer t
     :init
-    (setq vterm-term-environment-variable "eterm-color"
-          vterm-shell "/usr/bin/zsh")
-    )
+    (setq vterm-term-environment-variable "eterm-color")
+    :custom (vterm-shell "/usr/bin/zsh"))
 #+end_src
 
 ** toggle shell
@@ -4489,6 +4498,15 @@ Return the result as a string."
 (use-package ledger-mode
   :mode "\\.ledger\\'"
   :defer t
+  :custom
+  (ledger-post-amount-alignment-column 62)
+  (ledger-reports
+   '(("credit card balance" "ledger [[ledger-mode-flags]] -f /home/yangsheng/Documents/Finance/mine.ledger bal Liabilities")
+     ("net worth" "ledger [[ledger-mode-flags]] -f /home/yangsheng/Documents/Finance/mine.ledger bal ^Assets:BofA ^Assets:Ally ^Assets:Cash ^Assets:Fidelity ^Assets:BoC ^Liabilities -C -R")
+     ("bal" "%(binary) -f %(ledger-file) bal")
+     ("reg" "%(binary) -f %(ledger-file) reg")
+     ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+     ("account" "%(binary) -f %(ledger-file) reg %(account)")))
   :config
   (add-hook 'ledger-mode-hook (lambda () (variable-pitch-mode -1)))
   (add-hook 'ledger-reconcile-mode-hook #'hl-line-mode)
