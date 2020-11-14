@@ -1781,7 +1781,8 @@ how the heading too, if it is currently invisible."
   :general
   (:keymaps 'org-super-agenda-header-map
    "j" nil
-   "k" nil))
+   "k" nil
+   "SPC" nil))
 
 (use-package org-agenda
   :defer t
