@@ -3467,86 +3467,106 @@ Return the result as a string."
 
 * Ranger & Dired
   #+BEGIN_SRC emacs-lisp
-    (use-package ranger
-      :defer t
-      :bind (:map ranger-mode-map
-                  ("C-h" . nil)) ;; C-h was set to toggle dotfiles
-      :commands dired-do-rsync
-      :config
-      (progn
-        (setq ranger-show-dotfiles nil ;; default not show dotfiles at startup, toggled by zh
-              ranger-cleanup-on-disable nil ;; kill the buffers when we finish
-              )))
+(use-package ranger
+  :defer t
+  :bind (:map ranger-mode-map
+         ("C-h" . nil)) ;; C-h was set to toggle dotfiles
+  :commands dired-do-rsync
+  :config
+  (progn
+    (setq ranger-show-dotfiles nil ;; default not show dotfiles at startup, toggled by zh
+          ranger-cleanup-on-disable nil ;; kill the buffers when we finish
+          )))
 
-    (use-package dired
-      :defer t
-      :commands yang/dired-mode-setup
-      :general
-      (:keymaps
-       'dired-mode-map
-       ;; use RET to open dir in same buffer
-       "RET" #'dired-find-alternate-file ; was dired-find-file
-       "^" (lambda ()
-             (interactive) (find-alternate-file "..")) ; was dired-up-directory
-       )
-      :config
-      (remove-hook 'dired-mode-hook 'diredfl-mode)
-      (defun yang/dired-mode-setup ()
-        "to be run as hook for `dired-mode'."
-        (dired-hide-details-mode 1)
-        (dired-omit-mode 1)
-        )
-      (add-hook 'dired-mode-hook 'yang/dired-mode-setup)
+(use-package dired
+  :defer t
+  :commands yang/dired-mode-setup
+  :general
+  (:keymaps
+   'dired-mode-map
+   ;; use RET to open dir in same buffer
+   "RET" #'dired-find-alternate-file ; was dired-find-file
+   "^" (lambda ()
+         (interactive) (find-alternate-file "..")) ; was dired-up-directory
+   "h" #'dired-up-directory
+   "l" #'dired-find-file
+   )
+  :config
+  (general-def
+    :keymaps 'dired-mode-map
+    :states '(normal)
+    "h" #'dired-up-directory
+    "l" #'dired-find-file)
 
-      (defun dired-open-file ()
-        "In dired, open the file named on this line."
-        (interactive)
-        (let* ((file (dired-get-filename nil t)))
-          (call-process "xdg-open" nil 0 nil file)))
+  (remove-hook 'dired-mode-hook 'diredfl-mode)
+  (defun yang/dired-mode-setup ()
+    "to be run as hook for `dired-mode'."
+    (dired-hide-details-mode 1)
+    (dired-omit-mode 1)
+    )
+  (add-hook 'dired-mode-hook 'yang/dired-mode-setup)
 
-      (setq dired-recursive-copies
-            'always
-            counsel-find-file-ignore-regexp
-            (concat (regexp-opt completion-ignored-extensions) "$"))
-      (add-to-list 'completion-ignored-extensions ".synctex.gz")
+  (defun dired-open-file ()
+    "In dired, open the file named on this line."
+    (interactive)
+    (let* ((file (dired-get-filename nil t)))
+      (call-process "xdg-open" nil 0 nil file)))
 
-      ;; from https://oremacs.com/2016/02/24/dired-rsync/
-      (defun dired-do-rsync (dest)
-        (interactive
-         (list
-          (expand-file-name
-           (read-file-name
-            "Rsync to:"
-            (dired-dwim-target-directory)))))
-        ;; store all selected files into "files" list
-        (let ((files (dired-get-marked-files
-                      nil current-prefix-arg))
-              ;; the rsync command
-              (tmtxt/rsync-command
-               "rsync -arv --progress "))
-          ;; add all selected file names as arguments
-          ;; to the rsync command
-          (dolist (file files)
-            (setq tmtxt/rsync-command
-                  (concat tmtxt/rsync-command
-                          (shell-quote-argument file)
-                          " ")))
-          ;; append the destination
-          (setq tmtxt/rsync-command
-                (concat tmtxt/rsync-command
-                        (shell-quote-argument dest)))
-          ;; run the async shell command
-          (async-shell-command tmtxt/rsync-command "*rsync*")
-          ;; finally, switch to that window
-          (other-window 1))))
+  (setq dired-recursive-copies
+        'always
+        counsel-find-file-ignore-regexp
+        (concat (regexp-opt completion-ignored-extensions) "$"))
+  (add-to-list 'completion-ignored-extensions ".synctex.gz")
 
-    (use-package dired-x
-      :defer t
-      :after dired
-      :config
-      (progn
-        (add-to-list 'dired-omit-extensions ".~undo-tree~")
-        (setq-default dired-omit-mode t)))
+  ;; from https://oremacs.com/2016/02/24/dired-rsync/
+  (defun dired-do-rsync (dest)
+    (interactive
+     (list
+      (expand-file-name
+       (read-file-name
+        "Rsync to:"
+        (dired-dwim-target-directory)))))
+    ;; store all selected files into "files" list
+    (let ((files (dired-get-marked-files
+                  nil current-prefix-arg))
+          ;; the rsync command
+          (tmtxt/rsync-command
+           "rsync -arv --progress "))
+      ;; add all selected file names as arguments
+      ;; to the rsync command
+      (dolist (file files)
+        (setq tmtxt/rsync-command
+              (concat tmtxt/rsync-command
+                      (shell-quote-argument file)
+                      " ")))
+      ;; append the destination
+      (setq tmtxt/rsync-command
+            (concat tmtxt/rsync-command
+                    (shell-quote-argument dest)))
+      ;; run the async shell command
+      (async-shell-command tmtxt/rsync-command "*rsync*")
+      ;; finally, switch to that window
+      (other-window 1)))
+
+  (defun yang/async-shell-command-no-window (func)
+    "A wrapper that make async-shell commands not showing their output."
+    (interactive)
+    (let ((display-buffer-alist
+           (list (cons "\\*Async Shell Command\\*.*"
+                       (cons #'display-buffer-no-window nil)))))
+      (call-interactively func)))
+
+  (advice-add #'dired-do-async-shell-command
+              :around #'yang/async-shell-command-no-window)
+  )
+
+(use-package dired-x
+  :defer t
+  :after dired
+  :config
+  (progn
+    (add-to-list 'dired-omit-extensions ".~undo-tree~")
+    (setq-default dired-omit-mode t)))
   #+END_SRC
 
 * Shell
