@@ -534,7 +534,7 @@ This is a wrapper around `eval-after-load' that:
 
 ** Olivetti
    #+begin_src emacs-lisp
-(use-package
+(use-package olivetti
   :defer t
   :custom
   (olivetti-body-width 80))
