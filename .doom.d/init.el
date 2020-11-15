@@ -232,14 +232,10 @@
  '(jdee-db-active-breakpoint-face-colors (cons "#1B2229" "#51afef"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#1B2229" "#98be65"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#1B2229" "#3f444a"))
- '(ledger-post-amount-alignment-column 62)
  '(mail-envelope-from 'header)
  '(mail-specify-envelope-from t)
  '(message-sendmail-envelope-from 'header)
  '(objed-cursor-color "#ff6c6b")
- '(olivetti-body-width 100)
- '(org-agenda-files
-   '("~/Documents/org/Research.org" "~/Documents/org/papers.org" "~/Documents/org/Tasks.org" "~/Documents/org/Birthdays.org" "~/Documents/org/gcal.org" "~/Documents/org/Schedule.org" "~/Documents/org/Notes.org"))
  '(org-directory "~/Documents/org/")
  '(org-format-latex-options
    '(:foreground default :background "#fbf8ef" :scale 1.25 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
@@ -267,8 +263,7 @@
     (cons 320 "#6f4e52")
     (cons 340 "#5B6268")
     (cons 360 "#5B6268")))
- '(vc-annotate-very-old-color nil)
- '(vterm-shell "/usr/bin/zsh"))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
