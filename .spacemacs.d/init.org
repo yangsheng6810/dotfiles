@@ -1584,6 +1584,8 @@ This is a wrapper around `eval-after-load' that:
    org-log-into-drawer t
    ;; encrypt/decrypt with my key
    org-crypt-key "ECCD533E14EE93B0B419B26D9A6550BD2C9A101A"
+   ;; use speed keys
+   org-use-speed-commands t
    )
 
   (plist-put org-format-latex-options :scale 1.66)
@@ -2226,7 +2228,7 @@ For generating org-capture templates
      (setq org-refile-use-outline-path 'file
            org-outline-path-complete-in-steps nil
            ;; creating new parent
-           org-refile-allow-creating-parent-nodes t)
+           org-refile-allow-creating-parent-nodes 'confirm)
    #+END_SRC
 
 ** COMMENT org-reveal
