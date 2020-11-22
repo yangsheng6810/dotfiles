@@ -4236,11 +4236,32 @@ Return the result as a string."
     (interactive "P")
     (let ((entries (elfeed-search-selected)))
       (cl-loop for entry in entries
-	             do (elfeed-untag entry 'unread)
-	             when (elfeed-entry-link entry)
-	             do (elfeed-v-mpv it))
+	       do (elfeed-untag entry 'unread)
+	       when (elfeed-entry-link entry)
+	       do (elfeed-v-mpv it))
       (mapc #'elfeed-search-update-entry entries)
-      (unless (use-region-p) (forward-line)))))
+      (unless (use-region-p) (forward-line))))
+
+  (define-advice elfeed-search-selected (:override (&optional ignore-region-p) yang)
+    "Return a list of the currently selected feeds.
+
+If IGNORE-REGION-P is non-nil, only return the entry under point."
+    (let* ((use-region (and (not ignore-region-p) (use-region-p)))
+           (start (if use-region (region-beginning) (point)))
+           (end   (if use-region
+                      (- (region-end)
+                         (if (save-excursion
+                               (goto-char (region-end)) (bolp))
+                             1 0))
+                    (point))))
+      (cl-loop for line from (line-number-at-pos start)
+               to (line-number-at-pos end)
+               for offset = (- line elfeed-search--offset)
+               when (and (>= offset 0) (nth offset elfeed-search-entries))
+               collect it into selected
+               finally (return (if ignore-region-p
+                                   (car selected)
+                                 selected)))))  )
 
 (use-package elfeed-org
   :defer t
