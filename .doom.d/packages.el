@@ -105,17 +105,6 @@
 (unpin! bibtex-completion helm-bibtex ivy-bibtex)
 
 (package! i3wm-config-mode)
-;; Install cutting-edge version of org-mode, and from a mirror, because
-;; code.orgmode.org runs on a potato.
-(package! org-mode
-  :recipe (:type git
-           :repo "https://code.orgmode.org/bzg/org-mode"
-           :files ("*.el" "lisp/*.el" "contrib/lisp/*.el"))
-  :pin "8402c4a778136a132833386c817732c58d60c637"
-  ;; Prevents built-in Org from sneaking into the byte-compilation of
-  ;; `org-plus-contrib', and inform other packages that `org-mode' satisfies the
-  ;; `org' dependency: https://github.com/raxod502/straight.el/issues/352
-  :shadow 'org)
 (package! org-download)
 (package! iscroll
   :recipe (:type git
