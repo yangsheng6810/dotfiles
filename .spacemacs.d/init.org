@@ -4881,6 +4881,8 @@ can be found in docstring of `posframe-show'."
                '("niujing" "牛津高阶英汉双解" "oald" t))
   (add-to-list 'yasdcv-sdcv-dicts
                '("" "Webster's Revised Unabridged Dictionary (1913)" nil t))
+
+  (set-popup-rule! "^\\*Stardict Output" :slot 3 :side 'bottom :width 50 :height 0.3 :select t :quit t)
   (define-advice yasdcv--buffer-output-translation (:override (translate-text))
     (let ((buffer-name "*Stardict Output*"))
       (with-output-to-temp-buffer buffer-name
