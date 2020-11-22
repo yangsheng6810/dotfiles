@@ -4018,13 +4018,13 @@ Return the result as a string."
 
 ** Default use eww for browsing
    #+BEGIN_SRC emacs-lisp
-(after! browse-url
-  (setq browse-url-browser-function
-        ;; use eww only when from elfeed-mode
-        (lambda (URL &rest args)
-          (if (string= major-mode "elfeed-search-mode")
-              (eww-browse-url URL args)
-            (browse-url-default-browser URL args)))))
+;; (after! browse-url
+;;   (setq browse-url-browser-function
+;;         ;; use eww only when from elfeed-mode
+;;         (lambda (URL &rest args)
+;;           (if (string= major-mode "elfeed-search-mode")
+;;               (eww-browse-url URL args)
+;;             (browse-url-default-browser URL args)))))
 
 (use-package eww
   :commands (browse-url-default-browser
