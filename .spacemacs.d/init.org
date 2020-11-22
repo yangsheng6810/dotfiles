@@ -637,6 +637,12 @@ This is a wrapper around `eval-after-load' that:
   (global-page-break-lines-mode))
    #+end_src
 
+** Popup
+   #+begin_src emacs-lisp
+;; `Info-mode'
+(set-popup-rule! "^\\*info\\*$" :slot 2 :vslot 2 :size 0.45 :select t :modeline t)
+   #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
