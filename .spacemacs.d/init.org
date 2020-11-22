@@ -2576,14 +2576,14 @@ For generating org-capture templates
    #+begin_src emacs-lisp
 (when (or (equal (system-name) "Desktop")
           (equal (system-name) "carbon"))
-  (use-package org-latex-instant-preview
+  (use-package org-latex-impatient
     :defer t
-    :hook (org-mode . org-latex-instant-preview-mode)
+    :hook (org-mode . org-latex-impatient-mode)
     :init
-    (setq org-latex-instant-preview-tex2svg-bin
+    (setq org-latex-impatient-tex2svg-bin
           ;; location of tex2svg executable
           "~/node_modules/mathjax-node-cli/bin/tex2svg"
-          org-latex-instant-preview-scale 1.5)))
+          org-latex-impatient-scale 1.5)))
    #+end_src
 
 ** LaTeX in org-mode

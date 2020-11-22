@@ -75,7 +75,7 @@
 (package! valign
   :recipe (:host github :repo "casouri/valign"))
 (package! package-lint)
-(package! org-latex-instant-preview
+(package! org-latex-impatient
   :recipe (:host github :repo "yangsheng6810/org-latex-instant-preview" :branch "develop"))
 (package! cdlatex)
 ;; show latex in eww
