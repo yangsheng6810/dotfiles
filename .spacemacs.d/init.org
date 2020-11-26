@@ -307,6 +307,8 @@ This is a wrapper around `eval-after-load' that:
          "C-o" nil
          "C-n" nil
          "C-p" nil)
+       :config
+       (advice-remove #'evil-visual-update-x-selection #'ignore)
        )
 
      ;; Show different cursor for different evil mode in terminal
