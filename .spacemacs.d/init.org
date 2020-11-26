@@ -3513,6 +3513,7 @@ Return the result as a string."
     "to be run as hook for `dired-mode'."
     (dired-hide-details-mode 1)
     (dired-omit-mode 1)
+    (hl-line-mode 1)
     )
   (add-hook 'dired-mode-hook 'yang/dired-mode-setup)
 
