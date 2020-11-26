@@ -120,3 +120,5 @@
 (package! pcre2el)
 ;; turning ^L visual
 (package! page-break-lines)
+;; preview for insert-char
+(package! insert-char-preview)

@@ -4910,6 +4910,13 @@ can be found in docstring of `posframe-show'."
                 (insert "  - " ss "\n")))
             (json-parse-string ret :array-type 'list)))))
    #+end_src
+** Insert Unicode with preview
+   #+begin_src emacs-lisp
+(use-package insert-char-preview
+  :defer t
+  :commands insert-char-preview
+  :bind ("C-x 8 RET" . insert-char-preview))
+   #+end_src
 
 * COMMENT Slack
 #+begin_src emacs-lisp
