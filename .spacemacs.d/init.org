@@ -1323,6 +1323,13 @@ This is a wrapper around `eval-after-load' that:
   (define-advice doom-real-buffer-p (:override (buffer-or-name) yang)
     "Always answer t"
     t))
+
+
+;; revert doom's C-h in ccls
+(general-def
+  :keymaps '(override c-mode-map c++-mode-map)
+  :states '(normal)
+  "C-h" nil)
 #+end_src
 
 ** Default keybindings
