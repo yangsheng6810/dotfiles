@@ -1814,6 +1814,21 @@ how the heading too, if it is currently invisible."
                       "~/Documents/org/Notes.org"))
   :config
   (org-super-agenda-mode)
+  (setq yang-org-super-agenda-groups
+        '((:name "Inbox"
+           :category "Inbox"
+           :order 0)
+          (:name "TODO"
+           :todo "TODO"
+           :order 1)
+          (:name "INACTIVE"
+           :todo "INACTIVE"
+           :order 2)
+          (:name "WAIT"
+           :todo "WAIT"
+           :order 3)
+          (:auto-category t
+           :order 9)))
   (mapc
    (lambda (value)
      (add-to-list
@@ -1894,22 +1909,28 @@ how the heading too, if it is currently invisible."
      ("g" . "GTD contexts")
      ("gc" "Computer" tags-todo "computer|linux|emacs"
       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-       (org-agenda-overriding-header "Unscheduled computer tasks")))
+       (org-agenda-overriding-header "Unscheduled computer tasks")
+       (org-super-agenda-groups yang-org-super-agenda-groups)))
      ("ge" "Emacs" tags-todo "emacs"
       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-       (org-agenda-overriding-header "Unscheduled emacs tasks")))
+       (org-agenda-overriding-header "Unscheduled emacs tasks")
+       (org-super-agenda-groups yang-org-super-agenda-groups)))
      ("gh" "Home" tags-todo "home"
       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-       (org-agenda-overriding-header "Unscheduled home tasks")))
+       (org-agenda-overriding-header "Unscheduled home tasks")
+       (org-super-agenda-groups yang-org-super-agenda-groups)))
      ("gl" "Life" tags-todo "life"
       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-       (org-agenda-overriding-header "Unscheduled life tasks")))
+       (org-agenda-overriding-header "Unscheduled life tasks")
+       (org-super-agenda-groups yang-org-super-agenda-groups)))
      ("gp" "Photography" tags-todo "photography|photo"
       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-       (org-agenda-overriding-header "Unscheduled photography tasks")))
+       (org-agenda-overriding-header "Unscheduled photography tasks")
+       (org-super-agenda-groups yang-org-super-agenda-groups)))
      ("gr" "Research" tags-todo "research"
       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
-       (org-agenda-overriding-header "Unscheduled research tasks")))
+       (org-agenda-overriding-header "Unscheduled research tasks")
+       (org-super-agenda-groups yang-org-super-agenda-groups)))
      ("d" "Upcoming deadlines" agenda ""
       ((org-agenda-entry-types '(:deadline))
        (org-agenda-span 14)
