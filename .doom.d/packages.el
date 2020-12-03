@@ -122,3 +122,6 @@
 (package! page-break-lines)
 ;; preview for insert-char
 (package! insert-char-preview)
+;; fill org table
+(package! ftable
+  :recipe (:host github :repo "casouri/ftable"))
