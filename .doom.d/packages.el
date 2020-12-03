@@ -125,3 +125,4 @@
 ;; fill org table
 (package! ftable
   :recipe (:host github :repo "casouri/ftable"))
+(package! vterm-toggle)
