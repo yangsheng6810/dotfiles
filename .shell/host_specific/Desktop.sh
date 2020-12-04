@@ -18,8 +18,5 @@ export WINEARCH=win32
 if [ -n "${ZSH_VERSION+x}" ]; then
     unalias z
     eval "$(zoxide init zsh)"
-    eval "$(starship init zsh)"
 fi
-if [ -n "${BASH_VERSION+x}" ]; then
-    eval "$(starship init bash)"
-fi
+

@@ -12,3 +12,13 @@ MACHINE_SPECIFIC="${HOME}/.shell/host_specific/${HOSTNAME}.sh"
 [[ -f $MACHINE_SPECIFIC ]] && . $MACHINE_SPECIFIC
 
 # source "$HOME/.shell/fzf.sh"
+
+if type starship > /dev/null; then
+    if [ -n "${ZSH_VERSION+x}" ]; then
+        eval "$(starship init zsh)"
+    fi
+    if [ -n "${BASH_VERSION+x}" ]; then
+        eval "$(starship init bash)"
+    fi
+fi
+
