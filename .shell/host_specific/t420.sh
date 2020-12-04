@@ -8,3 +8,5 @@ alias 'git_latexdiff'="git latexdiff --bibtex --ignore-latex-errors --latexdiff-
 export MAKEFLAGS="${MAKEFLAGS} -j8"
 
 YANG_HAS_BATTERY=1;
+# export DISTCC_HOSTS="localhost/2 192.168.1.254/12"
+# export PATH="/usr/lib/distcc/bin:$PATH"
