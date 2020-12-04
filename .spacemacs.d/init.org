@@ -1623,6 +1623,7 @@ This is a wrapper around `eval-after-load' that:
     (remove-hook 'text-mode-hook #'display-line-numbers-mode t)
     (visual-line-mode 1)
     (variable-pitch-mode 1)
+    (buffer-face-mode 1)
     ;; (display-line-numbers-mode -1)
     (smartparens-mode 1)
     ;; do not delete trailing white space, as white space is necessary for an
