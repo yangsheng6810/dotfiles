@@ -775,6 +775,7 @@ This is a wrapper around `eval-after-load' that:
 
 ;; prepare a fontset that handles fixed pitch correctly
 (when (display-graphic-p)
+  (set-fontset-font t 'unicode "Symbola" nil 'prepend)
   (create-fontset-from-ascii-font "-*-Sarasa Mono SC-normal-normal-*" nil "fixed")
   (set-fontset-font "fontset-fixed" 'han "Sarasa Mono SC" nil 'append)
   (set-fontset-font "fontset-fixed" 'latin "Sarasa Mono SC" nil 'prepend)
