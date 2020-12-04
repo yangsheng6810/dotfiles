@@ -63,8 +63,8 @@ threshold = 30
 style = "bold red"
 
 [character]
-success_symbol = "[λ](bold green) "
-error_symbol = "[λ](bold red) "
+success_symbol = "[λ](bold green)"
+error_symbol = "[λ](bold red)"
 
 [cmd_duration]
 min_time = 10_000  # Show command duration over 10,000 milliseconds (=10 sec)
