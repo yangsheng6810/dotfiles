@@ -2303,6 +2303,9 @@ For generating org-capture templates
       bibtex-completion-library-path "~/Documents/Library/bibtex-pdfs"
       bibtex-completion-notes-path "~/Documents/org/bibliography/helm-bibtex-notes")
 
+
+(declare-function #'dnd--unescape-uri "dnd")
+
 (use-package org-ref
   :commands (org-ref-insert-link
              org-ref-get-bibtex-key-and-file
