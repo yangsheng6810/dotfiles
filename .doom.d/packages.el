@@ -127,4 +127,9 @@
 ;; fill org table
 (package! ftable
   :recipe (:host github :repo "casouri/ftable"))
+;; org-transclusion
+(package! org-transclusion
+  :recipe (:host github
+           :repo "nobiot/org-transclusion"
+           :branch "main"))
 (package! vterm-toggle)
