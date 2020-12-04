@@ -29,3 +29,8 @@ export PYTHONSTARTUP="${HOME}/.pythonrc.py"
 export XDG_DATA_HOME="${HOME}/.local/share"
 # parallel make
 export MAKEFLAGS="-j$(nproc)"
+
+# Add additional binary to PATH
+if ! type pacman > /dev/null; then
+    PATH="$PATH:$HOME/bin/binary"
+fi
