@@ -88,7 +88,7 @@
 (package! el-search)
 (package! git-messenger)
 
-(package! xenops)
+;; (package! xenops)
 
 (package! flycheck-package)
 (package! chinese-yasdcv)
