@@ -120,6 +120,8 @@
 (package! pcre2el)
 ;; turning ^L visual
 (package! page-break-lines)
+;; interactive find/fd
+(package! find-file-in-project)
 ;; preview for insert-char
 (package! insert-char-preview)
 ;; fill org table

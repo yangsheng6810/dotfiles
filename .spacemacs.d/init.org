@@ -252,6 +252,15 @@ This is a wrapper around `eval-after-load' that:
   (setq ivy-use-selectable-prompt t))
     #+END_SRC
 
+*** Find-file-in-project
+    #+begin_src emacs-lisp
+(use-package find-file-in-project
+  :defer t
+  :config
+  (when (executable-find "fd")
+    (setq ffip-use-rust-fd t )))
+    #+end_src
+
 ** Evil
    #+begin_src emacs-lisp
      (use-package evil
