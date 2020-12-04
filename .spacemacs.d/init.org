@@ -1813,6 +1813,10 @@ how the heading too, if it is currently invisible."
                       "~/Documents/org/Schedule.org"
                       "~/Documents/org/Notes.org"))
   :config
+  (general-define-key
+    :states '(normal visual motion)
+    :keymaps 'org-agenda-mode-map
+    "go" #'org-agenda-open-link)
   (org-super-agenda-mode)
   (setq yang-org-super-agenda-groups
         '((:name "Inbox"
