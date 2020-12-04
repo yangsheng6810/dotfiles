@@ -1822,15 +1822,18 @@ how the heading too, if it is currently invisible."
         '((:name "Inbox"
            :category "Inbox"
            :order 0)
+          (:name "NEXT"
+           :todo "NEXT"
+           :order 1)
           (:name "TODO"
            :todo "TODO"
-           :order 1)
+           :order 2)
           (:name "INACTIVE"
            :todo "INACTIVE"
-           :order 2)
+           :order 3)
           (:name "WAIT"
            :todo "WAIT"
-           :order 3)
+           :order 4)
           (:auto-category t
            :order 9)))
   (mapc
