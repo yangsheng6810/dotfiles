@@ -67,3 +67,5 @@ alias htop='TERM=screen-256color htop'
 
 # sdcv
 alias sdcv='sdcv --utf8-output --color'
+
+alias tmux='tmux -u'
