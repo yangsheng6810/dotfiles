@@ -15,3 +15,7 @@ export GRB_LICENSE_FILE="$XDG_CONFIG_HOME/gurobi.lic"
 
 export PATH="${HOME}/bin/binary:$PATH"
 export FZF_BASE="${HOME}/bin/.fzf"
+
+if [ -z ${SSH_CONNECTION+x} ]; then
+    export SSH_CONNECTION="placehoder"
+fi
