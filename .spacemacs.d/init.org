@@ -2757,6 +2757,18 @@ For generating org-capture templates
   :custom
   (org-download-screenshot-method "flameshot gui --raw > %s"))
    #+end_src
+
+** org-inlinetask
+   #+begin_src emacs-lisp
+(use-package org-inlinetask
+  :defer t
+  :commands
+  (org-inlinetask-insert-task
+   org-inlinetask-promote
+   org-inlinetask-demote
+   org-inlinetask-toggle-visibility
+   org-inlinetask-hide-tasks))
+   #+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook
