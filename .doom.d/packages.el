@@ -133,5 +133,7 @@
            :repo "nobiot/org-transclusion"
            :branch "main"))
 (package! vterm-toggle)
+;; special links/blocks in org-mode
+(package! org-special-block-extras)
 ;; search org tasks (heading and contents)
 (package! helm-org-rifle)
