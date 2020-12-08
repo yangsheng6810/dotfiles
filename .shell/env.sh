@@ -10,7 +10,7 @@ export VISUAL="vim"
 export SYSTEMD_EDITOR="vim"
 export ALTERNATE_EDITOR=""
 
-export PATH="$HOME/bin/.evm/bin:$HOME/bin:$HOME/.local/bin:$PATH:$HOME/.go/bin"
+export PATH="$HOME/bin/.evm/bin:$HOME/.local/bin:$PATH:$HOME/.go/bin"
 
 export GOPATH="$HOME/.go"
 
