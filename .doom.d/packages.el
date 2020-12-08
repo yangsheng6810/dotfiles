@@ -133,3 +133,5 @@
            :repo "nobiot/org-transclusion"
            :branch "main"))
 (package! vterm-toggle)
+;; search org tasks (heading and contents)
+(package! helm-org-rifle)
