@@ -3065,6 +3065,15 @@ Return the result as a string."
   (add-hook 'magit-status-mode-hook
             (lambda ()
               (visual-line-mode 1))))
+
+(use-package magit
+  :defer t
+  :config
+  ;; (yang/set-leader-key "gF" #'magit-file-dispatch)
+  (map! :leader
+        :desc "Magit file dispatch"
+        "gF" #'magit-file-dispatch)
+  )
   #+END_SRC
 
 ** Close manually opened magit-diff when commit finishes
