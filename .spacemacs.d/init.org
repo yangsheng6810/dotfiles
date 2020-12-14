@@ -229,6 +229,8 @@ This is a wrapper around `eval-after-load' that:
      (use-package swiper
        :defer t
        :general ("C-s"  #'swiper-isearch)
+       :init
+       (setq swiper-goto-start-of-match t)
        :config
        (defun yang/swiper ()
          "In visual-line-mode, call swiper on visual line when
