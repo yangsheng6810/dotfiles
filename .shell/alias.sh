@@ -24,6 +24,7 @@ alias wget='wget -c'
 
 # alias e="TERM=xterm-24bit emacsclient -c -nw -s terminal"
 alias e="TERM=xterm-24bit emacsclient -c -nw"
+alias E="TERM=xterm-24bit emacs -nw"
 alias ee="emacsclient -c "
 # for testing new emacs configuration
 alias en='export GDK_SCALE=1
