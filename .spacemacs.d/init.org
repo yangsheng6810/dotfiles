@@ -570,7 +570,10 @@ This is a wrapper around `eval-after-load' that:
             ("https"    . "127.0.0.1:8123"))))
   (setq socks-server '("Default server" "127.0.0.1" 8883 5))
   (setq request--url-options
-        '("--proxy" "socks5://localhost:8883")))
+        '("--proxy" "socks5://localhost:8883"))
+  ;; white list to allow local connections
+  (setq url-gateway-local-host-regexp
+      (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
 
 ;; for native comp
 (setq comp-deferred-compilation t
