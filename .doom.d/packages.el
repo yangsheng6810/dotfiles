@@ -137,3 +137,5 @@
 (package! org-special-block-extras)
 ;; search org tasks (heading and contents)
 (package! helm-org-rifle)
+;; dashboard for elfeed
+(package! elfeed-dashboard)
