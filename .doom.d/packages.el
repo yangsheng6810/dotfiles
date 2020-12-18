@@ -139,3 +139,5 @@
 (package! helm-org-rifle)
 ;; dashboard for elfeed
 (package! elfeed-dashboard)
+;; using cheat.sh
+(package! cheat-sh)
