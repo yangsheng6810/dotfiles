@@ -52,4 +52,4 @@
 *** [[https://rsshub.app/scmp/4][南华早报 China]]
 *** [[https://rsshub.app/scmp/5][南华早报 World]]
 ** Blog
-*** [[https://archive.casouri.cat/note/rss.xml][casouri]]
+*** [[https://archive.casouri.cat/note/rss.xml][casouri]] :emacs:
