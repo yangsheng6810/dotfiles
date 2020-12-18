@@ -5010,6 +5010,16 @@ can be found in docstring of `posframe-show'."
   :commands insert-char-preview
   :bind ("C-x 8 RET" . insert-char-preview))
    #+end_src
+** New packages
+   #+begin_src emacs-lisp
+(use-package elfeed-dashboard
+  :defer t
+  :commands (elfeed-dashboard)
+  :config
+  (setq elfeed-dashboard-file "~/.spacemacs.d/elfeed-dashboard.org")
+  (define-advice elfeed-dashboard (:after (&rest _) yang)
+    (buffer-face-mode 0)))
+   #+end_src
 
 * COMMENT Slack
 #+begin_src emacs-lisp
