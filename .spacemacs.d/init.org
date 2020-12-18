@@ -657,6 +657,11 @@ This is a wrapper around `eval-after-load' that:
 (set-popup-rule! "^\\*info\\*$" :slot 2 :vslot 2 :size 0.45 :select t :modeline t)
    #+end_src
 
+** Load Credentials
+   #+begin_src emacs-lisp
+(load (concat yang/dotemacs-dir "credentials.el") 'noerror)
+   #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
@@ -5014,9 +5019,9 @@ can be found in docstring of `posframe-show'."
   (slack-register-team
    :name "northwestern"
    :default t
-   :client-id "2b034370.1570679104"
+   :client-id slack-client-id
    ;; :client-secret "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-   :token "xoxc-443491407444-691859362469-732785502464-fa7e39ef91c01e980cc783afea36f506371c02afd119a970cb79ff05a3a5d718"
+   :token slack-token
    ;; :subscribed-channels '(test-rename rrrrr)
    :full-and-display-names t)
 
