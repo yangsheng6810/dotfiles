@@ -2779,6 +2779,17 @@ For generating org-capture templates
    org-inlinetask-toggle-visibility
    org-inlinetask-hide-tasks))
    #+end_src
+
+** org-mru-clock
+   #+begin_src emacs-lisp
+(use-package org-mru-clock
+  :defer t
+  ;; :bind* (("C-c C-x i" . org-mru-clock-in)
+  ;;         ("C-c C-x C-j" . org-mru-clock-select-recent-task))
+  :init
+  (setq org-mru-clock-how-many 100
+        org-mru-clock-completing-read #'ivy-completing-read))
+   #+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook

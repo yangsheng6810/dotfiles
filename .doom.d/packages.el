@@ -141,3 +141,4 @@
 (package! elfeed-dashboard)
 ;; using cheat.sh
 (package! cheat-sh)
+(package! org-mru-clock)
