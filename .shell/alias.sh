@@ -70,3 +70,5 @@ alias htop='TERM=screen-256color htop'
 alias sdcv='sdcv --utf8-output --color'
 
 alias tmux='tmux -u'
+
+alias rsync-emacs="rsync -avzu --delete --info=progress2 -h --include='.local/straight/repos/magit/.git' --exclude='.git' --exclude='xenops' --exclude='.local/straight/build*' --exclude='.local/cache' --exclude='*.elc' --exclude='*.gif' --exclude='.local/etc/url/cache' --exclude='.local/elfeed/db' ~/.emacs.d_doom"
