@@ -4779,6 +4779,17 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
         :keymaps 'telega-msg-button-map
         "k" nil
         "n" nil)
+
+(defun yang/fixed-pitch-setup ()
+  (interactive)
+  (setq buffer-face-mode-face '(:family "等距更纱黑体 SC"))
+  (buffer-face-mode +1))
+
+(add-hook 'telega-root-mode-hook #'yang/fixed-pitch-setup)
+(use-package telega
+  :defer t
+  :config
+  (set-face-attribute 'telega-entity-type-pre nil :inherit 'fixed-pitch-serif))
 #+END_SRC
 
 * auto-highlight-symbol (ahs)
