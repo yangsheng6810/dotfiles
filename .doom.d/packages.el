@@ -142,3 +142,4 @@
 ;; using cheat.sh
 (package! cheat-sh)
 (package! org-mru-clock)
+(package! crux)
