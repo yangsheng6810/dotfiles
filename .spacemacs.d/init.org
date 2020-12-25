@@ -4178,6 +4178,11 @@ Return the result as a string."
       (browse-url-generic (eww-copy-page-url)))))
    #+END_SRC
 
+* Remote with Tramp
+  #+begin_src emacs-lisp
+(setq doom-modeline-buffer-file-name-style 'auto)
+  #+end_src
+
 * Bug-fixes
 ** Spacemacs modeline
   #+BEGIN_SRC emacs-lisp
