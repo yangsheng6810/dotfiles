@@ -4402,7 +4402,17 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
                collect it into selected
                finally (return (if ignore-region-p
                                    (car selected)
-                                 selected)))))  )
+                                 selected)))))
+  ;; remove unecessary (require 'elfeed-show) in defun
+  (define-advice elfeed-search-show-entry (:override (entry) yang)
+    "Display the currently selected item in a buffer."
+    (interactive (list (elfeed-search-selected :ignore-region)))
+    (when (elfeed-entry-p entry)
+      (elfeed-untag entry 'unread)
+      (elfeed-search-update-entry entry)
+      (unless elfeed-search-remain-on-entry (forward-line))
+      (elfeed-show-entry entry)))
+  )
 
 (use-package elfeed-org
   :defer t
