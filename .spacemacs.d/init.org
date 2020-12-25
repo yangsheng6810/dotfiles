@@ -134,7 +134,7 @@ This is a wrapper around `eval-after-load' that:
   (yang/set-leader-key
    "/" #'counsel-descbinds))
 
-(setq delete-by-moving-to-trash t)
+;; (setq delete-by-moving-to-trash t)
 
     (yang/with-spacemacs
       (tool-bar-mode -1)
