@@ -19,11 +19,11 @@ if [ -z ${HOSTNAME+x} ]; then
 fi
 
 # pyenv
-if [ -x "$(command -v pyenv)" ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init -)"
-fi
+# if [ -x "$(command -v pyenv)" ]; then
+#     export PYENV_ROOT="$HOME/.pyenv"
+#     export PATH="$PYENV_ROOT/bin:$PATH"
+#     eval "$(pyenv init -)"
+# fi
 export PYTHONSTARTUP="${HOME}/.pythonrc.py"
 # for startdict
 export XDG_DATA_HOME="${HOME}/.local/share"
