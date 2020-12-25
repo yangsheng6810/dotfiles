@@ -690,6 +690,11 @@ and the entire buffer (in the absense of a region)."
       gcmh-idle-delay 15)
    #+end_src
 
+** Profiler
+   #+begin_src emacs-lisp
+(add-hook 'profiler-report-mode-hook #'hl-line-mode)
+   #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
