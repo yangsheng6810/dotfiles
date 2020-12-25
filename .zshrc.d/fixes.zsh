@@ -27,7 +27,7 @@ function vterm_printf(){
 }
 
 # directory tracking
-vterm_prompt_end() {
+function vterm_prompt_end() {
     vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
 }
 # For use in multi-term in emacs
@@ -45,10 +45,10 @@ if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm-256color" ]; then
         #         print -Pn "\e]51;A$(pwd)\e\\";
         #     fi
         # }
+
         # for clear
-        if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
-            alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
-        fi
+        alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
+
         # for changing buffer name
         autoload -U add-zsh-hook
         add-zsh-hook -Uz chpwd (){ print -Pn "\e]2;%m:%2~\a" }
