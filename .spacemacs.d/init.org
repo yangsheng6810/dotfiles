@@ -1376,10 +1376,12 @@ and the entire buffer (in the absense of a region)."
 
 
 ;; revert doom's C-h in ccls
-(general-def
-  :keymaps '(override c-mode-map c++-mode-map)
-  :states '(normal)
-  "C-h" nil)
+(map! :after ccls
+        :map (c-mode-map c++-mode-map)
+        :n "C-h" nil
+        :n "C-j" nil
+        :n "C-k" nil
+        :n "C-l" nil)
 #+end_src
 
 ** Default keybindings
