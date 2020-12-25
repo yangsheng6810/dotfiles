@@ -684,6 +684,12 @@ and the entire buffer (in the absense of a region)."
   (crux-with-region-or-buffer untabify))
    #+end_src
 
+** GC
+   #+begin_src emacs-lisp
+(setq gcmh-high-cons-threshold (* 160 1024 1024) ; 160MB
+      gcmh-idle-delay 15)
+   #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
