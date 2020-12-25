@@ -206,7 +206,7 @@ This is a wrapper around `eval-after-load' that:
 (after! ispell
   (setq ispell-extra-args '("--sug-mode=ultra")
         ;; flyspell-issue-welcome-flag nil ;; fix flyspell problem
-        ispell-dictionary "american"))
+        ispell-dictionary "english"))
 
      ;; ;; to avoid lagging
      ;; (use-package flyspell-lazy
