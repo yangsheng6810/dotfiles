@@ -35,6 +35,7 @@ function vterm_prompt_end() {
 if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm-256color" ]; then
     # For vterm in emacs
     if [ "$INSIDE_EMACS" = "vterm" ]; then
+        TERM="xterm-24bit"
         # function chpwd() {
         #     print -Pn "\e]51;A$(pwd)\e\\";
         # }
@@ -51,7 +52,8 @@ if [ -n "$INSIDE_EMACS" ] || [ "$TERM" = "eterm-256color" ]; then
 
         # for changing buffer name
         autoload -U add-zsh-hook
-        add-zsh-hook -Uz chpwd (){ print -Pn "\e]2;%m:%2~\a" }
+        # add-zsh-hook -Uz chpwd (){ print -Pn "\e]2;%m:%2~\a" }
+        add-zsh-hook -Uz chpwd (){ vterm_prompt_end }
     else
         function precmd() {
             echo -e "\033AnSiTc" "$(pwd)"
