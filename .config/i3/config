@@ -378,6 +378,7 @@ for_window [class="KeePassXC"] floating enable
 for_window [class="Yubico Authenticator"] floating enable
 for_window [class="flameshot"] floating enable
 for_window [class="Kazam"] floating enable
+for_window [class="ffplay"] floating enable
 
 # zoom
 for_window [class="zoom"] move container to workspace $ws8
