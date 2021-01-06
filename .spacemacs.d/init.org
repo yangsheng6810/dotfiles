@@ -4443,15 +4443,25 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
                                  selected)))))
   (defvar yang/elfeed-compact-timer nil "Timer for elfeed-compact")
 
-  ;; do not compact elfeed-db, as it is very slow
-  (define-advice +rss-cleanup-h (:around (func) yang)
+  (define-advice +rss-cleanup-h (:override () yang)
+    "Clean up after an elfeed session. Kills all elfeed and elfeed-org files."
     (interactive)
-    (define-advice elfeed-db-compact (:override () yang) nil)
-    (funcall func)
-    (advice-remove 'elfeed-db-compact #'elfeed-db-compact@yang)
-    (let ((buf (get-buffer "*elfeed-search*")))
-      (when buf
-        (kill-buffer buf)))
+    (let ((buf (previous-buffer)))
+      (when (or (null buf) (not (doom-real-buffer-p buf)))
+        (switch-to-buffer (doom-fallback-buffer))))
+    (let ((search-buffers (doom-buffers-in-mode 'elfeed-search-mode))
+          (show-buffers (doom-buffers-in-mode 'elfeed-show-mode))
+          kill-buffer-query-functions)
+      (dolist (file (bound-and-true-p rmh-elfeed-org-files))
+        (when-let (buf (get-file-buffer (expand-file-name file org-directory)))
+          (with-current-buffer buf
+            (remove-hook 'kill-buffer-hook #'+rss-cleanup-h :local)
+            (kill-buffer buf))))
+      (dolist (b search-buffers)
+        (with-current-buffer b
+          (remove-hook 'kill-buffer-hook #'+rss-cleanup-h :local)
+          (kill-buffer b)))
+      (mapc #'kill-buffer show-buffers))
 
     (when yang/elfeed-compact-timer
       (cancel-timer yang/elfeed-compact-timer))
@@ -4462,7 +4472,11 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
              (unless (get-buffer "*elfeed-search")
                ;; only compact when elfeed is not running
                (message "Compacting Elfeed Database in spare time, please waite...")
-               (elfeed-db-compact)
+               ;; `delete-file-projectile-remove-from-cache' slows down
+               ;; `elfeed-db-compact' tremendously, so we disable the projectile
+               ;; cache:
+               (let (projectile-enable-caching)
+                 (elfeed-db-compact))
                (message "Finish compacting"))
              (setq yang/elfeed-compact-timer nil)))))
 
