@@ -1437,6 +1437,44 @@ and the entire buffer (in the absense of a region)."
      ;; (popwin-mode 1)
    #+end_src
 
+** Link-hint
+   #+begin_src emacs-lisp
+(use-package link-hint
+  :defer t
+  :init
+  (setq link-hint-avy-all-windows t
+        link-hint-avy-all-windows-alt nil)
+  :config
+(defun yang/temp-next-button (bound)
+  (save-excursion
+    (forward-button 1)
+    (when (get-text-property (point) 'display)
+      (forward-char 1))
+    (when (get-text-property (point) 'display)
+      (forward-char 1))
+    (when (get-text-property (point) 'display)
+      (forward-char 1))
+    (when (<= (point) bound)
+      (point))))
+
+(link-hint-define-type 'telega-button
+  :next #'yang/temp-next-button
+  :at-point-p (lambda () (button-at (point)))
+  :vars '(telega-root-mode)
+  :open #'push-button
+  :copy #'kill-new)
+
+(add-to-list 'link-hint-types 'link-hint-telega-button)
+
+(link-hint-define-type 'button
+  :next #'link-hint--next-button
+  :at-point-p #'link-hint--button-at-point-p
+  ;; TODO add more
+  :not-vars '(woman-mode treemacs-mode telega-root-mode)
+  :open #'push-button
+  :copy #'kill-new))
+   #+end_src
+
 ** Fill-indicator
 #+begin_src emacs-lisp
 (use-package sh-script
