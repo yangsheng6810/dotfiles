@@ -1562,26 +1562,6 @@ and the entire buffer (in the absense of a region)."
       "C-d" nil
       )
 
-    ;; (evil-define-key '(normal insert motion visual) evil-org-mode-map
-    ;;   (kbd "M-h") nil
-    ;;   (kbd "M-j") nil
-    ;;   (kbd "M-k") nil
-    ;;   (kbd "M-l") nil
-    ;;   (kbd "M-H") nil
-    ;;   (kbd "M-J") nil
-    ;;   (kbd "M-K") nil
-    ;;   (kbd "M-L") nil
-    ;;   ;; actually unset all the following
-    ;;   ;; (kbd "M-h") 'org-metaleft
-    ;;   ;; (kbd "M-j") 'org-metadown
-    ;;   ;; (kbd "M-k") 'org-metaup
-    ;;   ;; (kbd "M-l") 'org-metaright
-    ;;   ;; (kbd "M-H") 'org-shiftmetaleft
-    ;;   ;; (kbd "M-J") 'org-shiftmetadown
-    ;;   ;; (kbd "M-K") 'org-shiftmetaup
-    ;;   ;; (kbd "M-L") 'org-shiftmetaright
-    ;;   )
-
     (general-def
       :keymaps '(override global)
       :states '(motion insert)
