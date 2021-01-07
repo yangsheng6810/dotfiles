@@ -2512,6 +2512,7 @@ For generating org-capture templates
 
         ;; Clock
         ;; These keybindings should match those under the "aoC" prefix (below)
+        "C" '(:ignore t :which-key "clock")
         "Cc" 'org-clock-cancel
         "Cd" 'org-clock-display
         "Ce" 'org-evaluate-time-range
@@ -2523,11 +2524,15 @@ For generating org-capture templates
         "CR" 'org-clock-report
         "Cr" 'org-resolve-clocks
 
+        "d" '(:ignore t :which-key "date")
         "dd" 'org-deadline
         "ds" 'org-schedule
         "dt" 'org-time-stamp
         "dT" 'org-time-stamp-inactive
+        "e" '(:ignore t :which-key "export")
         "ee" 'org-export-dispatch
+        
+        "f" '(:ignore t :which-key "feed")
         "fi" 'org-feed-goto-inbox
         "fu" 'org-feed-update-all
 
@@ -2535,6 +2540,7 @@ For generating org-capture templates
 
         "p" 'org-priority
 
+        "T" '(:ignore t :which-key "toggle")
         "Tc" 'org-toggle-checkbox
         "Te" 'org-toggle-pretty-entities
         "Ti" 'org-toggle-inline-images
@@ -2558,6 +2564,7 @@ For generating org-capture templates
         "C-S-k" 'org-shiftcontrolup
 
         ;; Subtree editing
+        "s" '(:ignore t :which-key "subtree")
         "sa" 'org-toggle-archive-tag
         "sA" 'org-archive-subtree
         "sb" 'org-tree-to-indirect-buffer
@@ -2573,15 +2580,18 @@ For generating org-capture templates
         "sS" 'org-sort
 
         ;; tables
+        "t" '(:ignore t :which-key "table")
         "ta" 'org-table-align
         "tb" 'org-table-blank-field
         "tc" 'org-table-convert
+        "td" '(:ignore t :which-key "delete")
         "tdc" 'org-table-delete-column
         "tdr" 'org-table-kill-row
         "te" 'org-table-eval-formula
         "tE" 'org-table-export
         "th" 'org-table-previous-field
         "tH" 'org-table-move-column-left
+        "ti" '(:ignore t :which-key "insert")
         "tic" 'org-table-insert-column
         "tih" 'org-table-insert-hline
         "tiH" 'org-table-hline-and-move
@@ -2596,11 +2606,13 @@ For generating org-capture templates
         "tN" 'org-table-create-with-table.el
         "tr" 'org-table-recalculate
         "ts" 'org-table-sort-lines
+        "ti" '(:ignore t :which-key "toggle")
         "ttf" 'org-table-toggle-formula-debugger
         "tto" 'org-table-toggle-coordinate-overlays
         "tw" 'org-table-wrap-region
 
         ;; Source blocks / org-babel
+        "b" '(:ignore t :which-key "babel")
         "bp"     'org-babel-previous-src-block
         "bn"     'org-babel-next-src-block
         "be"     'org-babel-execute-maybe
@@ -2634,6 +2646,7 @@ For generating org-capture templates
         ;; attachments
         "A" 'org-attach
         ;; insertion
+        "i" '(:ignore t :which-key "insertion")
         "ib" 'org-insert-structure-template
         "id" 'org-insert-drawer
         "ie" 'org-set-effort
@@ -3809,6 +3822,9 @@ Return the result as a string."
       ;; :ensure t
       :bind (:map pdf-view-mode-map
                   ("C-s" . isearch-forward))
+      :init
+      ;; prevent pdf-view from a long delay querying for font
+      (setq pdf-view-use-unicode-ligther nil)
       :config
       ;; open LaTeX pdf file in split window
       (setq pdf-sync-backward-display-action t)
@@ -3825,12 +3841,6 @@ Return the result as a string."
            (color . "#ffff00")
            (label . "Sheng Yang")
            (popup-is-open)))
-      (general-def
-        :keymaps 'pdf-view-mode
-        :states 'normal
-        :prefix "SPC"
-        "t b" 'pdf-history-backward
-        "t f" 'pdf-history-forward)
       (add-hook 'pdf-view-mode-hook #'pdf-links-minor-mode)
       (add-hook 'pdf-view-mode-hook #'pdf-sync-minor-mode)
       (add-hook 'pdf-view-mode-hook #'pdf-annot-minor-mode)
@@ -3838,13 +3848,14 @@ Return the result as a string."
       (yang/with-doom
         (general-def
           :keymaps 'pdf-view-mode-map
-          :states '(override normal motion visual)
+          :states '(normal motion visual)
           :prefix ","
           ;; Slicing image
           "sm" #'pdf-view-set-slice-using-mouse
           "sb" #'pdf-view-set-slice-from-bounding-box
           "sr" #'pdf-view-reset-slice
           ;; Annotations
+          "a" '(:ignore t :which-key "annotate")
           "aD" #'pdf-annot-delete
           "at" #'pdf-annot-attachment-dired
           "ah" #'pdf-annot-add-highlight-markup-annotation
@@ -3855,16 +3866,21 @@ Return the result as a string."
           "at" #'pdf-annot-add-text-annotation
           "au" #'pdf-annot-add-underline-markup-annotation
           ;; Fit image to window
+          "f" '(:ignore t :which-key "fit")
           "fw" #'pdf-view-fit-width-to-window
           "fh" #'pdf-view-fit-height-to-window
           "fp" #'pdf-view-fit-page-to-window
           ;; Other
+          "s" '(:ignore t :which-key "slice/search")
           "ss" #'pdf-occur
           "p" #'pdf-misc-print-document
           "O" #'pdf-outline
-          "n" #'pdf-view-midnight-minor-mode))
-      )
-(setq pdf-view-use-unicode-ligther nil)
+          "n" #'pdf-view-midnight-minor-mode
+          "t" '(:ignore t :which-key "history")
+          "t b" 'pdf-history-backward
+          "t f" 'pdf-history-forward)))
+
+
   #+END_SRC
 
 * doc-view
