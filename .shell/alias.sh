@@ -1,3 +1,5 @@
+# make alias work with sudo
+alias 'sudo=sudo '
 alias grep="grep --color=auto"
 
 alias gmplayer='gnome-mplayer'
