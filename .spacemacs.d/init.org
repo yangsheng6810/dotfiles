@@ -552,7 +552,9 @@ This is a wrapper around `eval-after-load' that:
   (when (string= (system-name) "Desktop")
     (setq langtool-user-arguments
           '("--languagemodel" "/usr/share/ngrams"
-            "--word2vecmodel" "/usr/share/word2vec"))))
+            "--word2vecmodel" "/usr/share/word2vec")))
+  ;; hard code version, since `languagetool --version` can cause trouble
+  (define-advice langtool--jar-version (:override () yang) "5.1"))
    #+end_src
 
 ** Olivetti
