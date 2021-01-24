@@ -491,6 +491,15 @@ This is a wrapper around `eval-after-load' that:
 (after! expand-region
   (setq expand-region-fast-keys-enabled nil))
 
+;; fix weird problem of expand-region in org-mode
+(define-advice er/add-org-mode-expansions (:after () yang)
+  ;; remove er/mark-paragraph and er/mark-text-paragraph
+  (setq-local er/try-expand-list
+              (-remove (lambda (func)
+                         (or (equal func #'er/mark-text-paragraph)
+                             (equal func #'er/mark-paragraph)))
+                       er/try-expand-list)))
+
 (after! hydra
   (defhydra yang/hydra-expand (:columns 5)
     "expand-region"
