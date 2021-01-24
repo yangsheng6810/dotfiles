@@ -1717,6 +1717,11 @@ and the entire buffer (in the absense of a region)."
   ;; (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)
   (add-to-list 'org-babel-load-languages '(latex . t))
 
+  ;; Prevent auto save by org-babel when org-crypt is in use
+  (define-advice org-decrypt-entry (:after () yang)
+    "Prevent org-babel-pre-tangle-hook from saving"
+    (remove-hook 'org-babel-pre-tangle-hook #'save-buffer t))
+
   (defun yang/org-wrap-span (beg end)
     (interactive "r")
     (let ((class-name (read-string "Enter the class for span (default emph): " nil nil "emph")))
