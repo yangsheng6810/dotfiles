@@ -4833,9 +4833,9 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
       "t" 'ledger-insert-effective-date)
     (general-def
       :keymaps 'ledger-reconcile-mode-map
-      :states 'normal
+      :states '(normal motion visual)
       "," nil ;'ledger-reconcile-toggle-posting
-      "TAB" 'ledger-reconcile-toggle
+      "<tab>" 'ledger-reconcile-toggle
       "a" 'ledger-reconcile-add
       "q" 'ledger-reconcile-quit
       "t" 'ledger-reconcile-change-target
