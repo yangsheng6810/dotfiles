@@ -97,10 +97,10 @@ bindsym $mod+Shift+d exec --no-startup-id "rofi -show-icons -modi combi -show co
 # exec --no-startup-id xrdb -emerge ~/.Xresources
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym $mod+h mark --replace prev-mark; focus left
+bindsym $mod+j mark --replace prev-mark; focus down
+bindsym $mod+k mark --replace prev-mark; focus up
+bindsym $mod+l mark --replace prev-mark; focus right
 # bindsym $mod+h exec --no-startup-id "$HOME/.local/bin/windowmove left >> /tmp/windmove.log 2>&1"
 # bindsym $mod+j exec --no-startup-id "$HOME/.local/bin/windowmove down >> /tmp/windmove.log 2>&1"
 # bindsym $mod+k exec --no-startup-id "$HOME/.local/bin/windowmove up >> /tmp/windmove.log 2>&1"
@@ -158,6 +158,7 @@ bindsym $mod+c focus child
 # mark current container for swapping
 bindsym $mod+bracketleft mark --replace swap-mark
 bindsym $mod+bracketright swap container with mark swap-mark
+bindsym $mod+i mark temp_mark, swap container with mark prev-mark, [con_mark="temp-mark"] mark --replace prev-mark, unmark "temp-mark"
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
