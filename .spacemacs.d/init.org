@@ -5138,6 +5138,17 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
     (while (re-search-forward "^#" nil t)
       (replace-match "-"))))
    #+end_src
+** Clean up Zhihu
+   #+begin_src emacs-lisp
+(defun yang/deurl-zhihu ()
+  "Deurl link.zhihu.com/?target=???."
+  (interactive)
+  (while (re-search-forward "\\[\\[http://link\\.zhihu\\.com/\\?target=\\([^]]*\\)" nil t)
+    (let* ((x (match-string 1)))
+      (save-match-data
+        (setq x (url-unhex-string x)))
+      (replace-match (concat "[[" x) t nil))))
+   #+end_src
 ** yasdcv
    #+begin_src emacs-lisp
 (use-package yasdcv
