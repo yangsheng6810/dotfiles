@@ -4913,9 +4913,16 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
                                    (when (telega-chat-bot-p telega-chatbuf--chat)
                                      '(telega-company-botcmd))))))
   :config
+  ;; make sticker larger to read
+  (setq telega-sticker-size '(10 . 24))
   (setq telega-completing-read-function 'ivy-completing-read)
-  (set-face-attribute 'telega-entity-type-pre nil :inherit 'fixed-pitch-serif)
+  (setq telega-animation-play-inline nil
+        telega-video-play-inline nil)
 
+  ;; ignore blocked user
+  (add-hook 'telega-msg-ignore-predicates 'telega-msg-from-blocked-sender-p)
+
+  ;; set layout
   (setq telega-inserter-for-chat-button 'telega-ins--chat-full-2lines)
   (setq telega-chat-button-width 20)
   (setq telega-root-fill-column (+ 10 telega-chat-button-width))
@@ -4924,10 +4931,14 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   (setq switch-to-buffer-preserve-window-point t)
   (setq telega-chat--display-buffer-action
         '((display-buffer-reuse-window display-buffer-use-some-window)))
+
+  ;; set facse
+  (set-face-attribute 'telega-entity-type-pre nil :inherit 'fixed-pitch-serif)
   (set-face-foreground 'telega-muted-count "deep sky blue")
   (set-face-attribute 'telega-entity-type-code nil :family 'unspecified :inherit 'fixed-pitch-serif)
   (set-face-attribute 'telega-entity-type-pre nil :family 'unspecified :inherit 'fixed-pitch-serif)
 
+  ;; enable hl-line mode for telega chat and telega root
   (defun yang/telega-root-setup ()
     (hl-line-mode))
   (defun yang/telega-chat-setup ()
@@ -4938,8 +4949,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   (defun yang/telega-chat-update (chat)
     (with-telega-root-buffer
       (hl-line-highlight)))
-  (add-hook 'telega-chat-update-hook #'yang/telega-chat-update)
-  )
+  (add-hook 'telega-chat-update-hook #'yang/telega-chat-update))
 #+END_SRC
 
 ** Ivy-telega
