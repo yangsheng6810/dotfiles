@@ -26,7 +26,6 @@
 (package! rainbow-delimiters)
 
 (package! org-pdfview)
-(package! org-journal)
 (package! org-ref)
 (package! general)
 (package! ace-pinyin)
