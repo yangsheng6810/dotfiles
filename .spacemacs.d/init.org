@@ -5051,6 +5051,21 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
         (message "new-string %s" new-string)
         (insert (format ":author: %s" new-string))))))
    #+end_src
+** Copy org-mode file to clipboard
+  Intuition from [[https://kitchingroup.cheme.cmu.edu/blog/2016/06/16/Copy-formatted-org-mode-text-from-Emacs-to-other-applications/][ref]]. Note =&>/dev/null= is needed since otherwise ~xclip~ will hold =stdout= and ~shell-command-on-region~ will not return. [[https://emacs.stackexchange.com/questions/39019/xclip-hangs-shell-command#comment61607_39023][ref]]
+  #+begin_src emacs-lisp
+(defun yang/formatted-copy ()
+  "Export region to HTML, and copy it to the clipboard."
+  (interactive)
+  (let* ((org-export-with-toc nil)
+         (buf (org-export-to-buffer 'html "*Formatted Copy*" nil nil t t)))
+    (with-current-buffer buf
+      (shell-command-on-region
+       (point-min)
+       (point-max)
+       "xclip -selection clipboard -t text/html &>/dev/null")
+      (kill-buffer))))
+  #+end_src
 ** Fix adaptive-wrap
    #+begin_src emacs-lisp
 (use-package adaptive-wrap
