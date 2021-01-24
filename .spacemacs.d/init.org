@@ -587,6 +587,8 @@ This is a wrapper around `eval-after-load' that:
 ;; for native comp
 (setq comp-deferred-compilation t
       comp-async-jobs-number 8)
+;; make which-key allow longer description
+(setq which-key-max-description-length 50)
   #+END_SRC
 
 ** COMMENT Purpose
