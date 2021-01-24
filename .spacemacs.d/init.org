@@ -1585,7 +1585,8 @@ and the entire buffer (in the absense of a region)."
 
       "M-H" 'move-beginning-of-line
       "M-L" 'move-end-of-line
-      "C-a" 'move-beginning-of-line
+      "C-a" (general-predicate-dispatch #'move-beginning-of-line
+              (equal major-mode 'vterm-mode) #'vterm-send-C-a)
       "C-e" 'move-end-of-line
 
       "M-J" 'evil-scroll-down
