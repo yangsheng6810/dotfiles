@@ -426,8 +426,9 @@ exec --no-startup-id i3-battery-popup
 
 # run startup script
 exec --no-startup-id $HOME/bin/fix_startup.sh
-# start KeePassXC
-exec --no-startup-id keepassxc
+# start KeePassXC, environmental variable set to overcome
+# https://github.com/keepassxreboot/keepassxc/issues/5961
+exec --no-startup-id QT_SCALE_FACTOR=1.01 keepassxc
 # auto tiling
 exec_always --no-startup-id autotiling
 
