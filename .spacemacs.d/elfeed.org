@@ -3,8 +3,8 @@
 *** [[http://cstheory-feed.org/atom.xml][CS Theory]]
 *** [[http://export.arxiv.org/api/query?search_query=cat:cs.DS&start=0&max_results=300&sortBy=submittedDate&sortOrder=descending][ArXiv Algorithms]]
 *** [[http://export.arxiv.org/api/query?search_query=cat:cs.CC&start=0&max_results=300&sortBy=submittedDate&sortOrder=descending][ArXiv Computation Complexity]]
-** Emacs
-*** [[https://planet.emacslife.com/atom.xml][Emacs Planet]] :emacs:
+** Emacs :emacs:
+*** [[https://planet.emacslife.com/atom.xml][Emacs Planet]]
 *** [[https://jherrlin.github.io/index.xml][jherrlin]]
 ** Friends
 *** [[https://bigeagle.me/index.xml][Big Eagle]]
