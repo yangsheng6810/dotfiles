@@ -565,6 +565,12 @@ This is a wrapper around `eval-after-load' that:
   (olivetti-body-width 80))
    #+end_src
 
+** Ediff
+   [[https://www.reddit.com/r/emacs/comments/l0huvz/how_do_you_solve_merge_conflicts/][ref]]
+   #+begin_src emacs-lisp
+(setq ediff-window-setup-function #'ediff-setup-windows-plain)
+   #+end_src
+
 * General
   #+BEGIN_SRC emacs-lisp
 (setq system-time-locale "zh_CN.utf-8"
