@@ -5216,11 +5216,15 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
 ** Save Firefox Session
    [[https://acidwords.com/posts/2019-12-04-handle-chromium-and-firefox-sessions-with-org-mode.html][original idea]], [[https://emacs-china.org/t/org-firefox/15100][src]]
    #+begin_src emacs-lisp
-(defun save-firefox-session ()
-  "Reads firefox current session and generate org-mode heading with items."
+(defun save-firefox-session (&optional path)
+  "Reads firefox current session and generate `org-mode' heading with items.
+
+If FILE is provided, use it instead of the one on the system."
   (interactive)
+  (unless path
+    (setq path "~/.mozilla/firefox/i49ukbsa.default-release/sessionstore-backups/recovery.jsonlz4"))
   (save-excursion
-    (let* ((path "~/.mozilla/firefox/i49ukbsa.default-release/sessionstore-backups/recovery.jsonlz4")
+    (let* (
            (cmd (concat "lz4jsoncat " path " | jq '[.windows[].tabs[] | .entries[-1] | {url, title} ]'"))
            (ret (shell-command-to-string cmd)))
       (insert
