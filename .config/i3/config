@@ -157,7 +157,7 @@ bindsym $mod+c focus child
 
 # mark current container for swapping
 bindsym $mod+bracketleft mark --add swap-mark
-bindsym $mod+bracketright swap container with mark swap-mark, unmark "swap-mark"
+bindsym $mod+bracketright mark --add swap-orig, swap container with mark swap-mark, unmark "swap-mark", [con_mark="swap-orig"] mark --add swap-mark, unmark "swap-orig"
 bindsym $mod+i mark --add temp_mark, swap container with mark prev-mark, [con_mark="temp-mark"] mark --replace prev-mark, unmark "temp-mark"
 
 # Define names for default workspaces for which we configure key bindings later on.
