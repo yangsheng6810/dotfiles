@@ -24,4 +24,6 @@
 [pull]
 	rebase = false
 [include]
+    path = .gitconfig_custom_diff
+[include]
     path = .gitconfig_custom
