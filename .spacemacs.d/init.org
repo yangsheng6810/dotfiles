@@ -717,18 +717,11 @@ and the entire buffer (in the absense of a region)."
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
-  (setq
-   initial-frame-alist                  ; initial window
-   '(
-     (width . 100)                      ; character
-     (height . 54)                      ; lines
-     )
+  (add-to-list 'initial-frame-alist '(width . 100))
+  (add-to-list 'initial-frame-alist '(height . 54))
+  (add-to-list 'default-frame-alist '(width . 100))
+  (add-to-list 'default-frame-alist '(height . 52)))
 
-   default-frame-alist                  ; default/sebsequent window
-   '(
-     (width . 100)                    ; character
-     (height . 52)                    ; lines
-     )))
     ;; use 24hr format
     (setq display-time-24hr-format t)
 
