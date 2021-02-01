@@ -434,3 +434,7 @@ exec --no-startup-id QT_SCALE_FACTOR=1.01 keepassxc
 exec_always --no-startup-id autotiling
 
 exec --no-startup-id /lib/xfce4/notifyd/xfce4-notifyd
+
+# KDE connect
+exec --no-startup-id /usr/lib/kdeconnectd
+exec --no-startup-id kdeconnect-indicator
