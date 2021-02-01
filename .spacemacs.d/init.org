@@ -2866,13 +2866,13 @@ For generating org-capture templates
       (substring yearfield (max 0 (- (length yearfield)
                                      bibtex-autokey-year-length)))))
   ;; Add citation number to papers in roam/bib library
-  (define-advice orb-pdf-scrapper--insert-org-as-list (:override (ref-alist) yang)
-    "Insert REF-ALIST as Org-mode list."
-    (dolist (ref ref-alist)
-      (insert "- " (let ((citation (assoc "citation-number" ref)))
-                     (when citation
-                       (concat "[" (cdr citation) "] ")))
-              (car ref) "\n" ))))
+  ;; (define-advice orb-pdf-scrapper--insert-org-as-list (:override (ref-alist) yang)
+  ;;   "Insert REF-ALIST as Org-mode list."
+  ;;   (dolist (ref ref-alist)
+  ;;     (insert "- " (let ((citation (assoc "citation-number" ref)))
+  ;;                    (when citation
+  ;;                      (concat "[" (cdr citation) "] ")))
+  ;;             (car ref) "\n" ))))
    #+end_src
 
 ** org-download
