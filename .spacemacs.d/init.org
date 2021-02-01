@@ -2785,6 +2785,13 @@ For generating org-capture templates
      (prefix-all-lines "#+HTML_HEAD_EXTRA: " body)
      "\n#+HTML_HEAD_EXTRA: \\)</div>\n")))
    #+end_src
+
+** org-fragtog
+   #+begin_src emacs-lisp
+(use-package org-fragtog
+  :defer t
+  :hook (org-roam-mode . org-fragtog-mode))
+   #+end_src
 ** org-roam-bibtex
    #+begin_src emacs-lisp
 (use-package org-roam-bibtex
