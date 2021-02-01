@@ -107,7 +107,7 @@
 (package! org-download)
 (package! iscroll
   :recipe (:type git
-           :repo "https://github.com/casouri/lunarymacs"
+           :repo "casouri/lunarymacs"
            :files ("site-lisp/iscroll.el")))
 
 ;; to use commit https://github.com/Wilfred/helpful/commit/584ecc887bb92133119f93a6716cdf7af0b51dca
