@@ -4,6 +4,15 @@
 ;;; -*- lexical-binding: t -*-
 ;; enable lexical binding
 (setq-default lexical-binding t)
+
+(define-advice define-obsolete-function-alias (:filter-args (ll)
+    fix-obsolete)
+      (let ((obsolete-name (pop ll))
+            (current-name (pop ll))
+            (when (if ll (pop ll) "1"))
+            (docstring (if ll (pop ll) nil)))
+        (list obsolete-name current-name when docstring)))
+
 ;; In spacemacs, IS-SPACEMACS is t. In doom, IS-DOOM is t
 (defconst IS-SPACEMACS (boundp 'dotspacemacs-directory) "Returns t if in spacemacs, nil otherwise")
 (defconst IS-DOOM (boundp 'doom-emacs-dir) "Returns t if in doom emacs, nil otherwise")
