@@ -3094,8 +3094,7 @@ Return the result as a string."
                 titlestring (substring titlestring (match-end 0)))
           ;; Ignore words matched by one of the elements of
           ;; `bibtex-autokey-titleword-ignore'.  Case is significant.
-          (unless (let (case-fold-search)
-		    (string-match ignore-re word))
+          (unless (string-match ignore-re word)
             (setq counter (1+ counter))
             (if (or (not (numberp bibtex-autokey-titlewords))
                     (<= counter bibtex-autokey-titlewords))
