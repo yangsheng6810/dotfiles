@@ -1695,7 +1695,8 @@ and the entire buffer (in the absense of a region)."
    org-src-window-setup 'current-window
    org-todo-keywords
    '((sequence "TODO(t)" "PUSHED(p@)" "NEXT(n)" "INACTIVE(i@/!)" "WAIT(w@/!)" "|" "DONE(d!)")
-     (sequence "|" "CANCLED(c@)"))
+     (sequence "|" "CANCLED(c@)")
+     (sequence "|" "ARCHIVE(a!)"))
    org-startup-truncated nil
    org-M-RET-may-split-line '((default))
    org-extend-today-until 3 ;; before 3 a.m. is still considered "today"
