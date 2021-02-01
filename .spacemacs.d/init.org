@@ -5286,7 +5286,7 @@ If FILE is provided, use it instead of the one on the system."
     (buffer-face-mode 0)))
    #+end_src
 
-* COMMENT Slack
+* Slack
 #+begin_src emacs-lisp
 (use-package slack
   :commands (slack-start)
