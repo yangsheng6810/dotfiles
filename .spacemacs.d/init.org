@@ -545,7 +545,8 @@ This is a wrapper around `eval-after-load' that:
      "Browse/search" :color blue)
     ("r" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue)
     ("C-g" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue)
-    ("ESC" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue))
+    ("ESC" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue)
+    ("<escape>" (lambda () (interactive) (er/expand-region 0)) "Reset" :color blue))
   (yang/with-doom
     (general-def
       :keymaps 'doom-leader-map
