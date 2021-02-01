@@ -4993,7 +4993,21 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   (defun yang/telega-chat-update (chat)
     (with-telega-root-buffer
       (hl-line-highlight)))
-  (add-hook 'telega-chat-update-hook #'yang/telega-chat-update))
+  (add-hook 'telega-chat-update-hook #'yang/telega-chat-update)
+
+  (defun yang/link-hint-open-link ()
+    (interactive)
+    (define-advice telega-chats-dirty--update (:override () yang)
+      ;; temporarily disable updates
+      )
+    (link-hint-open-link)
+    (advice-remove #'telega-chats-dirty--update #'telega-chats-dirty--update@yang))
+
+  (yang/set-leader-key "sl"
+                       (general-predicate-dispatch #'link-hint-open-link
+                         (or  (equal major-mode 'telega-chat-mode)
+                              (equal major-mode 'telega-root-mode))
+                         #'yang/link-hint-open-link)))
 #+END_SRC
 
 ** Ivy-telega
