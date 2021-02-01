@@ -750,85 +750,83 @@ and the entire buffer (in the absense of a region)."
   (add-to-list 'initial-frame-alist '(height . 54))
   (add-to-list 'default-frame-alist '(width . 100))
   (add-to-list 'default-frame-alist '(height . 52)))
+;; use 24hr format
+(setq display-time-24hr-format t)
 
-    ;; use 24hr format
-    (setq display-time-24hr-format t)
+(setq use-default-font-for-symbols nil)
 
-    (setq use-default-font-for-symbols nil)
+;; Colorize strings that represent colors.
+;; (add-hook 'prog-mode-hook 'rainbow-mode)
 
-    ;; Colorize strings that represent colors.
-    ;; (add-hook 'prog-mode-hook 'rainbow-mode)
+(unless (fboundp 'spacemacs/diminish-undo)
+  (defun spacemacs/diminish-undo (mode)
+    "Restore the diminished lighter."
+    (interactive
+     (list (read (completing-read
+                  "Restore what diminished mode: "
+                  (cons (list "diminished-modes")
+                        (mapcar (lambda (x) (list (symbol-name (car x))))
+                                diminished-mode-alist))
+                  nil t nil 'diminish-history-symbols))))
+    ;; remove the `mode' entry from spacemacs own list
+    (setq spacemacs--diminished-minor-modes
+          (delq nil (mapcar (lambda (x) (unless (eq (car x) mode) x))
+                            spacemacs--diminished-minor-modes)))
+    (diminish-undo mode)))
 
-    (unless (fboundp 'spacemacs/diminish-undo)
-      (defun spacemacs/diminish-undo (mode)
-        "Restore the diminished lighter."
-        (interactive
-         (list (read (completing-read
-                      "Restore what diminished mode: "
-                      (cons (list "diminished-modes")
-                            (mapcar (lambda (x) (list (symbol-name (car x))))
-                                    diminished-mode-alist))
-                      nil t nil 'diminish-history-symbols))))
-        ;; remove the `mode' entry from spacemacs own list
-        (setq spacemacs--diminished-minor-modes
-              (delq nil (mapcar (lambda (x) (unless (eq (car x) mode) x))
-                                spacemacs--diminished-minor-modes)))
-        (diminish-undo mode))
-      )
+;; hide common minor modes
+;; need to first remove mode from spacemacs--diminished-minor-modes
+;; (use-package diminish
+;;   :defer t
+;;   :after (core-fonts-support which-key)
+;;   :init (spacemacs/diminish-undo 'which-key-mode)
+;;   :diminish which-key-mode)
 
-    ;; hide common minor modes
-    ;; need to first remove mode from spacemacs--diminished-minor-modes
-    ;; (use-package diminish
-    ;;   :defer t
-    ;;   :after (core-fonts-support which-key)
-    ;;   :init (spacemacs/diminish-undo 'which-key-mode)
-    ;;   :diminish which-key-mode)
+(yang/with-spacemacs
+  (use-package which-key
+    :after (core-fonts-support)
+    :config (spacemacs/diminish-undo 'which-key-mode)
+    :diminish which-key-mode)
 
-    (yang/with-spacemacs
-     (use-package which-key
-       :after (core-fonts-support)
-       :config (spacemacs/diminish-undo 'which-key-mode)
-       :diminish which-key-mode)
+  (use-package smartparens
+    :after (core-fonts-support)
+    :config (spacemacs/diminish-undo 'smartparens-mode)
+    :diminish smartparens-mode)
 
-     (use-package smartparens
-       :after (core-fonts-support)
-       :config (spacemacs/diminish-undo 'smartparens-mode)
-       :diminish smartparens-mode)
+  (use-package company
+    :after (core-fonts-support)
+    :config (spacemacs/diminish-undo 'company-mode)
+    :diminish company-mode)
 
-     (use-package company
-       :after (core-fonts-support)
-       :config (spacemacs/diminish-undo 'company-mode)
-       :diminish company-mode)
+  (use-package importmagic
+    :after (core-fonts-support)
+    :config (spacemacs/diminish-undo 'importmagic-mode)
+    :diminish importmagic-mode)
 
-     (use-package importmagic
-       :after (core-fonts-support)
-       :config (spacemacs/diminish-undo 'importmagic-mode)
-       :diminish importmagic-mode)
+  (use-package beacon
+    :defer t
+    :diminish beacon-mode
+    :config
+    (defun beacon--visual-current-column ()
+      "Get the visual column we are at, takes long lines and visual line mode into account."
+      (save-excursion
+        (let ((current (point)))
+          (beginning-of-visual-line)
+          (- current (point)))))
 
-     (use-package beacon
-       :defer t
-       :diminish beacon-mode
-       :config
-       (defun beacon--visual-current-column ()
-         "Get the visual column we are at, takes long lines and visual line mode into account."
-         (save-excursion
-           (let ((current (point)))
-             (beginning-of-visual-line)
-             (- current (point)))))
+    (define-advice beacon--after-string-overlay (:override (colors))
+      ;; The after-string must not be longer than the remaining columns
+      ;; from point to right window-end else it will be wrapped around.
+      (let ((colors (seq-take colors (- (window-width) (beacon--visual-current-column) 1))))
+        (beacon--ov-put-after-string (beacon--make-overlay 0) colors))))
 
-       (define-advice beacon--after-string-overlay (:override (colors))
-         ;; The after-string must not be longer than the remaining columns
-         ;; from point to right window-end else it will be wrapped around.
-         (let ((colors (seq-take colors (- (window-width) (beacon--visual-current-column) 1))))
-           (beacon--ov-put-after-string (beacon--make-overlay 0) colors))))
+  (beacon-mode 1))
 
-     (beacon-mode 1))
+(after! face-remap
+  (diminish 'buffer-face-mode))
 
-    (after! face-remap
-      (diminish 'buffer-face-mode))
-
-    (after! spaceline
-      (spaceline-toggle-buffer-encoding-abbrev-off))
+(after! spaceline
+  (spaceline-toggle-buffer-encoding-abbrev-off))
   #+END_SRC
 
 ** varable-pitch-mode
