@@ -222,6 +222,24 @@ This is a wrapper around `eval-after-load' that:
      ;;   :init (setq flyspell-lazy-extra-lazy t)
      ;;   :config (flyspell-lazy-mode 1))
    #+end_src
+** flycheck
+   #+begin_src emacs-lisp
+(setq flycheck-global-modes
+      '(not elfeed-show-mode elfeed-search-mode
+            vterm-mode
+            telega-chat-mode telega-root-mode))
+   #+end_src
+** company
+   #+begin_src emacs-lisp
+(use-package company
+  :defer t
+  :config
+  (when (equal 'not (car company-global-modes))
+    (setq company-global-modes '(not)))
+  (after! dash
+    (setq company-global-modes (-insert-at 1 'vterm-mode company-global-modes))))
+
+   #+end_src
 
 ** Search
    #+begin_src emacs-lisp
