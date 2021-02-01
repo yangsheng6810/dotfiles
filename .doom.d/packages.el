@@ -99,6 +99,8 @@
 
 ;; When using org-roam via the `+roam` flag
 (unpin! org-roam company-org-roam)
+;; org-journal in doom suffers obsolete function problem
+(unpin! org-journal)
 
 ;; When using bibtex-completion via the `biblio` module
 (unpin! bibtex-completion helm-bibtex ivy-bibtex)
