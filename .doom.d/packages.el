@@ -142,3 +142,8 @@
 (package! cheat-sh)
 (package! org-mru-clock)
 (package! crux)
+;; auto toggle org-latex preview when cursor is on
+(package! org-fragtog)
+;; horizontal scroll
+(package! phscroll
+  :recipe (:host github :repo "misohena/phscroll"))
