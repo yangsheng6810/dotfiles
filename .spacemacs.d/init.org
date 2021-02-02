@@ -3904,6 +3904,15 @@ Return the result as a string."
       (if (buffer-file-name)
           (call-process-shell-command (concat "xdg-open " (prin1-to-string (buffer-file-name))) nil 0 nil)
         (message "No file available")))
+
+(when (or (equal (system-name) "Desktop")
+          (equal (system-name) "Carbon"))
+  (define-advice pdf-tools-install (:filter-args
+                                    (&optional no-query-p skip-dependencies-p
+                                               no-error-p force-dependencies-p) yang)
+    "Do not check if system dependencies installed"
+    (list no-query-p t no-error-p force-dependencies-p)))
+
     ;; copied from http://pragmaticemacs.com/emacs/even-more-pdf-tools-tweaks/
     (use-package pdf-tools
       :defer t
