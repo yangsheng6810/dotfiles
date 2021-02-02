@@ -1865,6 +1865,11 @@ and the entire buffer (in the absense of a region)."
   (setq org-journal-dir "~/Documents/org/journal/"
         org-journal-file-format "%Y-%m-%d"
         org-journal-date-format "%Y 年 %m 月 %d 日 %A")
+  (yang/set-leader-key "bj" 'yang/switch-to-journal-today)
+  (yang/set-leader-key "bJ" 'org-journal-new-entry)
+  :commands (org-journal-find-location
+              org-journal-new-entry
+              yang/switch-to-journal-today)
   :config
   ;; fix bug in outline that conflicts with valign
   (define-advice outline-show-entry (:override nil)
@@ -1900,10 +1905,8 @@ how the heading too, if it is currently invisible."
     (org-journal-new-entry t))
 
   ;; make sure the file is saved
-  (add-hook 'org-journal-after-entry-create-hook #'save-buffer)
+  (add-hook 'org-journal-after-entry-create-hook #'save-buffer))
 
-  (yang/set-leader-key "bj" 'yang/switch-to-journal-today)
-  (yang/set-leader-key "bJ" 'org-journal-new-entry))
    #+END_SRC
 
 ** org-agenda
