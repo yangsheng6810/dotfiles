@@ -1829,7 +1829,7 @@ and the entire buffer (in the absense of a region)."
 
 ** org-gcal
    #+BEGIN_SRC emacs-lisp
-     (when (string= system-name "carbon")
+     (when (string= (system-name) "carbon")
        (use-package org-gcal
          :defer t
          :init
