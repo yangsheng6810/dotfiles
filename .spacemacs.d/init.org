@@ -3940,8 +3940,8 @@ Return the result as a string."
            (popup-is-open)))
       (add-hook 'pdf-view-mode-hook #'pdf-links-minor-mode)
       (add-hook 'pdf-view-mode-hook #'pdf-sync-minor-mode)
-      (add-hook 'pdf-view-mode-hook #'pdf-annot-minor-mode)
-      (add-hook 'pdf-view-mode-hook #'pdf-misc-context-menu-minor-mode)
+      ;; (add-hook 'pdf-view-mode-hook #'pdf-annot-minor-mode)
+      ;; (add-hook 'pdf-view-mode-hook #'pdf-misc-context-menu-minor-mode)
       (yang/with-doom
         (general-def
           :keymaps 'pdf-view-mode-map
