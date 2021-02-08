@@ -5051,7 +5051,11 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
                        (general-predicate-dispatch #'link-hint-open-link
                          (or  (equal major-mode 'telega-chat-mode)
                               (equal major-mode 'telega-root-mode))
-                         #'yang/link-hint-open-link)))
+                         #'yang/link-hint-open-link))
+
+  ;; syntax highlighting in telega code
+  (require 'telega-mnz)
+  (global-telega-mnz-mode 1))
 #+END_SRC
 
 ** Ivy-telega
