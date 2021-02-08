@@ -743,6 +743,12 @@ and the entire buffer (in the absense of a region)."
 (add-hook 'profiler-report-mode-hook #'hl-line-mode)
    #+end_src
 
+** Shr
+   #+begin_src emacs-lisp
+;; To avoid possible lag/freeze
+(setq shr-image-animate nil)
+   #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
