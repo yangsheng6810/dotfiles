@@ -4413,8 +4413,9 @@ Return the result as a string."
   (setq-default elfeed-search-filter "@2-weeks-ago +unread -news")
   :config
   (elfeed-org)
-  ;; do update every 1 hours
-  (run-at-time nil (* 1 60 60) #'elfeed-update)
+  ;; do update every 1 hours. Assign it to a variable so we can cancel it later
+  (setq yang/elfeed-update-timer
+        (run-at-time nil (* 1 60 60) #'elfeed-update))
   (setq elfeed-search-filter "@2-weeks-ago +unread -news")
 
   (defun yang/elfeed-set-face ()
