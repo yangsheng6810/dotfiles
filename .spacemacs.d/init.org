@@ -3929,7 +3929,7 @@ Return the result as a string."
 
       (setq-default pdf-view-display-size 'fit-page)
       ;; automatically annotate highlights
-      (setq pdf-annot-activate-created-annotations t)
+      (setq pdf-annot-activate-created-annotations nil)
       ;; more fine-grained zooming
       (setq pdf-view-resize-factor 1.1)
       ;; set default annotation color
