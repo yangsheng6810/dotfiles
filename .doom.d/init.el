@@ -162,9 +162,9 @@
        ;;ocaml             ; an objective camel
        (org                             ; organize your plain life in plain text
         +hugo
-        +ipython
+        ;; +ipython
         +journal
-        +noter
+        ;; +noter
         +pandoc
         +present
         ;; +pretty ; commented out because of performance issue
