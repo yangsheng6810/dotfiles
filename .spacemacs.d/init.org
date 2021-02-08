@@ -741,6 +741,12 @@ and the entire buffer (in the absense of a region)."
 ** Profiler
    #+begin_src emacs-lisp
 (add-hook 'profiler-report-mode-hook #'hl-line-mode)
+(after! profiler
+  (setq profiler-report-cpu-line-format
+        '((17 right ((12 right)
+	             (5 right)))
+          (1 left "%s")
+          (0 left)) ))
    #+end_src
 
 ** Shr
