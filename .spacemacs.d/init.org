@@ -4590,7 +4590,8 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   :after (org)
   :config
   ;; (message "org-directory is %s" org-directory)
-  (setq rmh-elfeed-org-files (list "~/.spacemacs.d/elfeed.org")))
+  (setq rmh-elfeed-org-files (list "~/.spacemacs.d/elfeed.org"))
+  (rmh-elfeed-org-process rmh-elfeed-org-files rmh-elfeed-org-tree-id))
   #+END_SRC
 
 * Tramp
