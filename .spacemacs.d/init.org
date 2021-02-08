@@ -5182,13 +5182,15 @@ SHOW-ALL, show all chats."
   "Export region to HTML, and copy it to the clipboard."
   (interactive)
   (let* ((org-export-with-toc nil)
+         (org-export-show-temporary-export-buffer nil)
          (buf (org-export-to-buffer 'html "*Formatted Copy*" nil nil t t)))
-    (with-current-buffer buf
-      (shell-command-on-region
-       (point-min)
-       (point-max)
-       "xclip -selection clipboard -t text/html &>/dev/null")
-      (kill-buffer))))
+    (save-excursion
+      (with-current-buffer buf
+        (shell-command-on-region
+         (point-min)
+         (point-max)
+         "xclip -selection clipboard -t text/html &>/dev/null")
+        (kill-buffer)))))
   #+end_src
 ** Fix adaptive-wrap
    #+begin_src emacs-lisp
