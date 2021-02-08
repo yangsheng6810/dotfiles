@@ -2743,7 +2743,8 @@ For generating org-capture templates
            :head "#+title: ${title}\n#+roam_key: ${ref}\n[[${ref}][${title}]]\n"
            :unnarrowed t))
         org-roam-capture-templates
-        '(("d" "default" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n#+roam_tags:" :unnarrowed t))))
+        '(("d" "default" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n#+roam_tags:" :unnarrowed t))
+        org-roam-db-update-method 'immediate))
 #+END_SRC
 
 ** org-latex-instant-preview
