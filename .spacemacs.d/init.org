@@ -5004,6 +5004,8 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   (setq telega-completing-read-function 'ivy-completing-read)
   (setq telega-animation-play-inline nil
         telega-video-play-inline nil)
+  ;; change reply symbol
+  (setq telega-symbol-reply "↫")
 
   ;; ignore blocked user
   (add-hook 'telega-msg-ignore-predicates 'telega-msg-from-blocked-sender-p)
