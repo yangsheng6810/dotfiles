@@ -3881,7 +3881,8 @@ Return the result as a string."
   (use-package vterm
     :defer t
     :init
-    (setq vterm-term-environment-variable "eterm-color")
+    (setq vterm-term-environment-variable "eterm-color"
+          vterm-min-window-width 180)
     :custom (vterm-shell "/usr/bin/zsh"))
 #+end_src
 
