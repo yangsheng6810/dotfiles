@@ -1748,11 +1748,24 @@ and the entire buffer (in the absense of a region)."
    org-log-into-drawer t
    ;; encrypt/decrypt with my key
    org-crypt-key "ECCD533E14EE93B0B419B26D9A6550BD2C9A101A"
-   ;; use speed keys
-   org-use-speed-commands t
+   ;; use speed keys, disabled since it conflicts evil-mc
+   ;; org-use-speed-commands t
    )
 
   (plist-put org-format-latex-options :scale 1.66)
+
+  ;; evil-mc seems to conflict with org speed keys
+  (when org-use-speed-commands
+    (defvar yang/org-use-speed-commands-save nil)
+    (defun yang/evil-mc-before-cursors-func ()
+      (setq yang/org-use-speed-commands-save org-use-speed-commands)
+      (setq org-use-speed-commands nil))
+
+    (defun yang/evil-mc-after-cursors-func ()
+      (setq org-use-speed-commands yang/org-use-speed-commands-save))
+
+    (add-hook 'evil-mc-before-cursors-created #'yang/evil-mc-before-cursors-func)
+    (add-hook 'evil-mc-after-cursors-created #'yang/evil-mc-after-cursors-func))
 
   (defun yang/org-mode-setup ()
     ;; (yang/with-doom
