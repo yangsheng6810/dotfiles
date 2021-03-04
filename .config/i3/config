@@ -282,7 +282,7 @@ mode "$mode_resize" {
 bindsym $mod+r mode "$mode_resize"
 
 
-set $mode_exec (h)top, (v)im, (t)mux, (e)macs, (n)autilus, (d)olphin, (s) flameshot
+set $mode_exec (h)top, (v)im, (t)mux, (e)macs, (n)autilus, (d)olphin, (s) flameshot, (r) emacs-everywhere
 mode "$mode_exec" {
      bindsym h exec $term -e "htop", mode "default"
      bindsym v exec $term -e "vim", mode "default"
@@ -291,6 +291,7 @@ mode "$mode_exec" {
      bindsym n exec nautilus, mode "default"
      bindsym d exec dolphin, mode "default"
      bindsym s exec flameshot gui, mode "default"
+     bindsym r exec emacsclient --eval "(emacs-everywhere)", mode "default"
      # back to normal: Enter or Escape
      bindsym Return mode "default"
      bindsym Escape mode "default"
@@ -382,6 +383,7 @@ for_window [class="Yubico Authenticator"] floating enable
 for_window [class="flameshot"] floating enable
 for_window [class="Kazam"] floating enable
 for_window [class="ffplay"] floating enable
+for_window [class="Emacs" title="Everywhere"] floating enable
 
 # zoom
 for_window [class="zoom"] move container to workspace $ws8
