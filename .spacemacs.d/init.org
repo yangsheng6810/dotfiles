@@ -616,6 +616,15 @@ This is a wrapper around `eval-after-load' that:
 (setq ediff-window-setup-function #'ediff-setup-windows-plain)
    #+end_src
 
+** Multiple-cursors
+   #+begin_src emacs-lisp
+;; fix M-D keybinding conflict
+(after! iedit-lib
+  (general-def
+    :keymaps 'iedit-occurrence-keymap
+    "M-D" nil))
+   #+end_src
+
 * General
   #+BEGIN_SRC emacs-lisp
 (setq system-time-locale "zh_CN.utf-8"
