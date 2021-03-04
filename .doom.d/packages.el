@@ -48,7 +48,7 @@
 (package! ox-hugo)
 (package! org-gcal)
 (package! telega)
-(package! slack)
+;; (package! slack)
 (package! popwin)
 (package! org-noter)
 (package! recursive-narrow)
@@ -150,3 +150,5 @@
 (package! phscroll
   :recipe (:host github :repo "misohena/phscroll"))
 (package! org-autolist)
+;; realgud takes forever to build
+(package! realgud :disable t)
