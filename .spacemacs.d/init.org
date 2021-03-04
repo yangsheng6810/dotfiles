@@ -1338,6 +1338,14 @@ and the entire buffer (in the absense of a region)."
    (:inherit fixed-pitch
     :family ,serif-mono-font
     :foreground ,keyword))
+  (org-latex-and-related
+   (:inherit font-lock-builtin-face)
+   (:inherit fixed-pitch
+    :family ,serif-mono-font
+    :foreground ,keyword)
+   (:inherit fixed-pitch
+    :family ,serif-mono-font
+    :foreground ,keyword))
   (org-code
    (:inherit font-lock-builtin-face)
    (:inherit fixed-pitch
@@ -1760,7 +1768,9 @@ and the entire buffer (in the absense of a region)."
     ;; empty heading. I use empty heading for ox-reveal
     (doom-disable-delete-trailing-whitespace-h)
     (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-table nil :inherit 'fixed-pitch))
+    (set-face-attribute 'org-latex-and-related nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+    )
 
   (add-hook 'org-mode-hook #'yang/org-mode-setup)
       ;;; currently still not mature enough
