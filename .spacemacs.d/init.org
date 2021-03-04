@@ -1801,6 +1801,37 @@ and the entire buffer (in the absense of a region)."
     "Prevent org-babel-pre-tangle-hook from saving"
     (remove-hook 'org-babel-pre-tangle-hook #'save-buffer t))
 
+  ;; Use `indent-for-tab-command' in `org-mode' for TAB
+  (define-advice +org-indent-maybe-h (:override () yang)
+    "Indent the current item (header or item), if possible.
+Made for `org-tab-first-hook' in evil-mode."
+    (interactive)
+    (cond ((not (and (bound-and-true-p evil-local-mode)
+                     (or (evil-insert-state-p)
+                         (evil-emacs-state-p))))
+           nil)
+          ((org-at-item-p)
+           (if (eq this-command 'org-shifttab)
+               (org-outdent-item-tree)
+             (org-indent-item-tree))
+           t)
+          ((org-at-heading-p)
+           (ignore-errors
+             (if (eq this-command 'org-shifttab)
+                 (org-promote)
+               (org-demote)))
+           t)
+          ((org-in-src-block-p t)
+           (org-babel-do-in-edit-buffer
+            (call-interactively #'indent-for-tab-command))
+           t)
+          ((and (save-excursion
+                  (skip-chars-backward " \t")
+                  (bolp))
+                (org-in-subtree-not-table-p))
+           (call-interactively #'indent-for-tab-command)
+           t)))
+
   (defun yang/org-wrap-span (beg end)
     (interactive "r")
     (let ((class-name (read-string "Enter the class for span (default emph): " nil nil "emph")))
