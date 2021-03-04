@@ -229,6 +229,16 @@ This is a wrapper around `eval-after-load' that:
      ;;   :init (setq flyspell-lazy-extra-lazy t)
      ;;   :config (flyspell-lazy-mode 1))
    #+end_src
+** Spell-fu
+   #+begin_src emacs-lisp
+(use-package spell-fu
+  :defer t
+  :config
+  ;; revert dooms override of RET when there is "spell error"
+  (map! :after spell-fu
+        :map override
+        :n [return] nil))
+   #+end_src
 ** flycheck
    #+begin_src emacs-lisp
 (setq flycheck-global-modes
