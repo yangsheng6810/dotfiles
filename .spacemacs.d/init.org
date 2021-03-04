@@ -5224,6 +5224,7 @@ SHOW-ALL, show all chats."
   "Export region to HTML, and copy it to the clipboard."
   (interactive)
   (let* ((org-export-with-toc nil)
+         (org-export-with-section-numbers nil)
          (org-export-show-temporary-export-buffer nil)
          (buf (org-export-to-buffer 'html "*Formatted Copy*" nil nil t t)))
     (save-excursion
