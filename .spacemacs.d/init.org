@@ -4252,13 +4252,49 @@ Return the result as a string."
   (add-to-list 'delete-frame-functions #'yang-check-last-client-frame))
    #+END_SRC
 
-** Valign
+** Valign & Ftable
    #+BEGIN_SRC emacs-lisp
 (use-package valign
   :defer t
   :commands (valign-table valign-mode)
   :hook (org-mode . valign-mode))
    #+END_SRC
+
+   #+begin_src emacs-lisp
+(use-package ftable
+  :defer t
+  :commands (ftable-copy-cell ftable-fill)
+  :config
+  (defun ftable-copy-cell ()
+    "Copy the cell at point."
+    (interactive)
+    (pcase-let* ((pt (point))
+                 (p-column (- (point) (line-beginning-position)))
+                 (`(,text ,beg ,end ,cell-p,tablep ,charset)
+                  (ftable--table-info))
+                 (x -1)
+                 ;; If these two characters are the same, we will count
+                 ;; one extra.
+                 (y (if (equal (ftable-box-char 3 charset)
+                               (ftable-box-char 6 charset))
+                        -1 0)))
+      (if (not tablep)
+          (user-error "There is no table at point")
+        (save-excursion
+          (goto-char beg)
+          ;; Parse out the coordinate of the cell at point.
+          (while (search-forward
+                  (format "%s\n" (ftable-box-char 6 charset))
+                  pt t)
+            (cl-incf y))
+          (while (search-forward
+                  (ftable-box-char 'v charset)
+                  (+ (line-beginning-position) p-column) t)
+            (cl-incf x)))
+        (let* ((table (ftable--parse-to 'ftable text charset))
+               (cell (nth x (nth y (ftable-matrix table)))))
+          (kill-new cell))))))
+   #+end_src
 
 ** ace-pinyin
    #+BEGIN_SRC emacs-lisp
