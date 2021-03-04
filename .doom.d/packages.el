@@ -149,3 +149,4 @@
 ;; horizontal scroll
 (package! phscroll
   :recipe (:host github :repo "misohena/phscroll"))
+(package! org-autolist)

@@ -1783,6 +1783,9 @@ and the entire buffer (in the absense of a region)."
     (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
     (set-face-attribute 'org-latex-and-related nil :inherit 'fixed-pitch)
     (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+
+    (when (fboundp #'org-autolist-mode)
+      (org-autolist-mode))
     )
 
   (add-hook 'org-mode-hook #'yang/org-mode-setup)
