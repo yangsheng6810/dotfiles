@@ -149,6 +149,9 @@
 ;; horizontal scroll
 (package! phscroll
   :recipe (:host github :repo "misohena/phscroll"))
+(package! emms)
+(package! helm-emms)
+(package! ivy-emms)
 (package! org-autolist)
 ;; realgud takes forever to build
 (package! realgud :disable t)
