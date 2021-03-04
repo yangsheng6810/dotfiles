@@ -4625,6 +4625,32 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
       (elfeed-search-update-entry entry)
       (unless elfeed-search-remain-on-entry (forward-line))
       (elfeed-show-entry entry)))
+
+  ;; activate `elfeed-ref-cache'
+  (defun elfeed-deref (ref)
+    "Fetch the content behind the reference, or nil if non-existent."
+    (elfeed-ref-archive-ensure)
+    (if (not (elfeed-ref-p ref))
+        ref
+      (let ((index (and (hash-table-p elfeed-ref-archive)
+                        (gethash (elfeed-ref-id ref) elfeed-ref-archive)))
+            (archive-file (elfeed-ref-archive-filename ".gz"))
+            (coding-system-for-read 'utf-8))
+        (if (and index (file-exists-p archive-file))
+            (progn
+              (when (null elfeed-ref-cache)
+                (with-temp-buffer
+                  (insert-file-contents archive-file)
+                  (setf elfeed-ref-cache (buffer-string)))
+                ;; Clear cache on next turn.
+                ;; (run-at-time 0 nil (lambda () (setf elfeed-ref-cache nil)))
+                )
+              (substring elfeed-ref-cache (car index) (cdr index)))
+          (let ((file (elfeed-ref--file ref)))
+            (when (file-exists-p file)
+              (with-temp-buffer
+                (insert-file-contents file)
+                (buffer-string))))))))
   )
 
 (use-package elfeed-org
