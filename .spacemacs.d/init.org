@@ -3411,6 +3411,25 @@ Return the result as a string."
 
   #+END_SRC
 
+** counsel-locate
+   #+begin_src emacs-lisp
+(use-package counsel
+  :defer t
+  :config
+  (defun yang/counsel-locate-cmd-default (input)
+    "Return a `plocate/locate' shell command based on regexp INPUT."
+    (let (locate-cmd)
+      (cond ((executable-find "plocate") (setq locate-cmd "plocate"))
+            ((executable-find "locate") (setq locate-cmd "locate"))
+            (t (user-error "Unable to find program for locate")))
+      (format "%s -i --regex %s"
+              locate-cmd
+              (shell-quote-argument
+               (counsel--elisp-to-pcre
+                (ivy--regex input))))))
+  (setq counsel-locate-cmd #'yang/counsel-locate-cmd-default))
+   #+end_src
+
 * buffer-management
   #+BEGIN_SRC emacs-lisp
     (use-package ivy-rich
