@@ -165,6 +165,13 @@ This is a wrapper around `eval-after-load' that:
   "Pop mark ring."
   (interactive)
   (set-mark-command t))
+
+;; Do not sort marks in the mark-ring. Original behavior is with sort function
+;; `ivy-string<'
+(use-package ivy
+  :defer t
+  :config
+  (add-to-list 'ivy-sort-functions-alist '(counsel-mark-ring . (ignore ivy-string<))))
    #+end_src
 
 ** iscroll
