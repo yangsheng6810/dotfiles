@@ -4328,7 +4328,59 @@ Return the result as a string."
   :defer t
   :commands (pinyinlib-build-regexp-string))
 
+(use-package pyim
+  :defer t
+  :commands (pyim-cregexp-build))
+
 (after! ivy
+
+  (defun ivy--cregex-plus (str)
+    "Build ivy regex that takes pinyin into consideration"
+    (let ((x (ivy--regex-plus str))
+          (case-fold-search nil))
+      (if (listp x)
+          (mapcar (lambda (y)
+                    (cons (pyim-cregexp-build (car y))
+                          (cdr y)))
+                  x)
+        (if (string= "" x) x (pyim-cregexp-build x)))))
+
+  (defun ivy--cregex-ignore-order (str)
+    "Build ivy unordered regex that takes pinyin into consideration"
+    (let ((x (ivy--regex-ignore-order str))
+          (case-fold-search nil))
+      (if (listp x)
+          (mapcar (lambda (y)
+                    (cons (pyim-cregexp-build (car y))
+                          (cdr y)))
+                  x)
+        (if (string= "" x) x (pyim-cregexp-build x)))))
+
+  (defun ivy--regex-ignore-order-pinyin (str)
+    "Starting ! will make the whole thing consider pinyin"
+    (setq str (ivy--trim-trailing-re str))
+    (let* ((use-pinyin (and (> (length str) 0)
+                            (equal (substring str 0 1) "!")))
+           regex-parts
+           (cleaned-str (if use-pinyin
+                            (substring str 1)
+                          str))
+           (raw-parts (ivy--split-negation cleaned-str)))
+      (dolist (part (ivy--split-spaces (car raw-parts)))
+        (push (cons
+               (if use-pinyin
+                   (pinyinlib-build-regexp-string part t)
+                 part)
+               t) regex-parts))
+      (when (cdr raw-parts)
+        (dolist (part (ivy--split-spaces (cadr raw-parts)))
+          (push (cons
+                 (if use-pinyin
+                     (pinyinlib-build-regexp-string part t)
+                   part) nil) regex-parts)))
+      (if regex-parts (nreverse regex-parts)
+        "")))
+
   (defun re-builder-pinyin (str)
     (or (pinyin-to-utf8 str)
         (ivy--regex-plus str)
