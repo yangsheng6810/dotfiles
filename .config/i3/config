@@ -346,12 +346,14 @@ bindsym XF86MonBrightnessDown exec ~/bin/change_lightness.py dec # increase scre
 # Touchpad controls
 # bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
 
+set $playerctl ~/bin/my_playerctl.sh
+
 # Media player controls
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioPause exec playerctl pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-bindsym Control+Print exec playerctl play-pause
+bindsym XF86AudioPlay  exec $playerctl play-pause
+bindsym XF86AudioPause exec $playerctl pause
+bindsym XF86AudioNext  exec $playerctl next
+bindsym XF86AudioPrev  exec $playerctl previous
+bindsym Control+Print  exec $playerctl play-pause
 
 # For KDE
 # we use wmctrl to kill the Plasma desktop view:
