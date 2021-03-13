@@ -4360,8 +4360,9 @@ Return the result as a string."
   :defer t
   :commands (pyim-cregexp-build))
 
-(after! ivy
-
+(use-package ivy
+  :defer t
+  :config
   (defun ivy--cregex-plus (str)
     "Build ivy regex that takes pinyin into consideration"
     (let ((x (ivy--regex-plus str))
