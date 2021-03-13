@@ -2918,6 +2918,7 @@ For generating org-capture templates
         orb-autokey-titlewords-ignore '("A" "An" "On" "The" "Eine?" "Der" "Die" "Das" "a" "an" "on" "the" ".*[^[:upper:][:lower:]0-9].*")
         ;; include cite-number in scraper export
         orb-pdf-scrapper-table-export-fields '("#" "citekey" "author" "title" "journal" "date")
+        orb-pdf-scrapper-list-style "- [%s] "
         ;; set default template
         orb-templates
         '(("r" "ref" plain #'org-roam-capture--get-point
