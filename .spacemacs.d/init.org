@@ -916,7 +916,15 @@ and the entire buffer (in the absense of a region)."
   (set-fontset-font "fontset-fixed" 'latin "Sarasa Mono SC" nil 'prepend)
   (set-fontset-font "fontset-fixed" 'unicode "Sarasa Mono SC" nil 'prepend)
   (set-fontset-font "fontset-fixed" 'unicode "Symbola" nil 'append)
-  (set-fontset-font "fontset-fixed" 'symbol "Symbola" nil 'append))
+  (set-fontset-font "fontset-fixed" 'symbol "Symbola" nil 'append)
+
+  (create-fontset-from-ascii-font "-*-Libre Baskerville-normal-normal-normal-*" nil "variable")
+  ;; (create-fontset-from-ascii-font "-*-EtBembo-normal-normal-normal-*" nil "variable")
+  ;; (set-fontset-font "fontset-variable" 'ascii "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
+  ;; (set-fontset-font "fontset-variable" 'han "-*-Noto Serif-normal-normal-normal-*" nil 'prepend)
+  (set-fontset-font "fontset-variable" 'unicode "方正屏显雅宋_GBK" nil 'prepend)
+  (set-face-attribute 'variable-pitch nil :fontset "fontset-variable")
+  )
 
 
 (after! unicode-fonts
