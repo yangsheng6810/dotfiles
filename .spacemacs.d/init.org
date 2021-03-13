@@ -619,7 +619,9 @@ This is a wrapper around `eval-after-load' that:
 ** Multiple-cursors
    #+begin_src emacs-lisp
 ;; fix M-D keybinding conflict
-(after! iedit-lib
+(use-package evil-multiedit
+  :defer t
+  :config
   (general-def
     :keymaps 'iedit-occurrence-keymap
     "M-D" nil))
