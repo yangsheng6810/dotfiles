@@ -4844,12 +4844,29 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   #+BEGIN_SRC emacs-lisp
 (use-package tramp
   :defer t
+  :init
+  ;; From official FAQ
+  ;; I only care about git
+  (setq vc-handled-backends '(Git))
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
   (setq tramp-use-ssh-controlmaster-options
         "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=yes"
         tramp-default-method "scp"
-        remote-file-name-inhibit-cache 120))
+        ;; official cite suggest nil though
+        remote-file-name-inhibit-cache 120
+        ;; disable version on remote
+        vc-ignore-dir-regexp (format "\\(%s\\)\\|\\(%s\\)"
+                                     vc-ignore-dir-regexp
+                                     tramp-file-name-regexp)))
+
+;; kind of disable projectile when in TRAMP
+(use-package projectile
+  :defer t
+  :config
+  (define-advice projectile-project-root (:around (func &optional DIR) yang)
+    (unless (file-remote-p default-directory)
+      (funcall func DIR))))
   #+END_SRC
 
 ** Temp fix
