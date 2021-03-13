@@ -625,6 +625,13 @@ This is a wrapper around `eval-after-load' that:
     "M-D" nil))
    #+end_src
 
+** Ace-jump-zap-to-char
+   #+begin_src emacs-lisp
+(use-package ace-jump-zap-to-char
+  :defer t)
+(global-set-key [remap zap-to-char] #'ace-jump-zap-to-char)
+   #+end_src
+
 * General
   #+BEGIN_SRC emacs-lisp
 (setq system-time-locale "zh_CN.utf-8"

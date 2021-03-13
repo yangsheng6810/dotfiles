@@ -155,3 +155,5 @@
 (package! org-autolist)
 ;; realgud takes forever to build
 (package! realgud :disable t)
+;; zap to char with ace/avy
+(package! ace-jump-zap)
