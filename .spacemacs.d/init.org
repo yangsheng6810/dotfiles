@@ -5467,6 +5467,16 @@ SHOW-ALL, show all chats."
         (message "new-string %s" new-string)
         (insert (format ":author: %s" new-string))))))
    #+end_src
+** ASCII
+   #+begin_src emacs-lisp
+(defun yang/ascii2string (ss)
+  "Convert spaces separated ascii binary in SS to string."
+  (interactive "sString to Convert: ")
+  (message
+   (concat (mapcar (lambda (x)
+                     (string-to-number x 2))
+                   (s-split " " ss)))))
+   #+end_src
 ** Copy org-mode file to clipboard
   Intuition from [[https://kitchingroup.cheme.cmu.edu/blog/2016/06/16/Copy-formatted-org-mode-text-from-Emacs-to-other-applications/][ref]]. Note =&>/dev/null= is needed since otherwise ~xclip~ will hold =stdout= and ~shell-command-on-region~ will not return. [[https://emacs.stackexchange.com/questions/39019/xclip-hangs-shell-command#comment61607_39023][ref]]
   #+begin_src emacs-lisp
