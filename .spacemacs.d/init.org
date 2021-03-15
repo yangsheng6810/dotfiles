@@ -1723,6 +1723,8 @@ and the entire buffer (in the absense of a region)."
       ;; enable lispy-mode in minibuffer
       (defun conditionally-enable-lispy ()
         (when (eq this-command 'eval-expression)
+          ;; workaround for emacs bug#47150
+          (setq major-mode 'minibuffer-inactive-mode)
           (lispy-mode 1)))
       (add-hook 'minibuffer-setup-hook 'conditionally-enable-lispy)
       :diminish lispy-mode)
