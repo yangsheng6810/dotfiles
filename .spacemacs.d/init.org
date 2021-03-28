@@ -625,6 +625,9 @@ This is a wrapper around `eval-after-load' that:
   (general-def
     :keymaps 'iedit-occurrence-keymap
     "M-D" nil))
+
+;; (setq iedit-occurrence-keymap (make-sparse-keymap))
+;; (setq iedit-occurrence-keymap-default (make-sparse-keymap))
    #+end_src
 
 ** Ace-jump-zap-to-char
