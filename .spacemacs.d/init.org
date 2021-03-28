@@ -4449,15 +4449,21 @@ Return the result as a string."
         "")))
 
   (defun re-builder-pinyin (str)
-    (or (pinyin-to-utf8 str)
-        (ivy--regex-plus str)
-        (ivy--regex-ignore-order)
-        ))
+    (or
+     (ivy--cregex-plus str)
+     (ivy--cregex-ignore-order str)
+     (pinyin-to-utf8 str)
+     (ivy--regex-plus str)
+     (ivy--regex-ignore-order str)))
 
   (setq ivy-re-builders-alist
         '(
-          (t . re-builder-pinyin)
+          ;; (t . re-builder-pinyin)
+          (t . ivy--cregex-plus)
           ))
+
+  (add-to-list 'ivy-preferred-re-builders (cons #'ivy--cregex-plus "pinyin") t)
+  (add-to-list 'ivy-preferred-re-builders (cons #'ivy--cregex-ignore-order "pinyin order") t)
 
   (defun my-pinyinlib-build-regexp-string (str)
     (progn
