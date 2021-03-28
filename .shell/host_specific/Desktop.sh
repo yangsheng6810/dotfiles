@@ -1,7 +1,8 @@
 # for gurobi
-export GUROBI_HOME="$HOME/Downloads/gurobi/gurobi900/linux64"
+export GUROBI_HOME="$HOME/Downloads/gurobi/gurobi911/linux64"
 export PATH="${PATH}:${GUROBI_HOME}/bin:${HOME}/.gem/ruby/2.7.0/bin"
-export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
+# export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${GUROBI_HOME}/lib"
+export LD_LIBRARY_PATH="${GUROBI_HOME}/lib"
 export GRB_LICENSE_FILE="$XDG_CONFIG_HOME/gurobi.lic"
 # for conda
 # [ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
