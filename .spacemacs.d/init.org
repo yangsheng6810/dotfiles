@@ -4209,6 +4209,37 @@ Return the result as a string."
                  #'yang/pangu-spacing-mode-on))
    #+end_src
 
+** Fix char width
+  #+BEGIN_SRC emacs-lisp
+;; set char width for certain characters
+(defun blaenk/set-char-widths (alist)
+  (while (char-table-parent char-width-table)
+    (setq char-width-table (char-table-parent char-width-table)))
+  (dolist (pair alist)
+    (let ((width (car pair))
+          (chars (cdr pair))
+          (table (make-char-table nil)))
+      (dolist (char chars)
+        (set-char-table-range table char width))
+      (optimize-char-table table)
+      (set-char-table-parent table char-width-table)
+      (setq char-width-table table))))
+
+;; ;; fix char width
+;; (blaenk/set-char-widths
+;;  '((1 . (?“ ?” ?…
+;;          ;; character used in mu4e
+;;          ?⚓ ?⎕))))
+
+(use-package telega
+  :defer t
+  :config
+  (blaenk/set-char-widths
+   '((2 . (?— ?… ?🅥 ?⌕ ))
+     (3 . (?㊙ ?💉 ?🌊 ?🇨 ?🇳 ?🚴 ?🚗 ?📖
+               ?🏎 )))))
+  #+END_SRC
+
 ** COMMENT alignment
    #+BEGIN_SRC emacs-lisp
      ;; set up mono font for chinese
@@ -4240,44 +4271,7 @@ Return the result as a string."
           ("HanaMinB" "SimSun-ExtB" "MingLiU-ExtB" "PMingLiU-ExtB" "MingLiU_HKSCS-ExtB"))))
    #+END_SRC
 
-*** Fix char width
-   #+BEGIN_SRC emacs-lisp
-(after! cnfonts
-  ;; set char width for certain characters
-  (defun blaenk/set-char-widths (alist)
-    (while (char-table-parent char-width-table)
-      (setq char-width-table (char-table-parent char-width-table)))
-    (dolist (pair alist)
-      (let ((width (car pair))
-            (chars (cdr pair))
-            (table (make-char-table nil)))
-        (dolist (char chars)
-          (set-char-table-range table char width))
-        (optimize-char-table table)
-        (set-char-table-parent table char-width-table)
-        (setq char-width-table table))))
-
-  ;; fix char width
-  (blaenk/set-char-widths
-   `((1 . (,(string-to-char "“")
-           ,(string-to-char "”")
-           ,(string-to-char "…")
-           ;; character used in mu4e
-           ,(string-to-char "⚓")
-           ,(string-to-char "⎕")
-           ))))
-
-  (blaenk/set-char-widths
-   `((1 . (,(string-to-char "“")
-           ,(string-to-char "”")
-           ,(string-to-char "…")
-           ;; character used in mu4e
-           ,(string-to-char "⚓")
-           ,(string-to-char "⎕")
-           )))))
-   #+END_SRC
-
-*** COMMENT Only reload when necessary
+*** Only reload when necessary
    #+BEGIN_SRC emacs-lisp
 (use-package cnfonts
   :commands yang-cnfonts-set-font-first-time
