@@ -5581,7 +5581,8 @@ SHOW-ALL, show all chats."
          "xclip -selection clipboard -t text/html &>/dev/null")
         (kill-buffer)))))
   #+end_src
-** Fix adaptive-wrap
+** COMMENT Fix adaptive-wrap
+   No longer needed
    #+begin_src emacs-lisp
 (use-package adaptive-wrap
   :commands (adaptive-wrap--prefix-face)
@@ -5729,7 +5730,7 @@ If FILE is provided, use it instead of the one on the system."
                 (insert "  - " ss "\n")))
             (json-parse-string ret :array-type 'list)))))
    #+end_src
-** Insert Unicode with preview
+** COMMENT Insert Unicode with preview
    #+begin_src emacs-lisp
 (use-package insert-char-preview
   :defer t
