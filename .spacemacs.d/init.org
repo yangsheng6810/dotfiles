@@ -2377,7 +2377,7 @@ For generating org-capture templates
                    :keys "b" :headline "Book" :todo-state "TODO")))
                 ("Web site" :keys "w" :file "~/Documents/org/Notes.org"
                  :headline "Inbox"
-                 :template ("* %c :website:"
+                 :template ("* %^{Title} :website:"
                             ":PROPERTIES:"
                             ":Created: %U"
                             ":END:"
