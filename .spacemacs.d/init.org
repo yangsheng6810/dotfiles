@@ -5363,6 +5363,8 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
         telega-video-play-inline nil)
   ;; change reply symbol
   (setq telega-symbol-reply "↫")
+  ;; set date format for old messages  
+  (setq telega-old-date-format "%Y/%M/%D")
 
   ;; ignore blocked user
   (add-hook 'telega-msg-ignore-predicates 'telega-msg-from-blocked-sender-p)
