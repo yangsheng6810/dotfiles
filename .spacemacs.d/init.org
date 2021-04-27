@@ -1744,6 +1744,7 @@ and the entire buffer (in the absense of a region)."
         org-id-locations-file (concat org-directory ".orgids")
         org-id-locations-file-relative t)
   :config
+  (defalias '+org--restart-mode-h #'ignore)
   (setq
    ;; place tags directly after headline text, with only one space in between
    org-tags-column 0
