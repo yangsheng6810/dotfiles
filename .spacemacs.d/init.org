@@ -4669,18 +4669,6 @@ Return the result as a string."
         (run-at-time nil (* 1 60 60) #'elfeed-update))
   (setq elfeed-search-filter "@2-weeks-ago +unread -news")
 
-  (defun yang/elfeed-set-face ()
-    (when (equal 'unspecified
-                 (face-attribute 'elfeed-search-title-face :inherit))
-      (set-face-attribute 'elfeed-search-title-face nil
-                          :fontset "fontset-fixed"
-                          :inherit 'fixed-pitch)
-      (set-face-attribute 'elfeed-search-unread-title-face nil
-                          :fontset "fontset-fixed"
-                          :inherit 'fixed-pitch)))
-
-  (add-hook 'elfeed-search-mode-hook #'yang/elfeed-set-face)
-
   (defun yang/elfeed-new-entry-parse (type xml entry)
     "Add author to ArXiv entries."
     ;; (message "entry is %s" entry)
@@ -4876,6 +4864,75 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   (setq rmh-elfeed-org-files (list "~/.spacemacs.d/elfeed.org"))
   (rmh-elfeed-org-process rmh-elfeed-org-files rmh-elfeed-org-tree-id))
   #+END_SRC
+
+** Elfeed 对齐
+   #+begin_src emacs-lisp
+(use-package elfeed
+  :defer t
+  :config
+  (defun yang/elfeed-set-face ()
+    (when (equal 'unspecified
+                 (face-attribute 'elfeed-search-title-face :inherit))
+      ;; ;; Use fixed-pitch
+      ;; (set-face-attribute 'elfeed-search-title-face nil
+      ;;                     :fontset "fontset-fixed"
+      ;;                     :inherit 'fixed-pitch)
+      ;; (set-face-attribute 'elfeed-search-unread-title-face nil
+      ;;                     :fontset "fontset-fixed"
+      ;;                     :inherit 'fixed-pitch)
+      
+      ;; Use variable-pitch
+      (set-face-attribute 'elfeed-search-title-face nil
+                          :fontset "fontset-variable"
+                          :inherit 'variable-pitch)
+      (set-face-attribute 'elfeed-search-unread-title-face nil
+                          :fontset "fontset-variable"
+                          :inherit 'variable-pitch)))
+
+  (add-hook 'elfeed-search-mode-hook #'yang/elfeed-set-face)
+
+  (defun elfeed-search-print-valigned-entry (entry)
+    "Print valign-ed ENTRY to the buffer."
+    (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+           (date-width (car (cdr elfeed-search-date-format)))
+           (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
+           (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+           (feed (elfeed-entry-feed entry))
+           (feed-title
+            (when feed
+              (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
+           (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
+           (tags-str (mapconcat
+                      (lambda (s) (propertize s 'face 'elfeed-search-tag-face))
+                      tags ","))
+           (title-width (- (window-width) 10 elfeed-search-trailing-width))
+           (title-column (elfeed-format-column
+                          title (elfeed-clamp
+                                 elfeed-search-title-min-width
+                                 title-width
+                                 elfeed-search-title-max-width)
+                          :left))
+           (align-to (* (+ date-width 2 (max elfeed-search-title-min-width 
+                                             (min title-width elfeed-search-title-max-width)))
+                        (default-font-width))))
+      (insert (propertize date 'face 'elfeed-search-date-face) " ")
+      (insert (propertize title-column 'face title-faces 'kbd-help title) " ")
+      (valign--put-overlay (1- (point)) (point) 'display (valign--space align-to))
+      (when feed-title
+        (insert (propertize feed-title 'face 'elfeed-search-feed-face) " "))
+      (when tags
+        (insert "(" tags-str ")"))))
+
+  (setq elfeed-search-print-entry-function #'elfeed-search-print-valigned-entry)
+  ;; Hide ads in zaobao
+  (setq shr-blocked-images
+      "https://static.zaobao.com/s3fs-public/freemium_images/20210209/.*\\(desktop\\|mobile\\).*.\\(jpg\\|png\\)")
+  ;; Fix keybinding in elfeed
+  (general-def
+    :keymaps 'evil-motion-state-map
+    "g o" nil)
+  )
+   #+end_src
 
 * Tramp
   #+BEGIN_SRC emacs-lisp
