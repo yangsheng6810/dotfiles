@@ -3350,6 +3350,14 @@ Return the result as a string."
 (setq lsp-rust-analyzer-server-display-inlay-hints t)
   #+end_src
 
+* C/C++
+  #+begin_src emacs-lisp
+(use-package cc-mode
+  :defer t
+  :config
+  (setq c-basic-offset 4))
+  #+end_src
+
 * Git
   #+BEGIN_SRC emacs-lisp
 (after! git-commit
