@@ -2093,6 +2093,9 @@ how the heading too, if it is currently invisible."
                        :deadline past)
                       (:name "Due today"
                        :deadline today)
+                      (:name "Waiting..."
+                       :todo "WAIT"
+                       :order 98)
                       (:name "Long long ago"
                        ;; :auto-category t
                        :scheduled (before ,(org-read-date
@@ -2101,9 +2104,6 @@ how the heading too, if it is currently invisible."
                        :order 90)
                       (:name "Scheduled earlier"
                        :scheduled past)
-                      (:name "Waiting..."
-                       :todo "WAITING"
-                       :order 98)
                       (:name "Todo"
                        :auto-category t
                        :todo "TODO")
