@@ -53,7 +53,8 @@ smart_gaps on
 # for_window [class="Gnome-terminal" title="floating"] floating enable
 
 # set $term terminator
-set $term alacritty
+# set $term alacritty
+set $term konsole
 
 
 # when opening history from firefox, open it as a vertical split
@@ -366,11 +367,15 @@ for_window [title="Desktop — Plasma"] kill; floating enable; border none
 force_display_urgency_hint 0 ms
 focus_on_window_activation urgent
 
+# bindsym $mod+Return exec $term || terminator
 bindsym $mod+Return exec $term
 # bindsym $mod+Shift+Return exec urxvt -name floating
 # bindsym $mod+Shift+Return exec $term -T floating
-bindsym $mod+Shift+Return exec $term -t floating
+# bindsym $mod+Shift+Return exec $term -t floating || terminator -T floating
+bindsym $mod+Shift+Return exec $term --profile "Profile Float"
+
 for_window [class="Terminator" title="floating"] floating enable
+for_window [class="konsole" title="floating"] floating enable
 for_window [class="Alacritty" title="floating"] floating enable
 
 for_window [class="Eog"] floating enable
