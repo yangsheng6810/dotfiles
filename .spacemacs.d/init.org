@@ -1663,6 +1663,24 @@ and the entire buffer (in the absense of a region)."
                   ("M-j" . nil)))
 
     (general-def
+      :keymaps '(override global org-mode-map)
+      :states '(normal motion insert normal)
+      "M-h" 'evil-backward-char
+      "M-j" 'evil-next-visual-line
+      "M-k" 'evil-previous-visual-line
+      "M-l" 'evil-forward-char
+
+      "M-H" 'move-beginning-of-line
+      "M-L" 'move-end-of-line
+      "C-a" (general-predicate-dispatch #'move-beginning-of-line
+              (equal major-mode 'vterm-mode) #'vterm-send-C-a)
+      "C-e" (general-predicate-dispatch #'move-end-of-line
+              (equal major-mode 'vterm-mode) #'vterm-send-C-e)
+      "M-J" 'evil-scroll-down
+      "M-K" 'evil-scroll-up
+      "C-d" 'delete-char)
+
+    (general-def
       :keymaps 'evil-org-mode-map
       :states '(visual normal motion insert)
       "M-h" nil
@@ -1680,23 +1698,6 @@ and the entire buffer (in the absense of a region)."
       "C-d" nil
       )
 
-    (general-def
-      :keymaps '(override global)
-      :states '(motion insert)
-      "M-h" 'evil-backward-char
-      "M-j" 'evil-next-visual-line
-      "M-k" 'evil-previous-visual-line
-      "M-l" 'evil-forward-char
-
-      "M-H" 'move-beginning-of-line
-      "M-L" 'move-end-of-line
-      "C-a" (general-predicate-dispatch #'move-beginning-of-line
-              (equal major-mode 'vterm-mode) #'vterm-send-C-a)
-      "C-e" 'move-end-of-line
-
-      "M-J" 'evil-scroll-down
-      "M-K" 'evil-scroll-up
-      "C-d" 'delete-char)
 
     (general-def
       :keymaps 'visual-line-mode-map
@@ -1704,25 +1705,6 @@ and the entire buffer (in the absense of a region)."
       [remap evil-previous-line] #'evil-previous-line
       [remap evil-next-visual-line] #'evil-next-visual-line
       [remap evil-previous-visual-line] #'evil-previous-visual-line)
-
-
-    (general-def
-      :keymaps '(override org-mode-map)
-      :states '(normal motion insert visual)
-      "M-h" 'evil-backward-char
-      "M-j" 'evil-next-visual-line
-      "M-k" 'evil-previous-visual-line
-      "M-l" 'evil-forward-char
-
-      "M-H" 'move-beginning-of-line
-      "M-L" 'move-end-of-line
-      "C-a" 'move-beginning-of-line
-      "C-e" 'move-end-of-line
-
-      "M-J" 'evil-scroll-down
-      "M-K" 'evil-scroll-up
-      "C-d" 'delete-char)
-
 
   #+END_SRC
   
