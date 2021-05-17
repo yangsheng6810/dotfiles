@@ -4941,8 +4941,10 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
       "https://static.zaobao.com/s3fs-public/freemium_images/20210209/.*\\(desktop\\|mobile\\).*.\\(jpg\\|png\\)")
   ;; Fix keybinding in elfeed
   (general-def
-    :keymaps 'evil-motion-state-map
-    "g o" nil)
+    :keymaps '(evil-motion-state-map evil-normal-state-map)
+    "g o" nil
+    "g u" nil
+    "g U" nil)
   )
    #+end_src
 
