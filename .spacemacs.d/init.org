@@ -772,8 +772,8 @@ and the entire buffer (in the absense of a region)."
 ** GC
    #+begin_src emacs-lisp
 (setq gcmh-high-cons-threshold (* 100 160 1024 1024) ; 16G
-      gcmh-low-cons-threshold 8000000
-      gcmh-idle-delay 15)
+      gcmh-low-cons-threshold 16000000
+      gcmh-idle-delay 'auto)
    #+end_src
 
 ** Profiler
