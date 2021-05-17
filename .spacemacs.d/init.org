@@ -4568,6 +4568,15 @@ Return the result as a string."
 (setq doom-modeline-buffer-file-name-style 'auto)
   #+end_src
 
+* Doom-modeline
+  #+begin_src emacs-lisp
+(setq doom-modeline-buffer-file-name-style 'file-name)
+(setq doom-modeline-continuous-word-count-modes nil)
+(setq doom-modeline-irc nil)
+(setq doom-modeline-env-version nil)
+(setq inhibit-compacting-font-caches t)
+  #+end_src
+
 * Bug-fixes
 ** Spacemacs modeline
   #+BEGIN_SRC emacs-lisp
