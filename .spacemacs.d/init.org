@@ -5367,6 +5367,9 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
                                      telega-company-hashtag)
                                    (when (telega-chat-bot-p telega-chatbuf--chat)
                                      '(telega-company-botcmd))))))
+  :init
+  ;; ignore blocked user
+  (add-hook 'telega-msg-ignore-predicates #'telega-msg-from-blocked-sender-p)
   :config
   ;; make sticker larger to read
   (setq telega-sticker-size '(10 . 24))
@@ -5378,13 +5381,13 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   ;; set date format for old messages  
   (setq telega-old-date-format "%Y/%M/%D")
 
-  ;; ignore blocked user
-  (add-hook 'telega-msg-ignore-predicates 'telega-msg-from-blocked-sender-p)
 
   ;; set layout
   (setq telega-inserter-for-chat-button 'telega-ins--chat-full-2lines)
   (setq telega-chat-button-width 30)
   (setq telega-root-fill-column (+ 10 telega-chat-button-width))
+  ;; set column length of chat buffer
+  (setq telega-chat-fill-column  75)
   (put (get 'telega-chat 'button-category-symbol)
        :inserter 'telega-ins--chat-full-2lines)
   (setq switch-to-buffer-preserve-window-point t)
