@@ -5574,6 +5574,13 @@ SHOW-ALL, show all chats."
         (message "new-string %s" new-string)
         (insert (format ":author: %s" new-string))))))
    #+end_src
+** Bookmark
+   #+begin_src emacs-lisp
+(use-package bookmark
+  :defer t
+  :config
+  (setq bookmark-fontify nil))
+   #+end_src
 ** ASCII
    #+begin_src emacs-lisp
 (defun yang/ascii2string (ss)
