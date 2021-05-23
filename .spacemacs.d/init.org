@@ -4675,6 +4675,8 @@ Return the result as a string."
   :init
   (setq-default elfeed-search-filter "@2-weeks-ago +unread -news")
   :config
+  ; use most space for images
+  (setq shr-max-image-proportion 0.98)
   (elfeed-org)
   ;; do update every 1 hours. Assign it to a variable so we can cancel it later
   (setq yang/elfeed-update-timer
