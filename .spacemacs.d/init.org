@@ -1685,28 +1685,6 @@ and the entire buffer (in the absense of a region)."
       "M-K" 'evil-scroll-up
       "C-d" 'delete-char)
 
-(use-package org
-  :defer t
-  :config
-  (general-def
-    :keymaps 'evil-org-mode-map
-    :states '(visual normal motion insert)
-    "M-h" nil
-    "M-j" nil
-    "M-k" nil
-    "M-l" nil
-
-    "M-H" nil
-    "M-L" nil
-    ;; "C-a" nil
-    ;; "C-e" nil
-
-    ;; "M-J" nil
-    ;; "M-K" nil
-    "C-d" nil
-    ))
-
-
     (general-def
       :keymaps 'visual-line-mode-map
       [remap evil-next-line] #'evil-next-line
@@ -1801,6 +1779,24 @@ and the entire buffer (in the absense of a region)."
 
     (add-hook 'evil-mc-before-cursors-created #'yang/evil-mc-before-cursors-func)
     (add-hook 'evil-mc-after-cursors-created #'yang/evil-mc-after-cursors-func))
+  
+  (general-def
+    :keymaps 'evil-org-mode-map
+    :states '(visual normal motion insert)
+    "M-h" nil
+    "M-j" nil
+    "M-k" nil
+    "M-l" nil
+
+    "M-H" nil
+    "M-L" nil
+    ;; "C-a" nil
+    ;; "C-e" nil
+
+    ;; "M-J" nil
+    ;; "M-K" nil
+    "C-d" nil
+    )
 
   (defun yang/org-mode-setup ()
     ;; (yang/with-doom
