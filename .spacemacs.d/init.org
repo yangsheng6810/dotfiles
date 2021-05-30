@@ -5365,17 +5365,26 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   :defer t
   :hook
   ('telega-chat-mode . #'yas-minor-mode-on)
-  ('telega-chat-mode . (lambda ()
-                         (set-company-backend! 'telega-chat-mode
-                           (append '(telega-company-emoji
-                                     telega-company-username
-                                     telega-company-hashtag)
-                                   (when (telega-chat-bot-p telega-chatbuf--chat)
-                                     '(telega-company-botcmd))))))
   :init
   ;; ignore blocked user
   (add-hook 'telega-msg-ignore-predicates #'telega-msg-from-blocked-sender-p)
   :config
+  (setq telega-emoji-company-backend 'telega-company-emoji)
+  (defun my-telega-chat-mode ()
+    (set (make-local-variable 'company-backends)
+         (append (list telega-emoji-company-backend
+                       'telega-company-username
+                       'telega-company-hashtag)
+                 (when (telega-chat-bot-p telega-chatbuf--chat)
+                   '(telega-company-botcmd))))
+    (company-mode 1))
+
+  (add-hook 'telega-chat-mode-hook 'my-telega-chat-mode)
+
+  (setq telega-known-inline-bots '("@gif" "@youtube" "@pic"
+                                   "@HideItBot" "@wbcnbot"
+                                   "@scihubot" "@web2album_bot" "@zaobao_bot"))
+
   ;; make sticker larger to read
   (setq telega-sticker-size '(10 . 24))
   (setq telega-completing-read-function 'ivy-completing-read)
@@ -5388,8 +5397,9 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
 
 
   ;; set layout
+  (setq telega-filter-button-width 23)
   (setq telega-inserter-for-chat-button 'telega-ins--chat-full-2lines)
-  (setq telega-chat-button-width 30)
+  (setq telega-chat-button-width 40)
   (setq telega-root-fill-column (+ 10 telega-chat-button-width))
   ;; set column length of chat buffer
   (setq telega-chat-fill-column  75)
