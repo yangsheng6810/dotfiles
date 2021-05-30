@@ -1044,11 +1044,11 @@ and the entire buffer (in the absense of a region)."
    (:family ,et-font
     :background nil
     :foreground ,bg-dark
-    :height 1.2)
+    :height 1.0)
    (:family ,et-font
     :background nil
     :foreground ,bg-light
-    :height 1.2))
+    :height 1.0))
   (org-document-title
    (:inherit variable-pitch
     :height 3.0
