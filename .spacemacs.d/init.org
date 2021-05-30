@@ -1564,16 +1564,21 @@ and the entire buffer (in the absense of a region)."
         link-hint-avy-all-windows-alt nil)
   :config
 (defun yang/temp-next-button (bound)
+  "Hack function to find the next button in telega root."
   (save-excursion
-    (forward-button 1)
-    (when (get-text-property (point) 'display)
-      (forward-char 1))
-    (when (get-text-property (point) 'display)
-      (forward-char 1))
-    (when (get-text-property (point) 'display)
-      (forward-char 1))
-    (when (<= (point) bound)
-      (point))))
+    ;; avoid errors
+    (condition-case nil
+        (progn
+          (forward-button 1)
+          (when (get-text-property (point) 'display)
+            (forward-char 1))
+          (when (get-text-property (point) 'display)
+            (forward-char 1))
+          (when (get-text-property (point) 'display)
+            (forward-char 1))
+          (when (<= (point) bound)
+            (point)))
+      (error nil))))
 
 (link-hint-define-type 'telega-button
   :next #'yang/temp-next-button
