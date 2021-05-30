@@ -3914,9 +3914,9 @@ Return the result as a string."
    "l" #'dired-find-file
    )
   :config
-  ;; do not automatically fill in target for dired, since the other Dired buffer
-  ;; is already available via M-n
-  (setq dired-dwim-target nil)
+  ;; automatically fill in target for dired from other visible dired buffer. If
+  ;; we want the original target, it is already available via M-n
+  (setq dired-dwim-target t)
   (general-def
     :keymaps 'dired-mode-map
     :states '(normal)
