@@ -54,16 +54,17 @@ smart_gaps on
 
 # set $term terminator
 # set $term_float_opt -T floating
-# set $term xfce4-terminal
-# set $term_float_opt -T floating
-set $term alacritty
-set $term_float_opt -t floating
+set $term xfce4-terminal
+set $term_float_opt -T floating
+# set $term alacritty
+# set $term_float_opt -t floating
 # set $term konsole
 # set $term_float_opt --profile "Profile Float"
 # set $term urxvt
 # set $term_float_opt  -name floating
 
-set $term_backup xfce4-terminal
+# set $term_backup xfce4-terminal
+set $term_backup konsole
 
 # when opening history from firefox, open it as a vertical split
 # for_window [class="firefox" instance="Places"] mark firefox_places, split vertical, [class="firefox" instance="Navigator" workspace=__focused__] focus, move window to mark firefox_places, move up, [class="firefox"] unmark
@@ -376,7 +377,7 @@ force_display_urgency_hint 0 ms
 focus_on_window_activation urgent
 
 # bindsym $mod+Return exec $term || terminator
-bindsym $mod+Return exec $term
+bindsym $mod+Return exec $term || $term_backup
 # bindsym $mod+Shift+Return exec urxvt -name floating
 # bindsym $mod+Shift+Return exec $term -T floating
 # bindsym $mod+Shift+Return exec $term -t floating || terminator -T floating
