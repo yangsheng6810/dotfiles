@@ -4009,7 +4009,11 @@ Return the result as a string."
   :config
   ;; automatically fill in target for dired from other visible dired buffer. If
   ;; we want the original target, it is already available via M-n
-  (setq dired-dwim-target t)
+  (setq dired-dwim-target t
+        ;; never confirm `byte-compile', `chgrp', `chmod', `chown',
+        ;; `compress',`copy', `delete', `hardlink', `load', `move', `print',
+        ;; `shell', `symlink',`touch' and `uncompress'
+        dired-no-confirm t)
   (general-def
     :keymaps 'dired-mode-map
     :states '(normal)
