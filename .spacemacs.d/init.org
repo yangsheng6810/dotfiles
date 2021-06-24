@@ -2000,8 +2000,9 @@ Made for `org-tab-first-hook' in evil-mode."
   (yang/set-leader-key "bj" 'yang/switch-to-journal-today)
   (yang/set-leader-key "bJ" 'org-journal-new-entry)
   :commands (org-journal-find-location
-              org-journal-new-entry
-              yang/switch-to-journal-today)
+             org-journal-new-entry
+             yang/switch-to-journal-today
+             yang/find-file)
   :config
   ;; fix bug in outline that conflicts with valign
   (define-advice outline-show-entry (:override nil)
@@ -2025,6 +2026,15 @@ how the heading too, if it is currently invisible."
     ;; Position point on the journal's top-level heading so that org-capture
     ;; will add the new entry as a child entry.
     (goto-char (point-min)))
+
+  ;; Do not show the journal file while capturing
+  (defun yang/find-file (filename)
+    "Find-file, make the new file current, but do not show it."
+    (if (equal this-command 'org-capture)
+        (set-buffer (find-file-noselect filename))
+      (find-file filename)))
+
+  (setq org-journal-find-file #'yang/find-file)
 
   (yang/with-spacemacs
     (set-keymap-parent spacemacs-org-journal-mode-map spacemacs-org-mode-map)
