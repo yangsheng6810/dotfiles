@@ -934,6 +934,7 @@ and the entire buffer (in the absense of a region)."
   ;; (set-fontset-font "fontset-variable" 'ascii "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   ;; (set-fontset-font "fontset-variable" 'han "-*-Noto Serif-normal-normal-normal-*" nil 'prepend)
   (set-fontset-font "fontset-variable" 'unicode "方正屏显雅宋_GBK" nil 'prepend)
+  (set-fontset-font "fontset-monoserif" 'unicode "方正屏显雅宋_GBK" nil 'prepend)
 
   ;; Fix some quotation marks
   ;; (set-fontset-font "fontset-variable" ?“ "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
@@ -944,10 +945,15 @@ and the entire buffer (in the absense of a region)."
   (set-fontset-font "fontset-variable" '(?“ . ?”) "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   (set-fontset-font "fontset-variable" '(?‘ . ?’) "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
 
+  (defface monoserif
+    '((t :fontset "fontset-monoserif"))
+    "Mine face")
+
   ;; May not be needed
   ;; (set-fontset-font "fontset-variable" ?– "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   (set-face-attribute 'variable-pitch nil :fontset "fontset-variable")
   (set-face-attribute 'fixed-pitch nil :fontset "fontset-fixed")
+  (set-face-attribute 'monoserif nil :fontset "fontset-monoserif")
   )
 
 
