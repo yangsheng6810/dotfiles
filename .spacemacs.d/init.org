@@ -1462,7 +1462,17 @@ and the entire buffer (in the absense of a region)."
   :defer t
   :config
   ;; (push '(counsel-M-x . ivy-posframe-display-at-window-bottom-left) ivy-display-functions-alist)
-  (ivy-posframe-enable))
+  (defun ivy-posframe-display-at-window-bottom-center (str)
+    (ivy-posframe--display str #'posframe-poshandler-window-bottom-center))
+
+  (setq ivy-posframe-display-functions-alist
+        '((swiper          . ivy-posframe-display-at-point)
+          (complete-symbol . ivy-posframe-display-at-point)
+          (counsel-describe-function . ivy-posframe-display-at-point)
+          (counsel-M-x     . ivy-posframe-display-at-window-bottom-left)
+          ;; (counsel-M-x     . ivy-posframe-display-at-point)
+          (t               . ivy-posframe-display)))
+  (ivy-posframe-mode))
 
 (use-package company-posframe
   :commands (company-posframe-mode yang/company-posframe-helper)
