@@ -1528,6 +1528,7 @@ and the entire buffer (in the absense of a region)."
                               :desc "Display tab bar"           "TAB" #'+workspace/display
                               :desc "Switch workspace"          "."   #'+workspace/switch-to
                               :desc "Switch to last workspace"  "`"   #'+workspace/other
+                              :desc "Switch to last workspace"  "p"   #'+workspace/other
                               :desc "New workspace"             "n"   #'+workspace/new
                               :desc "Select workspace with ivy" "l"   #'spacemacs/ivy-spacemacs-layouts
                               :desc "Load workspace from file"  "L"   #'+workspace/load
