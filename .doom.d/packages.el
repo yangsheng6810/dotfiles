@@ -158,6 +158,9 @@
 ;; zap to char with ace/avy
 (package! ace-jump-zap)
 (package! org-appear)
+;; snippets for LaTeX and other major-modes
+(package! aas)
+(package! laas)
 ;; better theme for org html export
 (package! org-html-themify
   :recipe (:host github
