@@ -4031,8 +4031,8 @@ Return the result as a string."
     (let* ((file (dired-get-filename nil t)))
       (call-process "xdg-open" nil 0 nil file)))
 
-  (setq dired-recursive-copies
-        'always
+  (setq dired-recursive-copies 'always
+        dired-recursive-deletes 'always
         counsel-find-file-ignore-regexp
         (concat (regexp-opt completion-ignored-extensions) "$"))
   (add-to-list 'completion-ignored-extensions ".synctex.gz")
