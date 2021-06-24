@@ -171,7 +171,10 @@ This is a wrapper around `eval-after-load' that:
 (use-package ivy
   :defer t
   :config
-  (add-to-list 'ivy-sort-functions-alist '(counsel-mark-ring . (ignore ivy-string<))))
+
+  (add-to-list 'ivy-sort-functions-alist '(counsel-mark-ring . (ignore ivy-string<)))
+  ;; restore C-k for kill to the end of the line
+  (general-def :keymaps 'ivy-minibuffer-map "C-k" nil))
    #+end_src
 
 ** iscroll
