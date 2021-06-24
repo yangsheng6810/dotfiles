@@ -5855,8 +5855,9 @@ If FILE is provided, use it instead of the one on the system."
     (let* (
            (cmd (concat "lz4jsoncat " path " | jq '[.windows[].tabs[] | .entries[-1] | {url, title} ]'"))
            (ret (shell-command-to-string cmd)))
+      (org-insert-subheading nil)
       (insert
-       (concat "* " (format-time-string "[%Y-%m-%d %H:%M:%S]") "\n"))
+       (concat (format-time-string "[%Y-%m-%d %H:%M:%S]") "\n"))
       (-map (lambda (x)
               (let* ((url (gethash "url" x))
                      (title (gethash "title" x ""))
