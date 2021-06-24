@@ -4862,6 +4862,23 @@ Return the result as a string."
       (mapc #'elfeed-search-update-entry entries)
       (unless (use-region-p) (forward-line))))
 
+  ;; Comment out `kill-all-local-variables' which can take too much time
+  (define-advice elfeed-show-mode (:override () yang)
+    "Mode for displaying Elfeed feed entries.
+\\{elfeed-show-mode-map}"
+    (interactive)
+    ;; seems very slow
+    ;; (kill-all-local-variables)
+    (use-local-map elfeed-show-mode-map)
+    (setq major-mode 'elfeed-show-mode
+          mode-name "elfeed-show"
+          buffer-read-only t)
+    (buffer-disable-undo)
+    (make-local-variable 'elfeed-show-entry)
+    (set (make-local-variable 'bookmark-make-record-function)
+         #'elfeed-show-bookmark-make-record)
+    (run-mode-hooks 'elfeed-show-mode-hook))
+
   (define-advice elfeed-search-selected (:override (&optional ignore-region-p) yang)
     "Return a list of the currently selected feeds.
 
