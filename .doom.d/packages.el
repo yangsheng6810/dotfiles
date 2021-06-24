@@ -157,3 +157,4 @@
 (package! realgud :disable t)
 ;; zap to char with ace/avy
 (package! ace-jump-zap)
+(package! org-appear)

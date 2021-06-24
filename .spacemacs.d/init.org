@@ -3083,6 +3083,13 @@ With a C-u argument, toggle the link display."
       (zp/org-toggle-emphasis-markers))
     (font-lock-fontify-buffer)))
    #+end_src
+
+** org-appear
+   #+begin_src emacs-lisp
+(use-package org-appear
+  :defer t
+  :hook (org-mode . org-appear-mode))
+   #+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook
