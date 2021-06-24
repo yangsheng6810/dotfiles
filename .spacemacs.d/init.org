@@ -4083,7 +4083,8 @@ Return the result as a string."
     (interactive)
     (let ((display-buffer-alist
            (list (cons "\\*Async Shell Command\\*.*"
-                       (cons #'display-buffer-no-window nil)))))
+                       (cons #'display-buffer-no-window nil))))
+          (async-shell-command-buffer 'new-buffer))
       (call-interactively func)))
 
   (advice-add #'dired-do-async-shell-command
