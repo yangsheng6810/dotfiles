@@ -158,3 +158,8 @@
 ;; zap to char with ace/avy
 (package! ace-jump-zap)
 (package! org-appear)
+;; better theme for org html export
+(package! org-html-themify
+  :recipe (:host github
+           :repo "DogLooksGood/org-html-themify"
+           :files ("*.el" "*.js" "*.css")))
