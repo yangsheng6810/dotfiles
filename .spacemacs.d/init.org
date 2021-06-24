@@ -895,7 +895,8 @@ and the entire buffer (in the absense of a region)."
   (interactive)
   (message "In yang/fix-line-number")
   ;; (set-face-attribute 'variable-pitch nil :family "EtBembo")
-  (set-face-attribute 'variable-pitch nil :family "Libre Baskerville")
+  ;; (set-face-attribute 'variable-pitch nil :family "Libre Baskerville")
+  (set-face-attribute 'variable-pitch nil :family "Bookerly")
   (set-face-attribute 'fixed-pitch nil
                       :family 'unspecified
                       :font "fontset-fixed"
@@ -908,7 +909,8 @@ and the entire buffer (in the absense of a region)."
 
 (yang/with-doom
   (setq doom-font (font-spec :family "Source Code Pro" :size 16 :weight 'semi-light)
-        doom-variable-pitch-font (font-spec :family "Libre Baskerville") ; inherits `doom-font''s :size
+        ;; doom-variable-pitch-font (font-spec :family "Libre Baskerville") ; inherits `doom-font''s :size
+        doom-variable-pitch-font  (font-spec :family "Bookerly") ; inherits `doom-font''s :size
         doom-unicode-font (font-spec :family "Sarasa Mono SC")
         ;; doom-big-font (font-spec :family "Fira Mono" :size 19)
         ))
@@ -924,7 +926,10 @@ and the entire buffer (in the absense of a region)."
   (set-fontset-font "fontset-fixed" 'unicode "Symbola" nil 'append)
   (set-fontset-font "fontset-fixed" 'symbol "Symbola" nil 'append)
 
-  (create-fontset-from-ascii-font "-*-Libre Baskerville-normal-normal-normal-*" nil "variable")
+  ;; (create-fontset-from-ascii-font "-*-Libre Baskerville-normal-normal-normal-*" nil "variable")
+  (create-fontset-from-ascii-font "-*-Bookerly-normal-normal-normal-*-19-*" nil "variable")
+  (create-fontset-from-ascii-font "-*-Latin Modern Mono-normal-normal-*" nil "monoserif")
+  
   ;; (create-fontset-from-ascii-font "-*-EtBembo-normal-normal-normal-*" nil "variable")
   ;; (set-fontset-font "fontset-variable" 'ascii "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   ;; (set-fontset-font "fontset-variable" 'han "-*-Noto Serif-normal-normal-normal-*" nil 'prepend)
