@@ -1377,15 +1377,18 @@ and the entire buffer (in the absense of a region)."
    (:foreground ,doc))
   (org-table
    (:background nil
-    :inherit fixed-pitch)
+    ;; :inherit fixed-pitch
+    )
    (:family ,serif-mono-font
     :height 1.0
     :background ,bg-white
-    :inherit fixed-pitch)
+    ;; :inherit fixed-pitch
+    )
    (:family ,serif-mono-font
     :height 1.0
     :background ,bg-darker
-    :inherit fixed-pitch))
+    ;; :inherit fixed-pitch
+    ))
   (org-formula
    (:inherit font-lock-builtin-face)
    (:inherit fixed-pitch
@@ -1838,7 +1841,7 @@ and the entire buffer (in the absense of a region)."
     (doom-disable-delete-trailing-whitespace-h)
     (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
     (set-face-attribute 'org-latex-and-related nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+    ;; (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
 
     (when (fboundp #'org-autolist-mode)
       (org-autolist-mode))
