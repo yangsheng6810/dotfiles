@@ -4905,6 +4905,12 @@ Return the result as a string."
          #'elfeed-show-bookmark-make-record)
     (run-mode-hooks 'elfeed-show-mode-hook))
 
+  (define-advice elfeed-search-mode (:after () yang)
+    ;; Do not update search when feeds get updated. This prevents unexpected
+    ;; refresh of the search view, which can mess up things and prevent
+    ;; potential undo of tag updates.
+    (remove-hook 'elfeed-update-hooks #'elfeed-search-update))
+
   (define-advice elfeed-search-selected (:override (&optional ignore-region-p) yang)
     "Return a list of the currently selected feeds.
 
