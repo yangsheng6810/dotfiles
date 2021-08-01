@@ -166,3 +166,5 @@
   :recipe (:host github
            :repo "DogLooksGood/org-html-themify"
            :files ("*.el" "*.js" "*.css")))
+;; for patching
+(package! el-patch)
