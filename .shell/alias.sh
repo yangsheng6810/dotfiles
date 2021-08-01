@@ -73,7 +73,7 @@ alias sdcv='sdcv --utf8-output --color'
 
 alias tmux='tmux -u'
 
-alias rsync-emacs="rsync -avzu --delete --info=progress2 -h --include='.local/straight/repos/magit/.git' --exclude='.git' --exclude='xenops' --exclude='.local/straight/build*' --exclude='.local/cache' --exclude='*.elc' --exclude='*.gif' --exclude='.local/etc/url/cache' --exclude='.local/elfeed/db' ~/.emacs.d_doom"
+alias rsync-emacs="rsync -avzu --delete --info=progress2 -h --include='.local/straight/repos/magit/.git' --exclude='.git' --exclude='xenops' --exclude='.local/straight/build*' --exclude='.local/cache' --exclude='*.elc' --exclude='*.gif' --exclude='.local/etc/url/cache' --exclude='eln-cache' --exclude='.local/elfeed/db' ~/.emacs.d_doom"
 
 # show backspace as a key instead of removing previous input, and allows the
 # selection of a window
