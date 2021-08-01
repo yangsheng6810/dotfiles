@@ -1763,6 +1763,11 @@ and the entire buffer (in the absense of a region)."
         org-id-locations-file-relative t)
   :config
   (defalias '+org--restart-mode-h #'ignore)
+  ;; (defalias '+org--restart-mode-h #'ignore)
+  ;; from https://github.com/hlissner/doom-emacs/issues/4832#issuecomment-831538124
+  (define-advice org-capture (:around (fun &rest args) yang)
+    (cl-letf (((symbol-function '+org--restart-mode-h) #'ignore))
+      (apply fun args)))
   (setq
    ;; place tags directly after headline text, with only one space in between
    org-tags-column 0
