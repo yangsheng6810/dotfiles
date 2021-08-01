@@ -1457,6 +1457,84 @@ and the entire buffer (in the absense of a region)."
   (add-hook 'doom-load-theme-hook #'yang/fix-line-number t))
    #+END_SRC
 
+*** COMMENT Backup
+    #+begin_src emacs-lisp
+(defun yang/set-org-faces ()
+  "Set face attributes for org related faces."
+  ;; Set document faces
+  (set-face-attribute 'org-document-title nil
+                      :height 3.0 :weight 'normal :underline nil
+                      :foreground "black"
+                      :family "Libre Baskerville")
+  (set-face-attribute 'org-document-info nil
+                      :slant 'italic :height 1.2 :weight 'normal
+                      :foreground "black"
+                      :family "Libre Baskerville")
+
+  ;; Set org heading faces
+  (dolist (prop '((1 nil 2.5 bold)
+                  (2 t 2.0 bold)
+                  (3 t 1.5 bold)
+                  (4 t 1.2 bold)
+                  (5 t 1.1 normal)
+                  (6 t 1.0 normal)
+                  (7 t 1.0 normal)
+                  (8 t 1.0 normal)))
+    (pcase-let ((`(,level ,italic ,height ,weight) prop))
+      (set-face-attribute (intern (format "org-level-%d" level)) nil
+                          :italic italic :height height :weight 'normal
+                          :foreground 'unspecified
+                          :family "ETBembo"
+                          :inherit 'variable-pitch-black)))
+
+  ;; Some faces need to be fixed-pitched
+  (dolist (face '(org-block
+                  org-special-keyword
+                  org-drawer
+                  org-table
+                  org-date))
+    (set-face-attribute face nil :inherit 'fixed-pitch))
+
+  ;; Some faces need to be fixed-pitched serif
+  (dolist (face '(org-formula
+                  org-latex-and-related
+                  org-code))
+    (set-face-attribute face nil :inherit 'fixed-pitch-serif))
+
+  ;; Set some additional faces
+  (set-face-attribute 'org-headline-done nil
+                      :strike-through t)
+  (after! org-indent
+    (set-face-attribute 'org-indent nil
+                        :inherit '(org-hide fixed-pitch)))
+  (set-face-attribute 'org-link nil
+                      :underline t)
+  (set-face-attribute 'org-agenda-done nil
+                      :strike-through t)
+  (set-face-attribute 'org-ellipsis nil
+                      :underline nil)
+
+  (set-face-attribute 'org-block-begin-line nil
+                      :foreground "gray"
+                      :background 'unspecified)
+  (set-face-attribute 'org-block-end-line nil
+                      :foreground "gray"
+                      :background 'unspecified)
+  (set-face-attribute 'org-block nil
+                      :background 'unspecified)
+
+  ;; Set height for some faces
+  (set-face-attribute 'org-table nil
+                      :height 1.0)
+  (after! font-latex
+    (set-face-attribute 'font-latex-sectioning-0-face nil
+                        :height 1.2)
+    (set-face-attribute 'font-latex-sectioning-1-face nil
+                        :height 1.1)
+    (set-face-attribute 'font-latex-sectioning-2-face nil
+                        :height 1.0)))
+    #+end_src
+
 ** Posframe
    #+begin_src emacs-lisp
 (use-package ivy-posframe
