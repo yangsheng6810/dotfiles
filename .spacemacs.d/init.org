@@ -949,6 +949,11 @@ and the entire buffer (in the absense of a region)."
     '((t :fontset "fontset-monoserif"))
     "Mine face")
 
+  (defface variable-pitch-black
+    '((t :inhert variable-pitch :foreground "black"))
+    "Black variable-pitch")
+  (set-face-attribute 'variable-pitch-black nil :inherit 'variable-pitch)
+
   ;; May not be needed
   ;; (set-fontset-font "fontset-variable" ?– "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   (set-face-attribute 'variable-pitch nil :fontset "fontset-variable")
@@ -1813,8 +1818,10 @@ and the entire buffer (in the absense of a region)."
 
     (remove-hook 'text-mode-hook #'display-line-numbers-mode t)
     (visual-line-mode 1)
+    ;; (yang/set-org-faces)
     (variable-pitch-mode 1)
-    (buffer-face-mode 1)
+    ;; (setq buffer-face-mode-face 'variable-pitch-black)
+    ;; (buffer-face-mode 1)
     ;; (display-line-numbers-mode -1)
     (smartparens-mode 1)
     ;; do not delete trailing white space, as white space is necessary for an
