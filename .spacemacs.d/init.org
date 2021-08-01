@@ -1790,7 +1790,7 @@ and the entire buffer (in the absense of a region)."
    org-crypt-key "styang@fastmail.com"
    ;; use speed keys, disabled since it conflicts evil-mc
    ;; org-use-speed-commands t
-   )
+   org-preview-latex-default-process 'dvisvgm)
 
   (plist-put org-format-latex-options :scale 1.66)
 
