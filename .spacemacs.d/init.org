@@ -3021,15 +3021,17 @@ For generating org-capture templates
            bibtex-entry-maybe-empty-head)
           (bibtex-key-in-head)))))
 
-  ;; allow using date for year field (date is used in `anystyle')
-  (define-advice bibtex-autokey-get-year (:override () yang)
-    "Allow data used as year."
-    (let ((yearfield (bibtex-autokey-get-field "year"))
-          (datefield (bibtex-autokey-get-field "date")))
-      (when (string= "" yearfield)
-        (setq yearfield datefield))
-      (substring yearfield (max 0 (- (length yearfield)
-                                     bibtex-autokey-year-length))))))
+  ;; ;; TODO Maybe no longer needed
+  ;; ;; allow using date for year field (date is used in `anystyle')
+  ;; (define-advice bibtex-autokey-get-year (:override () yang)
+  ;;   "Allow data used as year."
+  ;;   (let ((yearfield (bibtex-autokey-get-field "year"))
+  ;;         (datefield (bibtex-autokey-get-field "date")))
+  ;;     (when (string= "" yearfield)
+  ;;       (setq yearfield datefield))
+  ;;     (substring yearfield (max 0 (- (length yearfield)
+  ;;                                    bibtex-autokey-year-length)))))
+  )
    #+end_src
 
 ** org-download
@@ -3279,27 +3281,6 @@ With a C-u argument, toggle the link display."
   :config
   (setq reftex-cite-punctuation '(", " ", and " " {\\it et al.}")))
 
-(use-package bibtex
-  :defer t
-  :init
-  (setq
-   ;; use 4 digits for year
-   bibtex-autokey-year-length 4
-   ;; use only the first author
-   bibtex-autokey-names 1
-   ;; use infinite length of names
-   bibtex-autokey-name-length 'infty
-   ;; use infinite length of title words
-   bibtex-autokey-titleword-length 'infty
-   ;; use 1 word
-   bibtex-autokey-titlewords 1
-   ;; use no more workds
-   bibtex-autokey-titlewords-stretch 0
-   ;; no separator between year and title
-   bibtex-autokey-year-title-separator ""
-   ;; do not ignore a word like `low-stretch' and `1.23-approximation'
-   bibtex-autokey-titleword-ignore '("A" "An" "On" "The" "Eine?" "Der" "Die" "Das" "[^[:upper:]].*" ".*[^-.[:upper:][:lower:]0-9].*"))
-
 (el-patch-feature bibtex)
 (with-eval-after-load 'bibtex
   ;; 1. handle hyphen words correctly
@@ -3347,6 +3328,28 @@ Return the result as a string."
           (setq titlewords (append titlewords-extra titlewords)))
         (mapconcat #'bibtex-autokey-demangle-title (nreverse titlewords)
                    bibtex-autokey-titleword-separator)))))
+
+(use-package bibtex
+  :defer t
+  :init
+  (setq
+   ;; use 4 digits for year
+   bibtex-autokey-year-length 4
+   ;; use only the first author
+   bibtex-autokey-names 1
+   ;; use infinite length of names
+   bibtex-autokey-name-length 'infty
+   ;; use infinite length of title words
+   bibtex-autokey-titleword-length 'infty
+   ;; use 1 word
+   bibtex-autokey-titlewords 1
+   ;; use no more workds
+   bibtex-autokey-titlewords-stretch 0
+   ;; no separator between year and title
+   bibtex-autokey-year-title-separator ""
+   ;; do not ignore a word like `low-stretch' and `1.23-approximation'
+   bibtex-autokey-titleword-ignore '("A" "An" "On" "The" "Eine?" "Der" "Die" "Das" "[^[:upper:]].*" ".*[^-.[:upper:][:lower:]0-9].*"))
+
 
   (defun yang/bibtex-update-key ()
     (interactive)
