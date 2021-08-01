@@ -896,16 +896,20 @@ and the entire buffer (in the absense of a region)."
   (message "In yang/fix-line-number")
   ;; (set-face-attribute 'variable-pitch nil :family "EtBembo")
   ;; (set-face-attribute 'variable-pitch nil :family "Libre Baskerville")
-  (set-face-attribute 'variable-pitch nil :family "Bookerly")
+  (set-face-attribute 'variable-pitch nil :family "Bookerly"
+                      :inherit 'default)
   (set-face-attribute 'fixed-pitch nil
                       :family 'unspecified
                       :font "fontset-fixed"
-                      ; :fontset "fontset-fixed"
-                      :height 'unspecified)
+                      :height 'unspecified
+                      :inherit 'default)
   (set-face-attribute 'fixed-pitch-serif nil :family "Latin Modern Mono")
   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch)
-  )
+
+  (set-fontset-font t 'mathematical "Symbola" nil 'append)
+  (set-fontset-font t 'unicode "Symbola" nil 'append)
+  (set-fontset-font t 'unicode "Noto Sans" nil 'append))
 
 (yang/with-doom
   (setq doom-font (font-spec :family "Source Code Pro" :size 16 :weight 'semi-light)
@@ -918,8 +922,8 @@ and the entire buffer (in the absense of a region)."
 
 ;; prepare a fontset that handles fixed pitch correctly
 (when (display-graphic-p)
-  (set-fontset-font t 'unicode "Symbola" nil 'prepend)
   (create-fontset-from-ascii-font "-*-Sarasa Mono SC-normal-normal-*" nil "fixed")
+  
   (set-fontset-font "fontset-fixed" 'han "Sarasa Mono SC" nil 'append)
   (set-fontset-font "fontset-fixed" 'latin "Sarasa Mono SC" nil 'prepend)
   (set-fontset-font "fontset-fixed" 'unicode "Sarasa Mono SC" nil 'prepend)
@@ -927,8 +931,9 @@ and the entire buffer (in the absense of a region)."
   (set-fontset-font "fontset-fixed" 'symbol "Symbola" nil 'append)
 
   ;; (create-fontset-from-ascii-font "-*-Libre Baskerville-normal-normal-normal-*" nil "variable")
-  (create-fontset-from-ascii-font "-*-Bookerly-normal-normal-normal-*-19-*" nil "variable")
+  (create-fontset-from-ascii-font "-*-Bookerly-normal-normal-normal-*" nil "variable")
   (create-fontset-from-ascii-font "-*-Latin Modern Mono-normal-normal-*" nil "monoserif")
+  (create-fontset-from-ascii-font "-*-Miama-*" nil "script")
   
   ;; (create-fontset-from-ascii-font "-*-EtBembo-normal-normal-normal-*" nil "variable")
   ;; (set-fontset-font "fontset-variable" 'ascii "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
@@ -937,11 +942,6 @@ and the entire buffer (in the absense of a region)."
   (set-fontset-font "fontset-monoserif" 'unicode "方正屏显雅宋_GBK" nil 'prepend)
 
   ;; Fix some quotation marks
-  ;; (set-fontset-font "fontset-variable" ?“ "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
-  ;; (set-fontset-font "fontset-variable" ?” "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
-  ;; (set-fontset-font "fontset-variable" ?‘ "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
-  ;; (set-fontset-font "fontset-variable" ?’ "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
-
   (set-fontset-font "fontset-variable" '(?“ . ?”) "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   (set-fontset-font "fontset-variable" '(?‘ . ?’) "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
 
@@ -953,8 +953,7 @@ and the entire buffer (in the absense of a region)."
   ;; (set-fontset-font "fontset-variable" ?– "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   (set-face-attribute 'variable-pitch nil :fontset "fontset-variable")
   (set-face-attribute 'fixed-pitch nil :fontset "fontset-fixed")
-  (set-face-attribute 'monoserif nil :fontset "fontset-monoserif")
-  )
+  (set-face-attribute 'monoserif nil :fontset "fontset-monoserif"))
 
 
 (after! unicode-fonts
