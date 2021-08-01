@@ -95,10 +95,9 @@
 (package! org-ql)
 ;; org-roam-bibtex
 (package! org-roam-bibtex
-  :recipe (:host github :repo "org-roam/org-roam-bibtex"))
+   :pin "80a86980801ff233d7c12ae9efef589ffa53df67"
+   :recipe (:host github :repo "org-roam/org-roam-bibtex"))
 
-;; When using org-roam via the `+roam` flag
-(unpin! org-roam company-org-roam)
 ;; org-journal in doom suffers obsolete function problem
 (unpin! org-journal)
 
