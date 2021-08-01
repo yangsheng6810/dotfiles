@@ -5633,26 +5633,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
 
   ;; syntax highlighting in telega code
   (require 'telega-mnz)
-  (global-telega-mnz-mode 1)
-
-  ;; pgtk emacs does not support copying image from clipboard, a simple workaround
-  (define-advice telega-chatbuf-attach-clipboard (:override (doc-p) yang)
-    "Attach clipboard image to the chatbuf as photo.
-If `\\[universal-argument]' is given, then attach clipboard as document."
-    (interactive "P")
-    (let* ((selection-coding-system 'no-conversion) ;for rawdata
-           (temporary-file-directory telega-temp-dir)
-           (tmpfile (telega-temp-name "clipboard" ".png"))
-           (coding-system-for-write 'binary))
-      (if (eq system-type 'gnu/linux)
-          (shell-command-to-string
-           (format "xclip -selection clipboard -t image/png -o > %s"
-                   tmpfile))
-        (write-region (or (gui-get-selection 'CLIPBOARD 'image/png)
-                          (error "No image in CLIPBOARD"))
-                      nil tmpfile nil 'quiet))
-      (telega-chatbuf--attach-tmp-photo tmpfile doc-p)))
-  )
+  (global-telega-mnz-mode 1))
 #+END_SRC
 
 ** Ivy-telega
