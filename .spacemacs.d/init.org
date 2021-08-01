@@ -2001,6 +2001,23 @@ Made for `org-tab-first-hook' in evil-mode."
 
 ** org-journal
    #+BEGIN_SRC emacs-lisp
+;; fix bug in outline that conflicts with valign
+(el-patch-feature outline)
+(with-eval-after-load 'outline
+  (el-patch-defun outline-show-entry ()
+  "Show the body directly following this heading.
+Show the heading too, if it is currently invisible."
+    (interactive)
+    (save-excursion
+      (outline-back-to-heading t)
+      (outline-flag-region (el-patch-wrap 2 (max (point-min) (1- (point))))
+                           (progn
+                             (outline-next-preface)
+                             (if (= 1 (- (point-max) (point)))
+                                 (point-max)
+                               (point)))
+                           nil))))
+
 (use-package org-journal
   :defer t
   ;; :init
@@ -2015,21 +2032,6 @@ Made for `org-tab-first-hook' in evil-mode."
              yang/switch-to-journal-today
              yang/find-file)
   :config
-  ;; fix bug in outline that conflicts with valign
-  (define-advice outline-show-entry (:override nil)
-    "Show the body directly following this heading.
-how the heading too, if it is currently invisible."
-    (interactive)
-    (save-excursion
-      (outline-back-to-heading t)
-      (outline-flag-region (max (point-min) (1- (point)))
-                           (progn
-                             (outline-next-preface)
-                             (if (= 1 (- (point-max) (point)))
-                                 (point-max)
-                               (point)))
-                           nil)))
-
   (defun org-journal-find-location ()
     ;; Open today's journal, but specify a non-nil prefix argument in order to
     ;; inhibit inserting the heading; org-capture will insert the heading.
@@ -3291,8 +3293,11 @@ With a C-u argument, toggle the link display."
    ;; do not ignore a word like `low-stretch' and `1.23-approximation'
    bibtex-autokey-titleword-ignore '("A" "An" "On" "The" "Eine?" "Der" "Die" "Das" "[^[:upper:]].*" ".*[^-.[:upper:][:lower:]0-9].*"))
 
-  ;; handle hyphen words correctly
-  (define-advice bibtex-autokey-get-title (:override () yang)
+(el-patch-feature bibtex)
+(with-eval-after-load 'bibtex
+  ;; 1. handle hyphen words correctly
+  ;; 2. case insensitive for ignoring a/an/the/Die, etc.
+  (el-patch-defun bibtex-autokey-get-title ()
     "Get title field contents up to a terminator.
 Return the result as a string."
     (let ((case-fold-search t)
@@ -3313,12 +3318,16 @@ Return the result as a string."
         (while (and (or (not (numberp bibtex-autokey-titlewords))
                         (< counter (+ bibtex-autokey-titlewords
                                       bibtex-autokey-titlewords-stretch)))
-                    (string-match "\\b\\(\\w\\|-\\|\\.\\)+" titlestring))
+                    (string-match (el-patch-swap
+                                    "\\b\\w+"
+                                    "\\b\\(\\w\\|-\\|\\.\\)+") titlestring))
           (setq word (match-string 0 titlestring)
                 titlestring (substring titlestring (match-end 0)))
           ;; Ignore words matched by one of the elements of
           ;; `bibtex-autokey-titleword-ignore'.  Case is significant.
-          (unless (string-match ignore-re word)
+          (unless (el-patch-splice 2
+                    (let (case-fold-search)
+		      (string-match ignore-re word)))
             (setq counter (1+ counter))
             (if (or (not (numberp bibtex-autokey-titlewords))
                     (<= counter bibtex-autokey-titlewords))
@@ -3330,7 +3339,7 @@ Return the result as a string."
         (unless (string-match "\\b\\w+" titlestring)
           (setq titlewords (append titlewords-extra titlewords)))
         (mapconcat #'bibtex-autokey-demangle-title (nreverse titlewords)
-                   bibtex-autokey-titleword-separator))))
+                   bibtex-autokey-titleword-separator)))))
 
   (defun yang/bibtex-update-key ()
     (interactive)
@@ -4776,6 +4785,90 @@ Return the result as a string."
   (cl-defstruct (elfeed-entry (:constructor elfeed-entry--create))
     "A single entry from a feed, normalized towards Atom."
     id title link date content content-type enclosures tags feed-id meta))
+
+;; remove unecessary (require 'elfeed-show) in defun
+(el-patch-feature elfeed-search)
+(with-eval-after-load 'elfeed-search
+  (el-patch-defun elfeed-search-show-entry (entry)
+    "Display the currently selected item in a buffer."
+    (interactive (list (elfeed-search-selected :ignore-region)))
+    (el-patch-remove
+      (require 'elfeed-show))
+    (when (elfeed-entry-p entry)
+      (elfeed-untag entry 'unread)
+      (elfeed-search-update-entry entry)
+      (unless elfeed-search-remain-on-entry (forward-line))
+      (elfeed-show-entry entry)))
+
+  (el-patch-defun elfeed-search-selected (&optional ignore-region-p)
+    "Return a list of the currently selected feeds.
+
+If IGNORE-REGION-P is non-nil, only return the entry under point."
+    (let ((use-region (and (not ignore-region-p) (use-region-p))))
+      (let ((start (if use-region (region-beginning) (point)))
+            (end   (if use-region
+                      (el-patch-swap
+                        (region-end)
+                        (- (region-end)
+                           (if (save-excursion
+                                 (goto-char (region-end)) (bolp))
+                               1 0)))
+                    (point))))
+      (cl-loop for line from (line-number-at-pos start)
+               to (line-number-at-pos end)
+               for offset = (- line elfeed-search--offset)
+               when (and (>= offset 0) (nth offset elfeed-search-entries))
+               collect it into selected
+               finally (return (if ignore-region-p
+                                   (car selected)
+                                 selected))))))
+  )
+
+;; activate `elfeed-ref-cache'
+(el-patch-feature elfeed-show)
+(with-eval-after-load 'elfeed-show
+  (el-patch-defun elfeed-deref (ref)
+    "Fetch the content behind the reference, or nil if non-existent."
+    (elfeed-ref-archive-ensure)
+    (if (not (elfeed-ref-p ref))
+        ref
+      (let ((index (and (hash-table-p elfeed-ref-archive)
+                        (gethash (elfeed-ref-id ref) elfeed-ref-archive)))
+            (archive-file (elfeed-ref-archive-filename ".gz"))
+            (coding-system-for-read 'utf-8))
+        (if (and index (file-exists-p archive-file))
+            (progn
+              (when (null elfeed-ref-cache)
+                (with-temp-buffer
+                  (insert-file-contents archive-file)
+                  (setf elfeed-ref-cache (buffer-string)))
+                ;; Clear cache on next turn.
+                (el-patch-remove
+                  (run-at-time 0 nil (lambda () (setf elfeed-ref-cache nil)))))
+              (substring elfeed-ref-cache (car index) (cdr index)))
+          (let ((file (elfeed-ref--file ref)))
+            (when (file-exists-p file)
+              (with-temp-buffer
+                (insert-file-contents file)
+                (buffer-string))))))))
+
+  ;; Comment out `kill-all-local-variables' which can take too much time
+  (el-patch-defun elfeed-show-mode ()
+    "Mode for displaying Elfeed feed entries.
+\\{elfeed-show-mode-map}"
+    (interactive)
+    (el-patch-remove
+      (kill-all-local-variables))
+    (use-local-map elfeed-show-mode-map)
+    (setq major-mode 'elfeed-show-mode
+          mode-name "elfeed-show"
+          buffer-read-only t)
+    (buffer-disable-undo)
+    (make-local-variable 'elfeed-show-entry)
+    (set (make-local-variable 'bookmark-make-record-function)
+         #'elfeed-show-bookmark-make-record)
+    (run-mode-hooks 'elfeed-show-mode-hook)))
+
 (use-package elfeed
   :defer t
   :commands (yang/elfeed-show-visit-gui
@@ -4793,6 +4886,57 @@ Return the result as a string."
   :init
   (setq-default elfeed-search-filter "@2-weeks-ago +unread -news")
   :config
+  ;; define variable to store timer
+  (defvar yang/elfeed-compact-timer nil "Timer for elfeed-compact")
+
+  (define-advice +rss-cleanup-h (:before () yang-hack)
+    (advice-remove #'+rss-cleaup-h #'+rss-cleanup-h@yang-hack)
+    (el-patch-defun +rss-cleanup-h ()
+      "Clean up after an elfeed session. Kills all elfeed and elfeed-org files."
+      (interactive)
+      (el-patch-let (($compact-db
+                      (let (projectile-enable-caching)
+                        (elfeed-db-compact))))
+        ;; `delete-file-projectile-remove-from-cache' slows down `elfeed-db-compact'
+        ;; tremendously, so we disable the projectile cache:
+        (el-patch-remove $compact-db)
+        (let ((buf (previous-buffer)))
+          (when (or (null buf) (not (doom-real-buffer-p buf)))
+            (switch-to-buffer (doom-fallback-buffer))))
+        (let ((search-buffers (doom-buffers-in-mode 'elfeed-search-mode))
+              (show-buffers (doom-buffers-in-mode 'elfeed-show-mode))
+              kill-buffer-query-functions)
+          (dolist (file (bound-and-true-p rmh-elfeed-org-files))
+            (when-let (buf (get-file-buffer (expand-file-name file org-directory)))
+              (kill-buffer buf)))
+          (dolist (b search-buffers)
+            (with-current-buffer b
+              (remove-hook 'kill-buffer-hook #'+rss-cleanup-h :local)
+              (kill-buffer b)))
+          (mapc #'kill-buffer show-buffers))
+        (if (featurep! :ui workspaces)
+            (+workspace/delete "rss")
+          (when (window-configuration-p +rss--wconf)
+            (set-window-configuration +rss--wconf))
+          (setq +rss--wconf nil))
+
+        (el-patch-add
+          (when yang/elfeed-compact-timer
+            (cancel-timer yang/elfeed-compact-timer))
+          (setq yang/elfeed-compact-timer
+                (run-with-idle-timer
+                 120 nil
+                 (lambda ()
+                   (unless (get-buffer "*elfeed-search")
+                     ;; only compact when elfeed is not running
+                     (message "Compacting Elfeed Database in spare time, please waite...")
+                     ;; `delete-file-projectile-remove-from-cache' slows down
+                     ;; `elfeed-db-compact' tremendously, so we disable the projectile
+                     ;; cache:
+                     $compact-db
+                     (message "Finish compacting"))
+                   (setq yang/elfeed-compact-timer nil))))))))
+
   ; use most space for images
   (setq shr-max-image-proportion 0.98)
   (elfeed-org)
@@ -4886,22 +5030,6 @@ Return the result as a string."
       (mapc #'elfeed-search-update-entry entries)
       (unless (use-region-p) (forward-line))))
 
-  ;; Comment out `kill-all-local-variables' which can take too much time
-  (define-advice elfeed-show-mode (:override () yang)
-    "Mode for displaying Elfeed feed entries.
-\\{elfeed-show-mode-map}"
-    (interactive)
-    ;; seems very slow
-    ;; (kill-all-local-variables)
-    (use-local-map elfeed-show-mode-map)
-    (setq major-mode 'elfeed-show-mode
-          mode-name "elfeed-show"
-          buffer-read-only t)
-    (buffer-disable-undo)
-    (make-local-variable 'elfeed-show-entry)
-    (set (make-local-variable 'bookmark-make-record-function)
-         #'elfeed-show-bookmark-make-record)
-    (run-mode-hooks 'elfeed-show-mode-hook))
 
   (define-advice elfeed-search-mode (:after () yang)
     ;; Do not update search when feeds get updated. This prevents unexpected
@@ -4909,100 +5037,10 @@ Return the result as a string."
     ;; potential undo of tag updates.
     (remove-hook 'elfeed-update-hooks #'elfeed-search-update))
 
-  (define-advice elfeed-search-selected (:override (&optional ignore-region-p) yang)
-    "Return a list of the currently selected feeds.
+  
+  
 
-If IGNORE-REGION-P is non-nil, only return the entry under point."
-    (let* ((use-region (and (not ignore-region-p) (use-region-p)))
-           (start (if use-region (region-beginning) (point)))
-           (end   (if use-region
-                      (- (region-end)
-                         (if (save-excursion
-                               (goto-char (region-end)) (bolp))
-                             1 0))
-                    (point))))
-      (cl-loop for line from (line-number-at-pos start)
-               to (line-number-at-pos end)
-               for offset = (- line elfeed-search--offset)
-               when (and (>= offset 0) (nth offset elfeed-search-entries))
-               collect it into selected
-               finally (return (if ignore-region-p
-                                   (car selected)
-                                 selected)))))
-  (defvar yang/elfeed-compact-timer nil "Timer for elfeed-compact")
-
-  (define-advice +rss-cleanup-h (:override () yang)
-    "Clean up after an elfeed session. Kills all elfeed and elfeed-org files."
-    (interactive)
-    (let ((buf (previous-buffer)))
-      (when (or (null buf) (not (doom-real-buffer-p buf)))
-        (switch-to-buffer (doom-fallback-buffer))))
-    (let ((search-buffers (doom-buffers-in-mode 'elfeed-search-mode))
-          (show-buffers (doom-buffers-in-mode 'elfeed-show-mode))
-          kill-buffer-query-functions)
-      (dolist (file (bound-and-true-p rmh-elfeed-org-files))
-        (when-let (buf (get-file-buffer (expand-file-name file org-directory)))
-          (with-current-buffer buf
-            (remove-hook 'kill-buffer-hook #'+rss-cleanup-h :local)
-            (kill-buffer buf))))
-      (dolist (b search-buffers)
-        (with-current-buffer b
-          (remove-hook 'kill-buffer-hook #'+rss-cleanup-h :local)
-          (kill-buffer b)))
-      (mapc #'kill-buffer show-buffers))
-
-    (when yang/elfeed-compact-timer
-      (cancel-timer yang/elfeed-compact-timer))
-    (setq yang/elfeed-compact-timer
-          (run-with-idle-timer
-           120 nil
-           (lambda ()
-             (unless (get-buffer "*elfeed-search")
-               ;; only compact when elfeed is not running
-               (message "Compacting Elfeed Database in spare time, please waite...")
-               ;; `delete-file-projectile-remove-from-cache' slows down
-               ;; `elfeed-db-compact' tremendously, so we disable the projectile
-               ;; cache:
-               (let (projectile-enable-caching)
-                 (elfeed-db-compact))
-               (message "Finish compacting"))
-             (setq yang/elfeed-compact-timer nil)))))
-
-  ;; remove unecessary (require 'elfeed-show) in defun
-  (define-advice elfeed-search-show-entry (:override (entry) yang)
-    "Display the currently selected item in a buffer."
-    (interactive (list (elfeed-search-selected :ignore-region)))
-    (when (elfeed-entry-p entry)
-      (elfeed-untag entry 'unread)
-      (elfeed-search-update-entry entry)
-      (unless elfeed-search-remain-on-entry (forward-line))
-      (elfeed-show-entry entry)))
-
-  ;; activate `elfeed-ref-cache'
-  (defun elfeed-deref (ref)
-    "Fetch the content behind the reference, or nil if non-existent."
-    (elfeed-ref-archive-ensure)
-    (if (not (elfeed-ref-p ref))
-        ref
-      (let ((index (and (hash-table-p elfeed-ref-archive)
-                        (gethash (elfeed-ref-id ref) elfeed-ref-archive)))
-            (archive-file (elfeed-ref-archive-filename ".gz"))
-            (coding-system-for-read 'utf-8))
-        (if (and index (file-exists-p archive-file))
-            (progn
-              (when (null elfeed-ref-cache)
-                (with-temp-buffer
-                  (insert-file-contents archive-file)
-                  (setf elfeed-ref-cache (buffer-string)))
-                ;; Clear cache on next turn.
-                ;; (run-at-time 0 nil (lambda () (setf elfeed-ref-cache nil)))
-                )
-              (substring elfeed-ref-cache (car index) (cdr index)))
-          (let ((file (elfeed-ref--file ref)))
-            (when (file-exists-p file)
-              (with-temp-buffer
-                (insert-file-contents file)
-                (buffer-string))))))))
+  
 
   (defun yang/elfeed-show-mode-setup ()
     (setq buffer-face-mode-face 'variable-pitch)
@@ -5863,6 +5901,18 @@ SHOW-ALL, show all chats."
    #+end_src
 ** yasdcv
    #+begin_src emacs-lisp
+(el-patch-feature yasdcv)
+(with-eval-after-load 'yasdcv
+  (el-patch-defun yasdcv--buffer-output-translation (translate-text)
+    "Output sdcv translation to the temp buffer."
+    (let ((buffer-name "*Stardict Output*"))
+      (with-output-to-temp-buffer buffer-name
+        (set-buffer buffer-name)
+        (when (featurep 'org)
+          (org-mode)
+          (el-patch-remove (org-indent-mode)))
+        (insert translate-text)))))
+
 (use-package yasdcv
   :defer t
   :config
@@ -5879,14 +5929,7 @@ SHOW-ALL, show all chats."
   (add-to-list 'yasdcv-sdcv-dicts
                '("" "Webster's Revised Unabridged Dictionary (1913)" nil t))
 
-  (set-popup-rule! "^\\*Stardict Output" :slot 3 :side 'bottom :width 50 :height 0.3 :select t :quit t)
-  (define-advice yasdcv--buffer-output-translation (:override (translate-text))
-    (let ((buffer-name "*Stardict Output*"))
-      (with-output-to-temp-buffer buffer-name
-        (set-buffer buffer-name)
-        (when (featurep 'org)
-          (org-mode))
-        (insert translate-text)))))
+  (set-popup-rule! "^\\*Stardict Output" :slot 3 :side 'bottom :width 50 :height 0.3 :select t :quit t))
    #+end_src
 ** Save Firefox Session
    [[https://acidwords.com/posts/2019-12-04-handle-chromium-and-firefox-sessions-with-org-mode.html][original idea]], [[https://emacs-china.org/t/org-firefox/15100][src]]
