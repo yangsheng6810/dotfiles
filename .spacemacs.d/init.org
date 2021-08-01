@@ -3145,6 +3145,7 @@ With a C-u argument, toggle the link display."
   ; :mode "\\.tex\\'"
   :commands (LaTeX-math-mode)
   :config
+  (setq reftex-auto-view-crossref nil)
   (defun yang/LaTeX-setup ()
     (turn-on-reftex)
     (remove-hook 'TeX-update-style-hook #'rainbow-delimiters-mode)
