@@ -5457,7 +5457,10 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
                 "\\([ \t]*[@={]@?[^\n;]+?\\)?"
                 "\\([ \t]+;.+?\\|[ \t]*\\)?$")
         ledger-reconcile-insert-effective-date nil
-        ledger-reconcile-sort-key "(0)")
+        ledger-reconcile-sort-key "(0)"
+        ;; do not narrow to the account we are reconciling, to allow showing
+        ;; newly added transaction
+        ledger-narrow-on-reconcile nil)
   (yang/with-doom
     (set-company-backend! 'ledger-mode
       #'ledger-complete-at-point #'company-capf)
