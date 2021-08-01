@@ -1762,7 +1762,39 @@ and the entire buffer (in the absense of a region)."
         org-id-locations-file (concat org-directory ".orgids")
         org-id-locations-file-relative t)
   :config
-  (defalias '+org--restart-mode-h #'ignore)
+  ;; Use `indent-for-tab-command' in `org-mode' for TAB
+  (define-advice +org-indent-maybe-h (:before () yang-hack)
+    (advice-remove #'org-indent-maybe-h #'org-indent-maybe-h@yang-hack)
+    (el-patch-defun +org-indent-maybe-h ()
+      "Indent the current item (header or item), if possible.
+Made for `org-tab-first-hook' in evil-mode."
+      (interactive)
+      (cond ((not (and (bound-and-true-p evil-local-mode)
+                       (evil-insert-state-p)))
+             nil)
+            ((org-at-item-p)
+             (if (eq this-command 'org-shifttab)
+                 (org-outdent-item-tree)
+               (org-indent-item-tree))
+             t)
+            ((org-at-heading-p)
+             (ignore-errors
+               (if (eq this-command 'org-shifttab)
+                   (org-promote)
+                 (org-demote)))
+             t)
+            ((org-in-src-block-p t)
+             (org-babel-do-in-edit-buffer
+              (call-interactively #'indent-for-tab-command))
+             t)
+            ((and (save-excursion
+                    (skip-chars-backward " \t")
+                    (bolp))
+                  (org-in-subtree-not-table-p))
+             (call-interactively (el-patch-swap
+                                   #'tab-to-tab-stop
+                                   #'indent-for-tab-command))
+             t))))
   ;; (defalias '+org--restart-mode-h #'ignore)
   ;; from https://github.com/hlissner/doom-emacs/issues/4832#issuecomment-831538124
   (define-advice org-capture (:around (fun &rest args) yang)
@@ -1872,37 +1904,6 @@ and the entire buffer (in the absense of a region)."
   (define-advice org-decrypt-entry (:after () yang)
     "Prevent org-babel-pre-tangle-hook from saving"
     (remove-hook 'org-babel-pre-tangle-hook #'save-buffer t))
-
-  ;; Use `indent-for-tab-command' in `org-mode' for TAB
-  (define-advice +org-indent-maybe-h (:override () yang)
-    "Indent the current item (header or item), if possible.
-Made for `org-tab-first-hook' in evil-mode."
-    (interactive)
-    (cond ((not (and (bound-and-true-p evil-local-mode)
-                     (or (evil-insert-state-p)
-                         (evil-emacs-state-p))))
-           nil)
-          ((org-at-item-p)
-           (if (eq this-command 'org-shifttab)
-               (org-outdent-item-tree)
-             (org-indent-item-tree))
-           t)
-          ((org-at-heading-p)
-           (ignore-errors
-             (if (eq this-command 'org-shifttab)
-                 (org-promote)
-               (org-demote)))
-           t)
-          ((org-in-src-block-p t)
-           (org-babel-do-in-edit-buffer
-            (call-interactively #'indent-for-tab-command))
-           t)
-          ((and (save-excursion
-                  (skip-chars-backward " \t")
-                  (bolp))
-                (org-in-subtree-not-table-p))
-           (call-interactively #'indent-for-tab-command)
-           t)))
 
   (defun yang/org-wrap-span (beg end)
     (interactive "r")
