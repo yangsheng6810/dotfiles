@@ -5764,9 +5764,10 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   Some config from [[https://sunyour.org/post/telega-dot-el%E9%98%B6%E6%AE%B5%E6%80%A7%E9%85%8D%E7%BD%AE%E5%B0%8F%E7%BB%93/][telega.el阶段性配置小结]]
 #+BEGIN_SRC emacs-lisp
 (general-def
-        :keymaps 'telega-msg-button-map
-        "k" nil
-        "n" nil)
+  :keymaps 'telega-msg-button-map
+  "k" nil
+  "n" nil
+  "SPC" nil)
 
 (defun yang/fixed-pitch-setup ()
   (interactive)
@@ -5778,7 +5779,9 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
 (define-advice evil-collection-telega-setup (:after () yang)
   (evil-collection-define-key nil 'telega-msg-button-map
     "f" 'telega-msg-forward-marked-or-at-point
-    "r" 'telega-msg-reply))
+    "r" 'telega-msg-reply)
+  (evil-collection-define-key nil 'telega-msg-button-map
+    "y" #'evil-yank))
 
 (use-package telega
   :defer t
