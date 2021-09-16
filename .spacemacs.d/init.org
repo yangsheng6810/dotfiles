@@ -350,6 +350,12 @@ This is a wrapper around `eval-after-load' that:
          "<delete>" nil                     ; delete-char (delete char before cursor)
          "C-u" nil                          ; evil-scroll-up
          )
+
+       ;; revert doom customization
+       (general-define-key :states '(visual normal)
+                    "K" nil
+                    "gk" #'+lookup/documentation)
+
        (general-def
          :keymaps 'evil-surround-mode-map
          :states '(operator visual)
