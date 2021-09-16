@@ -54,3 +54,10 @@ function video2gif (){
     # ffmpeg -i "$1" -filter_complex "[0:v] fps=12,scale=iw/2:ih/2,split [a][b];[a] palettegen [p];[b][p] paletteuse=new=1" "${1%.*}.gif"
     ffmpeg -i "$1" -filter_complex "[0:v] fps=12,scale=iw:ih,split [a][b];[a] palettegen [p];[b][p] paletteuse=new=1" "${1%.*}.gif"
 }
+
+function musl-build() {
+  sudo docker run \
+    -v cargo-cache:/root/.cargo/registry \
+    -v "$PWD:/volume" \
+    --rm -it clux/muslrust cargo build --release
+}
