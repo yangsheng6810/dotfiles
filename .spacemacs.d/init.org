@@ -3076,13 +3076,30 @@ For generating org-capture templates
   :defer t
   :config
   (setq org-roam-capture-ref-templates
-        '(("r" "ref" plain
-           #'org-roam-capture--get-point "%?"
-           :file-name "${slug}"
-           :head "#+title: ${title}\n#+roam_key: ${ref}\n[[${ref}][${title}]]\n"
+        '(("r" "ref" plain "%?" :if-new
+           (file+head "${slug}.org" "#+title: ${title}\n#+roam_key: ${ref}\n[[${ref}][${title}]]\n")
            :unnarrowed t))
         org-roam-capture-templates
-        '(("d" "default" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n#+roam_tags:" :unnarrowed t))
+        '(("d" "default" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+,#+filetags:
+") :unnarrowed t)
+          ("r" "ref" plain 
+           ""
+           :if-new (file+head "${citekey}.org"
+                              "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}
+,#+ROAM_TAGS: paper
+
+- tags ::
+- keywords :: ${keywords}
+
+,* ${title}
+:PROPERTIES:
+:Custom_ID: ${citekey}
+:URL: ${url}
+:AUTHOR: ${author}
+:YEAR: ${year}
+:WHERE: ${journal} ${booktitle}
+:END:") :unnarrowed t))
         org-roam-db-update-method 'immediate))
 #+END_SRC
 
@@ -3155,25 +3172,7 @@ For generating org-capture templates
         ;; include cite-number in scraper export
         orb-pdf-scrapper-table-export-fields '("#" "citekey" "author" "title" "journal" "date")
         orb-pdf-scrapper-list-style "- [%s] "
-        ;; set default template
-        orb-templates
-        '(("r" "ref" plain #'org-roam-capture--get-point
-           ""
-           :file-name "${citekey}"
-           :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}
-,#+ROAM_TAGS: paper
-
-- tags ::
-- keywords :: ${keywords}
-
-,* ${title}
-:PROPERTIES:
-:Custom_ID: ${citekey}
-:URL: ${url}
-:AUTHOR: ${author}
-:YEAR: ${year}
-:WHERE: ${journal} ${booktitle}
-:END:")))
+       )
 
   ;; need to reset CASE-FOLD-SEARCH and -COMPARE-FN, which was set in
   ;; `orb-autokey-generate-key' and `orb-pdf-scrapper--get-entry-info'
