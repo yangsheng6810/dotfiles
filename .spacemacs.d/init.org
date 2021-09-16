@@ -3219,6 +3219,7 @@ For generating org-capture templates
              org-download-screenshot)
   :custom
   (org-download-screenshot-method "flameshot gui --raw > %s")
+  (org-download-image-dir "img")
   (org-download-image-org-width 800))
    #+end_src
 
