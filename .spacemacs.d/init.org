@@ -1912,6 +1912,14 @@ and the entire buffer (in the absense of a region)."
       (setq doom-scratch-buffer-major-mode 'emacs-lisp-mode))
   #+end_src
 
+** Minibuffer
+#+begin_src emacs-lisp
+(general-def
+  :keymaps 'minibuffer-mode-map
+  "C-k" nil
+  "C-j" nil)
+#+end_src
+
 * Org-mode
 ** General
   #+BEGIN_SRC emacs-lisp
