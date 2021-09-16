@@ -649,6 +649,32 @@ This is a wrapper around `eval-after-load' that:
 (global-set-key [remap zap-to-char] #'ace-jump-zap-to-char)
    #+end_src
 
+** Separedit
+Edit comment/string/docstring/code block in separate buffer with your favorite mode.
+#+begin_src emacs-lisp
+(use-package separedit
+  :defer t
+  :init
+    (with-eval-after-load 'prog-mode
+      (define-key prog-mode-map (kbd "C-c '") #'separedit))
+    (with-eval-after-load 'minibuffer-mode
+      (define-key minibuffer-local-map (kbd "C-c '") #'separedit))
+    (with-eval-after-load 'help-mode
+      (define-key help-mode-map (kbd "C-c '") #'separedit))
+    (with-eval-after-load 'helpful-mode
+      (define-key helpful-mode-map (kbd "C-c '") #'separedit))
+  ;; Default major-mode for edit buffer
+  ;; can also be other mode e.g. org-mode.
+  (setq separedit-default-mode 'markdown-mode)
+
+  ;; Feature options
+  (setq separedit-preserve-string-indentation t)
+  ;; Use the remaining fill-width in edit buffer
+  (setq separedit-continue-fill-column t)
+  (setq separedit-write-file-when-execute-save t)
+  (setq separedit-remove-trailing-spaces-in-comment t))
+#+end_src
+
 * General
   #+BEGIN_SRC emacs-lisp
 (setq system-time-locale "zh_CN.utf-8"

@@ -168,3 +168,5 @@
            :files ("*.el" "*.js" "*.css")))
 ;; for patching
 (package! el-patch)
+;; For editing a block in another mode
+(package! separedit)
