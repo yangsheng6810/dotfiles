@@ -170,7 +170,7 @@
         +pandoc
         +present
         ;; +pretty ; commented out because of performance issue
-        +roam)
+        +roam2)
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
