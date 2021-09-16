@@ -4240,6 +4240,8 @@ Return the result as a string."
    "l" #'dired-find-file
    )
   :config
+  (with-eval-after-load 'evil-snipe
+    (add-to-list 'evil-snipe-disabled-modes 'dired-mode))
   ;; automatically fill in target for dired from other visible dired buffer. If
   ;; we want the original target, it is already available via M-n
   (setq dired-dwim-target t
