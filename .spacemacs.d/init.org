@@ -826,8 +826,11 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
 
 ** Popup
    #+begin_src emacs-lisp
-;; `Info-mode'
+;; `Info-mode', show modeline
 (set-popup-rule! "^\\*info\\*$" :slot 2 :vslot 2 :size 0.45 :select t :modeline t)
+;; `help-mode', `helpful-mode', do not close window when ESC/C-g pressed
+(set-popup-rule! "^\\*\\([Hh]elp\\|Apropos\\)"
+       :slot 2 :vslot -8 :size 0.35 :select t :quit nil)
    #+end_src
 
 ** Load Credentials
