@@ -3787,6 +3787,23 @@ Return the result as a string."
   (setq counsel-locate-cmd #'yang/counsel-locate-cmd-default))
    #+end_src
 
+** Locate
+#+begin_src emacs-lisp
+
+(defun yang/locate-default-make-command-line (search-string)
+  (defvar yang/locate-command nil)
+  (unless yang/locate-command
+    (cond ((executable-find "plocate")
+           (setq locate-command "plocate"))
+          ((executable-find "locate")
+           (setq locate-command "locate"))
+          (t (user-error "Unable to find program for locate"))))
+  (setq yang/locate-command locate-command)
+  (list locate-command search-string))
+
+(setq locate-make-command-line #'yang/locate-default-make-command-line)
+#+end_src
+
 * buffer-management
   #+BEGIN_SRC emacs-lisp
     (use-package ivy-rich
