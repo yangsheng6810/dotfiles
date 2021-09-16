@@ -113,8 +113,21 @@
 
 ;; to use commit https://github.com/Wilfred/helpful/commit/584ecc887bb92133119f93a6716cdf7af0b51dca
 (unpin! helpful)
+(package! dired-avfs)
+(package! dired-open)
+;; (package! dired-rainbow)
 (package! dired-narrow)
+(package! dired-subtree)
 (package! dired-filter)
+;;; Not yet published on melpa
+;; (package! dired-list
+;;   :recipe (:type git
+;;            :repo "Fuco1/dired-hacks"
+;;            :files ("dired-open.el")))
+(package! dired-collapse)
+
+(package! dired-quick-sort)
+(package! dired-hide-dotfiles)
 ;; for common-lisp
 (package! slime)
 ;; for rx explanation
