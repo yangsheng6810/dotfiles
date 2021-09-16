@@ -5108,8 +5108,8 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   ;; define variable to store timer
   (defvar yang/elfeed-compact-timer nil "Timer for elfeed-compact")
 
-  (define-advice +rss-cleanup-h (:before () yang-hack)
-    (advice-remove #'+rss-cleaup-h #'+rss-cleanup-h@yang-hack)
+  (define-advice +rss-cleanup-h (:override () yang-hack)
+    (advice-remove '+rss-cleanup-h #'+rss-cleanup-h@yang-hack)
     (el-patch-defun +rss-cleanup-h ()
       "Clean up after an elfeed session. Kills all elfeed and elfeed-org files."
       (interactive)
@@ -5154,7 +5154,8 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
                      ;; cache:
                      $compact-db
                      (message "Finish compacting"))
-                   (setq yang/elfeed-compact-timer nil))))))))
+                   (setq yang/elfeed-compact-timer nil)))))))
+    (+rss-cleanup-h))
 
   ; use most space for images
   (setq shr-max-image-proportion 0.98)
@@ -5256,11 +5257,6 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
     ;; potential undo of tag updates.
     (remove-hook 'elfeed-update-hooks #'elfeed-search-update))
 
-  
-  
-
-  
-
   (defun yang/elfeed-show-mode-setup ()
     (setq buffer-face-mode-face 'variable-pitch)
     (buffer-face-mode))
@@ -5338,7 +5334,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   (setq elfeed-search-print-entry-function #'elfeed-search-print-valigned-entry)
   ;; Hide ads in zaobao
   (setq shr-blocked-images
-      "https://static.zaobao.com/s3fs-public/freemium_images/20210209/.*\\(desktop\\|mobile\\).*.\\(jpg\\|png\\)")
+      "https://static.zaobao.com/s3fs-public/freemium_images/2021..../.*\\(desktop\\|mobile\\).*.\\(jpg\\|png\\)")
   ;; Fix keybinding in elfeed
   (general-def
     :keymaps '(evil-motion-state-map evil-normal-state-map)
