@@ -5362,7 +5362,24 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
         ;; disable version on remote
         vc-ignore-dir-regexp (format "\\(%s\\)\\|\\(%s\\)"
                                      vc-ignore-dir-regexp
-                                     tramp-file-name-regexp)))
+                                     tramp-file-name-regexp))
+
+
+  ;; Fix glitch in tramp with yubikey
+  (setq tramp-actions-before-shell '((tramp-login-prompt-regexp tramp-action-login)
+                                     (tramp-password-prompt-regexp tramp-action-password)
+                                     (tramp-wrong-passwd-regexp tramp-action-permission-denied)
+                                     (shell-prompt-pattern tramp-action-succeed)
+                                     (tramp-shell-prompt-pattern tramp-action-succeed)
+                                     (tramp-yesno-prompt-regexp tramp-action-yesno)
+                                     (tramp-yn-prompt-regexp tramp-action-yn)
+                                     (tramp-terminal-prompt-regexp tramp-action-terminal)
+                                     (tramp-antispoof-regexp tramp-action-confirm-message)
+                                     (tramp-process-alive-regexp tramp-action-process-alive))
+        tramp-actions-copy-out-of-band '((tramp-password-prompt-regexp tramp-action-password)
+                                         (tramp-wrong-passwd-regexp tramp-action-permission-denied)
+                                         (tramp-copy-failed-regexp tramp-action-permission-denied)
+                                         (tramp-process-alive-regexp tramp-action-out-of-band))))
 
 ;; kind of disable projectile when in TRAMP
 (use-package projectile
