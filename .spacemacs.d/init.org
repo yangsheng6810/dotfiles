@@ -4249,20 +4249,32 @@ Return the result as a string."
         ;; `compress',`copy', `delete', `hardlink', `load', `move', `print',
         ;; `shell', `symlink',`touch' and `uncompress'
         dired-no-confirm t)
+
+  ;; Use more accurate regexp for image-dired buffer, so that
+  ;; image-dired-thumbnail-mode can exempt popup rules
+  (setq +popup--display-buffer-alist (assoc-delete-all "^\\*image-dired" +popup--display-buffer-alist))
+  (set-popup-rule! "^\\*image-dired\\*"
+    :slot 20 :size 0.8 :select t :quit nil :ttl 0)
+
   (general-def
     :keymaps 'dired-mode-map
     :states '(normal)
     "h" #'dired-up-directory
-    "l" #'dired-find-file)
+    "l" #'dired-find-file
+    ;; Replace "S" with other keys to invoke the dired-quick-sort hydra.
+    "S" #'hydra-dired-quick-sort/body)
 
   (remove-hook 'dired-mode-hook 'diredfl-mode)
   (defun yang/dired-mode-setup ()
     "to be run as hook for `dired-mode'."
     (dired-hide-details-mode 1)
+    (dired-hide-dotfiles-mode 1)
     (dired-omit-mode 1)
-    (hl-line-mode 1)
-    )
+    (hl-line-mode 1))
+
   (add-hook 'dired-mode-hook 'yang/dired-mode-setup)
+  ;; Automatically use the sorting defined here to sort.
+  (add-hook 'dired-mode-hook 'dired-quick-sort)
 
   (defun dired-open-file ()
     "In dired, open the file named on this line."
