@@ -168,6 +168,8 @@
 (package! realgud :disable t)
 ;; zap to char with ace/avy
 (package! ace-jump-zap)
+(package! ace-isearch)
+
 (package! org-appear)
 ;; snippets for LaTeX and other major-modes
 (package! aas)

@@ -881,6 +881,22 @@ and the entire buffer (in the absense of a region)."
 (setq shr-image-animate nil)
    #+end_src
 
+** Ace-search
+   #+begin_src emacs-lisp
+(use-package ace-isearch-mode
+  :defer t
+  :config
+  ;; use two characters
+  (setq ace-isearch-jump-based-on-one-char nil)
+  ;; use swiper
+  (setq ace-isearch-function-from-isearch 'ace-isearch-swiper-from-isearch)
+  (define-advice ace-isearch-2--make-ace-jump-or-avy (:override () yang)
+    "Override to use custom function"
+    (setq ace-isearch--ace-jump-or-avy #'ace-pinyin-jump-char-2)))
+
+;; (global-ace-isearch-mode 1)
+   #+end_src
+
 * Display
   #+BEGIN_SRC emacs-lisp
 (after! frame
