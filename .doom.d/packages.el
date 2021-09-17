@@ -185,3 +185,8 @@
 (package! el-patch)
 ;; For editing a block in another mode
 (package! separedit)
+
+;; Query replace with live feedback
+(package! visual-regexp)
+;; And mordern regexp
+(package! visual-regexp-steroids)
