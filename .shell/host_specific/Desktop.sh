@@ -21,3 +21,4 @@ if [ -n "${ZSH_VERSION+x}" ]; then
     eval "$(zoxide init zsh)"
 fi
 
+# if [ -e /home/yangsheng/.nix-profile/etc/profile.d/nix.sh ]; then . /home/yangsheng/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
