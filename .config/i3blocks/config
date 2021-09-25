@@ -70,6 +70,11 @@ AUDIO_DELTA=2
 DIR=/
 label=:
 interval=30
+[disk]
+# command=~/.config/i3blocks/disk/disk /
+DIR=/home
+label=:
+interval=30
 
 # Network interface monitoring
 #
