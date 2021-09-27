@@ -251,6 +251,13 @@ This is a wrapper around `eval-after-load' that:
       '(not elfeed-show-mode elfeed-search-mode
             vterm-mode
             telega-chat-mode telega-root-mode))
+;; (define-advice flycheck-package-setup (:override () yang))
+;; Remove tons of false positive for emacs-lisp
+(with-eval-after-load 'flycheck
+  (setq flycheck-checkers
+        (-remove (lambda (x)
+                   (-contains-p '(emacs-lisp emacs-lisp-checkdoc) x))
+                 flycheck-checkers)))
    #+end_src
 ** company
    #+begin_src emacs-lisp
