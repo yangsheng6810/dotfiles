@@ -4942,10 +4942,31 @@ Return the result as a string."
 * Doom-modeline
   #+begin_src emacs-lisp
 (setq doom-modeline-buffer-file-name-style 'file-name)
-(setq doom-modeline-continuous-word-count-modes nil)
-(setq doom-modeline-irc nil)
-(setq doom-modeline-env-version nil)
 (setq inhibit-compacting-font-caches t)
+;; Whether display the minor modes in the mode-line.
+(setq doom-modeline-minor-modes nil)
+;; If non-nil, a word count will be added to the selection-info modeline segment.
+(setq doom-modeline-enable-word-count nil)
+(setq doom-modeline-continuous-word-count-modes nil)
+;; Whether display the buffer encoding.
+(setq doom-modeline-buffer-encoding nil)
+;; Whether display the indentation information.
+(setq doom-modeline-indent-info nil)
+;; Whether display the `lsp' state. Non-nil to display in the mode-line.
+(setq doom-modeline-lsp nil)
+;; Whether display the GitHub notifications. It requires `ghub' package.
+(setq doom-modeline-github nil)
+;; Whether display the mu4e notifications. It requires `mu4e-alert' package.
+(setq doom-modeline-mu4e nil)
+;; Whether display the gnus notifications.
+(setq doom-modeline-gnus nil)
+;; Whether display the IRC notifications. It requires `circe' or `erc' package.
+(setq doom-modeline-irc nil)
+;; Whether display the environment version.
+(setq doom-modeline-env-version nil)
+;; Hooks that run before/after the modeline version string is updated
+(setq doom-modeline-before-update-env-hook nil)
+(setq doom-modeline-after-update-env-hook nil)
   #+end_src
 
 * Bug-fixes
