@@ -21,4 +21,9 @@ if [ -n "${ZSH_VERSION+x}" ]; then
     eval "$(zoxide init zsh)"
 fi
 
-# if [ -e /home/yangsheng/.nix-profile/etc/profile.d/nix.sh ]; then . /home/yangsheng/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+export GUIX_PROFILE="$HOME/.guix-profile"
+source "$GUIX_PROFILE/etc/profile"
+export PATH="${PATH}:${HOME}/.config/guix/current/bin"
+# use only 12 out of 16 cores
+export GUIX_BUILD_OPTIONS="-c 12"
