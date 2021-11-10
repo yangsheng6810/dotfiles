@@ -154,6 +154,9 @@ This is a wrapper around `eval-after-load' that:
 
 (remove-hook! '(prog-mode-hook text-mode-hook conf-mode-hook)
               #'display-line-numbers-mode)
+
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
   #+END_SRC
 
 ** Moving around
