@@ -6034,6 +6034,8 @@ keywords are supported:
         telega-video-play-inline nil)
   ;; change reply symbol
   (setq telega-symbol-reply "↫")
+  (setq telega-symbol-reply "↩")
+  
   ;; set date format for old messages  
   (setq telega-old-date-format "%Y/%M/%D")
 
