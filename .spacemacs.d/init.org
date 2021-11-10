@@ -323,6 +323,13 @@ This is a wrapper around `eval-after-load' that:
     (setq ffip-use-rust-fd t )))
     #+end_src
 
+*** Find-lisp
+#+begin_src emacs-lisp
+(use-package find-lisp
+  :defer t
+  :commands (find-lisp-find-files))
+#+end_src
+
 ** Evil
    #+begin_src emacs-lisp
      (use-package evil
@@ -841,6 +848,9 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
 ;; `help-mode', `helpful-mode', do not close window when ESC/C-g pressed
 (set-popup-rule! "^\\*\\([Hh]elp\\|Apropos\\)"
        :slot 2 :vslot -8 :size 0.35 :select t :quit nil)
+;; Youdao-dictionary
+(set-popup-rule! "^\\*Youdao Dictionary\\*$"
+       :slot 2 :vslot -8 :size 0.35 :select t)
    #+end_src
 
 ** Load Credentials
