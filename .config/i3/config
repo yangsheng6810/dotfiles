@@ -394,7 +394,8 @@ for_window [class="Alacritty" title="floating"] floating enable
 
 for_window [class="Eog"] floating enable
 for_window [class="Totem"] resize set width 35 ppt
-for_window [class="Pavucontrol"] resize set width 25 ppt, resize set height 50 ppt
+# for_window [class="Pavucontrol"] resize set width 25 ppt, resize set height 50 ppt
+for_window [class="Pavucontrol"] floating enable
 for_window [class="Blueman-manager"] resize set width 25 ppt, resize set height 50 ppt
 for_window [class="Slack"] move container to workspace $ws7
 for_window [class="KeePassXC"] floating enable
