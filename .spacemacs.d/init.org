@@ -3240,6 +3240,28 @@ For generating org-capture templates
         orb-pdf-scrapper-table-export-fields '("#" "citekey" "author" "title" "journal" "date")
         orb-pdf-scrapper-list-style "- [%s] "
        )
+  ;; Hack org-roam-bibtex capture to use a different template
+  (define-advice orb--new-note (:around (func &rest rest) yang)
+    (let ((org-roam-capture-templates
+           '(("r" "ref" plain 
+              ""
+              :if-new (file+head "${citekey}.org"
+                                 "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}
+,#+ROAM_TAGS: paper
+
+- tags ::
+- keywords :: ${keywords}
+
+,* ${title}
+:PROPERTIES:
+:Custom_ID: ${citekey}
+:URL: ${url}
+:AUTHOR: ${author}
+:YEAR: ${year}
+:WHERE: ${journal} ${booktitle}
+:END:") :unnarrowed t))
+           ))
+      (apply func rest)))
 
   ;; need to reset CASE-FOLD-SEARCH and -COMPARE-FN, which was set in
   ;; `orb-autokey-generate-key' and `orb-pdf-scrapper--get-entry-info'
