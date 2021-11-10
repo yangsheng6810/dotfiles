@@ -6217,7 +6217,8 @@ SHOW-ALL, show all chats."
 (use-package bookmark
   :defer t
   :config
-  (setq bookmark-fontify nil))
+  (setq bookmark-fontify nil
+        bookmark-set-fringe-mark nil))
    #+end_src
 ** ASCII
    #+begin_src emacs-lisp
