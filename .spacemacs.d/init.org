@@ -2009,6 +2009,10 @@ Made for `org-tab-first-hook' in evil-mode."
   (define-advice org-capture (:around (fun &rest args) yang)
     (cl-letf (((symbol-function '+org--restart-mode-h) #'ignore))
       (apply fun args)))
+  ;; Fix org-capture problem
+  (undefadvice! +file-templates-inhibit-in-org-capture-a (orig-fn &rest args)
+    :around #'org-capture)
+
   (setq
    ;; place tags directly after headline text, with only one space in between
    org-tags-column 0
