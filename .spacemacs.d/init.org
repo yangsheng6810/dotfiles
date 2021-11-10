@@ -2354,7 +2354,7 @@ Show the heading too, if it is currently invisible."
                       ;; Each group has an implicit boolean OR operator between its selectors.
                       (:name "Today"   ; Optionally specify section name
                        :time-grid t    ; Items that appear on the time grid
-                       :todo "TODAY")  ; Items that have this TODO keyword
+                       :date today)  ; Items that have this TODO keyword
                       (:name "Important"
                        ;; Single arguments given alone
                        :priority>= "B")
@@ -2594,15 +2594,25 @@ For generating org-capture templates
                 ("Journal entry" :keys "j"
                  :function (lambda () (org-journal-find-location))
                  :clock-in t :clock-resume t
-                 :contexts (:in-mode "org-journal-mode" :keys "z")
+                 :contexts ((:in-mode "org-journal-mode" :keys "z")
+                            (:in-mode "org-agenda-mode" :keys "Z")
+                            (:unless-mode "org-journal-mode\\|org-agenda-mode"))
                  :template
                  ("* %(format-time-string org-journal-time-format)%^{Title}"
                   "  %a%i%?"))
+                ;; org-journal-mode
                 ("Journal entry" :keys "z"
                  :function (lambda () (org-journal-find-location))
                  :clock-in t :clock-resume t
                  :template
                  ("* %(format-time-string org-journal-time-format)%^{Title}"
+                  "  %i%?"))
+                ;; org-agenda-mode
+                ("Journal entry" :keys "Z"
+                 :function (lambda () (org-journal-find-location))
+                 :clock-in t :clock-resume t
+                 :template
+                 ("* %(format-time-string org-journal-time-format)%a"
                   "  %i%?"))
                 (:group "All Notes"
                         :file "~/Documents/org/Notes.org"
@@ -2818,7 +2828,7 @@ For generating org-capture templates
          org-mode-map
          ("C-c ]" . org-ref-insert-link))
   :init
-  (add-hook 'org-mode-hook 'org-ref-setup-label-finders t)
+  ;; (add-hook 'org-mode-hook 'org-ref-setup-label-finders t)
   (setq org-ref-title-case-types '("article" "book" "inproceedings" "incollection")
         org-ref-clean-bibtex-entry-hook
         '(org-ref-bibtex-format-url-if-doi
@@ -2835,7 +2845,7 @@ For generating org-capture templates
           ;; org-ref-sort-bibtex-entry
           orcb-fix-spacing))
   :config
-  (org-ref-ivy-cite-completion)
+  ; (org-ref-ivy-cite-completion)
 
   ;; org-ref-cite
   (setq org-ref-cite-onclick-function
@@ -2869,8 +2879,9 @@ For generating org-capture templates
           (call-process-shell-command (concat "xdg-open " pdf-file) nil 0 nil)
         (message "no pdf found for %s" key))))
 
-  (defhydra+ org-ref-cite-hydra ()
-    ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open")))
+  ;; (defhydra+ org-ref-cite-hydra ()
+  ;;   ("P" yang/org-ref-open-pdf-at-point "Open pdf with xdg-open"))
+  )
 
 (general-def
   :keymaps 'bibtex-mode-map
