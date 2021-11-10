@@ -5677,7 +5677,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
      ;;   (load "~/git/undo-tree/undo-tree.el"))
    #+END_SRC
 
-** Debug-warn
+** COMMENT Debug-warn
 Ref: [[https://alphapapa.github.io/emacs-package-dev-handbook/#outline-container-Emacs%20Lisp][The Emacs Package Developer's Handbook]]
 *** COMMENT Usage
 #+begin_src emacs-lisp
