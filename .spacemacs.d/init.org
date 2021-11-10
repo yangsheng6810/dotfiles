@@ -3143,25 +3143,31 @@ For generating org-capture templates
         org-roam-capture-templates
         '(("d" "default" plain "%?" :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
 ,#+filetags:
-") :unnarrowed t)
-          ("r" "ref" plain 
-           ""
-           :if-new (file+head "${citekey}.org"
-                              "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}
-,#+ROAM_TAGS: paper
+") :unnarrowed t))
+        org-roam-db-update-method 'immediate)
 
-- tags ::
-- keywords :: ${keywords}
+  ;; (define-advice org-roam-capture- (:around (func &rest rest) yang)
+  ;;   (let ((org-roam-capture-templates
+  ;;          '(("r" "ref" plain
+  ;;             ""
+  ;;             :if-new (file+head "${citekey}.org"
+  ;;                                "#+TITLE: ${title}"
+  ;;                                "#+ROAM_KEY: ${ref}"
+  ;;                                "#+ROAM_TAGS: paper"
+  ;;                                ""
+  ;;                                "- tags ::"
+  ;;                                "- keywords :: ${keywords}"
 
-,* ${title}
-:PROPERTIES:
-:Custom_ID: ${citekey}
-:URL: ${url}
-:AUTHOR: ${author}
-:YEAR: ${year}
-:WHERE: ${journal} ${booktitle}
-:END:") :unnarrowed t))
-        org-roam-db-update-method 'immediate))
+  ;;                                "* ${title}"
+  ;;                                ":PROPERTIES:"
+  ;;                                ":Custom_ID: ${citekey}"
+  ;;                                ":URL: ${url}"
+  ;;                                ":AUTHOR: ${author}"
+  ;;                                ":YEAR: ${year}"
+  ;;                                ":WHERE: ${journal} ${booktitle}"
+  ;;                                ":END:") :unnarrowed t))))
+  ;;     (apply func rest)))
+  )
 #+END_SRC
 
 ** org-latex-instant-preview
