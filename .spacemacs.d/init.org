@@ -3135,7 +3135,9 @@ For generating org-capture templates
       org-roam-db-location "/tmp/org-roam.db")
 (use-package org-roam-capture
   :defer t
+  :after org
   :config
+  (setq org-roam-directory (concat org-directory "/roam"))
   (setq org-roam-capture-ref-templates
         '(("r" "ref" plain "%?" :if-new
            (file+head "${slug}.org" "#+title: ${title}\n#+roam_key: ${ref}\n[[${ref}][${title}]]\n")
