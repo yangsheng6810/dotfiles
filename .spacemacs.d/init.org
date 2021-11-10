@@ -3217,7 +3217,7 @@ For generating org-capture templates
   :defer t
   :hook (org-roam-mode . org-fragtog-mode))
    #+end_src
-** org-roam-bibtex
+** COMMENT org-roam-bibtex
    #+begin_src emacs-lisp
 (use-package org-roam-bibtex
   :defer t
