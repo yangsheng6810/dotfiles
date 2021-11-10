@@ -190,3 +190,5 @@
 (package! visual-regexp)
 ;; And mordern regexp
 (package! visual-regexp-steroids)
+;; Take a screenshot
+(package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
