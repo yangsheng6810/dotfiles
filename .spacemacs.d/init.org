@@ -5381,6 +5381,34 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   ;; (message "org-directory is %s" org-directory)
   (setq rmh-elfeed-org-files (list "~/.spacemacs.d/elfeed.org"))
   (rmh-elfeed-org-process rmh-elfeed-org-files rmh-elfeed-org-tree-id))
+
+(use-package elfeed-goodies
+  :defer t
+  :commands (elfeed-goodies/disable)
+  :init
+  (define-advice elfeed-goodies/setup (:override () yang))
+  :config
+  (defun elfeed-goodies/disable ()
+    "De-Setup Elfeed with extras:
+
+- Adaptive header bar and entries.
+- Header bar using powerline.
+- Split pane view via popwin."
+    (interactive)
+    (remove-hook 'elfeed-show-mode-hook #'elfeed-goodies/show-mode-setup)
+    (remove-hook 'elfeed-new-entry-hook #'elfeed-goodies/html-decode-title)
+    (when (boundp 'elfeed-new-entry-parse-hook)
+      (remove-hook 'elfeed-new-entry-parse-hook #'elfeed-goodies/parse-author))
+    (setq elfeed-search-header-function #'elfeed-search--header
+          elfeed-search-print-entry-function #'elfeed-search-print-valigned-entry
+          elfeed-show-entry-switch #'pop-to-buffer
+          elfeed-show-entry-delete #'+rss/delete-pane
+          elfeed-show-refresh-function #'elfeed-show-refresh--mail-style)
+    (define-key elfeed-show-mode-map "n" #'elfeed-show-next)
+    (define-key elfeed-show-mode-map "p" #'elfeed-show-prev)
+    (advice-remove #'elfeed-goodies/setup #'elfeed-goodies/setup@yang))
+
+  (elfeed-goodies/disable))
   #+END_SRC
 
 ** Elfeed 对齐
