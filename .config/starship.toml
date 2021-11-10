@@ -116,7 +116,7 @@ disabled = false
 
 [jobs]
 symbol = "+ "
-threshold = 4
+number_threshold = 4
 
 [memory_usage]
 format = "$symbol[${ram}( | ${swap})]($style) "
