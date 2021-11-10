@@ -3397,6 +3397,18 @@ With a C-u argument, toggle the link display."
         '((dark . spacemacs-dark)
           (light . spacemacs-light))))
    #+end_src
+
+** org-transclusion
+#+begin_src emacs-lisp
+(use-package org-transclusion
+  :defer t
+  :config
+(setq org-id-extra-files (find-lisp-find-files org-journal-dir (rx (= 4 (any digit))
+                                                                   "-"
+                                                                   (= 2 (any digit))
+                                                                   "-"
+                                                                   (= 2 (any digit))))))
+#+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook
