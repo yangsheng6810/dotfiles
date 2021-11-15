@@ -192,3 +192,5 @@
 (package! visual-regexp-steroids)
 ;; Take a screenshot
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
+
+(package! elfeed-goodies :disable t)
