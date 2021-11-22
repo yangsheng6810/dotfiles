@@ -21,9 +21,18 @@ if [ -n "${ZSH_VERSION+x}" ]; then
     eval "$(zoxide init zsh)"
 fi
 
-export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
-export GUIX_PROFILE="$HOME/.guix-profile"
-source "$GUIX_PROFILE/etc/profile"
-export PATH="${PATH}:${HOME}/.config/guix/current/bin"
-# use only 12 out of 16 cores
-export GUIX_BUILD_OPTIONS="-c 12"
+USE_GUIX=1
+if [ -n "${USE_GUIX+x}" ]; then
+    export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+    # export GUIX_PROFILE="$HOME/.guix-profile"
+    # export PATH="${PATH}:${HOME}/.config/guix/current/bin"
+    export GUIX_PROFILE="$HOME/.config/guix/current"
+    source "$GUIX_PROFILE/etc/profile"
+    export PATH="${PATH}:${GUIX_PROFILE}/bin"
+    hash guix
+
+    # use only 12 out of 16 cores
+    export GUIX_BUILD_OPTIONS="-c 12"
+fi
+# remove guix from path
+# export PATH=${PATH//:\/home\/yangsheng\/.guix-profile\/bin/}
