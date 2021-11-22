@@ -144,7 +144,8 @@
 (package! org-transclusion
   :recipe (:host github
            :repo "nobiot/org-transclusion"
-           :branch "main"))
+           :branch "main"
+           :depth 1))
 (package! vterm-toggle)
 ;; special links/blocks in org-mode
 (package! org-special-block-extras)
