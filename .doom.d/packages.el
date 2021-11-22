@@ -60,10 +60,11 @@
 
 (package! hl-line :disable t)
 (package! solaire-mode :disable t)
-(package! beancount
-  :recipe (:host github
-                 :repo "beancount/beancount"
-                 :files ("edtiors/emacs/beancount.el")))
+;; (package! beancount
+;;   :recipe (:host github
+;;            :repo "beancount/beancount"
+;;            :files ("edtiors/emacs/beancount.el")
+;;            :depth 1))
 (package! org-protocol-capture-html
   :recipe (:host github
                  :repo "alphapapa/org-protocol-capture-html"))
