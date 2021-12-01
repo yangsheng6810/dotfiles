@@ -6408,7 +6408,12 @@ SHOW-ALL, show all chats."
 If FILE is provided, use it instead of the one on the system."
   (interactive)
   (unless path
-    (setq path "~/.mozilla/firefox/i49ukbsa.default-release/sessionstore-backups/recovery.jsonlz4"))
+    (setq path
+          (cond ((string-equal (system-name) "carbon") ; thinkpad X1 carbon
+                 "~/.mozilla/firefox/wk05a7gx.default/sessionstore-backups/recovery.jsonlz4")
+                ((string-equal (system-name) "carbon") ; desktop
+                 "~/.mozilla/firefox/i49ukbsa.default-release/sessionstore-backups/recovery.jsonlz4")
+                (t (error "Path not set for save-firefox-session")))))
   (save-excursion
     (let* (
            (cmd (concat "lz4jsoncat " path " | jq '[.windows[].tabs[] | .entries[-1] | {url, title} ]'"))
