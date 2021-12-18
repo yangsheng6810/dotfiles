@@ -458,7 +458,7 @@ exec --no-startup-id $HOME/bin/fix_startup.sh
 # https://github.com/keepassxreboot/keepassxc/issues/5961
 exec --no-startup-id QT_SCALE_FACTOR=1.01 keepassxc
 # auto tiling
-exec_always --no-startup-id autotiling
+exec_always --no-startup-id $HOME/.local/bin/autotiling
 
 exec --no-startup-id /lib/xfce4/notifyd/xfce4-notifyd
 
