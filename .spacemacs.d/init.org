@@ -4557,6 +4557,22 @@ Return the result as a string."
            (popup-is-open)))
       (add-hook 'pdf-view-mode-hook #'pdf-links-minor-mode)
       (add-hook 'pdf-view-mode-hook #'pdf-sync-minor-mode)
+
+      ;; Try to remove dangling pdf-cache--prefetch-timer
+      (define-advice pdf-cache--prefetch-start (:around (func buffer) yang)
+        (add-hook 'kill-buffer-hook #'yang/pdf-cache--timer-cancel 0 t)
+        (if (eq (buffer-local-value 'major-mode buffer) 'pdf-view-mode)
+            (funcall func buffer)
+          (message "pdf-cache--prefetch-start advice caught problem")
+          (when pdf-cache--prefetch-timer
+            (cancel-timer pdf-cache--prefetch-timer)
+            (setq pdf-cache--prefetch-timer nil))))
+
+      (defun yang/pdf-cache--timer-cancel ()
+        (when pdf-cache--prefetch-timer
+          (cancel-timer pdf-cache--prefetch-timer)
+          (setq pdf-cache--prefetch-timer nil)))
+
       ;; (add-hook 'pdf-view-mode-hook #'pdf-annot-minor-mode)
       ;; (add-hook 'pdf-view-mode-hook #'pdf-misc-context-menu-minor-mode)
       (yang/with-doom
