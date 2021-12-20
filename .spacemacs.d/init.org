@@ -1043,7 +1043,7 @@ and the entire buffer (in the absense of a region)."
 
 ;; prepare a fontset that handles fixed pitch correctly
 (when (display-graphic-p)
-  (create-fontset-from-ascii-font "-*-Sarasa Mono SC-normal-normal-*" nil "fixed")
+  (create-fontset-from-ascii-font "-*-Sarasa Mono SC-medium-normal-*" nil "fixed")
   
   (set-fontset-font "fontset-fixed" 'han "Sarasa Mono SC" nil 'append)
   (set-fontset-font "fontset-fixed" 'latin "Sarasa Mono SC" nil 'prepend)
@@ -1052,8 +1052,8 @@ and the entire buffer (in the absense of a region)."
   (set-fontset-font "fontset-fixed" 'symbol "Symbola" nil 'append)
 
   ;; (create-fontset-from-ascii-font "-*-Libre Baskerville-normal-normal-normal-*" nil "variable")
-  (create-fontset-from-ascii-font "-*-Bookerly-normal-normal-normal-*" nil "variable")
-  (create-fontset-from-ascii-font "-*-Latin Modern Mono-normal-normal-*" nil "monoserif")
+  (create-fontset-from-ascii-font "-*-Bookerly-medium-normal-normal-*" nil "variable")
+  (create-fontset-from-ascii-font "-*-Latin Modern Mono-medium-normal-*" nil "monoserif")
   (create-fontset-from-ascii-font "-*-Miama-*" nil "script")
   
   ;; (create-fontset-from-ascii-font "-*-EtBembo-normal-normal-normal-*" nil "variable")
@@ -1065,12 +1065,15 @@ and the entire buffer (in the absense of a region)."
   ;; Fix some quotation marks
   ;; (set-fontset-font "fontset-variable" '(?“ . ?”) "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   ;; (set-fontset-font "fontset-variable" '(?‘ . ?’) "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
-  (set-fontset-font "fontset-variable" '(?“ . ?”) "-*-Bookerly-normal-normal-normal-*" nil 'prepend)
-  (set-fontset-font "fontset-variable" '(?‘ . ?’) "-*-Bookerly-normal-normal-normal-*" nil 'prepend)
+  (set-fontset-font "fontset-variable" '(?“ . ?”) "-*-Bookerly-medium-normal-normal-*" nil 'prepend)
+  (set-fontset-font "fontset-variable" '(?‘ . ?’) "-*-Bookerly-medium-normal-normal-*" nil 'prepend)
+  (set-fontset-font "fontset-monoserif" '(?‘ . ?’) "Latin Modern Mono" nil 'prepend)
+  (set-fontset-font "fontset-variable" 'latin "-*-Bookerly-medium-normal-normal-*" nil 'prepend)
 
   (defface monoserif
     '((t :fontset "fontset-monoserif"))
     "Mine face")
+  (set-face-attribute 'monoserif nil :family "Latin Modern Mono")
 
   (defface variable-pitch-black
     '((t :inhert variable-pitch :foreground "black"))
@@ -6003,7 +6006,17 @@ keywords are supported:
   (setq buffer-face-mode-face '(:family "等距更纱黑体 SC"))
   (buffer-face-mode +1))
 
+(defun my-mono-serif ()
+  (interactive)
+  (make-variable-buffer-local 'face-font-rescale-alist)
+  (add-to-list 'face-font-rescale-alist '("-Latin Modern Mono-" . 1.05))
+  (add-to-list 'face-font-rescale-alist '("-Symbola-" . 0.7))
+  (setq buffer-face-mode-face 'monoserif)
+  (unless (and (boundp 'buffer-face-mode) buffer-face-mode)
+    (buffer-face-mode +1)))
+
 (add-hook 'telega-root-mode-hook #'yang/fixed-pitch-setup)
+(add-hook 'telega-root-mode-hook #'my-mono-serif -10)
 
 (define-advice evil-collection-telega-setup (:after () yang)
   (evil-collection-define-key nil 'telega-msg-button-map
@@ -6084,7 +6097,9 @@ keywords are supported:
     (visual-line-mode)
     (hl-line-mode))
   (add-hook 'telega-root-mode-hook #'yang/telega-root-setup)
+  (add-hook 'telega-chat-mode-hook #'my-mono-serif)
   (add-hook 'telega-chat-mode-hook #'yang/telega-chat-setup)
+  
   (defun yang/telega-chat-update (chat)
     (with-telega-root-buffer
       (hl-line-highlight)))
