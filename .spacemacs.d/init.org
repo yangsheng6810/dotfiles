@@ -6036,7 +6036,11 @@ keywords are supported:
   ;; ignore blocked user
   (add-hook 'telega-msg-ignore-predicates #'telega-msg-from-blocked-sender-p)
   :config
+  ;; temporary telega keybinding
+  (define-key global-map (kbd "C-c t") telega-prefix-map)
   (setq telega-emoji-company-backend 'telega-company-emoji)
+  ;; Do not show favorite stickers with special background colors
+  (setq telega-sticker-favorite-background nil)
   (defun my-telega-chat-mode ()
     (set (make-local-variable 'company-backends)
          (append (list telega-emoji-company-backend
