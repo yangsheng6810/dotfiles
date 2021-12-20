@@ -1,0 +1,44 @@
+* Basics
+
+ [U] Update Elfeed
+ [s] Search
+ [E] Edit
+ [g] Refresh counts
+ [q] Kill dashboard
+
+* Bookmarks
+
+ [u] Unread        ([[elfeed:@2-weeks-ago +unread][    16]]/[[elfeed:][124909]])
+ [e] Emacs         ([[elfeed:@2-weeks-ago +unread +emacs][     5]]/[[elfeed:@2-weeks-ago +emacs][    45]])
+ [r] Research      ([[elfeed:@2-weeks-ago +unread +research][     0]]/[[elfeed:@2-weeks-ago +research][   269]])
+ [n] News          ([[elfeed:@2-weeks-ago +unread +news !zaobao -foreign][     6]]/[[elfeed:@2-weeks-ago +news !zaobao -foreign][  1222]])
+ [f] ForeignPolicy ([[elfeed:@2-weeks-ago +unread +news !zaobao +foreign][     5]]/[[elfeed:@2-weeks-ago +news !zaobao +foreign][    94]])
+ [a] Anime         ([[elfeed:@2-weeks-ago +unread +anime][     0]]/[[elfeed:@2-weeks-ago +anime][   308]])
+ [z] Zaobao        ([[elfeed:@2-weeks-ago +unread +news =zaobao][     0]]/[[elfeed:@2-weeks-ago +news =zaobao][  1254]])
+ [o] Other         ([[elfeed:@2-weeks-ago +unread +leisure -news -anime][     0]]/[[elfeed:@2-weeks-ago +leisure -news -anime][   391]])
+ [b] Buy           ([[elfeed:@2-weeks-ago +unread +buy][     0]]/[[elfeed:@2-weeks-ago +buy][   260]])
+ [t] Tech          ([[elfeed:@2-weeks-ago +unread +tech][     0]]/[[elfeed:@2-weeks-ago +tech][     0]])
+
+* Configuration
+  :PROPERTIES:
+  :VISIBILITY: hideall
+  :END:
+
+  Press "E" to edit and M-x elfeed-dashboard-mode to go back
+
+  #+STARTUP: showall showstars indent
+  #+KEYMAP: u | elfeed-dashboard-query "+unread"
+  #+KEYMAP: e | elfeed-dashboard-query "+unread +emacs"
+  #+KEYMAP: n | elfeed-dashboard-query "@2-weeks-ago +unread +news !zaobao -foreign"
+  #+KEYMAP: f | elfeed-dashboard-query "@2-weeks-ago +unread +news !zaobao +foreign"
+  #+KEYMAP: t | elfeed-dashboard-query "@2-weeks-ago +unread +tech"
+  #+KEYMAP: b | elfeed-dashboard-query "@2-weeks-ago +unread +buy"
+  #+KEYMAP: z | elfeed-dashboard-query "@2-weeks-ago +unread =zaobao"
+  #+KEYMAP: r | elfeed-dashboard-query "@2-weeks-ago +unread +research"
+  #+KEYMAP: a | elfeed-dashboard-query "@2-weeks-ago +unread +anime"
+  #+KEYMAP: o | elfeed-dashboard-query "@2-weeks-ago +unread +leisure -news -anime"
+  #+KEYMAP: s | elfeed
+  #+KEYMAP: g | elfeed-dashboard-update-links
+  #+KEYMAP: U | elfeed-dashboard-update
+  #+KEYMAP: E | elfeed-dashboard-edit
+  #+KEYMAP: q | kill-current-buffer
