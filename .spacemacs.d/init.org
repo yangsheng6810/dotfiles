@@ -6241,6 +6241,17 @@ SHOW-ALL, show all chats."
         (message "new-string %s" new-string)
         (insert (format ":author: %s" new-string))))))
    #+end_src
+** Foreign Policy
+#+begin_src emacs-lisp
+(defun format-foreign-policy (url)
+  (interactive
+   (list (read-string
+          "Foreign Policy URL: "
+          (ignore-errors (current-kill 0 t)))))
+  (insert (concat "https://t.me/iv?url="
+                  (url-hexify-string (s-chop-suffix "/" url))
+                  "&rhash=bdd21c14008430")))
+#+end_src
 ** Bookmark
    #+begin_src emacs-lisp
 (use-package bookmark
