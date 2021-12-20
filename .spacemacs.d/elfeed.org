@@ -51,7 +51,8 @@
 *** [[https://rsshub.app/scmp/3][南华早报 Asia]]
 *** [[https://rsshub.app/scmp/4][南华早报 China]]
 *** [[https://rsshub.app/scmp/5][南华早报 World]]
-*** [[https://foreignpolicy.com/feed/][Foreign Policy]]
+*** [[https://foreignpolicy.com/feed/][Foreign Policy]] :foreign:
+*** [[https://www.foreignaffairs.com/rss.xml][Foreign Affairs]] :foreign:
 ** Blog
 *** [[https://archive.casouri.cat/note/rss.xml][casouri]] :emacs:
 ** Twitter :leisure:twitter:
