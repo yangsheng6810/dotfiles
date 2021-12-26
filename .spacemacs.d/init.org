@@ -2021,39 +2021,6 @@ and the entire buffer (in the absense of a region)."
         org-id-locations-file (concat org-directory ".orgids")
         org-id-locations-file-relative t)
   :config
-  ;; Use `indent-for-tab-command' in `org-mode' for TAB
-  (define-advice +org-indent-maybe-h (:before () yang-hack)
-    (advice-remove #'org-indent-maybe-h #'org-indent-maybe-h@yang-hack)
-    (el-patch-defun +org-indent-maybe-h ()
-      "Indent the current item (header or item), if possible.
-Made for `org-tab-first-hook' in evil-mode."
-      (interactive)
-      (cond ((not (and (bound-and-true-p evil-local-mode)
-                       (evil-insert-state-p)))
-             nil)
-            ((org-at-item-p)
-             (if (eq this-command 'org-shifttab)
-                 (org-outdent-item-tree)
-               (org-indent-item-tree))
-             t)
-            ((org-at-heading-p)
-             (ignore-errors
-               (if (eq this-command 'org-shifttab)
-                   (org-promote)
-                 (org-demote)))
-             t)
-            ((org-in-src-block-p t)
-             (org-babel-do-in-edit-buffer
-              (call-interactively #'indent-for-tab-command))
-             t)
-            ((and (save-excursion
-                    (skip-chars-backward " \t")
-                    (bolp))
-                  (org-in-subtree-not-table-p))
-             (call-interactively (el-patch-swap
-                                   #'tab-to-tab-stop
-                                   #'indent-for-tab-command))
-             t))))
   ;; (defalias '+org--restart-mode-h #'ignore)
   ;; from https://github.com/hlissner/doom-emacs/issues/4832#issuecomment-831538124
   (define-advice org-capture (:around (fun &rest args) yang)
@@ -2219,6 +2186,47 @@ Made for `org-tab-first-hook' in evil-mode."
                         (or desc "")))
          (_ (or desc ""))))))
   #+END_SRC
+*** Patch =+org-indent-maybe-h=
+Use =indent-for-tab-command= in =org-mode= for TAB. See [[https://github.com/raxod502/el-patch/issues/54][Patch function in a compiled init.el · Issue #54 · raxod502/el-patch]].
+#+begin_src emacs-lisp
+(defun my--doom-org-trigger-autoload ()
+  (when (autoloadp (symbol-function '+org-indent-maybe-h))
+    (autoload-do-load (symbol-function '+org-indent-maybe-h))))
+    
+(add-hook 'el-patch-pre-validate-hook #'my--doom-org-trigger-autoload)
+
+(with-eval-after-load "modules/lang/org/autoload/org"
+  (el-patch-defun +org-indent-maybe-h ()
+      "Indent the current item (header or item), if possible.
+Made for `org-tab-first-hook' in evil-mode."
+      (interactive)
+      (cond ((not (and (bound-and-true-p evil-local-mode)
+                       (evil-insert-state-p)))
+             nil)
+            ((org-at-item-p)
+             (if (eq this-command 'org-shifttab)
+                 (org-outdent-item-tree)
+               (org-indent-item-tree))
+             t)
+            ((org-at-heading-p)
+             (ignore-errors
+               (if (eq this-command 'org-shifttab)
+                   (org-promote)
+                 (org-demote)))
+             t)
+            ((org-in-src-block-p t)
+             (org-babel-do-in-edit-buffer
+              (call-interactively #'indent-for-tab-command))
+             t)
+            ((and (save-excursion
+                    (skip-chars-backward " \t")
+                    (bolp))
+                  (org-in-subtree-not-table-p))
+             (call-interactively (el-patch-swap
+                                   #'tab-to-tab-stop
+                                   #'indent-for-tab-command))
+             t))))
+#+end_src
 
 ** org-pdfview
    #+BEGIN_SRC emacs-lisp
