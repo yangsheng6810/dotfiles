@@ -1043,49 +1043,96 @@ and the entire buffer (in the absense of a region)."
 
 ;; prepare a fontset that handles fixed pitch correctly
 (when (display-graphic-p)
-  (create-fontset-from-ascii-font "-*-Sarasa Mono SC-medium-normal-*" nil "fixed")
+  ;; For fontset-fixed
+  (let* ((my-font (font-xlfd-name
+                   (font-spec :family "Sarasa Mono SC" :weight 'medium
+                              :slant 'normal :width 'normal)))
+         (fontset-name "fixed")
+         (my-fontset (concat "fontset-" fontset-name)))
+    (create-fontset-from-ascii-font my-font nil fontset-name)
+    ;; Fix some quotation marks
+    (set-fontset-font my-fontset '(?“ . ?”) my-font nil 'prepend)
+    (set-fontset-font my-fontset '(?‘ . ?’) my-font nil 'prepend)
+
+    (set-fontset-font my-fontset 'han "Sarasa Mono SC" nil 'append)
+    (set-fontset-font my-fontset 'latin "Sarasa Mono SC" nil 'prepend)
+    (set-fontset-font my-fontset 'unicode "Sarasa Mono SC" nil 'prepend)
+    (set-fontset-font my-fontset 'unicode "Symbola" nil 'append)
+    (set-fontset-font my-fontset 'symbol "Symbola" nil 'append)
+
+    ;; ;; Set Chinese fonts
+    ;; (set-fontset-font my-fontset 'unicode "方正屏显雅宋_GBK" nil 'prepend)
+    ;; ;; Restore latin characters
+    ;; (set-fontset-font my-fontset 'latin my-font nil 'prepend)
+
+    (set-face-attribute 'fixed-pitch nil :fontset "fontset-fixed")
+    )
+
+  ;; For fontset-variable
+  (let* ((fontset-name "variable")
+        (my-font (font-xlfd-name
+                  (font-spec :family "Bookerly" :weight 'medium
+                             :slant 'normal :width 'normal)))
+        (my-fontset (concat "fontset-" fontset-name)))
+    (create-fontset-from-ascii-font my-font nil fontset-name)
+    ;; Fix some quotation marks
+    (set-fontset-font my-fontset '(?“ . ?”) my-font nil 'prepend)
+    (set-fontset-font my-fontset '(?‘ . ?’) my-font nil 'prepend)
+
+    ;; Set Chinese fonts
+    (set-fontset-font my-fontset 'unicode "方正屏显雅宋_GBK" nil 'prepend)
+    (set-fontset-font my-fontset 'latin my-font nil 'prepend)
+
+    (set-face-attribute 'variable-pitch nil :fontset "fontset-variable")
+
+    (defface variable-pitch-black
+      '((t :inhert variable-pitch :foreground "black"))
+      "Black variable-pitch")
+    (set-face-attribute 'variable-pitch-black nil :inherit 'variable-pitch))
+
+  ;; For fontset-monoserif
+  (let* ((fontset-name "monoserif")
+        (my-font (font-xlfd-name
+                  (font-spec :family "Latin Modern Mono" :weight 'medium
+                             :slant 'normal :width 'normal)))
+        (my-fontset (concat "fontset-" fontset-name)))
+
+    (create-fontset-from-ascii-font my-font nil "monoserif")
+    ;; Fix some quotation marks
+    (set-fontset-font my-fontset '(?“ . ?”) my-font nil 'prepend)
+    (set-fontset-font my-fontset '(?‘ . ?’) my-font nil 'prepend)
+
+    ;; Set Chinese fonts
+    (set-fontset-font my-fontset 'unicode "方正屏显雅宋_GBK" nil 'prepend)
+    (set-fontset-font my-fontset 'latin my-font nil 'prepend)
+
+
+    (set-fontset-font "fontset-monoserif" 'unicode "方正屏显雅宋_GBK" nil 'prepend)
+    (set-fontset-font "fontset-monoserif" '(?‘ . ?’) "Latin Modern Mono" nil 'prepend)
+
+
+    (defface monoserif
+      '((t :fontset my-fontset)) "Mine face")
+    (set-face-attribute 'monoserif nil :family "Latin Modern Mono")
+    (set-face-attribute 'monoserif nil :fontset my-fontset))
   
-  (set-fontset-font "fontset-fixed" 'han "Sarasa Mono SC" nil 'append)
-  (set-fontset-font "fontset-fixed" 'latin "Sarasa Mono SC" nil 'prepend)
-  (set-fontset-font "fontset-fixed" 'unicode "Sarasa Mono SC" nil 'prepend)
-  (set-fontset-font "fontset-fixed" 'unicode "Symbola" nil 'append)
-  (set-fontset-font "fontset-fixed" 'symbol "Symbola" nil 'append)
 
   ;; (create-fontset-from-ascii-font "-*-Libre Baskerville-normal-normal-normal-*" nil "variable")
-  (create-fontset-from-ascii-font "-*-Bookerly-medium-normal-normal-*" nil "variable")
-  (create-fontset-from-ascii-font "-*-Latin Modern Mono-medium-normal-*" nil "monoserif")
   (create-fontset-from-ascii-font "-*-Miama-*" nil "script")
   
   ;; (create-fontset-from-ascii-font "-*-EtBembo-normal-normal-normal-*" nil "variable")
   ;; (set-fontset-font "fontset-variable" 'ascii "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   ;; (set-fontset-font "fontset-variable" 'han "-*-Noto Serif-normal-normal-normal-*" nil 'prepend)
-  (set-fontset-font "fontset-variable" 'unicode "方正屏显雅宋_GBK" nil 'prepend)
-  (set-fontset-font "fontset-monoserif" 'unicode "方正屏显雅宋_GBK" nil 'prepend)
 
   ;; Fix some quotation marks
   ;; (set-fontset-font "fontset-variable" '(?“ . ?”) "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
   ;; (set-fontset-font "fontset-variable" '(?‘ . ?’) "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
-  (set-fontset-font "fontset-variable" '(?“ . ?”) "-*-Bookerly-medium-normal-normal-*" nil 'prepend)
-  (set-fontset-font "fontset-variable" '(?‘ . ?’) "-*-Bookerly-medium-normal-normal-*" nil 'prepend)
-  (set-fontset-font "fontset-monoserif" '(?‘ . ?’) "Latin Modern Mono" nil 'prepend)
-  (set-fontset-font "fontset-variable" 'latin "-*-Bookerly-medium-normal-normal-*" nil 'prepend)
 
-  (defface monoserif
-    '((t :fontset "fontset-monoserif"))
-    "Mine face")
-  (set-face-attribute 'monoserif nil :family "Latin Modern Mono")
 
-  (defface variable-pitch-black
-    '((t :inhert variable-pitch :foreground "black"))
-    "Black variable-pitch")
-  (set-face-attribute 'variable-pitch-black nil :inherit 'variable-pitch)
 
   ;; May not be needed
   ;; (set-fontset-font "fontset-variable" ?– "-*-Libre Baskerville-normal-normal-normal-*" nil 'prepend)
-  (set-face-attribute 'variable-pitch nil :fontset "fontset-variable")
-  (set-face-attribute 'fixed-pitch nil :fontset "fontset-fixed")
-  (set-face-attribute 'monoserif nil :fontset "fontset-monoserif"))
-
+  )
 
 (after! unicode-fonts
   (dolist (unicode-block '("Hiragana"
