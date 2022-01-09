@@ -34,3 +34,5 @@ export MAKEFLAGS="-j$(nproc)"
 if ! command pacman 2> /dev/null; then
     PATH="$PATH:$HOME/bin/binary"
 fi
+# disable oh-my-zsh auto update
+export DISABLE_AUTO_UPDATE=true
