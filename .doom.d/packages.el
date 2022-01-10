@@ -184,7 +184,8 @@
            :repo "DogLooksGood/org-html-themify"
            :files ("*.el" "*.js" "*.css")))
 ;; for patching
-(package! el-patch)
+(package! el-patch
+  :pin "f2739ec466ed438dad9c7bed46f4eff9aa379c5a")
 ;; For editing a block in another mode
 (package! separedit)
 
