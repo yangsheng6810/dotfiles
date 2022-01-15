@@ -1891,6 +1891,18 @@ and the entire buffer (in the absense of a region)."
                 (hl-fill-column-mode -1)))))
 #+end_src
 
+** Stripe-buffer
+#+begin_src emacs-lisp
+(use-package stripe-buffer
+  :defer t
+  :init
+  (add-hook 'dired-mode-hook 'stripe-listify-buffer)
+  (add-hook 'org-mode-hook 'turn-on-stripe-table-mode)
+  :config
+  (set-face-attribute 'stripe-hl-line nil :extend t)
+  (set-face-attribute 'stripe-highlight nil :extend t))
+#+end_src
+
 * Compatible Keyboard for Doom
 #+begin_src emacs-lisp
   (yang/with-doom

@@ -199,3 +199,5 @@
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
 
 (package! elfeed-goodies :disable t)
+;; Ass stripe to dired-mode
+(package! stripe-buffer)
