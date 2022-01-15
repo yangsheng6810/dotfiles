@@ -1051,7 +1051,7 @@ and the entire buffer (in the absense of a region)."
          (my-fontset (concat "fontset-" fontset-name)))
     (create-fontset-from-ascii-font my-font nil fontset-name)
     ;; Fix some quotation marks
-    (set-fontset-font my-fontset '(?“ . ?”) my-font nil 'prepend)
+    ;; (set-fontset-font my-fontset '(?“ . ?”) my-font nil 'prepend)
     (set-fontset-font my-fontset '(?‘ . ?’) my-font nil 'prepend)
 
     (set-fontset-font my-fontset 'han "Sarasa Mono SC" nil 'append)
@@ -1075,13 +1075,13 @@ and the entire buffer (in the absense of a region)."
                              :slant 'normal :width 'normal)))
         (my-fontset (concat "fontset-" fontset-name)))
     (create-fontset-from-ascii-font my-font nil fontset-name)
-    ;; Fix some quotation marks
-    (set-fontset-font my-fontset '(?“ . ?”) my-font nil 'prepend)
-    (set-fontset-font my-fontset '(?‘ . ?’) my-font nil 'prepend)
 
     ;; Set Chinese fonts
     (set-fontset-font my-fontset 'unicode "方正屏显雅宋_GBK" nil 'prepend)
     (set-fontset-font my-fontset 'latin my-font nil 'prepend)
+    ;; Fix some quotation marks
+    (set-fontset-font my-fontset '(?“ . ?”) my-font nil 'prepend)
+    (set-fontset-font my-fontset '(?‘ . ?’) my-font nil 'prepend)
 
     (set-face-attribute 'variable-pitch nil :fontset "fontset-variable")
 
@@ -1099,7 +1099,7 @@ and the entire buffer (in the absense of a region)."
 
     (create-fontset-from-ascii-font my-font nil "monoserif")
     ;; Fix some quotation marks
-    (set-fontset-font my-fontset '(?“ . ?”) my-font nil 'prepend)
+    ;; (set-fontset-font my-fontset '(?“ . ?”) my-font nil 'prepend)
     (set-fontset-font my-fontset '(?‘ . ?’) my-font nil 'prepend)
 
     ;; Set Chinese fonts
