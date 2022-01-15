@@ -6141,8 +6141,8 @@ keywords are supported:
   (setq telega-known-inline-bots '("@gif" "@youtube" "@pic"
                                    "@HideItBot" "@wbcnbot"
                                    "@scihubot" "@web2album_bot" "@zaobao_bot"
-                                   "@nbnhhsh_bot" "@pixiv_bot" "@inlatexbot"
-                                   "@ReadabBot"))
+                                   "@nbnhhshBot" "@pixiv_bot" "@inlatexbot"
+                                   "@ReadabBot" "@nixcaosaysbot"))
 
   ;; make sticker larger to read
   (setq telega-sticker-size '(10 . 24))
