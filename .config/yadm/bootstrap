@@ -1,6 +1,20 @@
 #!/bin/zsh
 umask 022
 NEED_ROOTLESS_MANAGER=1
+
+echo "Installing packages"
+if [ -f "/etc/arch-release" ]; then
+    echo "Found Arch Linux, installing packages"
+    yay -S zsh tmux rofi alacritty i3blocks i3lock-color \
+        libpulse alsa-utils playerctl xorg-xset \
+        nitrogen picom xss-lock volctl nm-applet \
+        udiskie autotiling flameshot xfce4-notifyd
+fi
+if [ -d "/data/data/com.termux" ]; then
+    echo "Found Termux, installing packages"
+     pkg install vim tmux tsu mtr fzf zsh
+fi
+
 echo "Installing zgen"
 if [ ! -d "${HOME}/.zgen" ]; then
     echo "Setting zgen..."
@@ -32,10 +46,3 @@ echo "Prepare i3blocks-contrib"
 cd "${HOME}/.config/i3blocks-contrib" && make 2>/dev/null
 cd "$HOME"
 
-echo "Installing packages"
-if [ -f "/etc/arch-release" ]; then
-    yay -S rofi alacritty i3blocks i3lock-color \
-        libpulse alsa-utils playerctl xorg-xset \
-        nitrogen picom xss-lock volctl nm-applet \
-        udiskie autotiling flameshot xfce4-notifyd
-fi
