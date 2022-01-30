@@ -12,7 +12,7 @@ if [ -f "/etc/arch-release" ]; then
 fi
 if [ -d "/data/data/com.termux" ]; then
     echo "Found Termux, installing packages"
-     pkg install vim tmux tsu mtr fzf zsh
+     pkg install vim tmux tsu mtr fzf zsh perl
 fi
 
 echo "Installing zgen"
