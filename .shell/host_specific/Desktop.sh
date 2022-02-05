@@ -21,18 +21,46 @@ if [ -n "${ZSH_VERSION+x}" ]; then
     eval "$(zoxide init zsh)"
 fi
 
-USE_GUIX=1
-if [ -n "${USE_GUIX+x}" ]; then
-    export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
-    # export GUIX_PROFILE="$HOME/.guix-profile"
+function old_guix_config(){
+    # export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+    export GUIX_PROFILE="$HOME/.guix-profile"
     # export PATH="${PATH}:${HOME}/.config/guix/current/bin"
-    export GUIX_PROFILE="$HOME/.config/guix/current"
+    # export GUIX_PROFILE="$HOME/.config/guix/current"
     source "$GUIX_PROFILE/etc/profile"
+}
+
+function new_guix_config(){
+    # Arrange so that ~/.config/guix/current comes first.
+     for profile in "$HOME/.guix-profile" "$HOME/.config/guix/current"
+     do
+       if [ -f "$profile/etc/profile" ]
+       then
+         # Load the user profile's settings.
+         GUIX_PROFILE="$profile"
+         . "$profile/etc/profile"
+       else
+         # At least define this one so that basic things just work
+         # when the user installs their first package.
+         export PATH="$profile/bin:$PATH"
+       fi
+     done
+}
+
+function setup_guix() {
+    export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+    # old_guix_config
+    new_guix_config
+
     export PATH="${PATH}:${GUIX_PROFILE}/bin"
     hash guix
 
     # use only 12 out of 16 cores
     export GUIX_BUILD_OPTIONS="-c 12"
+    unset XDG_DATA_DIRS
+}
+# USE_GUIX=1
+if [ -n "${USE_GUIX+x}" ]; then
+    setup_guix
 fi
 # remove guix from path
 # export PATH=${PATH//:\/home\/yangsheng\/.guix-profile\/bin/}
