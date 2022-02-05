@@ -150,3 +150,6 @@ format = "via [⚙️ $version](red bold)"
 
 [nodejs]
 disabled = true
+
+[cmake]
+symbol = "△ "
