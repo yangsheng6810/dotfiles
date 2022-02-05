@@ -74,6 +74,8 @@ set $term_backup_3 xterm
 
 # split current two window 65:35
 bindsym $mod+w mark my_current, focus left, resize set width 65 ppt, [con_mark="my_current"] focus, unmark "my_current"
+# split current two window 60:40
+bindsym $mod+Shift+w mark my_current, focus left, resize set width 60 ppt, [con_mark="my_current"] focus, unmark "my_current"
 # split current two window 50:50
 bindsym $mod+equal mark my_current, focus left, resize set width 50 ppt, [con_mark="my_current"] focus, unmark "my_current"
 
