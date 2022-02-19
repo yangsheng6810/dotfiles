@@ -2650,6 +2650,8 @@ For generating org-capture templates
          (concat
           (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
 
+       ;; prevent doom from setting its org-capture templates
+       (define-advice +org-init-capture-defaults-h (:override () yang))
        (setq org-capture-templates
              (doct
               '(
