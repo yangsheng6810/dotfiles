@@ -185,7 +185,7 @@
            :files ("*.el" "*.js" "*.css")))
 ;; for patching
 (package! el-patch
-  :pin "f2739ec466ed438dad9c7bed46f4eff9aa379c5a")
+  :pin "4a4e040fcede0c320e860571d5e96100cac05bb5")
 ;; For editing a block in another mode
 (package! separedit)
 
