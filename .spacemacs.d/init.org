@@ -6259,6 +6259,19 @@ SHOW-ALL, show all chats."
               :caller 'ivy-telega-chat-with)))
    #+end_src
 
+** Start telega
+#+begin_src emacs-lisp
+(defun yang/start-telega ()
+  (interactive)
+  (let* ((frame (make-frame))
+         (i3-container "7:Social"))
+    (select-frame frame)
+    (funcall #'+workspace-switch "telega" t)
+    (funcall #'telega)
+    (funcall #'shell-command (concat "i3-msg move container to workspace " i3-container))
+    (other-frame)))
+#+end_src
+
 * auto-highlight-symbol (ahs)
   #+BEGIN_SRC emacs-lisp
 (after! ahs
