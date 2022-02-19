@@ -3202,9 +3202,16 @@ For generating org-capture templates
 
 ** org-roam
 #+BEGIN_SRC emacs-lisp
-;; This is only a workaround
-(setq org-roam-directory (concat org-directory "/roam")
-      org-roam-db-location "/tmp/org-roam.db")
+(use-package org-roam
+  :defer t
+  :init
+  ;; This is only a workaround
+  (setq org-roam-directory (concat org-directory "/roam")
+        org-roam-db-location "/tmp/org-roam.db")
+  :config
+  ;; Modify Doom's default width
+  (setq org-roam-node-display-template "${doom-hierarchy:*} ${doom-tags:20}"))
+
 (use-package org-roam-capture
   :defer t
   :after org
