@@ -6584,6 +6584,25 @@ If FILE is provided, use it instead of the one on the system."
     (buffer-face-mode 0)))
    #+end_src
 
+** Ssh-deploy
+#+begin_src emacs-lisp
+(defun yang/ssh-deploy-auto (other-buffer)
+  (interactive "bRemote buffer: ")
+  (let ((remote-dir
+         (buffer-local-value 'default-directory
+                             (get-buffer other-buffer)))
+        (local-dir default-directory)
+        (mode major-mode))
+    (add-dir-local-variable mode
+                            'ssh-deploy-root-local local-dir)
+    (add-dir-local-variable mode
+                            'ssh-deploy-root-remote remote-dir)
+    (add-dir-local-variable mode
+                            'ssh-deploy-on-explicit-save 1)
+    (add-dir-local-variable mode
+                            'ssh-deploy-force-on-explicit-save 1)))
+#+end_src
+
 * Slack
 #+begin_src emacs-lisp
 (use-package slack
