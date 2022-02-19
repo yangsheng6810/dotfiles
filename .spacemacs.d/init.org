@@ -6128,6 +6128,7 @@ keywords are supported:
   :init
   ;; ignore blocked user
   (add-hook 'telega-msg-ignore-predicates #'telega-msg-from-blocked-sender-p)
+  (setq telega-server-libs-prefix "/usr")
   :config
   ;; temporary telega keybinding
   (define-key global-map (kbd "C-c t") telega-prefix-map)
