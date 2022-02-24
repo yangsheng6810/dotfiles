@@ -6308,7 +6308,7 @@ SHOW-ALL, show all chats."
     (funcall #'+workspace-switch "telega" t)
     (funcall #'telega)
     (funcall #'shell-command (concat "i3-msg move container to workspace " i3-container))
-    (other-frame)))
+    (other-frame 1)))
 #+end_src
 
 * auto-highlight-symbol (ahs)
