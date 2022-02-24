@@ -196,7 +196,7 @@
 ;; Suggest a function
 (package! suggest)
 ;; Take a screenshot
-(package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
+(package! screenshot :recipe (:host github :repo "yangsheng6810/screenshot"))
 
 (package! elfeed-goodies :disable t)
 ;; Ass stripe to dired-mode
