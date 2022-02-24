@@ -4545,6 +4545,21 @@ Return the result as a string."
     (setq-default dired-omit-mode t)))
   #+END_SRC
 
+** Peep-dired
+#+begin_src emacs-lisp
+(use-package peep-dired
+  :defer t
+  :hook (peep-dired . evil-normalize-keymaps)
+  :general
+  (:keymaps 'peep-dired-mode-map
+   :states 'normal
+   "<SPC>" #'peep-dired-scroll-page-down
+    "C-<SPC>" #'peep-dired-scroll-page-up
+    "<backspace>" #'peep-dired-scroll-page-up
+    "j" #'peep-dired-next-file
+    "k" #'peep-dired-prev-file))
+#+end_src
+
 * Shell
 ** Eshell
    #+BEGIN_SRC emacs-lisp
