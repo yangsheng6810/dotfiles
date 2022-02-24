@@ -1,6 +1,4 @@
 # -*- mode: conf -*-
 [DEFAULT]
-# user=yangsheng
-# password=f447b20a7fcbf53a5d5be013ea0b15af
-user=zhouqi
-password=shuxuekedaibiao
+user=yangsheng
+password=f447b20a7fcbf53a5d5be013ea0b15af
