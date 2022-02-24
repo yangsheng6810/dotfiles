@@ -201,3 +201,5 @@
 (package! elfeed-goodies :disable t)
 ;; Ass stripe to dired-mode
 (package! stripe-buffer)
+;; preview in dired
+(package! peep-dired)
