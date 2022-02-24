@@ -2551,7 +2551,30 @@ Show the heading too, if it is currently invisible."
       ((org-agenda-span 7)           ;; agenda will start in week view
        (org-agenda-repeating-timestamp-show-all t)   ;; ensures that repeating events appear on all relevant dates
        (org-agenda-skip-function '(org-agenda-skip-entry-if 'deadline 'scheduled))))
-     )))
+     ))
+
+
+  ;; Deal with the following bug: condition-case: Error in a Doom startup hook:
+  ;; org-agenda-finalize-hook, elegant-agenda--finalize-view, (void-function
+  ;; \(setf\ buffer-string\)) ;;
+  (defun elegant-agenda--string-display-pixel-width (string &optional mode)
+    "Calculate pixel width of STRING.
+
+Optional MODE specifies major mode used for display."
+    (with-temp-buffer
+      (with-silent-modifications
+        (setf (buffer-string) string))
+      (when (fboundp mode)
+        (funcall mode)
+        (font-lock-ensure))
+      (if (not (get-buffer-window (current-buffer)))
+          (save-window-excursion
+            ;; Avoid errors if the selected window is a dedicated one,
+            ;; and they just want to insert a document into it.
+            (set-window-dedicated-p nil nil)
+            (set-window-buffer nil (current-buffer))
+            (car (window-text-pixel-size nil (line-beginning-position) (point))))
+        (car (window-text-pixel-size nil (line-beginning-position) (point)))))))
    #+END_SRC
    This shows the current week from today, but also the past three days.
    #+BEGIN_SRC emacs-lisp
