@@ -1045,7 +1045,7 @@ and the entire buffer (in the absense of a region)."
 (when (display-graphic-p)
   ;; For fontset-fixed
   (let* ((my-font (font-xlfd-name
-                   (font-spec :family "Sarasa Mono SC" :weight 'medium
+                   (font-spec :family "Sarasa Mono SC" :weight 'normal
                               :slant 'normal :width 'normal)))
          (fontset-name "fixed")
          (my-fontset (concat "fontset-" fontset-name)))
@@ -1071,7 +1071,7 @@ and the entire buffer (in the absense of a region)."
   ;; For fontset-variable
   (let* ((fontset-name "variable")
         (my-font (font-xlfd-name
-                  (font-spec :family "Bookerly" :weight 'medium
+                  (font-spec :family "Bookerly" :weight 'normal
                              :slant 'normal :width 'normal)))
         (my-fontset (concat "fontset-" fontset-name)))
     (create-fontset-from-ascii-font my-font nil fontset-name)
@@ -1093,7 +1093,7 @@ and the entire buffer (in the absense of a region)."
   ;; For fontset-monoserif
   (let* ((fontset-name "monoserif")
         (my-font (font-xlfd-name
-                  (font-spec :family "Latin Modern Mono" :weight 'medium
+                  (font-spec :family "Latin Modern Mono" :weight 'normal
                              :slant 'normal :width 'normal)))
         (my-fontset (concat "fontset-" fontset-name)))
 
