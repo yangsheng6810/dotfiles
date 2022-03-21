@@ -47,7 +47,9 @@
   (package! counsel-notmuch))
 (package! ox-hugo)
 (package! org-gcal)
-(package! telega)
+(package! telega
+  ;; :pin "b83e7081038179a9db6fc63436bea962d6cd4911"
+  )
 ;; (package! slack)
 (package! popwin)
 (package! org-noter)
