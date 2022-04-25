@@ -470,3 +470,5 @@ exec --no-startup-id /lib/xfce4/notifyd/xfce4-notifyd
 # KDE connect
 exec --no-startup-id /usr/lib/kdeconnectd
 exec --no-startup-id kdeconnect-indicator
+
+no_focus [window_role="pop-up"]
