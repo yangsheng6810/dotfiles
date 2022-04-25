@@ -5363,6 +5363,10 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   ;; define variable to store timer
   (defvar yang/elfeed-compact-timer nil "Timer for elfeed-compact")
 
+  (define-advice elfeed-db-compact (:around (func ) yang)
+    (cl-letf (((symbol-function 'delete-file-projectile-remove-from-cache) 'ignore))
+      (funcall func)))
+
   (define-advice +rss-cleanup-h (:override () yang-hack)
     (advice-remove '+rss-cleanup-h #'+rss-cleanup-h@yang-hack)
     (el-patch-defun +rss-cleanup-h ()
