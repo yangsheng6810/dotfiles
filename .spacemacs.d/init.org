@@ -6643,6 +6643,20 @@ If FILE is provided, use it instead of the one on the system."
                             'ssh-deploy-force-on-explicit-save 1)))
 #+end_src
 
+** Emacs 28
+[[https://www.masteringemacs.org/article/whats-new-in-emacs-28-1][What's New in Emacs 28.1? - Mastering Emacs]]
+#+begin_src emacs-lisp
+(setq next-error-message-highlight t
+      kill-buffer-delete-auto-save-files t
+      use-short-answers t
+      read-minibuffer-restore-windows t
+      mode-line-compact nil
+      help-enable-symbol-autoload t
+      describe-bindings-outline t
+      dired-kill-when-opening-new-dired-buffer nil
+      calc-make-windows-dedicated t)
+#+end_src
+
 * Slack
 #+begin_src emacs-lisp
 (use-package slack
