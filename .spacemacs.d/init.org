@@ -4609,7 +4609,8 @@ Return the result as a string."
     :init
     (setq vterm-term-environment-variable "eterm-color"
           vterm-min-window-width 80
-          vterm-always-compile-module t)
+          vterm-always-compile-module t
+          vterm-timer-delay 0.05)
     :custom (vterm-shell "/usr/bin/zsh"))
 #+end_src
 
