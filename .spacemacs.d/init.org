@@ -2215,6 +2215,10 @@ Made for `org-tab-first-hook' in evil-mode."
       (cond ((not (and (bound-and-true-p evil-local-mode)
                        (evil-insert-state-p)))
              nil)
+            ((and (bound-and-true-p org-cdlatex-mode)
+                  (or (org-inside-LaTeX-fragment-p)
+                      (org-inside-latex-macro-p)))
+             nil)
             ((org-at-item-p)
              (if (eq this-command 'org-shifttab)
                  (org-outdent-item-tree)
@@ -2227,8 +2231,9 @@ Made for `org-tab-first-hook' in evil-mode."
                  (org-demote)))
              t)
             ((org-in-src-block-p t)
-             (org-babel-do-in-edit-buffer
-              (call-interactively #'indent-for-tab-command))
+             (save-window-excursion
+               (org-babel-do-in-edit-buffer
+                (call-interactively #'indent-for-tab-command)))
              t)
             ((and (save-excursion
                     (skip-chars-backward " \t")
@@ -5366,6 +5371,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   :config
   ;; define variable to store timer
   (defvar yang/elfeed-compact-timer nil "Timer for elfeed-compact")
+  (setq +rss-workspace-name "elf")
 
   (define-advice elfeed-db-compact (:around (func ) yang)
     (cl-letf (((symbol-function 'delete-file-projectile-remove-from-cache) 'ignore))
@@ -5397,7 +5403,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
               (kill-buffer b)))
           (mapc #'kill-buffer show-buffers))
         (if (featurep! :ui workspaces)
-            (+workspace/delete "rss")
+            (+workspace/delete +rss-workspace-name)
           (when (window-configuration-p +rss--wconf)
             (set-window-configuration +rss--wconf))
           (setq +rss--wconf nil))
