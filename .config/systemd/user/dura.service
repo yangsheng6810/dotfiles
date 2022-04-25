@@ -1,0 +1,8 @@
+[Unit]
+Description=Dura is a background process that watches your Git repositories and commits your uncommitted changes
+
+[Service]
+ExecStart=/usr/bin/dura serve
+
+[Install]
+WantedBy=default.target
