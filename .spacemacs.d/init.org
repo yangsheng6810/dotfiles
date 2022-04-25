@@ -4678,9 +4678,12 @@ Return the result as a string."
           (message "pdf-cache--prefetch-start advice caught problem")
           (when pdf-cache--prefetch-timer
             (cancel-timer pdf-cache--prefetch-timer)
+            ;; This may lead to problem, but let's do it
+            (cancel-function-timers #'pdf-cache--prefetch-start)
             (setq pdf-cache--prefetch-timer nil))))
 
       (defun yang/pdf-cache--timer-cancel ()
+        (message "clear up pdf-cache")
         (when pdf-cache--prefetch-timer
           (cancel-timer pdf-cache--prefetch-timer)
           (setq pdf-cache--prefetch-timer nil)))
