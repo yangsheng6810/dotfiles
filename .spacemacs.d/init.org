@@ -6032,8 +6032,8 @@ keywords are supported:
   :custom
   (ledger-post-amount-alignment-column 62)
   (ledger-reports
-   '(("credit card balance" "ledger [[ledger-mode-flags]] -f /home/yangsheng/Documents/Finance/mine.ledger bal Liabilities")
-     ("net worth" "ledger [[ledger-mode-flags]] -f /home/yangsheng/Documents/Finance/mine.ledger bal ^Assets:BofA ^Assets:Ally ^Assets:Cash ^Assets:Fidelity ^Assets:BoC ^Liabilities -C -R")
+   '(("credit card balance" "%(binary) [[ledger-mode-flags]] -f /home/yangsheng/Documents/Finance/mine.ledger bal Liabilities")
+     ("net worth" "%(binary) [[ledger-mode-flags]] -f /home/yangsheng/Documents/Finance/mine.ledger bal ^Assets:BofA ^Assets:Ally ^Assets:Cash ^Assets:Fidelity ^Assets:BoC ^Liabilities -C -R")
      ("bal" "%(binary) -f %(ledger-file) bal")
      ("reg" "%(binary) -f %(ledger-file) reg")
      ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
