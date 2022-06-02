@@ -426,10 +426,12 @@ for_window [class="ffplay"] floating enable
 for_window [class="Emacs" title="Everywhere"] floating enable
 
 # zoom
+for_window [class="zoom"] floating enable
 for_window [class="zoom"] move --no-auto-back-and-forth container to workspace $ws8
 for_window [class="zoom" title="Question and Answer"] resize set width 25 ppt, resize set height 50 ppt
 for_window [class="zoom" title="Zoom Cloud Meeting"] floating disable
 for_window [class="zoom" title="Leave meeting"] floating disable
+for_window [class="zoom" title="Zoom Meeting"] floating disable
 for_window [class="zoom" title="Chat"] floating disable, resize set width 25 ppt
 for_window [class="zoom" title="^Participants"] floating disable, resize set width 25 ppt
 # for_window [class="zoom" title="zoom"] floating disable
