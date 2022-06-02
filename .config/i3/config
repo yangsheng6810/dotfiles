@@ -89,10 +89,14 @@ mouse_warping none
 # Disable focus wrapping
 focus_wrapping no
 
+set $color1 #87ceeb
+# set $color1 #cd8500
+set $color2 #888888
 # Colors
 # class                 border  backgr. text    indicator child_border
 # client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
-client.focused          #87ceeb #285577 #ffffff #87ceeb   #87ceeb
+# client.focused          #87ceeb #285577 #ffffff #87ceeb   #87ceeb
+client.focused          $color1 $color1 #ffffff $color1   $color1
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
@@ -325,6 +329,16 @@ bar {
         status_command i3blocks
         font pango:DejaVu Sans Mono, awesome 14
         tray_output primary
+        colors {
+                background #333333
+                # statusline $color1
+                statusline #FFFFFF
+                separator  #FFFFFF
+                # colorclass       <border> <background> <text>
+                focused_workspace  $color2  $color2  #FFFFFF
+                inactive_workspace #333333  #333333  #FFFFFF
+
+        }
 }
 
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
