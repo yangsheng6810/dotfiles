@@ -49,7 +49,7 @@
 (package! ox-hugo :pin "262b7b432a7f81124fe181c07b57a4f42b6eedc9")
 (package! org-gcal :pin "554c48fb57dc46877202028019197b0699961ca0")
 (package! telega
-  :pin "d0dff3c63dcd9b9e38b225677c3d911c6091cf61")
+  :pin "25e07c86c43af1cc949cb6ac6c2ca63bfb7c5e78")
 ;; (package! slack)
 (package! popwin :pin "f90f3a09622993bf34704bb11c24984f6b1f10e2")
 (package! org-noter :pin "9ead81d42dd4dd5074782d239b2efddf9b8b7b3d")
