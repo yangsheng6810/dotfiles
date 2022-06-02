@@ -34,8 +34,9 @@ floating_modifier $mod
 # https://github.com/Airblader/i3/tree/gaps-next
 # delete or uncomment the following lines if you do not have it or do not
 # want it
-for_window [class="^.*"] border pixel 2
-hide_edge_borders horizontal
+for_window [class="^.*"] border pixel 1
+# hide_edge_borders horizontal
+hide_edge_borders smart_no_gaps
 gaps inner 10
 gaps outer 0
 # Only enable gaps on a workspace when there is at least one container
