@@ -3237,7 +3237,8 @@ For generating org-capture templates
   :init
   ;; This is only a workaround
   (setq org-roam-directory (concat org-directory "/roam")
-        org-roam-db-location "/tmp/org-roam.db")
+        ;; org-roam-db-location "/tmp/org-roam.db"
+        )
   :config
   ;; Modify Doom's default width
   (setq org-roam-node-display-template "${doom-hierarchy:*} ${doom-tags:20}"))
