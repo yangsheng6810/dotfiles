@@ -2398,10 +2398,10 @@ Show the heading too, if it is currently invisible."
   (setq yang-org-super-agenda-groups
         '((:name "Inbox"
            :category "Inbox"
-           :order 0)
+           :order 1)
           (:name "NEXT"
            :todo "NEXT"
-           :order 1)
+           :order 0)
           (:name "TODO"
            :todo "TODO"
            :order 2)
