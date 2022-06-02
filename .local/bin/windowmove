@@ -15,21 +15,23 @@ emacsclient=$(which emacsclient)
 #   window))"
 # }
 
+call_command="timeout --signal INT 2s $emacsclient"
+
 case $1 in
     left) [ "${WM_CLASS_STRING}" == '"Emacs"' ] &&\
-           $emacsclient -e "(windmove-left)"  ||\
+           $call_command -e "(windmove-left)"  ||\
                i3-msg 'focus left'
        ;;
     right) [ "${WM_CLASS_STRING}" == '"Emacs"' ] &&\
-           $emacsclient -e "(windmove-right)" ||\
+           $call_command -e "(windmove-right)" ||\
                i3-msg 'focus right'
        ;;
     up) [ "${WM_CLASS_STRING}" == '"Emacs"' ] &&\
-           $emacsclient -e "(windmove-up)"    ||\
+           $call_command -e "(windmove-up)"    ||\
                i3-msg 'focus up'
        ;;
     down) [ "${WM_CLASS_STRING}" == '"Emacs"' ] &&\
-           $emacsclient -e "(windmove-down)"  ||\
+           $call_command -e "(windmove-down)"  ||\
                i3-msg 'focus down'
        ;;
 esac
