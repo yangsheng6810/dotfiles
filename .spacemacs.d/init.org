@@ -882,6 +882,11 @@ and the entire buffer (in the absense of a region)."
 (setq gcmh-high-cons-threshold (* 100 160 1024 1024) ; 16G
       gcmh-low-cons-threshold 16000000
       gcmh-idle-delay 'auto)
+
+(define-advice gcmh-idle-garbage-collect (:around (func) yang)
+  "Hide garbage collect message in *messages*."
+  (let ((message-log-max nil))
+    (funcall func)))
    #+end_src
 
 ** Profiler
