@@ -48,15 +48,16 @@
 # *** [[https://rsshub.app/natgeo/environment/article][国家地理]]
 *** [[https://rsshub.app/smzdm/ranking/haowen/yc/48][什么值得买]] :buy:
 *** [[https://rsshub.app/guancha/home][观察者网]]
-*** [[https://rsshub.app/scmp/3][南华早报 Asia]]
-*** [[https://rsshub.app/scmp/4][南华早报 China]]
-*** [[https://rsshub.app/scmp/5][南华早报 World]]
+# *** [[https://rsshub.app/scmp/3][南华早报 Asia]]
+# *** [[https://rsshub.app/scmp/4][南华早报 China]]
+# *** [[https://rsshub.app/scmp/5][南华早报 World]]
 # *** [[https://foreignpolicy.com/feed/][Foreign Policy]] :foreign:
 *** [[https://www.foreignaffairs.com/rss.xml][Foreign Affairs]] :foreign:
 *** [[https://rsshub.app/guardian/editorial][The Guardian Editorial]]
 *** [[https://rsshub.app/guardian/china][The Guardian China]]
 ** Blog
 *** [[https://archive.casouri.cat/note/rss.xml][casouri]] :emacs:
+*** [[https://thephilbert.io/feed/][GCC Rust Status Report]] :tech:
 ** Twitter :leisure:twitter:
 *** [[https://rsshub.app/twitter/user/aleos696/readable=1&authorNameBold=0&showAuthorInTitle=1&showAuthorInDesc=1&showQuotedAuthorAvatarInDesc=1&showAuthorAvatarInDesc=1&showEmojiForRetweetAndReply=0&showRetweetTextInTitle=0&addLinkForPics=1&showTimestampInDescription=1&showQuotedInTitle=1&heightOfPics=300&excludeReplies=1][仁井学 NII Manabu]]
 *** [[https://rsshub.app/twitter/user/mery__S2_/readable=1&authorNameBold=0&showAuthorInTitle=1&showAuthorInDesc=1&showQuotedAuthorAvatarInDesc=1&showAuthorAvatarInDesc=1&showEmojiForRetweetAndReply=0&showRetweetTextInTitle=0&addLinkForPics=1&showTimestampInDescription=1&showQuotedInTitle=1&heightOfPics=300&excludeReplies=1][양말가게@mery__S2_]]
@@ -73,3 +74,4 @@
 *** [[https://rsshub.app/twitter/user/tiv_/readable=1&authorNameBold=0&showAuthorInTitle=1&showAuthorInDesc=1&showQuotedAuthorAvatarInDesc=1&showAuthorAvatarInDesc=1&showEmojiForRetweetAndReply=0&showRetweetTextInTitle=0&addLinkForPics=1&showTimestampInDescription=1&showQuotedInTitle=1&heightOfPics=300&excludeReplies=1][Tiv]]
 *** [[https://rsshub.app/twitter/user/MON_2501/readable=1&authorNameBold=0&showAuthorInTitle=1&showAuthorInDesc=1&showQuotedAuthorAvatarInDesc=1&showAuthorAvatarInDesc=1&showEmojiForRetweetAndReply=0&showRetweetTextInTitle=0&addLinkForPics=1&showTimestampInDescription=1&showQuotedInTitle=1&heightOfPics=300&excludeReplies=1][MON(修行)]]
 *** [[https://rsshub.app/twitter/user/Sorano_1013/readable=1&authorNameBold=0&showAuthorInTitle=1&showAuthorInDesc=1&showQuotedAuthorAvatarInDesc=1&showAuthorAvatarInDesc=1&showEmojiForRetweetAndReply=0&showRetweetTextInTitle=0&addLinkForPics=1&showTimestampInDescription=1&showQuotedInTitle=1&heightOfPics=300&excludeReplies=1][空野]]
+*** [[https://rsshub.app/twitter/user/Lyytoaoitori/readable=1&authorNameBold=0&showAuthorInTitle=1&showAuthorInDesc=1&showQuotedAuthorAvatarInDesc=1&showAuthorAvatarInDesc=1&showEmojiForRetweetAndReply=0&showRetweetTextInTitle=0&addLinkForPics=1&showTimestampInDescription=1&showQuotedInTitle=1&heightOfPics=300&excludeReplies=1][Lyy]]
