@@ -62,5 +62,18 @@ function setup_guix() {
 if [ -n "${USE_GUIX+x}" ]; then
     setup_guix
 fi
+
+# include custom packages
+export GUIX_PACKAGE_PATH=~/git/guix_package
+
 # remove guix from path
 # export PATH=${PATH//:\/home\/yangsheng\/.guix-profile\/bin/}
+
+if command -v atuin &> /dev/null; then
+    if [ -n "${ZSH_VERSION+x}" ]; then
+        eval "$(atuin init zsh)"
+    fi
+    if [ -n "${BASH_VERSION+x}" ]; then
+        eval "$(atuin init bash)"
+    fi
+fi
