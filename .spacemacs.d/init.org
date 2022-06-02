@@ -6322,6 +6322,68 @@ SHOW-ALL, show all chats."
     (other-frame 1)))
 #+end_src
 
+* EMMS
+#+begin_src emacs-lisp
+(use-package emms
+  :defer t
+  :commands (yang/start-emms yang/evil-collection-emms-mark-setup)
+  :config
+  (custom-set-faces
+   '(emms-playlist-selected-face ((t (:inherit org-date-selected))))
+   '(emms-playlist-track-face ((t (:inherit default)))))
+  (defun yang/evil-collection-emms-mark-setup ()
+    (interactive)
+    (evil-set-initial-state 'emms-mark-mode 'normal)
+    (evil-collection-define-key 'normal 'emms-mark-mode-map
+      "D"         'emms-mark-delete-marked-tracks
+      "K"         'emms-mark-kill-marked-tracks
+      "U"         'emms-mark-unmark-all
+      "C"         'emms-mark-copy-marked-tracks
+      "m"         'emms-mark-forward
+      "t"         'emms-mark-toggle
+      "u"         'emms-mark-unmark-forward
+      "% m"       'emms-mark-regexp))
+
+  (defun yang/emms-switch-to-current-playlist ()
+    (interactive)
+    (setq emms-playlist-buffer (current-buffer)))
+
+  (defun yang/start-emms ()
+    (interactive)
+    ;; (setq emms-setup-default-player-list
+    ;;       '(emms-player-mpv emms-player-mpg321 emms-player-ogg123 emms-player-mplayer-playlist emms-player-mplayer emms-player-vlc emms-player-vlc-playlist))
+    (setq emms-setup-default-player-list
+          '(emms-player-mpv))
+    (setq emms-source-file-default-directory "/mnt/HPE/Data/音乐/")
+
+    (require 'emms-setup)
+    (emms-all)
+    (emms-default-players)
+    (emms-history-load)
+
+    (emms)
+    (yang/evil-collection-emms-mark-setup))
+
+  (define-advice emms-playlist-new (:override  (&optional name) yang)
+    "Create a new playlist buffer.
+The buffer is named NAME, but made unique.  NAME defaults to
+`emms-playlist-buffer-name'.  If called interactively, the new
+buffer is also selected."
+    (interactive "sPlaylist Name: ")
+    (let ((buf (generate-new-buffer (or name
+                                        emms-playlist-buffer-name))))
+      (with-current-buffer buf
+        (when (not (eq major-mode emms-playlist-default-major-mode))
+          (funcall emms-playlist-default-major-mode))
+        (setq emms-playlist-buffer-p t))
+      (add-to-list 'emms-playlist-buffers buf)
+      (when (called-interactively-p 'interactive)
+        (switch-to-buffer buf))
+      buf))
+
+  )
+#+end_src
+
 * auto-highlight-symbol (ahs)
   #+BEGIN_SRC emacs-lisp
 (after! ahs
