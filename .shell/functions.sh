@@ -60,6 +60,6 @@ function musl-build() {
   sudo docker run \
     -v cargo-cache:/root/.cargo/registry \
     -v "$PWD:/volume" \
-    --rm -it clux/muslrust cargo build --release
+    --rm -it clux/muslrust:1.60.0-stable cargo build --release
   sudo systemctl stop docker.socket
 }
