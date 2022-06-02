@@ -6176,9 +6176,11 @@ keywords are supported:
   ('telega-chat-mode . #'yas-minor-mode-on)
   :init
   ;; ignore blocked user
-  (add-hook 'telega-msg-ignore-predicates #'telega-msg-from-blocked-sender-p)
+  
   (setq telega-server-libs-prefix "/usr")
   :config
+  (add-hook 'telega-msg-ignore-predicates
+        (telega-match-gen-predicate "msg-" '(sender blocked)))
   ;; temporary telega keybinding
   (define-key global-map (kbd "C-c t") telega-prefix-map)
   ;; can keep deleted messages visible until chatbuf is killed
