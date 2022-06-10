@@ -860,19 +860,8 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
 
 ** Crux
    #+begin_src emacs-lisp
-(use-package crux
-  :defer t
-  :init
-  (defmacro crux-with-region-or-buffer (func)
-  "When called with no active region, call FUNC on current buffer.
-
-Use to make commands like `indent-region' work on both the region
-and the entire buffer (in the absense of a region)."
-  `(defadvice ,func (before with-region-or-buffer activate compile)
-     (interactive
-      (if mark-active
-          (list (region-beginning) (region-end))
-        (list (point-min) (point-max))))))
+(eval-when-compile
+  (require 'crux)
   (crux-with-region-or-buffer indent-region)
   (crux-with-region-or-buffer untabify))
    #+end_src
