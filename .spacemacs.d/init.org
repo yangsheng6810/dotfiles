@@ -6325,9 +6325,7 @@ SHOW-ALL, show all chats."
   :defer t
   :commands (yang/start-emms yang/evil-collection-emms-mark-setup)
   :config
-  (custom-set-faces
-   '(emms-playlist-selected-face ((t (:inherit org-date-selected))))
-   '(emms-playlist-track-face ((t (:inherit default)))))
+  
   (defun yang/evil-collection-emms-mark-setup ()
     (interactive)
     (evil-set-initial-state 'emms-mark-mode 'normal)
@@ -6359,7 +6357,10 @@ SHOW-ALL, show all chats."
     (emms-history-load)
 
     (emms)
-    (yang/evil-collection-emms-mark-setup))
+    (yang/evil-collection-emms-mark-setup)
+    (custom-set-faces
+   '(emms-playlist-selected-face ((t (:inherit org-date-selected))))
+   '(emms-playlist-track-face ((t (:inherit default))))))
 
   (define-advice emms-playlist-new (:override  (&optional name) yang)
     "Create a new playlist buffer.
