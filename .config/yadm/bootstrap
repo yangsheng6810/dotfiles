@@ -46,3 +46,10 @@ echo "Prepare i3blocks-contrib"
 cd "${HOME}/.config/i3blocks-contrib" && make 2>/dev/null
 cd "$HOME"
 
+echo "Installing packages"
+if [ -f "/etc/arch-release" ]; then
+    paru -S rofi alacritty i3blocks i3lock-color \
+        libpulse alsa-utils playerctl xorg-xset \
+        nitrogen picom xss-lock volctl nm-applet \
+        udiskie autotiling flameshot xfce4-notifyd
+fi

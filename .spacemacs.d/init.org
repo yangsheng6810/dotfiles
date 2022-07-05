@@ -1027,7 +1027,7 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
   (set-fontset-font t 'unicode "Noto Sans" nil 'append))
 
 (yang/with-doom
-  (setq doom-font (font-spec :family "Source Code Pro" :size 16 :weight 'semi-light)
+  (setq doom-font (font-spec :family "Source Code Pro" :size 24 :weight 'semi-light)
         ;; doom-variable-pitch-font (font-spec :family "Libre Baskerville") ; inherits `doom-font''s :size
         doom-variable-pitch-font  (font-spec :family "Bookerly") ; inherits `doom-font''s :size
         doom-unicode-font (font-spec :family "Sarasa Mono SC")

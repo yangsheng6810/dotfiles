@@ -1,7 +1,7 @@
-! Xft.dpi: 192
-! rofi.dpi: 192
-Xft.dpi: 96
-rofi.dpi: 96
+Xft.dpi: 192
+rofi.dpi: 192
+!Xft.dpi: 96
+!rofi.dpi: 96
 
 xpdf.title: PDF
 

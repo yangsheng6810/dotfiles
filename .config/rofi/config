@@ -95,7 +95,7 @@
 ! "Fake transparency *DEPRECATED*" Set from: Default
 ! rofi.fake-transparency:              false
 ! "DPI" Set from: XResources
-rofi.dpi:                            96
+rofi.dpi:                            192
 ! "Threads to use for string matching" Set from: Default
 ! rofi.threads:                        0
 ! "Scrollbar width *DEPRECATED*" Set from: Default

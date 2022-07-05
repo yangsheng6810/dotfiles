@@ -1,12 +1,54 @@
 ;; -*- no-byte-compile: t; -*-
-;;; .doom.d/packages.el
+;;; $DOOMDIR/packages.el
 
-;;; Examples:
-;; (package! some-package)
-;; (package! another-package :recipe (:host github :repo "username/repo"))
-;; (package! builtin-package :disable t)
+;; To install a package with Doom you must declare them here and run 'doom sync'
+;; on the command line, then restart Emacs for the changes to take effect -- or
+;; use 'M-x doom/reload'.
 
-;; (package! cnfonts)
+
+;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
+;(package! some-package)
+
+;; To install a package directly from a remote git repo, you must specify a
+;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
+;; https://github.com/raxod502/straight.el#the-recipe-format
+;(package! another-package
+;  :recipe (:host github :repo "username/repo"))
+
+;; If the package you are trying to install does not contain a PACKAGENAME.el
+;; file, or is located in a subdirectory of the repo, you'll need to specify
+;; `:files' in the `:recipe':
+;(package! this-package
+;  :recipe (:host github :repo "username/repo"
+;           :files ("some-file.el" "src/lisp/*.el")))
+
+;; If you'd like to disable a package included with Doom, you can do so here
+;; with the `:disable' property:
+;(package! builtin-package :disable t)
+
+;; You can override the recipe of a built in package without having to specify
+;; all the properties for `:recipe'. These will inherit the rest of its recipe
+;; from Doom or MELPA/ELPA/Emacsmirror:
+;(package! builtin-package :recipe (:nonrecursive t))
+;(package! builtin-package-2 :recipe (:repo "myfork/package"))
+
+;; Specify a `:branch' to install a package from a particular branch or tag.
+;; This is required for some packages whose default branch isn't 'master' (which
+;; our package manager can't deal with; see raxod502/straight.el#279)
+;(package! builtin-package :recipe (:branch "develop"))
+
+;; Use `:pin' to specify a particular commit to install.
+;(package! builtin-package :pin "1a2b3c4d5e")
+
+
+;; Doom's packages are pinned to a specific commit and updated from release to
+;; release. The `unpin!' macro allows you to unpin single packages...
+;(unpin! pinned-package)
+;; ...or multiple packages
+;(unpin! pinned-package another-pinned-package)
+;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
+;(unpin! t)
+
 (package! eterm-256color :pin "c9cfccef03e730f7ab2b407aada3df15ace1fe32")
 (package! olivetti :pin "8d287a80c5e3d72ac01b56c8afe60b01f18500b4")
 (package! helm-bibtex :pin "ce8c17690ddad73d01531084b282f221f8eb6669")
@@ -19,7 +61,7 @@
 (package! ivy-rich :pin "600b8183ed0be8668dcc548cc2c8cb94b001363b")
 (package! vlf :pin "cc02f2533782d6b9b628cec7e2dcf25b2d05a27c")
 (package! beginend :pin "bbcfdc0909c20ddee41e95b7ade7de63af73b220")
-; (package! beacon)
+
 (package! diminish :pin "6b7e837b0cf0129e9d7d6abae48093cf599bb9e8")
 (package! spacemacs-theme :pin "bd376f705d6eb7afd9a1dfa0c1bd407e869d1e9f")
 (package! rainbow-mode :pin "949166cc0146bc9fabf74ce70c1c4a097f4cffd4")
@@ -38,6 +80,7 @@
 (package! counsel-etags :pin "05d364b556aadcfe49df727c0729abc3f0c14372")
 (package! google-this :pin "8a2e3ca5da6a8c89bfe99a21486c6c7db125dc84")
 (package! zeal-at-point :pin "0fc3263f44e95acd3e9d91057677621ce4d297ee")
+
 (package! engine-mode
   :recipe (:host github :repo "hrs/engine-mode" :branch "main")
   :pin "57045918301f5a96f67bd409f7683987a72272cd")
@@ -62,11 +105,7 @@
 
 (package! hl-line :disable t)
 (package! solaire-mode :disable t)
-;; (package! beancount
-;;   :recipe (:host github
-;;            :repo "beancount/beancount"
-;;            :files ("edtiors/emacs/beancount.el")
-;;            :depth 1))
+
 (package! org-protocol-capture-html
   :recipe (:host github
            :repo "alphapapa/org-protocol-capture-html")
@@ -88,8 +127,6 @@
 
 (package! org-super-agenda :pin "3108bc3f725818f0e868520d2c243abe9acbef4e")
 (package! git-messenger :pin "eade986ef529aa2dac6944ad61b18de55cee0b76")
-
-;; (package! xenops)
 
 (package! flycheck-package :pin "615c1ed8c6fb7c73abec6aaa73d3fef498d231bc")
 (package! chinese-yasdcv :pin "5ab830daf1273d5a5cddcb94b56a9737f12d996f")
@@ -212,4 +249,4 @@
 (package! ftable :pin "96a0475871b1642582a0c0fb5a361a8af0dd5923")
 
 ;; show a pretty svg clock
-(package! svg-clock :pin "1973fa9fa1834d51f47f5db8a693976b681fd520")
+; (package! svg-clock :pin "1973fa9fa1834d51f47f5db8a693976b681fd520")
