@@ -248,6 +248,8 @@ workspace $ws9 output primary
 # move window across workspace
 mode "workspace" {
         bindsym h move workspace to output left
+        bindsym j move workspace to output down
+        bindsym k move workspace to output up
         # bindsym j resize grow height 40 px or 5 ppt
         # bindsym k resize shrink height 40 px or 5 ppt
         bindsym l move workspace to output right
@@ -415,6 +417,7 @@ for_window [class="konsole" title="floating"] floating enable
 for_window [class="Alacritty" title="floating"] floating enable
 
 for_window [class="Eog"] floating enable
+for_window [class="feh"] floating enable
 for_window [class="Totem"] resize set width 35 ppt
 # for_window [class="Pavucontrol"] resize set width 25 ppt, resize set height 50 ppt
 for_window [class="Pavucontrol"] floating enable
