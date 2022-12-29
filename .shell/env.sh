@@ -1,5 +1,5 @@
 # -*- mode: shell-script;-*-
-export GREP_COLOR="1;33"
+export GREP_COLOR='mt=1;33'
 unset GREP_OPTIONS
 
 export LESS="-R"
