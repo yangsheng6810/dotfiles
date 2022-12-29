@@ -129,10 +129,11 @@ LABEL=
 # see the script for details.
 [temperature]
 label=:
-interval=10
+interval=1
 #T_WARN=70
 #T_CRIT=90
 #SENSOR_CHIP=""
+SENSOR_CHIP="coretemp-isa-0000"
 
 # [load_average]
 # label=:
