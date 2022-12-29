@@ -744,7 +744,7 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
 (setq system-time-locale "zh_CN.utf-8"
       user-mail-address "yangsheng6810@gmail.com")
 (setq exec-path (cons (expand-file-name "~/.pyenv/shims") exec-path))
-(defconst yang/at-china nil)
+(defconst yang/at-china t)
 (when yang/at-china
   (after! url-vars
     (setq url-gateway-method 'socks)
@@ -1055,6 +1055,7 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
     (set-fontset-font my-fontset 'unicode "Sarasa Mono SC" nil 'prepend)
     (set-fontset-font my-fontset 'unicode "Symbola" nil 'append)
     (set-fontset-font my-fontset 'symbol "Symbola" nil 'append)
+    (set-fontset-font my-fontset 'symbol "Noto Color Emoji" nil 'append)
 
     ;; ;; Set Chinese fonts
     ;; (set-fontset-font my-fontset 'unicode "方正屏显雅宋_GBK" nil 'prepend)
