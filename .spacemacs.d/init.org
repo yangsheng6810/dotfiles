@@ -2166,10 +2166,11 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
   (add-to-list 'org-structure-template-alist (cons "ss" "src shell")))
 
 (use-package org-protocol
+  :after org
   :defer t)
 
 (use-package ox-re-reveal
-  :after org-compat
+  :after (org org-compat)
   :commands (jw/html-escape-attribute)
   :config
   (defun jw/html-escape-attribute (value)
@@ -2318,6 +2319,7 @@ Show the heading too, if it is currently invisible."
 
 (use-package org-journal
   :defer t
+  :after org
   ;; :init
   :init
   (setq org-journal-dir "~/Documents/org/journal/"
@@ -2369,6 +2371,7 @@ Show the heading too, if it is currently invisible."
    #+BEGIN_SRC emacs-lisp
 (use-package org-super-agenda
   :defer t
+  :after org
   :general
   (:keymaps 'org-super-agenda-header-map
    "j" nil
@@ -2377,6 +2380,7 @@ Show the heading too, if it is currently invisible."
 
 (use-package org-agenda
   :defer 4
+  :after org
   :custom
   (org-agenda-files '("~/Documents/org/Research.org"
                       "~/Documents/org/papers.org"
@@ -2588,6 +2592,7 @@ Optional MODE specifies major mode used for display."
    #+BEGIN_SRC emacs-lisp
      (use-package org-timer
        :defer t
+       :after org
        :commands (org-timer-pause-or-continue org-clock-modify-effort-estimate org-info)
        :general
        ("C-c w" #'hydra-org-clock/body)
@@ -2625,6 +2630,7 @@ Optional MODE specifies major mode used for display."
 
      (use-package org-agenda
        :defer t
+       :after org
        :commands (org-agenda-clock-in
                   org-agenda-clock-out
                   org-agenda-clock-cancel
@@ -2661,6 +2667,8 @@ Optional MODE specifies major mode used for display."
 For generating org-capture templates
 #+BEGIN_SRC emacs-lisp
 (use-package doct
+  :defer t
+  :after org
   ;;recommended: defer until calling doct
   :commands (doct))
 #+END_SRC
@@ -2668,6 +2676,7 @@ For generating org-capture templates
    #+BEGIN_SRC emacs-lisp
      (use-package org-capture
        :defer t
+       :after (org doct)
        :config
        (defun transform-square-brackets-to-round-ones(string-to-transform)
          "Transforms [ into ( and ] into ), other chars left unchanged."
@@ -2908,6 +2917,7 @@ For generating org-capture templates
 (declare-function #'dnd--unescape-uri "dnd")
 
 (use-package org-ref
+  :after org
   :commands (org-ref-insert-link
              org-ref-get-bibtex-key-and-file
              org-ref-bibtex-hydra/body
@@ -3023,6 +3033,7 @@ For generating org-capture templates
     ;; which prevents C-h to call help
     (use-package evil-org
       :defer t
+      :after org
       :config
       (general-def
         :keymaps 'evil-org-mode-map
@@ -3225,6 +3236,7 @@ For generating org-capture templates
 #+BEGIN_SRC emacs-lisp
 (use-package org-roam
   :defer 10
+  :after org
   :init
   ;; This is only a workaround
   (setq org-roam-directory (concat org-directory "/roam")
@@ -3406,6 +3418,7 @@ For generating org-capture templates
    #+begin_src emacs-lisp
 (use-package org-download
   :defer t
+  :after org
   :commands (org-download-clipboard
              org-download-yank
              org-download-screenshot)
@@ -3480,6 +3493,7 @@ With a C-u argument, toggle the link display."
    #+begin_src emacs-lisp
 (use-package elegant-agenda-mode
   :defer 10
+  :after org
   :hook (org-agenda-mode . elegant-agenda-mode))
    #+end_src
 
@@ -3505,6 +3519,7 @@ With a C-u argument, toggle the link display."
 #+begin_src emacs-lisp
 (use-package org-transclusion
   :defer 20
+  :after org
   :config
 (setq org-id-extra-files (find-lisp-find-files org-journal-dir (rx (= 4 (any digit))
                                                                    "-"
