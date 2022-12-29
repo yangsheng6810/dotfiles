@@ -5189,11 +5189,12 @@ TYPE is one of the symbols mac or env."
      (ivy--regex-plus str)
      (ivy--regex-ignore-order str)))
 
-  (setq ivy-re-builders-alist
-        '(
-          ;; (t . re-builder-pinyin)
-          (t . ivy--cregex-plus)
-          ))
+  (add-to-list 'ivy-re-builders-alist '(swiper-isearch . ivy--cregex-plus))
+  ;; (setq ivy-re-builders-alist
+  ;;       '(
+  ;;         ;; (t . re-builder-pinyin)
+  ;;         (t . ivy--cregex-plus)
+  ;;         ))
 
   (add-to-list 'ivy-preferred-re-builders (cons #'ivy--cregex-plus "pinyin") t)
   (add-to-list 'ivy-preferred-re-builders (cons #'ivy--cregex-ignore-order "pinyin order") t)
