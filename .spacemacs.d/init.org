@@ -5190,6 +5190,7 @@ TYPE is one of the symbols mac or env."
      (ivy--regex-ignore-order str)))
 
   (add-to-list 'ivy-re-builders-alist '(swiper-isearch . ivy--cregex-plus))
+  (add-to-list 'ivy-re-builders-alist '(org-roam-node-find . ivy--cregex-plus))
   ;; (setq ivy-re-builders-alist
   ;;       '(
   ;;         ;; (t . re-builder-pinyin)
