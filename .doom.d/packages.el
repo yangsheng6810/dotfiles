@@ -105,6 +105,7 @@
 
 (package! hl-line :disable t)
 (package! solaire-mode :disable t)
+(package! docker-tramp :disable t)
 
 (package! org-protocol-capture-html
   :recipe (:host github
