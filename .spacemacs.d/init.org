@@ -1785,7 +1785,7 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
           :desc "Eval expression"       ";"    #'eval-expression
           :desc "M-x"                   "SPC"    #'execute-extended-command
   ;;; <leader> TAB --- workspace
-          (:when (featurep! :ui workspaces)
+          (:when (modulep! :ui workspaces)
                  (:prefix-map ("l" . "workspace")
                               :desc "Display tab bar"           "TAB" #'+workspace/display
                               :desc "Switch workspace"          "."   #'+workspace/switch-to
@@ -5397,7 +5397,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
               (remove-hook 'kill-buffer-hook #'+rss-cleanup-h :local)
               (kill-buffer b)))
           (mapc #'kill-buffer show-buffers))
-        (if (featurep! :ui workspaces)
+        (if (modulep! :ui workspaces)
             (+workspace/delete +rss-workspace-name)
           (when (window-configuration-p +rss--wconf)
             (set-window-configuration +rss--wconf))
