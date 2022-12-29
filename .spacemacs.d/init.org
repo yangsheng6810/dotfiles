@@ -748,14 +748,16 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
 (when yang/at-china
   (after! url-vars
     (setq url-gateway-method 'socks)
-    (setq url-proxy-services
-          '(
-            ;; ("no_proxy" . "^\\(localhost\\|192\\.168\\..*\\)")
-            ("http"     . "127.0.0.1:8123")
-            ("https"    . "127.0.0.1:8123"))))
-  (setq socks-server '("Default server" "127.0.0.1" 8883 5))
+    ;; (setq url-proxy-services
+    ;;       '(
+    ;;         ;; ("no_proxy" . "^\\(localhost\\|192\\.168\\..*\\)")
+    ;;         ("http"     . "127.0.0.1:8123")
+    ;;         ("https"    . "127.0.0.1:8123")))
+)
+    (setq url-proxy-services nil)
+  (setq socks-server '("Default server" "127.0.0.1" 8889 5))
   (setq request--url-options
-        '("--proxy" "socks5://localhost:8883"))
+        '("--proxy" "socks5://localhost:8889"))
   ;; white list to allow local connections
   (setq url-gateway-local-host-regexp
       (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
@@ -5367,6 +5369,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   ;; define variable to store timer
   (defvar yang/elfeed-compact-timer nil "Timer for elfeed-compact")
   (setq +rss-workspace-name "elf")
+  (setf elfeed-curl-extra-arguments '("--socks5-hostname" "localhost:8889"))
 
   (define-advice elfeed-db-compact (:around (func ) yang)
     (cl-letf (((symbol-function 'delete-file-projectile-remove-from-cache) 'ignore))
@@ -6174,6 +6177,7 @@ keywords are supported:
   
   (setq telega-server-libs-prefix "/usr")
   :config
+  (setq telega-proxies (list '(:server "127.0.0.1" :port "8889" :enable t :type (:@type "proxyTypeSocks5"))))
   (add-hook 'telega-msg-ignore-predicates
         (telega-match-gen-predicate "msg-" '(sender blocked)))
   ;; temporary telega keybinding
