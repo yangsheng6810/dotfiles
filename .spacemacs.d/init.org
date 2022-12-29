@@ -4042,7 +4042,8 @@ TYPE is one of the symbols mac or env."
 (after! magit-status
   (add-hook 'magit-status-mode-hook
             (lambda ()
-              (visual-line-mode 1))))
+              (visual-line-mode 1)
+              (evil-surround-mode -1))))
 
 (use-package magit
   :defer 5
@@ -4976,8 +4977,8 @@ TYPE is one of the symbols mac or env."
   :defer t
   :init
   (blaenk/set-char-widths
-   '((1 . (?🖿))
-     (2 . (?— ?… ?🅥 ?⌕ ?🅢 ?🅤 ?🅝 ?🅨 ?🅐 ?🅞 ?📑))
+   '((1 . (?🖿 ?📑))
+     (2 . (?— ?… ?🅥 ?⌕ ?🅢 ?🅤 ?🅝 ?🅨 ?🅐 ?🅞))
      (3 . (?㊙ ?💉 ?🌊 ?🇨 ?🇳 ?🚴 ?🚗 ?📖
                 ?🏎  ?🍍 ?█)))))
   #+END_SRC

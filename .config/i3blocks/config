@@ -130,10 +130,15 @@ LABEL=
 [temperature]
 label=:
 interval=1
-#T_WARN=70
-#T_CRIT=90
+T_WARN=70
+T_CRIT=90
 #SENSOR_CHIP=""
 SENSOR_CHIP="coretemp-isa-0000"
+# interval=10
+# T_WARN=70
+# T_CRIT=90
+# SENSOR_CHIP="zenpower-pci-00c3"
+# # SENSOR_CHIP="asus_wmi_sensors-virtual-0"
 
 # [load_average]
 # label=:
