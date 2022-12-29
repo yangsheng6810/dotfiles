@@ -1229,11 +1229,11 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
  ((variable-pitch
    (:family ,sans-font)
    (:family ,et-font
-    :background nil
+    :background "unspecified"
     :foreground ,bg-dark
     :height 1.0)
    (:family ,et-font
-    :background nil
+    :background "unspecified"
     :foreground ,bg-light
     :height 1.0))
   (org-document-title
@@ -1395,44 +1395,44 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
   (org-block
    (:background ,bg-dark
     :inhert fixed-pitch)
-   (:background nil
+   (:background "unspecified"
     :foreground ,bg-dark
     :inhert fixed-pitch)
-   (:background nil
+   (:background "unspecified"
     :foreground ,bg-light
     :inhert fixed-pitch))
   (org-special-keyword
    (:background ,bg-dark
     :inhert fixed-pitch)
-   (:background nil
+   (:background "unspecified"
     :foreground ,keyword
     :inhert fixed-pitch)
-   (:background nil
+   (:background "unspecified"
     :foreground ,keyword
     :inhert fixed-pitch))
   (org-drawer
    (:background ,bg-dark
     :inhert fixed-pitch)
-   (:background nil
+   (:background "unspecified"
     :foreground ,keyword
     :inhert fixed-pitch)
-   (:background nil
+   (:background "unspecified"
     :foreground ,keyword
     :inhert fixed-pitch))
   (org-block-begin-line
    (:background ,bg-dark)
-   (:background nil
+   (:background "unspecified"
     :family ,sans-mono-font
     :foreground ,slate)
-   (:background nil
+   (:background "unspecified"
     :family ,sans-mono-font
     :foreground ,slate))
   (org-block-end-line
    (:background ,bg-dark)
-   (:background nil
+   (:background "unspecified"
     :family ,sans-mono-font
     :foreground ,slate)
-   (:background nil
+   (:background "unspecified"
     :family ,sans-mono-font
     :foreground ,slate))
   (org-document-info-keyword
@@ -1549,7 +1549,7 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
    (:foreground ,doc)
    (:foreground ,doc))
   (org-table
-   (:background nil
+   (:background "unspecified"
     ;; :inherit fixed-pitch
     )
    (:family ,serif-mono-font
