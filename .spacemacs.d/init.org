@@ -2403,10 +2403,10 @@ Show the heading too, if it is currently invisible."
            :order 2)
           (:name "INACTIVE"
            :todo "INACTIVE"
-           :order 3)
+           :order 4)
           (:name "WAIT"
            :todo "WAIT"
-           :order 4)
+           :order 3)
           (:auto-category t
            :order 9)))
   (mapc
@@ -2435,7 +2435,7 @@ Show the heading too, if it is currently invisible."
                        :deadline today)
                       (:name "Waiting..."
                        :todo "WAIT"
-                       :order 98)
+                       :order 10)
                       (:name "Long long ago"
                        ;; :auto-category t
                        :scheduled (before ,(org-read-date
