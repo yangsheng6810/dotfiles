@@ -6885,6 +6885,15 @@ If FILE is provided, use it instead of the one on the system."
       calc-make-windows-dedicated t)
 #+end_src
 
+** Image open
+#+begin_src emacs-lisp
+(defun yang/img-reopen ()
+      (interactive)
+      (if (buffer-file-name)
+          (call-process-shell-command (concat "feh --zoom 200 " (prin1-to-string (buffer-file-name))) nil 0 nil)
+        (message "No file available")))
+#+end_src
+
 * Slack
 #+begin_src emacs-lisp
 (use-package slack
