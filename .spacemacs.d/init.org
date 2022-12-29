@@ -3821,6 +3821,159 @@ Return the result as a string."
   (aas-set-snippets 'latex-mode
                     "supp" nil))
    #+end_src
+** Fix xparse
+#+begin_src emacs-lisp
+(with-eval-after-load 'xparse
+  (define-advice LaTeX-xparse-macro-parse (:override (type) yang)
+    "Process parsed macro and environment definitions.
+TYPE is one of the symbols mac or env."
+    (dolist (xcmd (if (eq type 'mac)
+                      (LaTeX-xparse-macro-list)
+                    (LaTeX-xparse-environment-list)))
+      ;; (message "xcmd is %S" xcmd)
+      ;; (message "xcmd type is %s" (type-of xcmd))
+      (when (nth 2 xcmd)
+        (let ((name (nth 1 xcmd))
+              (spec (nth 2 xcmd))
+              (what (nth 3 xcmd))
+              args opt-star opt-token)
+          (with-temp-buffer
+            (set-syntax-table LaTeX-mode-syntax-table)
+            ;; This one is probably not really needed?
+            (goto-char (point-min))
+            (insert (replace-regexp-in-string "[ \t\r\n%]" "" spec))
+            (goto-char (point-min))
+            (while (looking-at-p "[+!>bmrRvodODsteE]")
+              (cond (;; + or !: Long argument or space aware: Move over
+                     ;; them.  b is special; only available for
+                     ;; enviroments
+                     (looking-at-p "[+!b]")
+                     (forward-char 1))
+                    ((looking-at-p ">")
+                     ;; Argument processors: Move over > and a balanced
+                     ;; {}
+                     (forward-char 1)
+                     (forward-sexp))
+                    ;; Mandatory arguments:
+                    ;; m: Ask for input with "Text" as prompt
+                    ((looking-at-p "m")
+                     (forward-char 1)
+                     (push "Text" args))
+                    ;; r<token1><token2>
+                    ((looking-at-p "r")
+                     (re-search-forward "r\\(.\\)\\(.\\)" (+ (point) 3) t)
+                     (push `(LaTeX-arg-xparse-query
+                             ,(match-string-no-properties 1)
+                             ,(match-string-no-properties 2))
+                           args))
+                    ;; R<token1><token2>{default}
+                    ((looking-at-p "R")
+                     (re-search-forward "R\\(.\\)\\(.\\)" (+ (point) 3) t)
+                     (forward-sexp)
+                     (push `(LaTeX-arg-xparse-query
+                             ,(match-string-no-properties 1)
+                             ,(match-string-no-properties 2))
+                           args))
+                    ;; v: Use `TeX-arg-verb-delim-or-brace'
+                    ((looking-at-p "v")
+                     (forward-char 1)
+                     (push #'TeX-arg-verb-delim-or-brace args))
+                    ;; Optional arguments:
+                    ;; o standard LaTeX optional in square brackets
+                    ((looking-at-p "o")
+                     (forward-char 1)
+                     (push (vector "Text") args))
+                    ;; d<token1><token2>
+                    ((looking-at-p "d")
+                     (re-search-forward "d\\(.\\)\\(.\\)" (+ (point) 3) t)
+                     (push (vector #'LaTeX-arg-xparse-query
+                                   (match-string-no-properties 1)
+                                   (match-string-no-properties 2))
+                           args))
+                    ;; O{default}
+                    ((looking-at-p "O")
+                     (forward-char 1)
+                     (forward-sexp)
+                     (push (vector "Text") args))
+                    ;; D<token1><token2>{default}
+                    ((looking-at-p "D")
+                     (re-search-forward "D\\(.\\)\\(.\\)" (+ (point) 3) t)
+                     (forward-sexp)
+                     (push (vector #'LaTeX-arg-xparse-query
+                                   (match-string-no-properties 1)
+                                   (match-string-no-properties 2))
+                           args))
+                    ;; s: optional star
+                    ((looking-at-p "s")
+                     (forward-char 1)
+                     (setq opt-star t))
+                    ;; t: optional <token>
+                    ((looking-at-p "t")
+                     (re-search-forward "t\\(.\\)" (+ (point) 2) t)
+                     (setq opt-token (match-string-no-properties 1)))
+                    ;; e{tokes} a set of optional embellishments
+                    ((looking-at-p "e")
+                     (forward-char)
+                     (if (looking-at-p TeX-grop)
+                         (re-search-forward "{\\([^}]+\\)}" nil t)
+                       (re-search-forward "\\(.\\)" (1+ (point)) t))
+                     (push `(LaTeX-arg-xparse-embellishment-query
+                             ,(match-string-no-properties 1))
+                           args))
+                    ;; E{tokes}{defaults}
+                    ((looking-at-p "E")
+                     (forward-char)
+                     (if (looking-at-p TeX-grop)
+                         (re-search-forward "{\\([^}]+\\)}" nil t)
+                       (re-search-forward "\\(.\\)" (1+ (point)) t))
+                     (push `(LaTeX-arg-xparse-embellishment-query
+                             ,(match-string-no-properties 1))
+                           args)
+                     (when (looking-at-p TeX-grop)
+                       (forward-sexp)))
+                    ;; Finished:
+                    (t nil))))
+          (if (eq type 'env)
+              ;; Parsed enviroments: If we are Renew'ing or Delare'ing, we
+              ;; delete the enviroment first from `LaTeX-environment-list'
+              ;; before adding the new one.  We have to sort the value of
+              ;; `LaTeX-environment-list' by running the function of the
+              ;; same name:
+              (progn
+                (when (member what '("Renew" "Declare"))
+                  (LaTeX-environment-list)
+                  (setq LaTeX-environment-list
+                        (assq-delete-all (car (assoc name LaTeX-environment-list))
+                                         LaTeX-environment-list)))
+                (LaTeX-add-environments `(,name
+                                          LaTeX-env-args
+                                          ,@(reverse args))))
+            ;; Parsed macros: If we are Renew'ing or Delare'ing, we delete
+            ;; the macros first from `TeX-symbol-list' before adding the
+            ;; new ones.  We have to sort the value of `TeX-symbol-list'
+            ;; by running the function of the same name:
+            (when (member what '("Renew" "Declare"))
+              (TeX-symbol-list)
+              (setq TeX-symbol-list
+                    (assq-delete-all (car (assoc name TeX-symbol-list))
+                                     TeX-symbol-list))
+              (when opt-star
+                (setq TeX-symbol-list
+                      (assq-delete-all (car (assoc (concat name "*") TeX-symbol-list))
+                                       TeX-symbol-list)))
+              (when opt-token
+                (setq TeX-symbol-list
+                      (assq-delete-all (car (assoc (concat name opt-token) TeX-symbol-list))
+                                       TeX-symbol-list))))
+            (TeX-add-symbols (cons name
+                                   (reverse args)))
+            (when opt-star
+              (TeX-add-symbols (cons (concat name "*")
+                                     (reverse args))))
+            (when opt-token
+              (TeX-add-symbols (cons (concat name opt-token)
+                                     (reverse args))))))))))
+#+end_src
 
 * Python
   #+BEGIN_SRC emacs-lisp
