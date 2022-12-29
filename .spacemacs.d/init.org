@@ -2122,8 +2122,8 @@ Edit comment/string/docstring/code block in separate buffer with your favorite m
       ;; "C-a" nil
       ;; "C-e" nil
 
-      ;; "M-J" nil
-      ;; "M-K" nil
+      "M-J" nil
+      "M-K" nil
       "C-d" nil)
     )
 
