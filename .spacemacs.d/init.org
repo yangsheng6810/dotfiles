@@ -6356,7 +6356,7 @@ keywords are supported:
                                    "@HideItBot" "@wbcnbot"
                                    "@scihubot" "@web2album_bot" "@zaobao_bot"
                                    "@nbnhhshBot" "@pixiv_bot" "@inlatexbot"
-                                   "@ReadabBot" "@nixcaosaysbot"))
+                                   "@ReadabBot" "@nixcaosaysbot" "@TwPicBot"))
 
   ;; make sticker larger to read
   (setq telega-sticker-size '(10 . 24))
