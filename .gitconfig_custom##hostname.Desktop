@@ -9,3 +9,8 @@
 
 [interactive]
     diffFilter = delta --color-only
+
+[http "https://github.com"]
+	proxy = socks5h://127.0.0.1:8889
+[http]
+	proxy = socks5h://127.0.0.1:8889
