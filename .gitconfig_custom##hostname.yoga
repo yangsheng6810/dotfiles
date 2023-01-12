@@ -1,0 +1,16 @@
+[core]
+    pager = delta
+
+[delta]
+    plus-color = "syntax #012800"
+    minus-color = "syntax #340001"
+    syntax-theme = Monokai Extended
+    line-numbers = true
+
+[interactive]
+    diffFilter = delta --color-only
+
+[http "https://github.com"]
+	proxy = socks5h://127.0.0.1:8889
+[http]
+	proxy = socks5h://127.0.0.1:8889
