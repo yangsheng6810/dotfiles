@@ -63,3 +63,15 @@ function musl-build() {
     --rm -it clux/muslrust:1.60.0-stable cargo build --release
   sudo systemctl stop docker.socket
 }
+
+function nix-search() {
+    nix --extra-experimental-features "nix-command flakes" search nixpkg $1
+}
+
+function nix-install() {
+    nix-env -iA ${@[@]/#/nixpkgs.}
+}
+
+function sudo_env() {
+    sudo $(which $1) ${@[@]:2}
+}
