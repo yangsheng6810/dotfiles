@@ -69,7 +69,7 @@ function nix-search() {
 }
 
 function nix-install() {
-    nix-env -iA ${@[@]/#/nixpkgs.}
+    nix-env -iA ${@/#/nixpkgs.}
 }
 
 function sudo_env() {
