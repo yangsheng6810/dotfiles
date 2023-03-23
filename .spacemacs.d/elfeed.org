@@ -38,6 +38,7 @@
 # *** [[https://rsshub.app/cnbeta][cnBeta]] :tech:
 *** [[https://rsshub.app/engadget-cn][Engadget]] :tech:
 *** [[https://nikonrumors.com/feed/][Nikon Rumors]] :tech:
+*** [[https://www.phoronix.com/rss.php][Phoronix]] :tech:
 # *** [[https://rsshub.app/ft/chinese/hotstoryby7day][FT 中文网]]
 *** [[https://rsshub.app/zaobao/realtime/china][Zaobao 中国]]
 *** [[https://rsshub.app/zaobao/realtime/world][Zaobao 世界]]
