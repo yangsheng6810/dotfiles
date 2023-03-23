@@ -65,7 +65,7 @@ function musl-build() {
 }
 
 function nix-search() {
-    nix --extra-experimental-features "nix-command flakes" search nixpkg $1
+    nix --extra-experimental-features "nix-command flakes" search nixpkgs $1
 }
 
 function nix-install() {
