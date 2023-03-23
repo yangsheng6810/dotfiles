@@ -85,8 +85,9 @@
 
 (package! engine-mode
   :recipe (:host github :repo "hrs/engine-mode" :branch "main")
-(package! youdao-dictionary :pin "8a4815a43565b9bfd257246e4895b8bfafb9d573")
   :pin "30a361b27f203a0ecc59c45e45bc8a6c6e79faae")
+(package! youdao-dictionary :pin "8a4815a43565b9bfd257246e4895b8bfafb9d573"
+  :recipe (:build (:not autoloads)))
 (package! notmuch :pin "d86e03c786ec51e2ca4af4e7c756cd19adbe17a8")
 (package! org-mime :pin "d368bd4119bfcf2997a6a23bbf5f41e043164d29")
 (when (featurep! :completion ivy)
