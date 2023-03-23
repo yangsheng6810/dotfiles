@@ -230,3 +230,4 @@
        :config
        literate
        (default +bindings +smartparens))
+(defvar native-comp-deferred-compilation-deny-list nil)
