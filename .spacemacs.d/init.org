@@ -2689,8 +2689,9 @@ For generating org-capture templates
 #+END_SRC
 ** org-capture
    #+BEGIN_SRC emacs-lisp
+     (define-advice +org-init-capture-defaults-h (:override () yang))
      (use-package org-capture
-       :defer t
+       :defer 10
        :after (org doct)
        :config
        (defun transform-square-brackets-to-round-ones(string-to-transform)
@@ -2699,112 +2700,122 @@ For generating org-capture templates
           (mapcar #'(lambda (c) (if (equal c ?\[) ?\( (if (equal c ?\]) ?\) c))) string-to-transform)))
 
        ;; prevent doom from setting its org-capture templates
-       (define-advice +org-init-capture-defaults-h (:override () yang))
-       (setq org-capture-templates
-             (doct
-              '(
-                ("Calendar" :keys "g" :file "~/Documents/org/gcal.org"
-                 :prepend t
-                 :template ("* %^{Description}"
-                            ":PROPERTIES:"
-                            ":Created: %U"
-                            ":END:"
-                            "  %^T"
-                            "  %?"))
-                ("Journal entry" :keys "j"
-                 :function (lambda () (org-journal-find-location))
-                 :clock-in t :clock-resume t
-                 :contexts ((:in-mode "org-journal-mode" :keys "z")
-                            (:in-mode "org-agenda-mode" :keys "Z")
-                            (:unless-mode "org-journal-mode\\|org-agenda-mode"))
-                 :template
-                 ("* %(format-time-string org-journal-time-format)%^{Title}"
-                  "  %a%i%?"))
-                ;; org-journal-mode
-                ("Journal entry" :keys "z"
-                 :function (lambda () (org-journal-find-location))
-                 :clock-in t :clock-resume t
-                 :template
-                 ("* %(format-time-string org-journal-time-format)%^{Title}"
-                  "  %i%?"))
-                ;; org-agenda-mode
-                ("Journal entry" :keys "Z"
-                 :function (lambda () (org-journal-find-location))
-                 :clock-in t :clock-resume t
-                 :template
-                 ("* %(format-time-string org-journal-time-format)%a"
-                  "  %i%?"))
-                (:group "All Notes"
-                        :file "~/Documents/org/Notes.org"
-                        :template ("* %^{Description}"
-                                   ":PROPERTIES:"
-                                   ":Created: %U"
-                                   ":END:"
-                                   "%?")
-                        :children
-                        (("Notes" :keys "n" :olp ("Notes")
-                          :datetree t)
-                         ("Exercise" :keys "e" :olp ("Exercise"))
-                         ("Research" :keys "n" :olp ("Research")
-                          :clock-in t :clock-resume t :prepend t)
-                         ("Computer" :keys "c"
-                          :prepend t
-                          :children
-                          (("Emacs" :keys "e" :olp ("Computer" "Emacs"))
-                           ("Linux" :keys "l" :olp ("Computer" "Linux"))
-                           ("Python" :keys "p" :olp ("Computer" "Python"))
-                           ("Windows" :keys "w" :olp ("Computer" "Windows"))))))
-                ("Schedule" :keys "s" :file "~/Documents/org/Schedule.org"
-                 :datetree t
-                 :template ("* %^{Description}"
-                            ":PROPERTIES:"
-                            ":Created: %U"
-                            ":END:"
-                            "%a%?"))
-                ("Tasks" :keys "t" :file "~/Documents/org/Tasks.org"
-                 :template ("* %{todo-state} %^{Description}"
-                            ":PROPERTIES:"
-                            ":Created: %U"
-                            ":END:"
-                            ;; "%a"
-                            )
-                 :children
-                 (("Computer"
-                   :keys "c" :headline "Computer" :todo-state "TODO")
-                  ("Food"
-                   :keys "f" :headline "Food" :todo-state "TODO")
-                  ("Research"
-                   :keys "r" :headline "Research" :todo-state "TODO")
-                  ("Idea"
-                   :keys "i" :headline "Idea" :todo-state "TODO")
-                  ("Not grouped"
-                   :keys "n" :headline "Not grouped" :todo-state "TODO")
-                  ("Books"
-                   :keys "b" :headline "Book" :todo-state "TODO")))
-                ("Web site" :keys "w" :file "~/Documents/org/Notes.org"
-                 :headline "Inbox"
-                 :template ("* %^{Title} :website:"
-                            ":PROPERTIES:"
-                            ":Created: %U"
-                            ":END:"
-                            "%?%:initial"))
-                ("Protocol" :keys "p" :file "~/Documents/org/Notes.org"
-                 :headline "Inbox"
-                 :template ("* %{todo-state} %^{Title}"
-                            "Source: %u, [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
-                            " #+BEGIN_QUOTE"
-                            "%i"
-                            "#+END_QUOTE"
-                            "%?")
-                 :todo-state "TODO")
-                ("Protocol Link" :keys "L" :file "~/Documents/org/Notes.org"
-                 :headline "Inbox"
-                 :template ("* %{todo-state} [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
-                            ":PROPERTIES:"
-                            ":Created: %U"
-                            ":END:"
-                            "%?")
-                 :todo-state "TODO"))))
+       (define-advice +org-init-capture-defaults-h (:after () yang)
+         (setq org-capture-templates
+               (doct
+                '(
+                  ("Calendar" :keys "g" :file "~/Documents/org/gcal.org"
+                   :prepend t
+                   :template ("* %^{Description}"
+                              ":PROPERTIES:"
+                              ":Created: %U"
+                              ":END:"
+                              "  %^T"
+                              "  %?"))
+                  ("Journal entry" :keys "j"
+                   :function (lambda () (org-journal-find-location))
+                   :clock-in t :clock-resume t
+                   :contexts ((:in-mode "org-journal-mode" :keys "z")
+                              (:in-mode "org-agenda-mode" :keys "Z")
+                              (:unless-mode "org-journal-mode\\|org-agenda-mode"))
+                   :template
+                   ("* %(format-time-string org-journal-time-format)%^{Title}"
+                    "  %a%i%?"))
+                  ;; org-journal-mode
+                  ("Journal entry" :keys "z"
+                   :function (lambda () (org-journal-find-location))
+                   :clock-in t :clock-resume t
+                   :template
+                   ("* %(format-time-string org-journal-time-format)%^{Title}"
+                    "  %i%?"))
+                  ;; org-agenda-mode
+                  ("Journal entry" :keys "Z"
+                   :function (lambda () (org-journal-find-location))
+                   :clock-in t :clock-resume t
+                   :template
+                   ("* %(format-time-string org-journal-time-format)%a"
+                    "  %i%?"))
+                  (:group "All Notes"
+                   :file "~/Documents/org/Notes.org"
+                   :template ("* %^{Description}"
+                              ":PROPERTIES:"
+                              ":Created: %U"
+                              ":END:"
+                              "%?")
+                   :children
+                   (("Notes" :keys "n" :olp ("Notes")
+                     :datetree t)
+                    ("Exercise" :keys "e" :olp ("Exercise"))
+                    ("Research" :keys "n" :olp ("Research")
+                     :clock-in t :clock-resume t :prepend t)
+                    ("Computer" :keys "c"
+                     :prepend t
+                     :children
+                     (("Emacs" :keys "e" :olp ("Computer" "Emacs"))
+                      ("Linux" :keys "l" :olp ("Computer" "Linux"))
+                      ("Python" :keys "p" :olp ("Computer" "Python"))
+                      ("Windows" :keys "w" :olp ("Computer" "Windows"))))))
+                  ("Schedule" :keys "s" :file "~/Documents/org/Schedule.org"
+                   :datetree t
+                   :template ("* %^{Description}"
+                              ":PROPERTIES:"
+                              ":Created: %U"
+                              ":END:"
+                              "%a%?"))
+                  ("Schedule (work)" :keys "S" :file "~/Documents/org/Schedule.org"
+                   :datetree t
+                   :template ("* %^{Description}"
+                              ":PROPERTIES:"
+                              ":Created: %U"
+                              ":CATEGORY: Work" 
+                              ":END:"
+                              "%a%?"))
+                  ("Tasks" :keys "t" :file "~/Documents/org/Tasks.org"
+                   :template ("* %{todo-state} %^{Description}"
+                              ":PROPERTIES:"
+                              ":Created: %U"
+                              ":END:"
+                              ;; "%a"
+                              )
+                   :children
+                   (("Computer"
+                     :keys "c" :headline "Computer" :todo-state "TODO")
+                    ("Learn"
+                     :keys "l" :headline "Learn" :todo-state "TODO")
+                    ("Food"
+                     :keys "f" :headline "Food" :todo-state "TODO")
+                    ("Research"
+                     :keys "r" :headline "Research" :todo-state "TODO")
+                    ("Idea"
+                     :keys "i" :headline "Idea" :todo-state "TODO")
+                    ("Not grouped"
+                     :keys "n" :headline "Not grouped" :todo-state "TODO")
+                    ("Books"
+                     :keys "b" :headline "Book" :todo-state "TODO")))
+                  ("Web site" :keys "w" :file "~/Documents/org/Notes.org"
+                   :headline "Inbox"
+                   :template ("* %^{Title} :website:"
+                              ":PROPERTIES:"
+                              ":Created: %U"
+                              ":END:"
+                              "%?%:initial"))
+                  ("Protocol" :keys "p" :file "~/Documents/org/Notes.org"
+                   :headline "Inbox"
+                   :template ("* %{todo-state} %^{Title}"
+                              "Source: %u, [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
+                              " #+BEGIN_QUOTE"
+                              "%i"
+                              "#+END_QUOTE"
+                              "%?")
+                   :todo-state "TODO")
+                  ("Protocol Link" :keys "L" :file "~/Documents/org/Notes.org"
+                   :headline "Inbox"
+                   :template ("* %{todo-state} [[%:link][%(transform-square-brackets-to-round-ones \"%:description\")]]"
+                              ":PROPERTIES:"
+                              ":Created: %U"
+                              ":END:"
+                              "%?")
+                   :todo-state "TODO")))))
        ;; (setq org-capture-templates
        ;;       '(
        ;;         ("c" "Computer")
