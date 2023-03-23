@@ -5161,9 +5161,11 @@ TYPE is one of the symbols mac or env."
    #+BEGIN_SRC emacs-lisp
 (use-package ace-pinyin
   :defer t
-  :commands (ace-pinyin-jump-char-2)
+  :commands (ace-pinyin-jump-char-2
+             ace-pinyin-goto-char-timer)
   :init
   (yang/set-leader-key "jj" #'ace-pinyin-jump-char-2)
+  (yang/set-leader-key "jJ" #'ace-pinyin-goto-char-timer)
   :config
   (setq ace-pinyin--jump-word-timeout 0.3)
   ;; (yang/set-leader-key "jj" (lambda () (interactive) (ace-pinyin-jump-word t)))
