@@ -274,6 +274,12 @@
 (package! undo-fu :recipe (:host github :repo "emacsmirror/undo-fu" :branch "master")
   :pin "0e22308de8337a9291ddd589edae167d458fbe77")
 ;; (package! xr :recipe (:host github :repo "emacs-straight/xr" :branch "master"))
+
+(package! org-modern)
+(package! nothing-theme)
+(package! eziam-themes)
+(package! almost-mono-themes)
+
 (package! transient :recipe (:host github :repo "magit/transient" :branch "main"))
 (package! emacsql :recipe (:host github :repo "magit/emacsql" :branch "main"))
 (package! xr :recipe (:host github :repo "emacs-straight/xr" :branch "master"))
