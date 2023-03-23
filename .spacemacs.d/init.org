@@ -2406,9 +2406,6 @@ Show the heading too, if it is currently invisible."
           (:name "TODO"
            :todo "TODO"
            :order 2)
-          (:name "INACTIVE"
-           :todo "INACTIVE"
-           :order 4)
           (:name "WAIT"
            :todo "WAIT"
            :order 3)
@@ -2438,6 +2435,8 @@ Show the heading too, if it is currently invisible."
                        :deadline past)
                       (:name "Due today"
                        :deadline today)
+                      (:name "Due in the future"
+                       :deadline future)
                       (:name "Waiting..."
                        :todo "WAIT"
                        :order 10)
@@ -2494,8 +2493,23 @@ Show the heading too, if it is currently invisible."
      ("g" . "GTD contexts")
      ("gc" "Computer" tags-todo "computer|linux|emacs"
       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
+       (org-agenda-sort-notime-is-late nil)
+       (org-agenda-cmp-user-defined #'jarfar/org-agenda-cmp-user-defined-created-date)
+       (org-agenda-sorting-strategy '(priority-down category-keep user-defined-down))
        (org-agenda-overriding-header "Unscheduled computer tasks")
-       (org-super-agenda-groups yang-org-super-agenda-groups)))
+       (org-super-agenda-groups '(
+                                  (:name "NEXT"
+                                   :todo "NEXT"
+                                   :order 0)
+                                  (:name "WAIT"
+                                   :todo "WAIT"
+                                   :order 1)
+                                  (:name "INACTIVE"
+                                   :todo "INACTIVE"
+                                   :order 8)
+                                  (:auto-category t
+                                   :todo "TODO"
+                                   :order 2)))))
      ("ge" "Emacs" tags-todo "emacs"
       ((org-agenda-skip-function '(org-agenda-skip-entry-if 'scheduled 'deadline))
        (org-agenda-overriding-header "Unscheduled emacs tasks")
