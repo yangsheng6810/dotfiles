@@ -4166,7 +4166,12 @@ TYPE is one of the symbols mac or env."
         ivy-initial-inputs-alist
         '((counsel-M-x . "^")
           (counsel-describe-function . "^")
-          (counsel-describe-variable . "^"))))
+          (counsel-describe-variable . "^")))
+  (dolist (func '(org-roam-node-insert
+                  org-roam-node-find
+                  swiper-isearch))
+    (add-to-list 'ivy-re-builders-alist
+                 `(,func . ivy--cregex-plus))))
 
   #+END_SRC
 
