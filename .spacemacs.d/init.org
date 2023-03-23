@@ -5988,6 +5988,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
   (defun yadm-fix-env (&rest _)
     (setenv "SHELL" yadm-original-shell-name)
     (advice-remove #'+term/toggle #'yadm-fix-env)
+    (advice-remove #'+vterm/toggle #'yadm-fix-env)
     (advice-remove #'+eshell/toggle #'yadm-fix-env))
 
   (defun yadm-magit-status ()
@@ -6000,6 +6001,7 @@ If IGNORE-REGION-P is non-nil, only return the entry under point."
       ;; to fix zsh incompatibility with yadm and tramp
       (setenv "SHELL" "/bin/bash")
       (advice-add #'+term/toggle :before #'yadm-fix-env)
+      (advice-add #'+vterm/toggle :before #'yadm-fix-env)
       (advice-add #'+term/shell :before #'yadm-fix-env)
       (magit-status "/yadm::"))))
    #+END_SRC
