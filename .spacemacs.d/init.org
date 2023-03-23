@@ -6329,6 +6329,22 @@ keywords are supported:
              ;; don't find this very useful, but it's frequently useful to only
              ;; look at interactive functions.
              ("C-h C" . helpful-command)))
+
+(defun yang/switch-to-prev-buffer-skip (window buffer bury-or-kill)
+  (not (derived-mode-p 'helpful-mode)))
+
+(defun yang/unset-dedicate-window-temporarily (func &rest args)
+  (if (derived-mode-p 'helpful-mode)
+      (progn
+        (set-window-dedicated-p (selected-window) nil)
+        (let ((switch-to-prev-buffer-skip #'yang/switch-to-prev-buffer-skip))
+          (apply func args))
+        (when (derived-mode-p 'helpful-mode)
+          (set-window-dedicated-p (selected-window) 'popup)))
+    (apply func args)))
+
+(advice-add #'previous-buffer :around  #'yang/unset-dedicate-window-temporarily)
+(advice-add #'next-buffer :around  #'yang/unset-dedicate-window-temporarily)
   #+END_SRC
 
 * Deft
