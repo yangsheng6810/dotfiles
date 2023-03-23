@@ -15,7 +15,7 @@ emacsclient=$(which emacsclient)
 #   window))"
 # }
 
-call_command="timeout --signal INT 2s $emacsclient"
+call_command="timeout --signal INT 1s $emacsclient"
 
 case $1 in
     left) [ "${WM_CLASS_STRING}" == '"Emacs"' ] &&\
