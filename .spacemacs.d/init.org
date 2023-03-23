@@ -3313,15 +3313,18 @@ For generating org-capture templates
 
 ** org-latex-instant-preview
    #+begin_src emacs-lisp
-(when (or (equal (system-name) "Desktop")
-          (equal (system-name) "carbon"))
+(when (-contains? '("Desktop" "carbon" "yoga")
+                  (system-name))
   (use-package org-latex-impatient
     :defer t
     :hook (org-mode . org-latex-impatient-mode)
     :init
     (setq org-latex-impatient-tex2svg-bin
           ;; location of tex2svg executable
-          "~/node_modules/mathjax-node-cli/bin/tex2svg"
+          (if (equal (system-name) "yoga")
+              "~/.node_modules/bin/tex2svg"
+            
+            "~/node_modules/mathjax-node-cli/bin/tex2svg")
           org-latex-impatient-scale 1.5)))
    #+end_src
 
