@@ -254,6 +254,10 @@
 
 ;; show a pretty svg clock
 ; (package! svg-clock :pin "1973fa9fa1834d51f47f5db8a693976b681fd520")
+(package! undo-hl
+  :recipe (:host github :repo "casouri/undo-hl")
+  :pin "5110e9d41510832a8295e380842122150c9f2eae")
+
 (package! tomelr :recipe (:host github :repo "emacs-straight/tomelr" :branch "master")
   :pin "57cb24df521031a6d02f61091db82d292e4175df")
 (package! persist :recipe (:host github :repo "emacs-straight/persist" :branch "master")
