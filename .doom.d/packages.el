@@ -64,6 +64,7 @@
 
 (package! diminish :pin "fbd5d846611bad828e336b25d2e131d1bc06b83d")
 (package! spacemacs-theme :pin "05fe9bc750203960179d456ae4079d582561659c")
+;; NOTE: the following will fail to update
 (package! rainbow-mode :pin "949166cc0146bc9fabf74ce70c1c4a097f4cffd4")
 (package! rainbow-delimiters :pin "a32b39bdfe6c61c322c37226d66e1b6d4f107ed0")
 
