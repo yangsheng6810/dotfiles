@@ -5179,9 +5179,9 @@ TYPE is one of the symbols mac or env."
   :defer t
   :commands (pinyinlib-build-regexp-string))
 
-(use-package pyim
+(use-package pyim-cregexp-utils
   :defer t
-  :commands (pyim-cregexp-build))
+  :commands (pyim-cregexp-ivy))
 
 (use-package ivy
   :defer t
