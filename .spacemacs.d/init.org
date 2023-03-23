@@ -2396,6 +2396,23 @@ Show the heading too, if it is currently invisible."
     :keymaps 'org-agenda-mode-map
     "go" #'org-agenda-open-link)
   (org-super-agenda-mode)
+
+  ;; Copied from [[https://emacs.stackexchange.com/a/60616][Share]]
+  (defun jarfar/org-agenda-cmp-user-defined-created-date (a b)
+    "Org Agenda user function to sort tasks based on CREATED property."
+    (let* ((def (if org-agenda-sort-notime-is-late 99999999 -1))
+           (marker-a (get-text-property 0 'org-marker a))
+           (marker-b (get-text-property 0 'org-marker b))
+           (time-a (if marker-a (org-entry-get marker-a "CREATED") def))
+           (time-b (if marker-b (org-entry-get marker-b "CREATED") def)))
+
+      (if (and time-a time-b)
+          (if (org-time< time-a time-b)
+              -1
+            (if (org-time> time-a time-b) 1 nil))
+        (if time-a -1 1)
+        )))
+
   (setq yang-org-super-agenda-groups
         '((:name "Inbox"
            :category "Inbox"
