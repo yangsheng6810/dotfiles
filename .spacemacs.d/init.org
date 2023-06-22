@@ -2395,6 +2395,7 @@ Show the heading too, if it is currently invisible."
     :states '(normal visual motion)
     :keymaps 'org-agenda-mode-map
     "go" #'org-agenda-open-link)
+  (add-hook 'org-agenda-mode-hook #'yang/fixed-pitch-setup)
   (org-super-agenda-mode)
 
   ;; Copied from [[https://emacs.stackexchange.com/a/60616][Share]]
