@@ -6994,6 +6994,24 @@ If FILE is provided, use it instead of the one on the system."
         (message "No file available")))
 #+end_src
 
+** repeat-prefix
+from: https://karthinks.com/software/persistent-prefix-keymaps-in-emacs/
+#+begin_src emacs-lisp
+(defun repeated-prefix-help-command ()
+  (interactive)
+  (when-let* ((keys (this-command-keys-vector))
+              (prefix (seq-take keys (1- (length keys))))
+              (orig-keymap (key-binding prefix 'accept-default))
+              (keymap (copy-keymap orig-keymap))
+              (exit-func (set-transient-map keymap t #'which-key-abort)))
+    (define-key keymap [remap keyboard-quit]
+      (lambda () (interactive) (funcall exit-func)))
+    (which-key--create-buffer-and-show nil keymap)))
+
+(setq prefix-help-command/backup prefix-help-command)
+(setq prefix-help-command #'repeated-prefix-help-command)
+#+end_src
+
 * Slack
 #+begin_src emacs-lisp
 (use-package slack
