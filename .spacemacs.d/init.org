@@ -3585,6 +3585,16 @@ With a C-u argument, toggle the link display."
                                                                    "-"
                                                                    (= 2 (any digit))))))
 #+end_src
+
+** org-special-block-extras
+#+begin_src emacs-lisp
+(use-package org-special-block-extras
+  :defer t
+  :config
+  (general-def
+    :keymaps 'org-special-block-extras-mode-map
+    "C-h" nil))
+#+end_src
 * LaTeX
   #+BEGIN_SRC emacs-lisp
 ;; LaTeX hook
