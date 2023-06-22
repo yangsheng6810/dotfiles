@@ -4140,7 +4140,7 @@ TYPE is one of the symbols mac or env."
        (defun yang/close-diff-after-commit ()
          (message "in yang-close-diff-after-commit")
          (let ((magit-display-buffer-noselect t)
-               (diff-buf (magit-mode-get-buffer 'magit-diff-mode)))
+               (diff-buf (magit-get-mode-buffer 'magit-diff-mode)))
            (when (and diff-buf
                     (get-buffer-window diff-buf))
                (delete-windows-on diff-buf)
